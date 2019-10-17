@@ -4,5 +4,19 @@
         <name>Cortex.Net</name>
     </assembly>
     <members>
+        <member name="T:Cortex.Net.INeuron`1">
+            <summary>
+            Interface to an object that manages access to state.
+            </summary>
+            <typeparam name="TState">The type of the state.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.INeuron`1.Get``1(System.Func{`0,``0})">
+            <summary>
+            Gets a part of the underlying state using an Accessor function.
+            </summary>
+            <typeparam name="TValue">The type of the value.</typeparam>
+            <param name="accessor">The accessor function to get the state.</param>
+            <returns>The value.</returns>
+        </member>
     </members>
 </doc>

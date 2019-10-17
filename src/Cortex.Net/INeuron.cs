@@ -1,4 +1,4 @@
-﻿// <copyright file="Neuron.cs" company="Jan-Willem Spuij">
+﻿// <copyright file="INeuron.cs" company="Jan-Willem Spuij">
 // Copyright 2019 Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -18,30 +18,22 @@ namespace Cortex.Net
 {
     using System;
     using System.Collections.Generic;
-    using System.Reactive.Subjects;
     using System.Text;
 
     /// <summary>
-    /// Smallest atomic observable for state of type T.
+    /// Interface to an object that manages access to state.
     /// </summary>
-    /// <typeparam name="T">The type of the State to hold.</typeparam>
-    public sealed class Neuron<T> : IObservable<T>
+    /// <typeparam name="TState">The type of the state.</typeparam>
+    public interface INeuron<TState>
     {
-        private readonly IObservable<T> observable;
-
-        public Neuron()
-        {
-
-        }
-
-        public Neuron(IObservable<T> observable)
-        {
-            this.observable = observable ?? throw new ArgumentNullException(nameof(observable));
-        }
-
-        public IDisposable Subscribe(IObserver<T> observer)
-        {
-            return this.observable.Subscribe(observer);
-        }
+        /// <summary>
+        /// Gets a part of the underlying state using an Accessor function.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="accessor">The accessor function to get the state.</param>
+        /// <returns>The value.</returns>
+#pragma warning disable CA1716 // Identifiers should not match keywords
+        TValue Get<TValue>(Func<TState, TValue> accessor);
+#pragma warning restore CA1716 // Identifiers should not match keywords
     }
 }
