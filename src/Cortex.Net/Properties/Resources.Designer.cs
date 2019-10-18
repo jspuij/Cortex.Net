@@ -86,5 +86,32 @@ namespace Cortex.Net.Properties {
                 return ResourceManager.GetString("GetExpressionNull", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Global unobservation should only be queued without observers..
+        /// </summary>
+        internal static string GlobalUnobservationOnlyWithoutObservers {
+            get {
+                return ResourceManager.GetString("GlobalUnobservationOnlyWithoutObservers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The derivation ({0}) does not exist in the set of observers of observable ({1}).
+        /// </summary>
+        internal static string ObserverNotInObservable {
+            get {
+                return ResourceManager.GetString("ObserverNotInObservable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove should only be called when the shared state in batch mode..
+        /// </summary>
+        internal static string RemoveOnlyInBatch {
+            get {
+                return ResourceManager.GetString("RemoveOnlyInBatch", resourceCulture);
+            }
+        }
     }
 }

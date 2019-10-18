@@ -1,0 +1,92 @@
+﻿// <copyright file="SharedState.cs" company="Michel Weststrate, Jan-Willem Spuij">
+// Copyright 2019 Michel Weststrate, Jan-Willem Spuij
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy,
+// modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom
+// the Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+// WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+namespace Cortex.Net.Core
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    /// <summary>
+    /// Holds the Shared state that all nodes of the Dependency Graph share.
+    /// </summary>
+    public class SharedState : ISharedState
+    {
+        /// <summary>
+        /// Batch counter to support reentrance of Start and EndBatch.
+        /// </summary>
+        private int batchCount = 0;
+
+        /// <summary>
+        /// Gets a queue of all pending Unobservations.
+        /// </summary>
+        public Queue<IObservable> PendingUnobservations { get; } = new Queue<IObservable>();
+
+        /// <summary>
+        /// Gets a value indicating whether the Dependency Graph is in Batch mode.
+        /// </summary>
+        public bool InBatch => this.batchCount > 0;
+
+        /// <summary>
+        /// Starts a Batch.
+        /// </summary>
+        /// <remarks>
+        /// This method can be called multiple times but should always be balanced with an equal amount of <see cref="EndBatch"/> calls.
+        /// </remarks>
+        public void StartBatch()
+        {
+            this.batchCount++;
+        }
+
+        /// <summary>
+        /// Ends a Batch.
+        /// </summary>
+        /// <remarks>
+        /// This method can be called multiple times but should always be balanced with an equal amount of <see cref="StartBatch"/> calls.
+        /// </remarks>
+        public void EndBatch()
+        {
+            // TODO: Implement EndBatch method.
+
+            /*
+            if (--globalState.inBatch === 0) {
+                runReactions()
+                // the batch is actually about to finish, all unobserving should happen here.
+                const list = globalState.pendingUnobservations
+                for (let i = 0; i < list.length; i++) {
+                    const observable = list[i]
+                    observable.isPendingUnobservation = false
+                    if (observable.observers.size === 0) {
+                        if (observable.isBeingObserved) {
+                            // if this observable had reactive observers, trigger the hooks
+                            observable.isBeingObserved = false
+                            observable.onBecomeUnobserved()
+                        }
+                        if (observable instanceof ComputedValue) {
+                            // computed values are automatically teared down when the last observer leaves
+                            // this process happens recursively, this computed might be the last observabe of another, etc..
+                            observable.suspend()
+                        }
+                    }
+                }
+                globalState.pendingUnobservations = []
+            }
+            */
+
+            throw new NotImplementedException();
+        }
+    }
+}

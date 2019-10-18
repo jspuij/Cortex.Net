@@ -1,5 +1,5 @@
-﻿// <copyright file="ObservableExtensions.cs" company="Jan-Willem Spuij">
-// Copyright 2019 Jan-Willem Spuij
+﻿// <copyright file="ObservableExtensions.cs" company="Michel Weststrate, Jan-Willem Spuij">
+// Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy,
@@ -14,7 +14,7 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Cortex.Net
+namespace Cortex.Net.Core
 {
     using System;
     using System.Globalization;
@@ -89,9 +89,26 @@ namespace Cortex.Net
         /// <param name="derivation">The observer to add.</param>
         public static void RemoveObserver(this IObservable observable, IDerivation derivation)
         {
-            // invariant(globalState.inBatch > 0, "INTERNAL ERROR, remove should be called only inside batch");
-            // invariant(observable._observers.indexOf(node) !== -1, "INTERNAL ERROR remove already removed node");
-            // invariantObservers(observable);
+            if (observable is null)
+            {
+                throw new ArgumentNullException(nameof(observable));
+            }
+
+            if (derivation is null)
+            {
+                throw new ArgumentNullException(nameof(derivation));
+            }
+
+            if (!observable.SharedState.InBatch)
+            {
+                throw new InvalidOperationException(Resources.RemoveOnlyInBatch);
+            }
+
+            if (!observable.Observers.Contains(derivation))
+            {
+                throw new InvalidOperationException(
+                    string.Format(CultureInfo.CurrentCulture, Resources.ObserverNotInObservable, derivation.Name, observable.Name));
+            }
 
             observable.Observers.Remove(derivation);
             if (!observable.HasObservers())
@@ -99,16 +116,21 @@ namespace Cortex.Net
                 // deleted last observer.
                 QueueForUnobservation(observable);
             }
-
-            // invariantObservers(observable);
-            // invariant(observable._observers.indexOf(node) === -1, "INTERNAL ERROR remove already removed node2");
         }
 
+        /// <summary>
+        /// Queues an observable for global unobservation.
+        /// </summary>
+        /// <param name="observable">The observable to queue.</param>
         private static void QueueForUnobservation(IObservable observable)
         {
             if (observable.IsPendingUnobservation == false)
             {
-                // invariant(observable._observers.length === 0, "INTERNAL ERROR, should only queue for unobservation unobserved observables");
+                if (observable.HasObservers())
+                {
+                    throw new InvalidOperationException(Resources.GlobalUnobservationOnlyWithoutObservers);
+                }
+
                 observable.IsPendingUnobservation = true;
                 observable.SharedState.PendingUnobservations.Enqueue(observable);
             }

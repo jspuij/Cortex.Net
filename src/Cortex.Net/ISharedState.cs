@@ -14,10 +14,10 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Collections.Generic;
-
 namespace Cortex.Net
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Interface that defines the Shared state that all nodes of the Dependency Graph share.
     /// </summary>
@@ -27,5 +27,26 @@ namespace Cortex.Net
         /// Gets a queue of all pending Unobservations.
         /// </summary>
         Queue<IObservable> PendingUnobservations { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the Dependency Graph is in Batch mode.
+        /// </summary>
+        bool InBatch { get; }
+
+        /// <summary>
+        /// Starts a Batch.
+        /// </summary>
+        /// <remarks>
+        /// This method can be called multiple times but should always be balanced with an equal amount of <see cref="EndBatch"/> calls.
+        /// </remarks>
+        void StartBatch();
+
+        /// <summary>
+        /// Ends a Batch.
+        /// </summary>
+        /// <remarks>
+        /// This method can be called multiple times but should always be balanced with an equal amount of <see cref="StartBatch"/> calls.
+        /// </remarks>
+        void EndBatch();
     }
 }

@@ -126,4 +126,13 @@
   <data name="GetExpressionNull" xml:space="preserve">
     <value>Get expression is null for ({0}) of type ({1})</value>
   </data>
+  <data name="GlobalUnobservationOnlyWithoutObservers" xml:space="preserve">
+    <value>Global unobservation should only be queued without observers.</value>
+  </data>
+  <data name="ObserverNotInObservable" xml:space="preserve">
+    <value>The derivation ({0}) does not exist in the set of observers of observable ({1})</value>
+  </data>
+  <data name="RemoveOnlyInBatch" xml:space="preserve">
+    <value>Remove should only be called when the shared state in batch mode.</value>
+  </data>
 </root>

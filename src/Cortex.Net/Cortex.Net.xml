@@ -4,6 +4,79 @@
         <name>Cortex.Net</name>
     </assembly>
     <members>
+        <member name="T:Cortex.Net.Core.ObservableExtensions">
+            <summary>
+            Extension methods for the <see cref="T:Cortex.Net.IObservable"/> interface.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.HasObservers(Cortex.Net.IObservable)">
+            <summary>
+            Indicates whether the observable has Observers or not.
+            </summary>
+            <param name="observable">The observable to check for observers.</param>
+            <returns>A boolean indicating whether the observable has observers or not.</returns>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.AddObserver(Cortex.Net.IObservable,Cortex.Net.IDerivation)">
+            <summary>
+            Adds an observer that implements <see cref="T:Cortex.Net.IDerivation"/> into the set of observers.
+            for this <see cref="T:Cortex.Net.IObservable"/> instance.
+            </summary>
+            <param name="observable">The observable to use.</param>
+            <param name="derivation">The observer to add.</param>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">When the derivation is in the not tracking state.</exception>
+            <exception cref="T:System.InvalidOperationException">When the derivation was already added.</exception>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.RemoveObserver(Cortex.Net.IObservable,Cortex.Net.IDerivation)">
+            <summary>
+            Removes an Observer <see cref="T:Cortex.Net.IDerivation"/> from the set of observers.
+            </summary>
+            <param name="observable">The observable to use.</param>
+            <param name="derivation">The observer to add.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.QueueForUnobservation(Cortex.Net.IObservable)">
+            <summary>
+            Queues an observable for global unobservation.
+            </summary>
+            <param name="observable">The observable to queue.</param>
+        </member>
+        <member name="T:Cortex.Net.Core.SharedState">
+            <summary>
+            Holds the Shared state that all nodes of the Dependency Graph share.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.SharedState.batchCount">
+            <summary>
+            Batch counter to support reentrance of Start and EndBatch.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.SharedState.PendingUnobservations">
+            <summary>
+            Gets a queue of all pending Unobservations.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.SharedState.InBatch">
+            <summary>
+            Gets a value indicating whether the Dependency Graph is in Batch mode.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.SharedState.StartBatch">
+            <summary>
+            Starts a Batch.
+            </summary>
+            <remarks>
+            This method can be called multiple times but should always be balanced with an equal amount of <see cref="M:Cortex.Net.Core.SharedState.EndBatch"/> calls.
+            </remarks>
+        </member>
+        <member name="M:Cortex.Net.Core.SharedState.EndBatch">
+            <summary>
+            Ends a Batch.
+            </summary>
+            <remarks>
+            This method can be called multiple times but should always be balanced with an equal amount of <see cref="M:Cortex.Net.Core.SharedState.StartBatch"/> calls.
+            </remarks>
+        </member>
         <member name="T:Cortex.Net.IDependencyNode">
             <summary>
             Represents a Node in the dependency tree.
@@ -93,36 +166,26 @@
             Gets a queue of all pending Unobservations.
             </summary>
         </member>
-        <member name="T:Cortex.Net.ObservableExtensions">
+        <member name="P:Cortex.Net.ISharedState.InBatch">
             <summary>
-            Extension methods for the <see cref="T:Cortex.Net.IObservable"/> interface.
+            Gets a value indicating whether the Dependency Graph is in Batch mode.
             </summary>
         </member>
-        <member name="M:Cortex.Net.ObservableExtensions.HasObservers(Cortex.Net.IObservable)">
+        <member name="M:Cortex.Net.ISharedState.StartBatch">
             <summary>
-            Indicates whether the observable has Observers or not.
+            Starts a Batch.
             </summary>
-            <param name="observable">The observable to check for observers.</param>
-            <returns>A boolean indicating whether the observable has observers or not.</returns>
-            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <remarks>
+            This method can be called multiple times but should always be balanced with an equal amount of <see cref="M:Cortex.Net.ISharedState.EndBatch"/> calls.
+            </remarks>
         </member>
-        <member name="M:Cortex.Net.ObservableExtensions.AddObserver(Cortex.Net.IObservable,Cortex.Net.IDerivation)">
+        <member name="M:Cortex.Net.ISharedState.EndBatch">
             <summary>
-            Adds an observer that implements <see cref="T:Cortex.Net.IDerivation"/> into the set of observers.
-            for this <see cref="T:Cortex.Net.IObservable"/> instance.
+            Ends a Batch.
             </summary>
-            <param name="observable">The observable to use.</param>
-            <param name="derivation">The observer to add.</param>
-            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">When the derivation is in the not tracking state.</exception>
-            <exception cref="T:System.InvalidOperationException">When the derivation was already added.</exception>
-        </member>
-        <member name="M:Cortex.Net.ObservableExtensions.RemoveObserver(Cortex.Net.IObservable,Cortex.Net.IDerivation)">
-            <summary>
-            Removes an Observer <see cref="T:Cortex.Net.IDerivation"/> from the set of observers.
-            </summary>
-            <param name="observable">The observable to use.</param>
-            <param name="derivation">The observer to add.</param>
+            <remarks>
+            This method can be called multiple times but should always be balanced with an equal amount of <see cref="M:Cortex.Net.ISharedState.StartBatch"/> calls.
+            </remarks>
         </member>
         <member name="T:Cortex.Net.Properties.Resources">
             <summary>
@@ -153,6 +216,21 @@
         <member name="P:Cortex.Net.Properties.Resources.GetExpressionNull">
             <summary>
               Looks up a localized string similar to Get expression is null for ({0}) of type ({1}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.GlobalUnobservationOnlyWithoutObservers">
+            <summary>
+              Looks up a localized string similar to Global unobservation should only be queued without observers..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ObserverNotInObservable">
+            <summary>
+              Looks up a localized string similar to The derivation ({0}) does not exist in the set of observers of observable ({1}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.RemoveOnlyInBatch">
+            <summary>
+              Looks up a localized string similar to Remove should only be called when the shared state in batch mode..
             </summary>
         </member>
     </members>
