@@ -1,4 +1,4 @@
-﻿// <copyright file="INeuron.cs" company="Jan-Willem Spuij">
+﻿// <copyright file="IDerivation.cs" company="Jan-Willem Spuij">
 // Copyright 2019 Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -16,24 +16,14 @@
 
 namespace Cortex.Net
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
-    /// Interface to an object that manages access to state.
+    /// A derivation is a (computed) value that is derived from other (observable) values.
     /// </summary>
-    /// <typeparam name="TState">The type of the state.</typeparam>
-    public interface INeuron<TState>
+    public interface IDerivation : IDependencyNode
     {
         /// <summary>
-        /// Gets a part of the underlying state using an Accessor function.
+        /// Gets the state of the dependencies of this <see cref="IDerivation"/> instance.
         /// </summary>
-        /// <typeparam name="TValue">The type of the value.</typeparam>
-        /// <param name="accessor">The accessor function to get the state.</param>
-        /// <returns>The value.</returns>
-#pragma warning disable CA1716 // Identifiers should not match keywords
-        TValue Get<TValue>(Func<TState, TValue> accessor);
-#pragma warning restore CA1716 // Identifiers should not match keywords
+        IDerivationState DependenciesState { get; }
     }
 }

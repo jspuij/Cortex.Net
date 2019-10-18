@@ -9,7 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3FEECB8E-0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortex.Net", "src\Cortex.Net\Cortex.Net.csproj", "{56D92BB8-7DEB-4C27-AEDF-8E6794BE024B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortex.Net.Test", "test\Cortex.Net.Test\Cortex.Net.Test.csproj", "{5E3772EA-02A8-46FE-BC79-1DCA509F8FA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortex.Net.Test", "test\Cortex.Net.Test\Cortex.Net.Test.csproj", "{5E3772EA-02A8-46FE-BC79-1DCA509F8FA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortext.Next.Playground", "src\Cortext.Next.Playground\Cortext.Next.Playground.csproj", "{2AD58751-9AD4-4AC3-9597-460AE1222CEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,10 @@ Global
 		{5E3772EA-02A8-46FE-BC79-1DCA509F8FA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E3772EA-02A8-46FE-BC79-1DCA509F8FA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E3772EA-02A8-46FE-BC79-1DCA509F8FA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AD58751-9AD4-4AC3-9597-460AE1222CEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AD58751-9AD4-4AC3-9597-460AE1222CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AD58751-9AD4-4AC3-9597-460AE1222CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AD58751-9AD4-4AC3-9597-460AE1222CEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{56D92BB8-7DEB-4C27-AEDF-8E6794BE024B} = {222F158B-3299-40FA-B8FA-ADF8E611EE54}
 		{5E3772EA-02A8-46FE-BC79-1DCA509F8FA4} = {3FEECB8E-0064-4CA1-B796-B62EDB6387D5}
+		{2AD58751-9AD4-4AC3-9597-460AE1222CEC} = {222F158B-3299-40FA-B8FA-ADF8E611EE54}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {101D3B0F-E9EE-48BA-BEA0-18A9904B157A}

@@ -4,19 +4,156 @@
         <name>Cortex.Net</name>
     </assembly>
     <members>
-        <member name="T:Cortex.Net.INeuron`1">
+        <member name="T:Cortex.Net.IDependencyNode">
             <summary>
-            Interface to an object that manages access to state.
+            Represents a Node in the dependency tree.
             </summary>
-            <typeparam name="TState">The type of the state.</typeparam>
         </member>
-        <member name="M:Cortex.Net.INeuron`1.Get``1(System.Func{`0,``0})">
+        <member name="P:Cortex.Net.IDependencyNode.Name">
             <summary>
-            Gets a part of the underlying state using an Accessor function.
+            Gets the Name of the <see cref="T:Cortex.Net.IDependencyNode"/> instance.
             </summary>
-            <typeparam name="TValue">The type of the value.</typeparam>
-            <param name="accessor">The accessor function to get the state.</param>
-            <returns>The value.</returns>
+        </member>
+        <member name="P:Cortex.Net.IDependencyNode.SharedState">
+            <summary>
+            Gets the Shared State of all the nodes in the dependency graph.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.IDerivation">
+            <summary>
+            A derivation is a (computed) value that is derived from other (observable) values.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IDerivation.DependenciesState">
+            <summary>
+            Gets the state of the dependencies of this <see cref="T:Cortex.Net.IDerivation"/> instance.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.IDerivationState">
+            <summary>
+            The state of the <see cref="T:Cortex.Net.IDerivation"/> instance.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.IDerivationState.NotTracking">
+            <summary>
+            Before being run or (outside batch and not being observed).
+            at this point derivation is not holding any data about dependency tree
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.IDerivationState.UpToDate">
+            <summary>
+             No shallow dependency changed since last computation.
+             We won't recalculate the derivation.
+             This is what makes Cortex.Net fast.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.IDerivationState.PossiblyStale">
+             <summary>
+             Some deep dependency has changed, but we don't know if a shallow dependency has changed.
+             This will require to check first if this derivation is UpToDate or PossiblyStale.
+             Currently only ComputedValue will propagate PossiblyStale.
+            
+             Having this state is the second big optimization:
+             We don't have to recompute on every dependency change, but only when it's necessary.
+             </summary>
+        </member>
+        <member name="F:Cortex.Net.IDerivationState.Stale">
+            <summary>
+            A shallow dependency has changed since last computation and the derivation
+            will need to recompute when it's necessary next.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.IObservable">
+            <summary>
+            Represents something that is Observable.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IObservable.LowestObserverState">
+            <summary>
+            Gets or sets the Lowest State of any of the Observers.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IObservable.Observers">
+            <summary>
+            Gets the Observers.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IObservable.IsPendingUnobservation">
+            <summary>
+            Gets or sets a value indicating whether this IObservable is pending Unobservation.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.ISharedState">
+            <summary>
+            Interface that defines the Shared state that all nodes of the Dependency Graph share.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.PendingUnobservations">
+            <summary>
+            Gets a queue of all pending Unobservations.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.ObservableExtensions">
+            <summary>
+            Extension methods for the <see cref="T:Cortex.Net.IObservable"/> interface.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.ObservableExtensions.HasObservers(Cortex.Net.IObservable)">
+            <summary>
+            Indicates whether the observable has Observers or not.
+            </summary>
+            <param name="observable">The observable to check for observers.</param>
+            <returns>A boolean indicating whether the observable has observers or not.</returns>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+        </member>
+        <member name="M:Cortex.Net.ObservableExtensions.AddObserver(Cortex.Net.IObservable,Cortex.Net.IDerivation)">
+            <summary>
+            Adds an observer that implements <see cref="T:Cortex.Net.IDerivation"/> into the set of observers.
+            for this <see cref="T:Cortex.Net.IObservable"/> instance.
+            </summary>
+            <param name="observable">The observable to use.</param>
+            <param name="derivation">The observer to add.</param>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">When the derivation is in the not tracking state.</exception>
+            <exception cref="T:System.InvalidOperationException">When the derivation was already added.</exception>
+        </member>
+        <member name="M:Cortex.Net.ObservableExtensions.RemoveObserver(Cortex.Net.IObservable,Cortex.Net.IDerivation)">
+            <summary>
+            Removes an Observer <see cref="T:Cortex.Net.IDerivation"/> from the set of observers.
+            </summary>
+            <param name="observable">The observable to use.</param>
+            <param name="derivation">The observer to add.</param>
+        </member>
+        <member name="T:Cortex.Net.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.AlreadyAddedObserverToObservable">
+            <summary>
+              Looks up a localized string similar to The derivation ({0}) was already added to the set of observers of observable ({1}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.CanOnlyAddTrackedDependencies">
+            <summary>
+              Looks up a localized string similar to Only tracking IDerivation instances can be added with a DependenciesState != ({0}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.GetExpressionNull">
+            <summary>
+              Looks up a localized string similar to Get expression is null for ({0}) of type ({1}).
+            </summary>
         </member>
     </members>
 </doc>
