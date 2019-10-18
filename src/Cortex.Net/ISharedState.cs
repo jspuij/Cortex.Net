@@ -34,6 +34,16 @@ namespace Cortex.Net
         bool InBatch { get; }
 
         /// <summary>
+        /// Gets the Configuration for the Shared State.
+        /// </summary>
+        CortexConfiguration Configuration { get; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether it is allowed to read observables at this point.
+        /// </summary>
+        bool AllowStateReads { get; set; }
+
+        /// <summary>
         /// Starts a Batch.
         /// </summary>
         /// <remarks>

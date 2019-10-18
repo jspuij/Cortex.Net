@@ -23,12 +23,22 @@ namespace Cortex.Net.Core
     /// <summary>
     /// Holds the Shared state that all nodes of the Dependency Graph share.
     /// </summary>
-    public class SharedState : ISharedState
+    public sealed class SharedState : ISharedState
     {
         /// <summary>
         /// Batch counter to support reentrance of Start and EndBatch.
         /// </summary>
         private int batchCount = 0;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SharedState"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration to initialize <see cref="SharedState"/> instance with.</param>
+        /// <exception cref="ArgumentNullException">Thrown when any of the arguments is null.</exception>
+        public SharedState(CortexConfiguration configuration)
+        {
+            this.Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        }
 
         /// <summary>
         /// Gets a queue of all pending Unobservations.
@@ -39,6 +49,16 @@ namespace Cortex.Net.Core
         /// Gets a value indicating whether the Dependency Graph is in Batch mode.
         /// </summary>
         public bool InBatch => this.batchCount > 0;
+
+        /// <summary>
+        /// Gets the configuration.
+        /// </summary>
+        public CortexConfiguration Configuration { get; private set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether it is allowed to read observables at this point.
+        /// </summary>
+        public bool AllowStateReads { get; set; }
 
         /// <summary>
         /// Starts a Batch.

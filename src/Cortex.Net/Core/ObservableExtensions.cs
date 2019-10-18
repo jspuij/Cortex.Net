@@ -17,6 +17,7 @@
 namespace Cortex.Net.Core
 {
     using System;
+    using System.Diagnostics;
     using System.Globalization;
     using Cortex.Net.Properties;
 
@@ -87,6 +88,9 @@ namespace Cortex.Net.Core
         /// </summary>
         /// <param name="observable">The observable to use.</param>
         /// <param name="derivation">The observer to add.</param>
+        /// <exception cref="ArgumentNullException">When any of the arguments is null.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when shared state is not in batch mode.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when the derivation is not in the set of observers.</exception>
         public static void RemoveObserver(this IObservable observable, IDerivation derivation)
         {
             if (observable is null)
@@ -114,7 +118,7 @@ namespace Cortex.Net.Core
             if (!observable.HasObservers())
             {
                 // deleted last observer.
-                QueueForUnobservation(observable);
+                observable.QueueForUnobservation();
             }
         }
 
@@ -122,7 +126,8 @@ namespace Cortex.Net.Core
         /// Queues an observable for global unobservation.
         /// </summary>
         /// <param name="observable">The observable to queue.</param>
-        private static void QueueForUnobservation(IObservable observable)
+        /// <exception cref="InvalidOperationException">Thrown when the observable still has observers.</exception>
+        private static void QueueForUnobservation(this IObservable observable)
         {
             if (observable.IsPendingUnobservation == false)
             {
@@ -133,6 +138,21 @@ namespace Cortex.Net.Core
 
                 observable.IsPendingUnobservation = true;
                 observable.SharedState.PendingUnobservations.Enqueue(observable);
+            }
+        }
+
+        /// <summary>
+        /// Checks if State reads are allowed and writes a warning to the Debug.
+        /// </summary>
+        /// <param name="observable">The observable to report.</param>
+        private static void CheckIfStateReadsAreAllowed(this IObservable observable)
+        {
+            var sharedState = observable.SharedState;
+            var configuration = sharedState.Configuration;
+
+            if (!sharedState.AllowStateReads && configuration.ObservableRequiresReaction)
+            {
+                Debug.WriteLine($"[Cortex.Net] Observable {observable.Name} being read outside a reactive context");
             }
         }
     }

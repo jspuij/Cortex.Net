@@ -34,12 +34,22 @@
             </summary>
             <param name="observable">The observable to use.</param>
             <param name="derivation">The observer to add.</param>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown when shared state is not in batch mode.</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown when the derivation is not in the set of observers.</exception>
         </member>
         <member name="M:Cortex.Net.Core.ObservableExtensions.QueueForUnobservation(Cortex.Net.IObservable)">
             <summary>
             Queues an observable for global unobservation.
             </summary>
             <param name="observable">The observable to queue.</param>
+            <exception cref="T:System.InvalidOperationException">Thrown when the observable still has observers.</exception>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.CheckIfStateReadsAreAllowed(Cortex.Net.IObservable)">
+            <summary>
+            Checks if State reads are allowed and writes a warning to the Debug.
+            </summary>
+            <param name="observable">The observable to report.</param>
         </member>
         <member name="T:Cortex.Net.Core.SharedState">
             <summary>
@@ -51,6 +61,13 @@
             Batch counter to support reentrance of Start and EndBatch.
             </summary>
         </member>
+        <member name="M:Cortex.Net.Core.SharedState.#ctor(Cortex.Net.CortexConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Core.SharedState"/> class.
+            </summary>
+            <param name="configuration">The configuration to initialize <see cref="T:Cortex.Net.Core.SharedState"/> instance with.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when any of the arguments is null.</exception>
+        </member>
         <member name="P:Cortex.Net.Core.SharedState.PendingUnobservations">
             <summary>
             Gets a queue of all pending Unobservations.
@@ -59,6 +76,16 @@
         <member name="P:Cortex.Net.Core.SharedState.InBatch">
             <summary>
             Gets a value indicating whether the Dependency Graph is in Batch mode.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.SharedState.Configuration">
+            <summary>
+            Gets the configuration.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.SharedState.AllowStateReads">
+            <summary>
+            Gets or sets a value indicating whether it is allowed to read observables at this point.
             </summary>
         </member>
         <member name="M:Cortex.Net.Core.SharedState.StartBatch">
@@ -76,6 +103,16 @@
             <remarks>
             This method can be called multiple times but should always be balanced with an equal amount of <see cref="M:Cortex.Net.Core.SharedState.StartBatch"/> calls.
             </remarks>
+        </member>
+        <member name="T:Cortex.Net.CortexConfiguration">
+            <summary>
+            Configuration parameters for an <see cref="T:Cortex.Net.ISharedState"/> instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.CortexConfiguration.ObservableRequiresReaction">
+            <summary>
+            Gets a value indicating whether to warn if observables are accessed outside a reactive context.
+            </summary>
         </member>
         <member name="T:Cortex.Net.IDependencyNode">
             <summary>
@@ -169,6 +206,16 @@
         <member name="P:Cortex.Net.ISharedState.InBatch">
             <summary>
             Gets a value indicating whether the Dependency Graph is in Batch mode.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.Configuration">
+            <summary>
+            Gets the Configuration for the Shared State.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.AllowStateReads">
+            <summary>
+            Gets or sets a value indicating whether it is allowed to read observables at this point.
             </summary>
         </member>
         <member name="M:Cortex.Net.ISharedState.StartBatch">
