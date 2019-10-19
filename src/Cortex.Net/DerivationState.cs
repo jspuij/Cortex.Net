@@ -1,4 +1,4 @@
-﻿// <copyright file="IDerivationState.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="DerivationState.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -19,7 +19,7 @@ namespace Cortex.Net
     /// <summary>
     /// The state of the <see cref="IDerivation"/> instance.
     /// </summary>
-    public enum IDerivationState
+    public enum DerivationState
     {
         /// <summary>
         /// Before being run or (outside batch and not being observed).

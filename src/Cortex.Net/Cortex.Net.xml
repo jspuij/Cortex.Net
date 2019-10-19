@@ -38,6 +38,44 @@
             <exception cref="T:System.InvalidOperationException">Thrown when shared state is not in batch mode.</exception>
             <exception cref="T:System.InvalidOperationException">Thrown when the derivation is not in the set of observers.</exception>
         </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.ReportObserved(Cortex.Net.IObservable)">
+            <summary>
+            Report an observable as being observed to the current tracking
+            derivation (observer).
+            </summary>
+            <param name="observable">The observable.</param>
+            <returns>True when this observable is added to the "new observing" set of the derivation.</returns>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <remarks>This method will write to the debug log when state reads are currently not allowed.</remarks>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.PropagateChanged(Cortex.Net.IObservable)">
+            <summary>
+            Propagates a change to all observers of this observable.
+            </summary>
+            <param name="observable">The observable.</param>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <remarks>Called by Atom when its value has changed.</remarks>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.PropagateChangeConfirmed(Cortex.Net.IObservable)">
+            <summary>
+            Propagates confirmation of a change to all observers of this observable.
+            </summary>
+            <param name="observable">The observable.</param>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <remarks>Called by ComputedValue when it recalculate and its value changed.</remarks>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.PropagateMaybeChanged(Cortex.Net.IObservable)">
+            <summary>
+            Propagates confirmation of a possible change to all observers of
+            this observable for delayed computation.
+            </summary>
+            <param name="observable">The observable.</param>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <remarks>
+            Called by ComputedValue when its dependency changed,
+            but we don't wan't to immediately recompute.
+            </remarks>
+        </member>
         <member name="M:Cortex.Net.Core.ObservableExtensions.QueueForUnobservation(Cortex.Net.IObservable)">
             <summary>
             Queues an observable for global unobservation.
@@ -47,7 +85,7 @@
         </member>
         <member name="M:Cortex.Net.Core.ObservableExtensions.CheckIfStateReadsAreAllowed(Cortex.Net.IObservable)">
             <summary>
-            Checks if State reads are allowed and writes a warning to the Debug.
+            Checks if State reads are allowed and writes a warning to the Trace log.
             </summary>
             <param name="observable">The observable to report.</param>
         </member>
@@ -88,6 +126,11 @@
             Gets or sets a value indicating whether it is allowed to read observables at this point.
             </summary>
         </member>
+        <member name="P:Cortex.Net.Core.SharedState.TrackingDerivation">
+            <summary>
+            Gets or sets the <see cref="T:Cortex.Net.IDerivation"/> instance that the shared state is currently tracking.
+            </summary>
+        </member>
         <member name="M:Cortex.Net.Core.SharedState.StartBatch">
             <summary>
             Starts a Batch.
@@ -114,6 +157,40 @@
             Gets a value indicating whether to warn if observables are accessed outside a reactive context.
             </summary>
         </member>
+        <member name="T:Cortex.Net.DerivationState">
+            <summary>
+            The state of the <see cref="T:Cortex.Net.IDerivation"/> instance.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.DerivationState.NotTracking">
+            <summary>
+            Before being run or (outside batch and not being observed).
+            at this point derivation is not holding any data about dependency tree
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.DerivationState.UpToDate">
+            <summary>
+             No shallow dependency changed since last computation.
+             We won't recalculate the derivation.
+             This is what makes Cortex.Net fast.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.DerivationState.PossiblyStale">
+             <summary>
+             Some deep dependency has changed, but we don't know if a shallow dependency has changed.
+             This will require to check first if this derivation is UpToDate or PossiblyStale.
+             Currently only ComputedValue will propagate PossiblyStale.
+            
+             Having this state is the second big optimization:
+             We don't have to recompute on every dependency change, but only when it's necessary.
+             </summary>
+        </member>
+        <member name="F:Cortex.Net.DerivationState.Stale">
+            <summary>
+            A shallow dependency has changed since last computation and the derivation
+            will need to recompute when it's necessary next.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.IDependencyNode">
             <summary>
             Represents a Node in the dependency tree.
@@ -134,43 +211,35 @@
             A derivation is a (computed) value that is derived from other (observable) values.
             </summary>
         </member>
+        <member name="E:Cortex.Net.IDerivation.BecomeStale">
+            <summary>
+            Event that will fire after the derivation has become stale.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.IDerivation.DependenciesState">
             <summary>
-            Gets the state of the dependencies of this <see cref="T:Cortex.Net.IDerivation"/> instance.
+            Gets or sets the state of the dependencies of this <see cref="T:Cortex.Net.IDerivation"/> instance.
             </summary>
         </member>
-        <member name="T:Cortex.Net.IDerivationState">
+        <member name="P:Cortex.Net.IDerivation.RunId">
             <summary>
-            The state of the <see cref="T:Cortex.Net.IDerivation"/> instance.
+            Gets or sets the id of the current run of a derivation. Each time the derivation is tracked
+            this number is increased by one. This number is unique within the current shared state.
             </summary>
         </member>
-        <member name="F:Cortex.Net.IDerivationState.NotTracking">
+        <member name="P:Cortex.Net.IDerivation.NewObservingSet">
             <summary>
-            Before being run or (outside batch and not being observed).
-            at this point derivation is not holding any data about dependency tree
+            Gets a set of <see cref="T:Cortex.Net.IObservable"/> instances that have been hit during a new derivation run.
             </summary>
         </member>
-        <member name="F:Cortex.Net.IDerivationState.UpToDate">
+        <member name="P:Cortex.Net.IDerivation.IsTracing">
             <summary>
-             No shallow dependency changed since last computation.
-             We won't recalculate the derivation.
-             This is what makes Cortex.Net fast.
+            Gets or sets the trace mode of this Derivation.
             </summary>
         </member>
-        <member name="F:Cortex.Net.IDerivationState.PossiblyStale">
-             <summary>
-             Some deep dependency has changed, but we don't know if a shallow dependency has changed.
-             This will require to check first if this derivation is UpToDate or PossiblyStale.
-             Currently only ComputedValue will propagate PossiblyStale.
-            
-             Having this state is the second big optimization:
-             We don't have to recompute on every dependency change, but only when it's necessary.
-             </summary>
-        </member>
-        <member name="F:Cortex.Net.IDerivationState.Stale">
+        <member name="M:Cortex.Net.IDerivation.OnBecomeStale">
             <summary>
-            A shallow dependency has changed since last computation and the derivation
-            will need to recompute when it's necessary next.
+            Method that at least must be implented to trigger event <see cref="E:Cortex.Net.IDerivation.BecomeStale"/>.
             </summary>
         </member>
         <member name="T:Cortex.Net.IObservable">
@@ -178,9 +247,9 @@
             Represents something that is Observable.
             </summary>
         </member>
-        <member name="P:Cortex.Net.IObservable.LowestObserverState">
+        <member name="E:Cortex.Net.IObservable.BecomeObserved">
             <summary>
-            Gets or sets the Lowest State of any of the Observers.
+            Event that will fire after the observable has become observed.
             </summary>
         </member>
         <member name="P:Cortex.Net.IObservable.Observers">
@@ -191,6 +260,30 @@
         <member name="P:Cortex.Net.IObservable.IsPendingUnobservation">
             <summary>
             Gets or sets a value indicating whether this IObservable is pending Unobservation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IObservable.LastAccessedBy">
+            <summary>
+            Gets or sets the Id of the derivation run that last accessed this observable.
+            If this Id equals the <see cref="P:Cortex.Net.IDerivation.RunId"/> of the current derivation
+            the dependency is already established.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IObservable.IsBeingObserved">
+            <summary>
+            Gets or sets a value indicating whether the observable is being observed.
+            An observable is being observed when at least one derivation actually accesses its
+            value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IObservable.LowestObserverState">
+            <summary>
+            Gets or sets the lowest <see cref="T:Cortex.Net.DerivationState"/> on any of it's observers.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.IObservable.OnBecomeObserved">
+            <summary>
+            Method that at least must be implented to trigger event <see cref="E:Cortex.Net.IObservable.BecomeObserved"/>.
             </summary>
         </member>
         <member name="T:Cortex.Net.ISharedState">
@@ -216,6 +309,11 @@
         <member name="P:Cortex.Net.ISharedState.AllowStateReads">
             <summary>
             Gets or sets a value indicating whether it is allowed to read observables at this point.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.TrackingDerivation">
+            <summary>
+            Gets or sets the <see cref="T:Cortex.Net.IDerivation"/> instance that the shared state is currently tracking.
             </summary>
         </member>
         <member name="M:Cortex.Net.ISharedState.StartBatch">
@@ -278,6 +376,26 @@
         <member name="P:Cortex.Net.Properties.Resources.RemoveOnlyInBatch">
             <summary>
               Looks up a localized string similar to Remove should only be called when the shared state in batch mode..
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.TraceMode">
+            <summary>
+            Mode for tracing.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.TraceMode.None">
+            <summary>
+            Do not trace dependency graph.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.TraceMode.Log">
+            <summary>
+            Log relevant info to trace listeners.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.TraceMode.Break">
+            <summary>
+            Log relevant info and trigger a breakpoint to an attached debugger.
             </summary>
         </member>
     </members>

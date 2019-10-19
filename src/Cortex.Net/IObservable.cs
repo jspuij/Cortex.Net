@@ -26,9 +26,9 @@ namespace Cortex.Net
     public interface IObservable : IDependencyNode
     {
         /// <summary>
-        /// Gets or sets the Lowest State of any of the Observers.
+        /// Event that will fire after the observable has become observed.
         /// </summary>
-        IDerivationState LowestObserverState { get; set; }
+        event EventHandler BecomeObserved;
 
         /// <summary>
         /// Gets the Observers.
@@ -39,5 +39,29 @@ namespace Cortex.Net
         /// Gets or sets a value indicating whether this IObservable is pending Unobservation.
         /// </summary>
         bool IsPendingUnobservation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Id of the derivation run that last accessed this observable.
+        /// If this Id equals the <see cref="IDerivation.RunId"/> of the current derivation
+        /// the dependency is already established.
+        /// </summary>
+        int LastAccessedBy { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the observable is being observed.
+        /// An observable is being observed when at least one derivation actually accesses its
+        /// value.
+        /// </summary>
+        bool IsBeingObserved { get; set; }
+
+        /// <summary>
+        /// Gets or sets the lowest <see cref="DerivationState"/> on any of it's observers.
+        /// </summary>
+        DerivationState LowestObserverState { get; set; }
+
+        /// <summary>
+        /// Method that at least must be implented to trigger event <see cref="BecomeObserved"/>.
+        /// </summary>
+        void OnBecomeObserved();
     }
 }

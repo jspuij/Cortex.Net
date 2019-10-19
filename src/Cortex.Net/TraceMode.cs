@@ -1,4 +1,4 @@
-﻿// <copyright file="IDerivation.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="TraceMode.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -16,43 +16,24 @@
 
 namespace Cortex.Net
 {
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>
-    /// A derivation is a (computed) value that is derived from other (observable) values.
+    /// Mode for tracing.
     /// </summary>
-    public interface IDerivation : IDependencyNode
+    public enum TraceMode
     {
         /// <summary>
-        /// Event that will fire after the derivation has become stale.
+        /// Do not trace dependency graph.
         /// </summary>
-        event EventHandler BecomeStale;
+        None,
 
         /// <summary>
-        /// Gets or sets the state of the dependencies of this <see cref="IDerivation"/> instance.
+        /// Log relevant info to trace listeners.
         /// </summary>
-        DerivationState DependenciesState { get; set; }
+        Log,
 
         /// <summary>
-        /// Gets or sets the id of the current run of a derivation. Each time the derivation is tracked
-        /// this number is increased by one. This number is unique within the current shared state.
+        /// Log relevant info and trigger a breakpoint to an attached debugger.
         /// </summary>
-        int RunId { get; set; }
-
-        /// <summary>
-        /// Gets a set of <see cref="IObservable"/> instances that have been hit during a new derivation run.
-        /// </summary>
-        ISet<IObservable> NewObservingSet { get; }
-
-        /// <summary>
-        /// Gets or sets the trace mode of this Derivation.
-        /// </summary>
-        TraceMode IsTracing { get; set; }
-
-        /// <summary>
-        /// Method that at least must be implented to trigger event <see cref="BecomeStale"/>.
-        /// </summary>
-        void OnBecomeStale();
+        Break,
     }
 }

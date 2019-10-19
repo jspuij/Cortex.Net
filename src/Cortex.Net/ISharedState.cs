@@ -44,6 +44,11 @@ namespace Cortex.Net
         bool AllowStateReads { get; set; }
 
         /// <summary>
+        /// Gets or sets the <see cref="IDerivation"/> instance that the shared state is currently tracking.
+        /// </summary>
+        IDerivation TrackingDerivation { get; set; }
+
+        /// <summary>
         /// Starts a Batch.
         /// </summary>
         /// <remarks>
