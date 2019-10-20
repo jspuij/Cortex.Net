@@ -29,6 +29,10 @@ namespace Cortex.Net
         /// Gets a value indicating whether to catch and rethrow exceptions.
         /// This is useful for inspecting the state of the stack when an exception occurs while debugging.
         /// </summary>
+        /// <remarks>
+        /// Enabling this setting makes it possible for the graph to be left in
+        /// an inconsistent state. Do not enable this in production.
+        /// </remarks>
         public bool DisableErrorBoundaries { get; internal set; }
 
         /// <summary>

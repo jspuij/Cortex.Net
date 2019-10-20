@@ -39,14 +39,19 @@ namespace Cortex.Net
         CortexConfiguration Configuration { get; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether it is allowed to read observables at this point.
+        /// Gets a value indicating whether it is allowed to read observables at this point.
         /// </summary>
-        bool AllowStateReads { get; set; }
+        bool AllowStateReads { get; }
 
         /// <summary>
         /// Gets the <see cref="IDerivation"/> instance that the shared state is currently tracking.
         /// </summary>
         IDerivation TrackingDerivation { get; }
+
+        /// <summary>
+        /// Gets the shared derivation RunId counter.
+        /// </summary>
+        int RunId { get; }
 
         /// <summary>
         /// Starts a Batch.
@@ -75,5 +80,19 @@ namespace Cortex.Net
         /// </summary>
         /// <param name="derivation">The derivation to restore.</param>
         void EndUntracked(IDerivation derivation);
+
+        /// <summary>
+        /// Start of a section where allowedStateReads is modified.
+        /// </summary>
+        /// <param name="allowStateReads">Whether to allow State reads.</param>
+        /// <returns>The previous value.</returns>
+        bool StartAllowStateReads(bool allowStateReads);
+
+        /// <summary>
+        /// Increments the RunId and returns the new value.
+        /// </summary>
+        /// <returns>The new RunId.</returns>
+        int IncrementRunId();
+        object StartTracking(IDerivation derivation);
     }
 }

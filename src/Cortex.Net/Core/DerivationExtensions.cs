@@ -58,20 +58,20 @@ namespace Cortex.Net.Core
                             {
                                 observable.Get();
                             }
-                        }
-                        else
-                        {
-                            try
+                            else
                             {
-                                observable.Get();
-                            }
+                                try
+                                {
+                                    observable.Get();
+                                }
 #pragma warning disable CA1031 // Do not catch general exception types
-                            catch
+                                catch
 #pragma warning restore CA1031 // Do not catch general exception types
-                            {
-                                // we are not interested in the value *or* exception at this moment, but if there is one, notify all
-                                derivation.SharedState.EndUntracked(previousDerivation);
-                                return true;
+                                {
+                                    // we are not interested in the value *or* exception at this moment, but if there is one, notify all
+                                    derivation.SharedState.EndUntracked(previousDerivation);
+                                    return true;
+                                }
                             }
                         }
                     }
@@ -82,6 +82,65 @@ namespace Cortex.Net.Core
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        /// <summary>
+        /// Executes the provided function and tracks which observables are being accessed.
+        /// The tracking information is stored on the <see cref="IDerivation"/> instance and the derivation is registered
+        /// as observer of any of the accessed observables.
+        /// </summary>
+        /// <typeparam name="T">The return type of the function.</typeparam>
+        /// <param name="derivation">The derivation to use.</param>
+        /// <param name="function">The function to execute.</param>
+        /// <returns>The return value of the function.</returns>
+        public static T TrackDerivedFunction<T>(this IDerivation derivation, Func<T> function)
+        {
+            if (derivation is null)
+            {
+                throw new ArgumentNullException(nameof(derivation));
+            }
+
+            if (function is null)
+            {
+                throw new ArgumentNullException(nameof(function));
+            }
+
+            var previousAllowStateReads = derivation.SharedState.StartAllowStateReads(true);
+            ChangeLowestObserverStateOnObservablesToUpToDate(derivation);
+            derivation.NewObserving.Clear();
+            derivation.RunId = derivation.SharedState.IncrementRunId();
+            var previousDerivation = derivation.SharedState.StartTracking(derivation);
+            /*
+
+             const prevAllowStateReads = allowStateReadsStart(true)
+                // pre allocate array allocation + room for variation in deps
+                // array will be trimmed by bindDependencies
+                changeDependenciesStateTo0(derivation)
+                derivation.newObserving = new Array(derivation.observing.length + 100)
+                derivation.unboundDepsCount = 0
+                derivation.runId = ++globalState.runId
+                const prevTracking = globalState.trackingDerivation
+                globalState.trackingDerivation = derivation
+                let result
+                if (globalState.disableErrorBoundaries === true) {
+                    result = f.call(context)
+                } else {
+                    try {
+                        result = f.call(context)
+                    } catch (e) {
+                        result = new CaughtException(e)
+                    }
+                }
+                globalState.trackingDerivation = prevTracking
+                bindDependencies(derivation)
+
+                warnAboutDerivationWithoutDependencies(derivation)
+
+                allowStateReadsEnd(prevAllowStateReads)
+
+                return result
+
+            */
         }
 
         /// <summary>

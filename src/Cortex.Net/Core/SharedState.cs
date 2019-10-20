@@ -66,6 +66,11 @@ namespace Cortex.Net.Core
         public IDerivation TrackingDerivation { get; private set; }
 
         /// <summary>
+        /// Gets the shared derivation RunId counter.
+        /// </summary>
+        public int RunId { get; private set; } = 0;
+
+        /// <summary>
         /// Starts a Batch.
         /// </summary>
         /// <remarks>
@@ -132,6 +137,34 @@ namespace Cortex.Net.Core
         public void EndUntracked(IDerivation derivation)
         {
             this.TrackingDerivation = derivation;
+        }
+
+        /// <summary>
+        /// Start of a section where allowedStateReads is modified.
+        /// </summary>
+        /// <param name="allowStateReads">Whether to allow State reads.</param>
+        /// <returns>The previous value.</returns>
+        public bool StartAllowStateReads(bool allowStateReads)
+        {
+            var result = this.AllowStateReads;
+            this.AllowStateReads = allowStateReads;
+            return result;
+        }
+
+        /// <summary>
+        /// Increments the RunId and returns the new value.
+        /// </summary>
+        /// <returns>The new RunId.</returns>
+        public int IncrementRunId()
+        {
+            return ++this.RunId;
+        }
+
+        public IDerivation StartTracking(IDerivation derivation)
+        {
+            var result = this.TrackingDerivation;
+            this.TrackingDerivation = derivation;
+            return result;
         }
     }
 }
