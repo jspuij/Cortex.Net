@@ -153,7 +153,7 @@ namespace Cortex.Net.Core
                 if (derivation.RunId != observable.LastAccessedBy)
                 {
                     observable.LastAccessedBy = derivation.RunId;
-                    derivation.NewObservingSet.Add(observable);
+                    derivation.NewObserving.Add(observable);
 
                     if (!observable.IsBeingObserved)
                     {
@@ -282,6 +282,16 @@ namespace Cortex.Net.Core
                     derivation.OnBecomeStale();
                 }
             }
+        }
+
+        /// <summary>
+        /// Checks whether the observable is a derivation as well.
+        /// </summary>
+        /// <param name="observable">The observable to check.</param>
+        /// <returns>True if the observable is a derivation, false otherwise.</returns>
+        public static bool IsDerivation(this IObservable observable)
+        {
+            return observable is IDerivation;
         }
 
         /// <summary>

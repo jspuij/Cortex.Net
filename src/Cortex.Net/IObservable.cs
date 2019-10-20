@@ -60,6 +60,13 @@ namespace Cortex.Net
         DerivationState LowestObserverState { get; set; }
 
         /// <summary>
+        /// Gets the value of the observable.
+        /// </summary>
+        /// <returns>The value of the observable.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Maintain compatibility with Mobx.")]
+        object Get();
+
+        /// <summary>
         /// Method that at least must be implented to trigger event <see cref="BecomeObserved"/>.
         /// </summary>
         void OnBecomeObserved();

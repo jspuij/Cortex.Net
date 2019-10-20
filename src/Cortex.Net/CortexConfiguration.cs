@@ -26,6 +26,12 @@ namespace Cortex.Net
     public class CortexConfiguration
     {
         /// <summary>
+        /// Gets a value indicating whether to catch and rethrow exceptions.
+        /// This is useful for inspecting the state of the stack when an exception occurs while debugging.
+        /// </summary>
+        public bool DisableErrorBoundaries { get; internal set; }
+
+        /// <summary>
         /// Gets a value indicating whether to warn if observables are accessed outside a reactive context.
         /// </summary>
         public bool ObservableRequiresReaction { get; internal set; }

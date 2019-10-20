@@ -41,9 +41,14 @@ namespace Cortex.Net
         int RunId { get; set; }
 
         /// <summary>
+        /// Gets a set of <see cref="IObservable"/> instances that are currently observed.
+        /// </summary>
+        ISet<IObservable> Observing { get; }
+
+        /// <summary>
         /// Gets a set of <see cref="IObservable"/> instances that have been hit during a new derivation run.
         /// </summary>
-        ISet<IObservable> NewObservingSet { get; }
+        ISet<IObservable> NewObserving { get; }
 
         /// <summary>
         /// Gets or sets the trace mode of this Derivation.

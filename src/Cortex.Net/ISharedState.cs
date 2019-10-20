@@ -44,9 +44,9 @@ namespace Cortex.Net
         bool AllowStateReads { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="IDerivation"/> instance that the shared state is currently tracking.
+        /// Gets the <see cref="IDerivation"/> instance that the shared state is currently tracking.
         /// </summary>
-        IDerivation TrackingDerivation { get; set; }
+        IDerivation TrackingDerivation { get; }
 
         /// <summary>
         /// Starts a Batch.
@@ -63,5 +63,17 @@ namespace Cortex.Net
         /// This method can be called multiple times but should always be balanced with an equal amount of <see cref="StartBatch"/> calls.
         /// </remarks>
         void EndBatch();
+
+        /// <summary>
+        /// Starts an untracked part of a derviation.
+        /// </summary>
+        /// <returns>The current derivation to restore later.</returns>
+        IDerivation StartUntracked();
+
+        /// <summary>
+        /// Ends an untracked part of a derivation by restoring the current derivation.
+        /// </summary>
+        /// <param name="derivation">The derivation to restore.</param>
+        void EndUntracked(IDerivation derivation);
     }
 }

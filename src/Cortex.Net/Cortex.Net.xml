@@ -4,6 +4,27 @@
         <name>Cortex.Net</name>
     </assembly>
     <members>
+        <member name="T:Cortex.Net.Core.DerivationExtensions">
+            <summary>
+            Extension methods for <see cref="T:Cortex.Net.IDerivation"/> interface implementations.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.DerivationExtensions.ShouldCompute(Cortex.Net.IDerivation)">
+            <summary>
+            Checks whether the <see cref="T:Cortex.Net.IDerivation"/>instance should recompute itself.
+            </summary>
+            <param name="derivation">The derivation.</param>
+            <returns>True when it needs to recompute, false otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <remarks>Might throw any other exception that a getter for <see cref="T:Cortex.Net.IObservable"/> will thow.</remarks>
+        </member>
+        <member name="M:Cortex.Net.Core.DerivationExtensions.ChangeLowestObserverStateOnObservablesToUpToDate(Cortex.Net.IDerivation)">
+            <summary>
+            Changes the <see cref="P:Cortex.Net.IObservable.LowestObserverState"/> ona ll <see cref="P:Cortex.Net.IDerivation.Observing"/> to <see cref="F:Cortex.Net.DerivationState.UpToDate"/>
+            when this derivation changes to <see cref="F:Cortex.Net.DerivationState.UpToDate"/>.
+            </summary>
+            <param name="derivation">The derivation to use.</param>
+        </member>
         <member name="T:Cortex.Net.Core.ObservableExtensions">
             <summary>
             Extension methods for the <see cref="T:Cortex.Net.IObservable"/> interface.
@@ -76,6 +97,13 @@
             but we don't wan't to immediately recompute.
             </remarks>
         </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.IsDerivation(Cortex.Net.IObservable)">
+            <summary>
+            Checks whether the observable is a derivation as well.
+            </summary>
+            <param name="observable">The observable to check.</param>
+            <returns>True if the observable is a derivation, false otherwise.</returns>
+        </member>
         <member name="M:Cortex.Net.Core.ObservableExtensions.QueueForUnobservation(Cortex.Net.IObservable)">
             <summary>
             Queues an observable for global unobservation.
@@ -128,7 +156,7 @@
         </member>
         <member name="P:Cortex.Net.Core.SharedState.TrackingDerivation">
             <summary>
-            Gets or sets the <see cref="T:Cortex.Net.IDerivation"/> instance that the shared state is currently tracking.
+            Gets the <see cref="T:Cortex.Net.IDerivation"/> instance that the shared state is currently tracking.
             </summary>
         </member>
         <member name="M:Cortex.Net.Core.SharedState.StartBatch">
@@ -147,9 +175,27 @@
             This method can be called multiple times but should always be balanced with an equal amount of <see cref="M:Cortex.Net.Core.SharedState.StartBatch"/> calls.
             </remarks>
         </member>
+        <member name="M:Cortex.Net.Core.SharedState.StartUntracked">
+            <summary>
+            Starts an untracked part of a derviation.
+            </summary>
+            <returns>The current derivation to restore later.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.SharedState.EndUntracked(Cortex.Net.IDerivation)">
+            <summary>
+            Ends an untracked part of a derivation by restoring the current derivation.
+            </summary>
+            <param name="derivation">The derivation to restore.</param>
+        </member>
         <member name="T:Cortex.Net.CortexConfiguration">
             <summary>
             Configuration parameters for an <see cref="T:Cortex.Net.ISharedState"/> instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.CortexConfiguration.DisableErrorBoundaries">
+            <summary>
+            Gets a value indicating whether to catch and rethrow exceptions.
+            This is useful for inspecting the state of the stack when an exception occurs while debugging.
             </summary>
         </member>
         <member name="P:Cortex.Net.CortexConfiguration.ObservableRequiresReaction">
@@ -227,7 +273,12 @@
             this number is increased by one. This number is unique within the current shared state.
             </summary>
         </member>
-        <member name="P:Cortex.Net.IDerivation.NewObservingSet">
+        <member name="P:Cortex.Net.IDerivation.Observing">
+            <summary>
+            Gets a set of <see cref="T:Cortex.Net.IObservable"/> instances that are currently observed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IDerivation.NewObserving">
             <summary>
             Gets a set of <see cref="T:Cortex.Net.IObservable"/> instances that have been hit during a new derivation run.
             </summary>
@@ -281,6 +332,12 @@
             Gets or sets the lowest <see cref="T:Cortex.Net.DerivationState"/> on any of it's observers.
             </summary>
         </member>
+        <member name="M:Cortex.Net.IObservable.Get">
+            <summary>
+            Gets the value of the observable.
+            </summary>
+            <returns>The value of the observable.</returns>
+        </member>
         <member name="M:Cortex.Net.IObservable.OnBecomeObserved">
             <summary>
             Method that at least must be implented to trigger event <see cref="E:Cortex.Net.IObservable.BecomeObserved"/>.
@@ -313,7 +370,7 @@
         </member>
         <member name="P:Cortex.Net.ISharedState.TrackingDerivation">
             <summary>
-            Gets or sets the <see cref="T:Cortex.Net.IDerivation"/> instance that the shared state is currently tracking.
+            Gets the <see cref="T:Cortex.Net.IDerivation"/> instance that the shared state is currently tracking.
             </summary>
         </member>
         <member name="M:Cortex.Net.ISharedState.StartBatch">
@@ -331,6 +388,18 @@
             <remarks>
             This method can be called multiple times but should always be balanced with an equal amount of <see cref="M:Cortex.Net.ISharedState.StartBatch"/> calls.
             </remarks>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.StartUntracked">
+            <summary>
+            Starts an untracked part of a derviation.
+            </summary>
+            <returns>The current derivation to restore later.</returns>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.EndUntracked(Cortex.Net.IDerivation)">
+            <summary>
+            Ends an untracked part of a derivation by restoring the current derivation.
+            </summary>
+            <param name="derivation">The derivation to restore.</param>
         </member>
         <member name="T:Cortex.Net.Properties.Resources">
             <summary>

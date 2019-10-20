@@ -61,9 +61,9 @@ namespace Cortex.Net.Core
         public bool AllowStateReads { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="IDerivation"/> instance that the shared state is currently tracking.
+        /// Gets the <see cref="IDerivation"/> instance that the shared state is currently tracking.
         /// </summary>
-        public IDerivation TrackingDerivation { get; set; }
+        public IDerivation TrackingDerivation { get; private set; }
 
         /// <summary>
         /// Starts a Batch.
@@ -112,6 +112,26 @@ namespace Cortex.Net.Core
             */
 
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Starts an untracked part of a derviation.
+        /// </summary>
+        /// <returns>The current derivation to restore later.</returns>
+        public IDerivation StartUntracked()
+        {
+            var result = this.TrackingDerivation;
+            this.TrackingDerivation = null;
+            return result;
+        }
+
+        /// <summary>
+        /// Ends an untracked part of a derivation by restoring the current derivation.
+        /// </summary>
+        /// <param name="derivation">The derivation to restore.</param>
+        public void EndUntracked(IDerivation derivation)
+        {
+            this.TrackingDerivation = derivation;
         }
     }
 }
