@@ -23,6 +23,11 @@
             Event that will fire after the <see cref="T:Cortex.Net.Core.Atom"/> has become observed.
             </summary>
         </member>
+        <member name="E:Cortex.Net.Core.Atom.BecomeUnobserved">
+            <summary>
+            Event that will fire after the observable has become unobserved.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Core.Atom.Observers">
             <summary>
             Gets the Observers.
@@ -65,6 +70,11 @@
         <member name="M:Cortex.Net.Core.Atom.OnBecomeObserved">
             <summary>
             Method that triggers event <see cref="E:Cortex.Net.Core.Atom.BecomeObserved"/>.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Atom.OnBecomeUnobserved">
+            <summary>
+            Method that triggers event <see cref="E:Cortex.Net.Core.Atom.BecomeUnobserved"/>.
             </summary>
         </member>
         <member name="M:Cortex.Net.Core.Atom.ReportChanged">
@@ -391,6 +401,11 @@
             Event that will fire after the observable has become observed.
             </summary>
         </member>
+        <member name="E:Cortex.Net.IObservable.BecomeUnobserved">
+            <summary>
+            Event that will fire after the observable has become unobserved.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.IObservable.Observers">
             <summary>
             Gets the Observers.
@@ -423,6 +438,11 @@
         <member name="M:Cortex.Net.IObservable.OnBecomeObserved">
             <summary>
             Method that at least must be implented to trigger event <see cref="E:Cortex.Net.IObservable.BecomeObserved"/>.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.IObservable.OnBecomeUnobserved">
+            <summary>
+            Method that at least must be implented to trigger event <see cref="E:Cortex.Net.IObservable.BecomeUnobserved"/>.
             </summary>
         </member>
         <member name="T:Cortex.Net.ISharedState">
@@ -580,6 +600,11 @@
             Batch counter to support reentrance of Start and EndBatch.
             </summary>
         </member>
+        <member name="F:Cortex.Net.SharedState.uniqueId">
+            <summary>
+            A unique Id that is incremented and used to identify instances.
+            </summary>
+        </member>
         <member name="M:Cortex.Net.SharedState.#ctor(Cortex.Net.CortexConfiguration)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.SharedState"/> class.
@@ -670,6 +695,15 @@
             End of a section where allowedStateReads is modified.
             </summary>
             <param name="previousAllowStateReads">The previous value to restore.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAtom(System.String,System.Action,System.Action)">
+            <summary>
+            Creates a new Atom that references this shared Storage.
+            </summary>
+            <param name="name">The name for this Atom. A unique name will be generated in case a name is not provided.</param>
+            <param name="onBecomeObserved">An <see cref="T:System.Action"/> that will be executed when the Atom changes from unobserved to observed.</param>
+            <param name="onBecomeUnobserved">An <see cref="T:System.Action"/> that will be executed when the Atom changes from observed to unobserved.</param>
+            <returns>A new instance that implements <see cref="T:Cortex.Net.IAtom"/>.</returns>
         </member>
         <member name="T:Cortex.Net.TraceMode">
             <summary>

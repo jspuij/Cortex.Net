@@ -16,6 +16,7 @@
 
 namespace Cortex.Net
 {
+    using Cortex.Net.Core;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -29,6 +30,11 @@ namespace Cortex.Net
         /// Batch counter to support reentrance of Start and EndBatch.
         /// </summary>
         private int batchCount = 0;
+
+        /// <summary>
+        /// A unique Id that is incremented and used to identify instances.
+        /// </summary>
+        private int uniqueId = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SharedState"/> class.
@@ -179,6 +185,35 @@ namespace Cortex.Net
         public void EndAllowStateReads(bool previousAllowStateReads)
         {
             this.AllowStateReads = previousAllowStateReads;
+        }
+
+        /// <summary>
+        /// Creates a new Atom that references this shared Storage.
+        /// </summary>
+        /// <param name="name">The name for this Atom. A unique name will be generated in case a name is not provided.</param>
+        /// <param name="onBecomeObserved">An <see cref="Action"/> that will be executed when the Atom changes from unobserved to observed.</param>
+        /// <param name="onBecomeUnobserved">An <see cref="Action"/> that will be executed when the Atom changes from observed to unobserved.</param>
+        /// <returns>A new instance that implements <see cref="IAtom"/>.</returns>
+        public IAtom CreateAtom(string name = null, Action onBecomeObserved = null, Action onBecomeUnobserved = null)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                name = $"Atom@{++this.uniqueId}";
+            }
+
+            var result = new Atom(this, name);
+
+            if (onBecomeObserved != null)
+            {
+                result.BecomeObserved += (s, e) => onBecomeObserved();
+            }
+
+            if (onBecomeUnobserved != null)
+            {
+                result.BecomeUnobserved += (s, e) => onBecomeUnobserved();
+            }
+
+            return result;
         }
     }
 }

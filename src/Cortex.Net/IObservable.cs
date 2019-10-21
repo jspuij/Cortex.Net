@@ -31,6 +31,11 @@ namespace Cortex.Net
         event EventHandler BecomeObserved;
 
         /// <summary>
+        /// Event that will fire after the observable has become unobserved.
+        /// </summary>
+        event EventHandler BecomeUnobserved;
+
+        /// <summary>
         /// Gets the Observers.
         /// </summary>
         ISet<IDerivation> Observers { get; }
@@ -63,5 +68,10 @@ namespace Cortex.Net
         /// Method that at least must be implented to trigger event <see cref="BecomeObserved"/>.
         /// </summary>
         void OnBecomeObserved();
+
+        /// <summary>
+        /// Method that at least must be implented to trigger event <see cref="BecomeUnobserved"/>.
+        /// </summary>
+        void OnBecomeUnobserved();
     }
 }
