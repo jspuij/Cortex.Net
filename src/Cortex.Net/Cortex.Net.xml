@@ -4,6 +4,86 @@
         <name>Cortex.Net</name>
     </assembly>
     <members>
+        <member name="T:Cortex.Net.Core.Atom">
+            <summary>
+            Implements an Atom.
+            Atoms can be used to signal Cortex.Net that some observable data source has been observed or changed.
+            And Cortex.Net will signal the atom whenever it is used or no longer in use.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Atom.#ctor(Cortex.Net.ISharedState,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Core.Atom"/> class.
+            </summary>
+            <param name="sharedState">The shared state where this atom is created on.</param>
+            <param name="name">The name for this Atom.</param>
+        </member>
+        <member name="E:Cortex.Net.Core.Atom.BecomeObserved">
+            <summary>
+            Event that will fire after the <see cref="T:Cortex.Net.Core.Atom"/> has become observed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Atom.Observers">
+            <summary>
+            Gets the Observers.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Atom.IsPendingUnobservation">
+            <summary>
+            Gets or sets a value indicating whether this atom is pending Unobservation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Atom.LastAccessedBy">
+            <summary>
+            Gets or sets the Id of the derivation run that last accessed this observable.
+            If this Id equals the <see cref="P:Cortex.Net.IDerivation.RunId"/> of the current derivation
+            the dependency is already established.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Atom.IsBeingObserved">
+            <summary>
+            Gets or sets a value indicating whether the observable is being observed.
+            An observable is being observed when at least one derivation actually accesses its
+            value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Atom.LowestObserverState">
+            <summary>
+            Gets or sets the lowest <see cref="T:Cortex.Net.DerivationState"/> on any of it's observers.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Atom.Name">
+            <summary>
+            Gets the Name of the <see cref="T:Cortex.Net.Core.Atom"/> instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Atom.SharedState">
+            <summary>
+            Gets the Shared State of all the nodes in the dependency graph.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Atom.OnBecomeObserved">
+            <summary>
+            Method that triggers event <see cref="E:Cortex.Net.Core.Atom.BecomeObserved"/>.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Atom.ReportChanged">
+            <summary>
+            Invoke this method after this atom has changed to signal Cortex.Net that all its observers should invalidate.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Atom.ReportObserved">
+            <summary>
+            Invoke this method to notify Cortex.Net that your atom has been used somehow.
+            </summary>
+            <returns>Returns true if there is currently a reactive context.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.Atom.ToString">
+            <summary>
+            Returns the name of this <see cref="T:Cortex.Net.Core.Atom"/>.
+            </summary>
+            <returns>The name of the Atom.</returns>
+        </member>
         <member name="T:Cortex.Net.Core.DerivationExtensions">
             <summary>
             Extension methods for <see cref="T:Cortex.Net.IDerivation"/> interface implementations.
@@ -149,106 +229,19 @@
             </summary>
             <param name="observable">The observable to report.</param>
         </member>
-        <member name="T:Cortex.Net.Core.SharedState">
+        <member name="T:Cortex.Net.Core.SharedStateExtensions">
             <summary>
-            Holds the Shared state that all nodes of the Dependency Graph share.
+            Extensions class for <see cref="T:Cortex.Net.ISharedState"/> instances.
             </summary>
         </member>
-        <member name="F:Cortex.Net.Core.SharedState.batchCount">
+        <member name="M:Cortex.Net.Core.SharedStateExtensions.Untracked``1(Cortex.Net.ISharedState,System.Func{``0})">
             <summary>
-            Batch counter to support reentrance of Start and EndBatch.
+            Executes a function without tracking derivations.
             </summary>
-        </member>
-        <member name="M:Cortex.Net.Core.SharedState.#ctor(Cortex.Net.CortexConfiguration)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Cortex.Net.Core.SharedState"/> class.
-            </summary>
-            <param name="configuration">The configuration to initialize <see cref="T:Cortex.Net.Core.SharedState"/> instance with.</param>
-            <exception cref="T:System.ArgumentNullException">Thrown when any of the arguments is null.</exception>
-        </member>
-        <member name="P:Cortex.Net.Core.SharedState.PendingUnobservations">
-            <summary>
-            Gets a queue of all pending Unobservations.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Core.SharedState.InBatch">
-            <summary>
-            Gets a value indicating whether the Dependency Graph is in Batch mode.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Core.SharedState.Configuration">
-            <summary>
-            Gets the configuration.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Core.SharedState.AllowStateReads">
-            <summary>
-            Gets or sets a value indicating whether it is allowed to read observables at this point.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Core.SharedState.TrackingDerivation">
-            <summary>
-            Gets the <see cref="T:Cortex.Net.IDerivation"/> instance that the shared state is currently tracking.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Core.SharedState.RunId">
-            <summary>
-            Gets the shared derivation RunId counter.
-            </summary>
-        </member>
-        <member name="M:Cortex.Net.Core.SharedState.StartBatch">
-            <summary>
-            Starts a Batch.
-            </summary>
-            <remarks>
-            This method can be called multiple times but should always be balanced with an equal amount of <see cref="M:Cortex.Net.Core.SharedState.EndBatch"/> calls.
-            </remarks>
-        </member>
-        <member name="M:Cortex.Net.Core.SharedState.EndBatch">
-            <summary>
-            Ends a Batch.
-            </summary>
-            <remarks>
-            This method can be called multiple times but should always be balanced with an equal amount of <see cref="M:Cortex.Net.Core.SharedState.StartBatch"/> calls.
-            </remarks>
-        </member>
-        <member name="M:Cortex.Net.Core.SharedState.StartUntracked">
-            <summary>
-            Starts an untracked part of a derviation.
-            </summary>
-            <returns>The current derivation to restore later.</returns>
-        </member>
-        <member name="M:Cortex.Net.Core.SharedState.StartAllowStateReads(System.Boolean)">
-            <summary>
-            Start of a section where allowedStateReads is modified.
-            </summary>
-            <param name="allowStateReads">Whether to allow State reads.</param>
-            <returns>The previous value.</returns>
-        </member>
-        <member name="M:Cortex.Net.Core.SharedState.IncrementRunId">
-            <summary>
-            Increments the RunId and returns the new value.
-            </summary>
-            <returns>The new RunId.</returns>
-        </member>
-        <member name="M:Cortex.Net.Core.SharedState.StartTracking(Cortex.Net.IDerivation)">
-            <summary>
-            Starts tracking the <see cref="T:Cortex.Net.IDerivation"/> instance given as paramteter.
-            </summary>
-            <param name="derivation">The derivation to track.</param>
-            <returns>The prevous derivation.</returns>
-        </member>
-        <member name="M:Cortex.Net.Core.SharedState.EndTracking(Cortex.Net.IDerivation)">
-            <summary>
-            Ends tracking the current <see cref="T:Cortex.Net.IDerivation"/> instance and restores the previous derivation.
-            </summary>
-            <param name="previousDerivation">The previous derivation.</param>
-        </member>
-        <member name="M:Cortex.Net.Core.SharedState.EndAllowStateReads(System.Boolean)">
-            <summary>
-            End of a section where allowedStateReads is modified.
-            </summary>
-            <param name="previousAllowStateReads">The previous value to restore.</param>
+            <typeparam name="T">The type of the return value of the function.</typeparam>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use to temporarily stop tracking derivations.</param>
+            <param name="func">The function to execute.</param>
+            <returns>The return value.</returns>
         </member>
         <member name="T:Cortex.Net.CortexConfiguration">
             <summary>
@@ -307,6 +300,24 @@
             <summary>
             A shallow dependency has changed since last computation and the derivation
             will need to recompute when it's necessary next.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.IAtom">
+            <summary>
+            Interface that defines an Atom.
+            Atoms can be used to signal Cortex.Net that some observable data source has been observed or changed.
+            And Cortex.Net will signal the atom whenever it is used or no longer in use.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.IAtom.ReportObserved">
+            <summary>
+            Invoke this method to notify Cortex.Net that your atom has been used somehow.
+            </summary>
+            <returns>Returns true if there is currently a reactive context.</returns>
+        </member>
+        <member name="M:Cortex.Net.IAtom.ReportChanged">
+            <summary>
+            Invoke this method after this atom has changed to signal Cortex.Net that all its observers should invalidate.
             </summary>
         </member>
         <member name="T:Cortex.Net.IDependencyNode">
@@ -558,6 +569,107 @@
             <summary>
               Looks up a localized string similar to ({0}) should only be called when the shared state is in batch mode..
             </summary>
+        </member>
+        <member name="T:Cortex.Net.SharedState">
+            <summary>
+            Holds the Shared state that all nodes of the Dependency Graph share.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.SharedState.batchCount">
+            <summary>
+            Batch counter to support reentrance of Start and EndBatch.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.SharedState.#ctor(Cortex.Net.CortexConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.SharedState"/> class.
+            </summary>
+            <param name="configuration">The configuration to initialize <see cref="T:Cortex.Net.SharedState"/> instance with.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when any of the arguments is null.</exception>
+        </member>
+        <member name="P:Cortex.Net.SharedState.PendingUnobservations">
+            <summary>
+            Gets a queue of all pending Unobservations.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.InBatch">
+            <summary>
+            Gets a value indicating whether the Dependency Graph is in Batch mode.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.Configuration">
+            <summary>
+            Gets the configuration.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.AllowStateReads">
+            <summary>
+            Gets or sets a value indicating whether it is allowed to read observables at this point.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.TrackingDerivation">
+            <summary>
+            Gets the <see cref="T:Cortex.Net.IDerivation"/> instance that the shared state is currently tracking.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.RunId">
+            <summary>
+            Gets the shared derivation RunId counter.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.SharedState.StartBatch">
+            <summary>
+            Starts a Batch.
+            </summary>
+            <remarks>
+            This method can be called multiple times but should always be balanced with an equal amount of <see cref="M:Cortex.Net.SharedState.EndBatch"/> calls.
+            </remarks>
+        </member>
+        <member name="M:Cortex.Net.SharedState.EndBatch">
+            <summary>
+            Ends a Batch.
+            </summary>
+            <remarks>
+            This method can be called multiple times but should always be balanced with an equal amount of <see cref="M:Cortex.Net.SharedState.StartBatch"/> calls.
+            </remarks>
+        </member>
+        <member name="M:Cortex.Net.SharedState.StartUntracked">
+            <summary>
+            Starts an untracked part of a derviation.
+            </summary>
+            <returns>The current derivation to restore later.</returns>
+        </member>
+        <member name="M:Cortex.Net.SharedState.StartAllowStateReads(System.Boolean)">
+            <summary>
+            Start of a section where allowedStateReads is modified.
+            </summary>
+            <param name="allowStateReads">Whether to allow State reads.</param>
+            <returns>The previous value.</returns>
+        </member>
+        <member name="M:Cortex.Net.SharedState.IncrementRunId">
+            <summary>
+            Increments the RunId and returns the new value.
+            </summary>
+            <returns>The new RunId.</returns>
+        </member>
+        <member name="M:Cortex.Net.SharedState.StartTracking(Cortex.Net.IDerivation)">
+            <summary>
+            Starts tracking the <see cref="T:Cortex.Net.IDerivation"/> instance given as paramteter.
+            </summary>
+            <param name="derivation">The derivation to track.</param>
+            <returns>The prevous derivation.</returns>
+        </member>
+        <member name="M:Cortex.Net.SharedState.EndTracking(Cortex.Net.IDerivation)">
+            <summary>
+            Ends tracking the current <see cref="T:Cortex.Net.IDerivation"/> instance and restores the previous derivation.
+            </summary>
+            <param name="previousDerivation">The previous derivation.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.EndAllowStateReads(System.Boolean)">
+            <summary>
+            End of a section where allowedStateReads is modified.
+            </summary>
+            <param name="previousAllowStateReads">The previous value to restore.</param>
         </member>
         <member name="T:Cortex.Net.TraceMode">
             <summary>

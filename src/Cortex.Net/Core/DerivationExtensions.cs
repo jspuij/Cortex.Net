@@ -137,7 +137,7 @@ namespace Cortex.Net.Core
                 catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
                 {
-                    result = default(T);
+                    result = default;
                     exception = e;
                 }
             }
@@ -175,7 +175,7 @@ namespace Cortex.Net.Core
 
             derivation.DependenciesState = DerivationState.NotTracking;
         }
- 
+
         /// <summary>
         /// Binds the new tracked Dependencies on the <see cref="IDerivation"/> instance.
         /// </summary>
