@@ -124,11 +124,11 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove should only be called when the shared state in batch mode..
+        ///   Looks up a localized string similar to ({0}) should only be called when the shared state is in batch mode..
         /// </summary>
-        internal static string RemoveOnlyInBatch {
+        internal static string OnlyInBatch {
             get {
-                return ResourceManager.GetString("RemoveOnlyInBatch", resourceCulture);
+                return ResourceManager.GetString("OnlyInBatch", resourceCulture);
             }
         }
     }

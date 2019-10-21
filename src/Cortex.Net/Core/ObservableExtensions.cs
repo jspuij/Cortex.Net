@@ -105,7 +105,7 @@ namespace Cortex.Net.Core
 
             if (!observable.SharedState.InBatch)
             {
-                throw new InvalidOperationException(Resources.RemoveOnlyInBatch);
+                throw new InvalidOperationException(Resources.OnlyInBatch);
             }
 
             if (!observable.Observers.Contains(derivation))

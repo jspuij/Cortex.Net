@@ -138,7 +138,7 @@
   <data name="ObserverNotInObservable" xml:space="preserve">
     <value>The derivation ({0}) does not exist in the set of observers of observable ({1})</value>
   </data>
-  <data name="RemoveOnlyInBatch" xml:space="preserve">
-    <value>Remove should only be called when the shared state in batch mode.</value>
+  <data name="OnlyInBatch" xml:space="preserve">
+    <value>({0}) should only be called when the shared state is in batch mode.</value>
   </data>
 </root>

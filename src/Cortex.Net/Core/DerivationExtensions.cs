@@ -31,14 +31,20 @@ namespace Cortex.Net.Core
         /// Checks whether the <see cref="IDerivation"/>instance should recompute itself.
         /// </summary>
         /// <param name="derivation">The derivation.</param>
+        /// <param name="action">The action to use to determine whether this derivation should compute.</param>
         /// <returns>True when it needs to recompute, false otherwise.</returns>
         /// <exception cref="ArgumentNullException">When any of the arguments is null.</exception>
         /// <remarks>Might throw any other exception that a getter for <see cref="IObservable"/> will thow.</remarks>
-        public static bool ShouldCompute(this IDerivation derivation)
+        public static bool ShouldCompute(this IDerivation derivation, Action action)
         {
             if (derivation is null)
             {
                 throw new ArgumentNullException(nameof(derivation));
+            }
+
+            if (action is null)
+            {
+                throw new ArgumentNullException(nameof(action));
             }
 
             switch (derivation.DependenciesState)
@@ -58,13 +64,13 @@ namespace Cortex.Net.Core
                         {
                             if (observable.SharedState.Configuration.DisableErrorBoundaries)
                             {
-                                observable.Get();
+                                action();
                             }
                             else
                             {
                                 try
                                 {
-                                    observable.Get();
+                                    action();
                                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                                 catch
@@ -145,6 +151,32 @@ namespace Cortex.Net.Core
         }
 
         /// <summary>
+        /// Cleans the Observing collection with notification of the observables.
+        /// </summary>
+        /// <param name="derivation">The derivation to clean.</param>
+        public static void ClearObserving(this IDerivation derivation)
+        {
+            if (derivation == null)
+            {
+                throw new ArgumentNullException(nameof(derivation));
+            }
+
+            if (!derivation.SharedState.InBatch)
+            {
+                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.OnlyInBatch, nameof(ClearObserving)));
+            }
+
+            var toCallRemoveOn = derivation.Observing.ToList();
+            derivation.Observing.Clear();
+            foreach (var observable in toCallRemoveOn)
+            {
+                observable.RemoveObserver(derivation);
+            }
+
+            derivation.DependenciesState = DerivationState.NotTracking;
+        }
+ 
+        /// <summary>
         /// Binds the new tracked Dependencies on the <see cref="IDerivation"/> instance.
         /// </summary>
         /// <param name="derivation">The derivation to use.</param>
@@ -197,6 +229,10 @@ namespace Cortex.Net.Core
             }
         }
 
+        /// <summary>
+        /// Warn about dependencies without derivations.
+        /// </summary>
+        /// <param name="derivation">The derivation to check.</param>
         private static void WarnWithoutDependencies(this IDerivation derivation)
         {
             if (derivation.Observing.Any())

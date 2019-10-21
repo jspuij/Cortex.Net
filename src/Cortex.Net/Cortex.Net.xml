@@ -9,11 +9,12 @@
             Extension methods for <see cref="T:Cortex.Net.IDerivation"/> interface implementations.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Core.DerivationExtensions.ShouldCompute(Cortex.Net.IDerivation)">
+        <member name="M:Cortex.Net.Core.DerivationExtensions.ShouldCompute(Cortex.Net.IDerivation,System.Action)">
             <summary>
             Checks whether the <see cref="T:Cortex.Net.IDerivation"/>instance should recompute itself.
             </summary>
             <param name="derivation">The derivation.</param>
+            <param name="action">The action to use to determine whether this derivation should compute.</param>
             <returns>True when it needs to recompute, false otherwise.</returns>
             <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
             <remarks>Might throw any other exception that a getter for <see cref="T:Cortex.Net.IObservable"/> will thow.</remarks>
@@ -29,6 +30,12 @@
             <param name="function">The function to execute.</param>
             <returns>A tuple containing the return value of the function or an Exception.</returns>
         </member>
+        <member name="M:Cortex.Net.Core.DerivationExtensions.ClearObserving(Cortex.Net.IDerivation)">
+            <summary>
+            Cleans the Observing collection with notification of the observables.
+            </summary>
+            <param name="derivation">The derivation to clean.</param>
+        </member>
         <member name="M:Cortex.Net.Core.DerivationExtensions.BindDependencies(Cortex.Net.IDerivation)">
             <summary>
             Binds the new tracked Dependencies on the <see cref="T:Cortex.Net.IDerivation"/> instance.
@@ -36,6 +43,12 @@
             <param name="derivation">The derivation to use.</param>
             <exception cref="T:System.InvalidOperationException">When the state of the derivation's dependencies is Not tracking.</exception>
             <exception cref="T:System.NullReferenceException">When the newObserving set is null.</exception>
+        </member>
+        <member name="M:Cortex.Net.Core.DerivationExtensions.WarnWithoutDependencies(Cortex.Net.IDerivation)">
+            <summary>
+            Warn about dependencies without derivations.
+            </summary>
+            <param name="derivation">The derivation to check.</param>
         </member>
         <member name="M:Cortex.Net.Core.DerivationExtensions.ChangeLowestObserverStateOnObservablesToUpToDate(Cortex.Net.IDerivation)">
             <summary>
@@ -396,12 +409,6 @@
             Gets or sets the lowest <see cref="T:Cortex.Net.DerivationState"/> on any of it's observers.
             </summary>
         </member>
-        <member name="M:Cortex.Net.IObservable.Get">
-            <summary>
-            Gets the value of the observable.
-            </summary>
-            <returns>The value of the observable.</returns>
-        </member>
         <member name="M:Cortex.Net.IObservable.OnBecomeObserved">
             <summary>
             Method that at least must be implented to trigger event <see cref="E:Cortex.Net.IObservable.BecomeObserved"/>.
@@ -547,9 +554,9 @@
               Looks up a localized string similar to The derivation ({0}) does not exist in the set of observers of observable ({1}).
             </summary>
         </member>
-        <member name="P:Cortex.Net.Properties.Resources.RemoveOnlyInBatch">
+        <member name="P:Cortex.Net.Properties.Resources.OnlyInBatch">
             <summary>
-              Looks up a localized string similar to Remove should only be called when the shared state in batch mode..
+              Looks up a localized string similar to ({0}) should only be called when the shared state is in batch mode..
             </summary>
         </member>
         <member name="T:Cortex.Net.TraceMode">
