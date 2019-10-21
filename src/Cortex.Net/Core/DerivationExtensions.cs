@@ -93,7 +93,7 @@ namespace Cortex.Net.Core
         /// <param name="derivation">The derivation to use.</param>
         /// <param name="function">The function to execute.</param>
         /// <returns>The return value of the function.</returns>
-        public static T TrackDerivedFunction<T>(this IDerivation derivation, Func<T> function)
+        public static (T, Exception) TrackDerivedFunction<T>(this IDerivation derivation, Func<T> function)
         {
             if (derivation is null)
             {
@@ -105,11 +105,36 @@ namespace Cortex.Net.Core
                 throw new ArgumentNullException(nameof(function));
             }
 
+            T result;
+            Exception exception = null;
+
             var previousAllowStateReads = derivation.SharedState.StartAllowStateReads(true);
             ChangeLowestObserverStateOnObservablesToUpToDate(derivation);
             derivation.NewObserving.Clear();
             derivation.RunId = derivation.SharedState.IncrementRunId();
             var previousDerivation = derivation.SharedState.StartTracking(derivation);
+
+            if (derivation.SharedState.Configuration.DisableErrorBoundaries)
+            {
+                result = function();
+            }
+            else
+            {
+                try
+                {
+                    result = function();
+                }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch
+#pragma warning restore CA1031 // Do not catch general exception types
+                {
+                    result = default(T);
+                }
+            }
+
+            derivation.SharedState.EndTracking(derivation);
+
+            return result;
             /*
 
              const prevAllowStateReads = allowStateReadsStart(true)

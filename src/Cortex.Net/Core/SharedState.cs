@@ -131,15 +131,6 @@ namespace Cortex.Net.Core
         }
 
         /// <summary>
-        /// Ends an untracked part of a derivation by restoring the current derivation.
-        /// </summary>
-        /// <param name="derivation">The derivation to restore.</param>
-        public void EndUntracked(IDerivation derivation)
-        {
-            this.TrackingDerivation = derivation;
-        }
-
-        /// <summary>
         /// Start of a section where allowedStateReads is modified.
         /// </summary>
         /// <param name="allowStateReads">Whether to allow State reads.</param>
@@ -160,11 +151,25 @@ namespace Cortex.Net.Core
             return ++this.RunId;
         }
 
+        /// <summary>
+        /// Starts tracking the <see cref="IDerivation"/> instance given as paramteter.
+        /// </summary>
+        /// <param name="derivation">The derivation to track.</param>
+        /// <returns>The prevous derivation.</returns>
         public IDerivation StartTracking(IDerivation derivation)
         {
             var result = this.TrackingDerivation;
             this.TrackingDerivation = derivation;
             return result;
+        }
+
+        /// <summary>
+        /// Ends tracking the current <see cref="IDerivation"/> instance and restores the previous derivation.
+        /// </summary>
+        /// <param name="previousDerivation">The previous derivation.</param>
+        void EndTracking(IDerivation previousDerivation)
+        {
+            this.TrackingDerivation = previousDerivation;
         }
     }
 }
