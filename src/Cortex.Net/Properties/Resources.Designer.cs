@@ -131,5 +131,14 @@ namespace Cortex.Net.Properties {
                 return ResourceManager.GetString("OnlyInBatch", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ({0}) is read outside a reactive context..
+        /// </summary>
+        internal static string ReadOutsideReaction {
+            get {
+                return ResourceManager.GetString("ReadOutsideReaction", resourceCulture);
+            }
+        }
     }
 }

@@ -94,6 +94,117 @@
             </summary>
             <returns>The name of the Atom.</returns>
         </member>
+        <member name="T:Cortex.Net.Core.ComputedValue">
+            <summary>
+            A node in the state dependency root that observes other nodes, and can be observed itself.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue.requiresReaction">
+            <summary>
+            Indicates whether this computedValue requires a reactive context.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.Core.ComputedValue.BecomeObserved">
+            <summary>
+            Event that will fire after the <see cref="T:Cortex.Net.Core.Atom"/> has become observed.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.Core.ComputedValue.BecomeUnobserved">
+            <summary>
+            Event that will fire after the observable has become unobserved.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue.Observers">
+            <summary>
+            Gets the Observers.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue.IsPendingUnobservation">
+            <summary>
+            Gets or sets a value indicating whether this atom is pending Unobservation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue.LastAccessedBy">
+            <summary>
+            Gets or sets the Id of the derivation run that last accessed this observable.
+            If this Id equals the <see cref="P:Cortex.Net.IDerivation.RunId"/> of the current derivation
+            the dependency is already established.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue.IsBeingObserved">
+            <summary>
+            Gets or sets a value indicating whether the observable is being observed.
+            An observable is being observed when at least one derivation actually accesses its
+            value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue.LowestObserverState">
+            <summary>
+            Gets or sets the lowest <see cref="T:Cortex.Net.DerivationState"/> on any of it's observers.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue.Name">
+            <summary>
+            Gets the Name of the <see cref="T:Cortex.Net.Core.Atom"/> instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue.SharedState">
+            <summary>
+            Gets the Shared State of all the nodes in the dependency graph.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue.DependenciesState">
+            <summary>
+            Gets or sets the state of the dependencies of this <see cref="T:Cortex.Net.IDerivation"/> instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue.RunId">
+            <summary>
+            Gets or sets the id of the current run of a derivation. Each time the derivation is tracked
+            this number is increased by one. This number is unique within the current shared state.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue.Observing">
+            <summary>
+            Gets a set of <see cref="T:Cortex.Net.IObservable"/> instances that are currently observed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue.NewObserving">
+            <summary>
+            Gets a set of <see cref="T:Cortex.Net.IObservable"/> instances that have been hit during a new derivation run.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue.IsTracing">
+            <summary>
+            Gets or sets the trace mode of this Derivation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue.RequiresObservable">
+            <summary>
+            Gets a value indicating whether to warn if this derivation is required to visit at least one observable.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue.OnBecomeObserved">
+            <summary>
+            Method that triggers event <see cref="E:Cortex.Net.Core.ComputedValue.BecomeObserved"/>.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue.OnBecomeUnobserved">
+            <summary>
+            Method that triggers event <see cref="E:Cortex.Net.Core.ComputedValue.BecomeUnobserved"/>.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue.OnBecomeStale">
+            <summary>
+            Propagates confirmation of a possible change to all observers of
+            this <see cref="T:Cortex.Net.Core.ComputedValue"/> for delayed computation.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue.WarnAboutUntrackedRead">
+            <summary>
+            Warn about an untracked read of this computed value.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Core.DerivationExtensions">
             <summary>
             Extension methods for <see cref="T:Cortex.Net.IDerivation"/> interface implementations.
@@ -278,6 +389,11 @@
             Gets a value indicating whether to warn if reactions are required to visit at least one observable.
             </summary>
         </member>
+        <member name="P:Cortex.Net.CortexConfiguration.ComputedRequiresReaction">
+            <summary>
+            Gets a value indicating whether a <see cref="T:Cortex.Net.Core.ComputedValue"/> instance requires a reactive context.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.DerivationState">
             <summary>
             The state of the <see cref="T:Cortex.Net.IDerivation"/> instance.
@@ -350,11 +466,6 @@
             A derivation is a (computed) value that is derived from other (observable) values.
             </summary>
         </member>
-        <member name="E:Cortex.Net.IDerivation.BecomeStale">
-            <summary>
-            Event that will fire after the derivation has become stale.
-            </summary>
-        </member>
         <member name="P:Cortex.Net.IDerivation.DependenciesState">
             <summary>
             Gets or sets the state of the dependencies of this <see cref="T:Cortex.Net.IDerivation"/> instance.
@@ -388,7 +499,7 @@
         </member>
         <member name="M:Cortex.Net.IDerivation.OnBecomeStale">
             <summary>
-            Method that at least must be implented to trigger event <see cref="E:Cortex.Net.IDerivation.BecomeStale"/>.
+            Method that is called when the <see cref="T:Cortex.Net.IDerivation"/> instance has become stale.
             </summary>
         </member>
         <member name="T:Cortex.Net.IObservable">
@@ -588,6 +699,11 @@
         <member name="P:Cortex.Net.Properties.Resources.OnlyInBatch">
             <summary>
               Looks up a localized string similar to ({0}) should only be called when the shared state is in batch mode..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ReadOutsideReaction">
+            <summary>
+              Looks up a localized string similar to ({0}) is read outside a reactive context..
             </summary>
         </member>
         <member name="T:Cortex.Net.SharedState">

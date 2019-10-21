@@ -25,11 +25,6 @@ namespace Cortex.Net
     public interface IDerivation : IDependencyNode
     {
         /// <summary>
-        /// Event that will fire after the derivation has become stale.
-        /// </summary>
-        event EventHandler BecomeStale;
-
-        /// <summary>
         /// Gets or sets the state of the dependencies of this <see cref="IDerivation"/> instance.
         /// </summary>
         DerivationState DependenciesState { get; set; }
@@ -61,7 +56,7 @@ namespace Cortex.Net
         bool RequiresObservable { get; }
 
         /// <summary>
-        /// Method that at least must be implented to trigger event <see cref="BecomeStale"/>.
+        /// Method that is called when the <see cref="IDerivation"/> instance has become stale.
         /// </summary>
         void OnBecomeStale();
     }

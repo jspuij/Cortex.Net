@@ -141,4 +141,7 @@
   <data name="OnlyInBatch" xml:space="preserve">
     <value>({0}) should only be called when the shared state is in batch mode.</value>
   </data>
+  <data name="ReadOutsideReaction" xml:space="preserve">
+    <value>({0}) is read outside a reactive context.</value>
+  </data>
 </root>

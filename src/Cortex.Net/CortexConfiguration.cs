@@ -19,6 +19,7 @@ namespace Cortex.Net
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Cortex.Net.Core;
 
     /// <summary>
     /// Configuration parameters for an <see cref="ISharedState"/> instance.
@@ -44,5 +45,10 @@ namespace Cortex.Net
         /// Gets a value indicating whether to warn if reactions are required to visit at least one observable.
         /// </summary>
         public bool ReactionRequiresObservable { get; internal set; }
+
+        /// <summary>
+        /// Gets a value indicating whether a <see cref="ComputedValue"/> instance requires a reactive context.
+        /// </summary>
+        public bool ComputedRequiresReaction { get; internal set; }
     }
 }
