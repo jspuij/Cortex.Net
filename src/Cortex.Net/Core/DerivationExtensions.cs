@@ -17,8 +17,10 @@
 namespace Cortex.Net.Core
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Linq;
+    using Cortex.Net.Properties;
 
     /// <summary>
     /// Extension methods for <see cref="IDerivation"/> interface implementations.
@@ -69,7 +71,7 @@ namespace Cortex.Net.Core
 #pragma warning restore CA1031 // Do not catch general exception types
                                 {
                                     // we are not interested in the value *or* exception at this moment, but if there is one, notify all
-                                    derivation.SharedState.EndUntracked(previousDerivation);
+                                    derivation.SharedState.EndTracking(previousDerivation);
                                     return true;
                                 }
                             }
@@ -77,7 +79,7 @@ namespace Cortex.Net.Core
                     }
 
                     derivation.ChangeLowestObserverStateOnObservablesToUpToDate();
-                    derivation.SharedState.EndUntracked(previousDerivation);
+                    derivation.SharedState.EndTracking(previousDerivation);
                     return false;
                 default:
                     throw new NotImplementedException();
@@ -92,9 +94,10 @@ namespace Cortex.Net.Core
         /// <typeparam name="T">The return type of the function.</typeparam>
         /// <param name="derivation">The derivation to use.</param>
         /// <param name="function">The function to execute.</param>
-        /// <returns>The return value of the function.</returns>
+        /// <returns>A tuple containing the return value of the function or an Exception.</returns>
         public static (T, Exception) TrackDerivedFunction<T>(this IDerivation derivation, Func<T> function)
         {
+            // TODO: check whether the exception passing is neccessary to keep state consistent or that we can replace it by try / finally.
             if (derivation is null)
             {
                 throw new ArgumentNullException(nameof(derivation));
@@ -125,47 +128,86 @@ namespace Cortex.Net.Core
                     result = function();
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
-                catch
+                catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
                 {
                     result = default(T);
+                    exception = e;
                 }
             }
 
-            derivation.SharedState.EndTracking(derivation);
+            derivation.SharedState.EndTracking(previousDerivation);
+            derivation.BindDependencies();
+            derivation.WarnWithoutDependencies();
+            derivation.SharedState.EndAllowStateReads(previousAllowStateReads);
 
-            return result;
-            /*
+            return (result, exception);
+        }
 
-             const prevAllowStateReads = allowStateReadsStart(true)
-                // pre allocate array allocation + room for variation in deps
-                // array will be trimmed by bindDependencies
-                changeDependenciesStateTo0(derivation)
-                derivation.newObserving = new Array(derivation.observing.length + 100)
-                derivation.unboundDepsCount = 0
-                derivation.runId = ++globalState.runId
-                const prevTracking = globalState.trackingDerivation
-                globalState.trackingDerivation = derivation
-                let result
-                if (globalState.disableErrorBoundaries === true) {
-                    result = f.call(context)
-                } else {
-                    try {
-                        result = f.call(context)
-                    } catch (e) {
-                        result = new CaughtException(e)
-                    }
+        /// <summary>
+        /// Binds the new tracked Dependencies on the <see cref="IDerivation"/> instance.
+        /// </summary>
+        /// <param name="derivation">The derivation to use.</param>
+        /// <exception cref="InvalidOperationException">When the state of the derivation's dependencies is Not tracking.</exception>
+        /// <exception cref="NullReferenceException">When the newObserving set is null.</exception>
+        private static void BindDependencies(this IDerivation derivation)
+        {
+            if (derivation.DependenciesState == DerivationState.NotTracking)
+            {
+                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.BindDependenciesExpectsStateNonEqual, derivation.DependenciesState));
+            }
+
+            if (derivation.NewObserving == null)
+            {
+                throw new NullReferenceException(string.Format(CultureInfo.CurrentCulture, Resources.IsNull, nameof(derivation.NewObserving)));
+            }
+
+            var lowestNewObservingDerivationState = DerivationState.UpToDate;
+
+            foreach (var dependency in derivation.NewObserving)
+            {
+                if (dependency is IDerivation)
+                {
+                    lowestNewObservingDerivationState = (DerivationState)Math.Max((int)lowestNewObservingDerivationState, (int)(dependency as IDerivation).DependenciesState);
                 }
-                globalState.trackingDerivation = prevTracking
-                bindDependencies(derivation)
+            }
 
-                warnAboutDerivationWithoutDependencies(derivation)
+            foreach (var dependency in derivation.Observing.ToList())
+            {
+                if (!derivation.NewObserving.Contains(dependency))
+                {
+                    derivation.Observing.Remove(dependency);
+                    dependency.RemoveObserver(derivation);
+                }
+            }
 
-                allowStateReadsEnd(prevAllowStateReads)
+            foreach (var dependency in derivation.NewObserving)
+            {
+                if (!derivation.Observing.Contains(dependency))
+                {
+                    derivation.Observing.Add(dependency);
+                    dependency.AddObserver(derivation);
+                }
+            }
 
-                return result
+            if (lowestNewObservingDerivationState != DerivationState.UpToDate)
+            {
+                derivation.DependenciesState = lowestNewObservingDerivationState;
+                derivation.OnBecomeStale();
+            }
+        }
 
-            */
+        private static void WarnWithoutDependencies(this IDerivation derivation)
+        {
+            if (derivation.Observing.Any())
+            {
+                return;
+            }
+
+            if (derivation.SharedState.Configuration.ReactionRequiresObservable || derivation.RequiresObservable)
+            {
+                Trace.WriteLine($"[Cortex.Net] {derivation.Name} is created / updated without reading any observable value.");
+            }
         }
 
         /// <summary>

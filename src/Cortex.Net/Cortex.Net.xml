@@ -18,6 +18,25 @@
             <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
             <remarks>Might throw any other exception that a getter for <see cref="T:Cortex.Net.IObservable"/> will thow.</remarks>
         </member>
+        <member name="M:Cortex.Net.Core.DerivationExtensions.TrackDerivedFunction``1(Cortex.Net.IDerivation,System.Func{``0})">
+            <summary>
+            Executes the provided function and tracks which observables are being accessed.
+            The tracking information is stored on the <see cref="T:Cortex.Net.IDerivation"/> instance and the derivation is registered
+            as observer of any of the accessed observables.
+            </summary>
+            <typeparam name="T">The return type of the function.</typeparam>
+            <param name="derivation">The derivation to use.</param>
+            <param name="function">The function to execute.</param>
+            <returns>A tuple containing the return value of the function or an Exception.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.DerivationExtensions.BindDependencies(Cortex.Net.IDerivation)">
+            <summary>
+            Binds the new tracked Dependencies on the <see cref="T:Cortex.Net.IDerivation"/> instance.
+            </summary>
+            <param name="derivation">The derivation to use.</param>
+            <exception cref="T:System.InvalidOperationException">When the state of the derivation's dependencies is Not tracking.</exception>
+            <exception cref="T:System.NullReferenceException">When the newObserving set is null.</exception>
+        </member>
         <member name="M:Cortex.Net.Core.DerivationExtensions.ChangeLowestObserverStateOnObservablesToUpToDate(Cortex.Net.IDerivation)">
             <summary>
             Changes the <see cref="P:Cortex.Net.IObservable.LowestObserverState"/> ona ll <see cref="P:Cortex.Net.IDerivation.Observing"/> to <see cref="F:Cortex.Net.DerivationState.UpToDate"/>
@@ -159,6 +178,11 @@
             Gets the <see cref="T:Cortex.Net.IDerivation"/> instance that the shared state is currently tracking.
             </summary>
         </member>
+        <member name="P:Cortex.Net.Core.SharedState.RunId">
+            <summary>
+            Gets the shared derivation RunId counter.
+            </summary>
+        </member>
         <member name="M:Cortex.Net.Core.SharedState.StartBatch">
             <summary>
             Starts a Batch.
@@ -181,11 +205,37 @@
             </summary>
             <returns>The current derivation to restore later.</returns>
         </member>
-        <member name="M:Cortex.Net.Core.SharedState.EndUntracked(Cortex.Net.IDerivation)">
+        <member name="M:Cortex.Net.Core.SharedState.StartAllowStateReads(System.Boolean)">
             <summary>
-            Ends an untracked part of a derivation by restoring the current derivation.
+            Start of a section where allowedStateReads is modified.
             </summary>
-            <param name="derivation">The derivation to restore.</param>
+            <param name="allowStateReads">Whether to allow State reads.</param>
+            <returns>The previous value.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.SharedState.IncrementRunId">
+            <summary>
+            Increments the RunId and returns the new value.
+            </summary>
+            <returns>The new RunId.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.SharedState.StartTracking(Cortex.Net.IDerivation)">
+            <summary>
+            Starts tracking the <see cref="T:Cortex.Net.IDerivation"/> instance given as paramteter.
+            </summary>
+            <param name="derivation">The derivation to track.</param>
+            <returns>The prevous derivation.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.SharedState.EndTracking(Cortex.Net.IDerivation)">
+            <summary>
+            Ends tracking the current <see cref="T:Cortex.Net.IDerivation"/> instance and restores the previous derivation.
+            </summary>
+            <param name="previousDerivation">The previous derivation.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.SharedState.EndAllowStateReads(System.Boolean)">
+            <summary>
+            End of a section where allowedStateReads is modified.
+            </summary>
+            <param name="previousAllowStateReads">The previous value to restore.</param>
         </member>
         <member name="T:Cortex.Net.CortexConfiguration">
             <summary>
@@ -197,10 +247,19 @@
             Gets a value indicating whether to catch and rethrow exceptions.
             This is useful for inspecting the state of the stack when an exception occurs while debugging.
             </summary>
+            <remarks>
+            Enabling this setting makes it possible for the graph to be left in
+            an inconsistent state. Do not enable this in production.
+            </remarks>
         </member>
         <member name="P:Cortex.Net.CortexConfiguration.ObservableRequiresReaction">
             <summary>
             Gets a value indicating whether to warn if observables are accessed outside a reactive context.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.CortexConfiguration.ReactionRequiresObservable">
+            <summary>
+            Gets a value indicating whether to warn if reactions are required to visit at least one observable.
             </summary>
         </member>
         <member name="T:Cortex.Net.DerivationState">
@@ -288,6 +347,11 @@
             Gets or sets the trace mode of this Derivation.
             </summary>
         </member>
+        <member name="P:Cortex.Net.IDerivation.RequiresObservable">
+            <summary>
+            Gets a value indicating whether to warn if this derivation is required to visit at least one observable.
+            </summary>
+        </member>
         <member name="M:Cortex.Net.IDerivation.OnBecomeStale">
             <summary>
             Method that at least must be implented to trigger event <see cref="E:Cortex.Net.IDerivation.BecomeStale"/>.
@@ -365,12 +429,17 @@
         </member>
         <member name="P:Cortex.Net.ISharedState.AllowStateReads">
             <summary>
-            Gets or sets a value indicating whether it is allowed to read observables at this point.
+            Gets a value indicating whether it is allowed to read observables at this point.
             </summary>
         </member>
         <member name="P:Cortex.Net.ISharedState.TrackingDerivation">
             <summary>
             Gets the <see cref="T:Cortex.Net.IDerivation"/> instance that the shared state is currently tracking.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.RunId">
+            <summary>
+            Gets the shared derivation RunId counter.
             </summary>
         </member>
         <member name="M:Cortex.Net.ISharedState.StartBatch">
@@ -395,11 +464,37 @@
             </summary>
             <returns>The current derivation to restore later.</returns>
         </member>
-        <member name="M:Cortex.Net.ISharedState.EndUntracked(Cortex.Net.IDerivation)">
+        <member name="M:Cortex.Net.ISharedState.StartAllowStateReads(System.Boolean)">
             <summary>
-            Ends an untracked part of a derivation by restoring the current derivation.
+            Start of a section where allowedStateReads is modified.
             </summary>
-            <param name="derivation">The derivation to restore.</param>
+            <param name="allowStateReads">Whether to allow State reads.</param>
+            <returns>The previous value.</returns>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.IncrementRunId">
+            <summary>
+            Increments the RunId and returns the new value.
+            </summary>
+            <returns>The new RunId.</returns>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.StartTracking(Cortex.Net.IDerivation)">
+            <summary>
+            Starts tracking the <see cref="T:Cortex.Net.IDerivation"/> instance given as paramteter.
+            </summary>
+            <param name="derivation">The derivation to track.</param>
+            <returns>The prevous derivation.</returns>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.EndTracking(Cortex.Net.IDerivation)">
+            <summary>
+            Ends tracking the current <see cref="T:Cortex.Net.IDerivation"/> instance and restores the previous derivation.
+            </summary>
+            <param name="previousDerivation">The previous derivation.</param>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.EndAllowStateReads(System.Boolean)">
+            <summary>
+            End of a section where allowedStateReads is modified.
+            </summary>
+            <param name="previousAllowStateReads">The previous value to restore.</param>
         </member>
         <member name="T:Cortex.Net.Properties.Resources">
             <summary>
@@ -422,6 +517,11 @@
               Looks up a localized string similar to The derivation ({0}) was already added to the set of observers of observable ({1}).
             </summary>
         </member>
+        <member name="P:Cortex.Net.Properties.Resources.BindDependenciesExpectsStateNonEqual">
+            <summary>
+              Looks up a localized string similar to BindDependencies expects a DependenciesState != ({0}).
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Properties.Resources.CanOnlyAddTrackedDependencies">
             <summary>
               Looks up a localized string similar to Only tracking IDerivation instances can be added with a DependenciesState != ({0}).
@@ -435,6 +535,11 @@
         <member name="P:Cortex.Net.Properties.Resources.GlobalUnobservationOnlyWithoutObservers">
             <summary>
               Looks up a localized string similar to Global unobservation should only be queued without observers..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.IsNull">
+            <summary>
+              Looks up a localized string similar to ({0}) is null..
             </summary>
         </member>
         <member name="P:Cortex.Net.Properties.Resources.ObserverNotInObservable">

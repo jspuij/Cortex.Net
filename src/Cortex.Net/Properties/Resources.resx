@@ -120,6 +120,9 @@
   <data name="AlreadyAddedObserverToObservable" xml:space="preserve">
     <value>The derivation ({0}) was already added to the set of observers of observable ({1})</value>
   </data>
+  <data name="BindDependenciesExpectsStateNonEqual" xml:space="preserve">
+    <value>BindDependencies expects a DependenciesState != ({0})</value>
+  </data>
   <data name="CanOnlyAddTrackedDependencies" xml:space="preserve">
     <value>Only tracking IDerivation instances can be added with a DependenciesState != ({0})</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="GlobalUnobservationOnlyWithoutObservers" xml:space="preserve">
     <value>Global unobservation should only be queued without observers.</value>
+  </data>
+  <data name="IsNull" xml:space="preserve">
+    <value>({0}) is null.</value>
   </data>
   <data name="ObserverNotInObservable" xml:space="preserve">
     <value>The derivation ({0}) does not exist in the set of observers of observable ({1})</value>

@@ -39,5 +39,10 @@ namespace Cortex.Net
         /// Gets a value indicating whether to warn if observables are accessed outside a reactive context.
         /// </summary>
         public bool ObservableRequiresReaction { get; internal set; }
+
+        /// <summary>
+        /// Gets a value indicating whether to warn if reactions are required to visit at least one observable.
+        /// </summary>
+        public bool ReactionRequiresObservable { get; internal set; }
     }
 }

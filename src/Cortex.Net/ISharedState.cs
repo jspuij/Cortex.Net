@@ -100,5 +100,11 @@ namespace Cortex.Net
         /// </summary>
         /// <param name="previousDerivation">The previous derivation.</param>
         void EndTracking(IDerivation previousDerivation);
+
+        /// <summary>
+        /// End of a section where allowedStateReads is modified.
+        /// </summary>
+        /// <param name="previousAllowStateReads">The previous value to restore.</param>
+        void EndAllowStateReads(bool previousAllowStateReads);
     }
 }

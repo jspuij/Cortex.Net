@@ -70,6 +70,15 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BindDependencies expects a DependenciesState != ({0}).
+        /// </summary>
+        internal static string BindDependenciesExpectsStateNonEqual {
+            get {
+                return ResourceManager.GetString("BindDependenciesExpectsStateNonEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only tracking IDerivation instances can be added with a DependenciesState != ({0}).
         /// </summary>
         internal static string CanOnlyAddTrackedDependencies {
@@ -93,6 +102,15 @@ namespace Cortex.Net.Properties {
         internal static string GlobalUnobservationOnlyWithoutObservers {
             get {
                 return ResourceManager.GetString("GlobalUnobservationOnlyWithoutObservers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ({0}) is null..
+        /// </summary>
+        internal static string IsNull {
+            get {
+                return ResourceManager.GetString("IsNull", resourceCulture);
             }
         }
         

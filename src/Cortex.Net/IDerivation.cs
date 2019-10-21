@@ -56,6 +56,11 @@ namespace Cortex.Net
         TraceMode IsTracing { get; set; }
 
         /// <summary>
+        /// Gets a value indicating whether to warn if this derivation is required to visit at least one observable.
+        /// </summary>
+        bool RequiresObservable { get; }
+
+        /// <summary>
         /// Method that at least must be implented to trigger event <see cref="BecomeStale"/>.
         /// </summary>
         void OnBecomeStale();

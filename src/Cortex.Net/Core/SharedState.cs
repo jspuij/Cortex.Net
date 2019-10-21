@@ -167,9 +167,18 @@ namespace Cortex.Net.Core
         /// Ends tracking the current <see cref="IDerivation"/> instance and restores the previous derivation.
         /// </summary>
         /// <param name="previousDerivation">The previous derivation.</param>
-        void EndTracking(IDerivation previousDerivation)
+        public void EndTracking(IDerivation previousDerivation)
         {
             this.TrackingDerivation = previousDerivation;
+        }
+
+        /// <summary>
+        /// End of a section where allowedStateReads is modified.
+        /// </summary>
+        /// <param name="previousAllowStateReads">The previous value to restore.</param>
+        public void EndAllowStateReads(bool previousAllowStateReads)
+        {
+            this.AllowStateReads = previousAllowStateReads;
         }
     }
 }
