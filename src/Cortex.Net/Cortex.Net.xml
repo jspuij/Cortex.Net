@@ -726,6 +726,11 @@
             Gets the Configuration for the Shared State.
             </summary>
         </member>
+        <member name="P:Cortex.Net.ISharedState.AllowStateChanges">
+            <summary>
+            Gets a value indicating whether it is allowed to change observables at this point.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.ISharedState.AllowStateReads">
             <summary>
             Gets a value indicating whether it is allowed to read observables at this point.
@@ -768,9 +773,16 @@
             </summary>
             <returns>The current derivation to restore later.</returns>
         </member>
+        <member name="M:Cortex.Net.ISharedState.StartAllowStateChanges(System.Boolean)">
+            <summary>
+            Start of a section where <see cref="P:Cortex.Net.ISharedState.AllowStateChanges"/> is modified.
+            </summary>
+            <param name="allowStateChanges">Whether to allow State changes.</param>
+            <returns>The previous value.</returns>
+        </member>
         <member name="M:Cortex.Net.ISharedState.StartAllowStateReads(System.Boolean)">
             <summary>
-            Start of a section where allowedStateReads is modified.
+            Start of a section where <see cref="P:Cortex.Net.ISharedState.AllowStateReads"/> is modified.
             </summary>
             <param name="allowStateReads">Whether to allow State reads.</param>
             <returns>The previous value.</returns>
@@ -796,9 +808,15 @@
         </member>
         <member name="M:Cortex.Net.ISharedState.EndAllowStateReads(System.Boolean)">
             <summary>
-            End of a section where allowedStateReads is modified.
+            End of a section where <see cref="P:Cortex.Net.ISharedState.AllowStateReads"/> is modified.
             </summary>
             <param name="previousAllowStateReads">The previous value to restore.</param>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.EndAllowStateChanges(System.Boolean)">
+            <summary>
+            End of a section where <see cref="P:Cortex.Net.ISharedState.AllowStateChanges"/> is modified.
+            </summary>
+            <param name="previousAllowStateChanges">The previous value to restore.</param>
         </member>
         <member name="M:Cortex.Net.ISharedState.OnSpy(System.Object,Cortex.Net.Spy.SpyEventArgs)">
             <summary>
@@ -931,9 +949,14 @@
             Gets the configuration.
             </summary>
         </member>
+        <member name="P:Cortex.Net.SharedState.AllowStateChanges">
+            <summary>
+            Gets a value indicating whether it is allowed to change observables at this point.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.SharedState.AllowStateReads">
             <summary>
-            Gets or sets a value indicating whether it is allowed to read observables at this point.
+            Gets a value indicating whether it is allowed to read observables at this point.
             </summary>
         </member>
         <member name="P:Cortex.Net.SharedState.TrackingDerivation">
@@ -1020,6 +1043,19 @@
             </summary>
             <param name="sender">The sender of the event.</param>
             <param name="spyEventArgs">The event arguments for the spy event.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.StartAllowStateChanges(System.Boolean)">
+            <summary>
+            Start of a section where <see cref="P:Cortex.Net.SharedState.AllowStateChanges"/> is modified.
+            </summary>
+            <param name="allowStateChanges">Whether to allow State changes.</param>
+            <returns>The previous value.</returns>
+        </member>
+        <member name="M:Cortex.Net.SharedState.EndAllowStateChanges(System.Boolean)">
+            <summary>
+            End of a section where <see cref="P:Cortex.Net.SharedState.AllowStateChanges"/> is modified.
+            </summary>
+            <param name="previousAllowStateChanges">The previous value to restore.</param>
         </member>
         <member name="T:Cortex.Net.Spy.ComputedSpyEventArgs">
             <summary>

@@ -69,9 +69,14 @@ namespace Cortex.Net
         public CortexConfiguration Configuration { get; private set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether it is allowed to read observables at this point.
+        /// Gets a value indicating whether it is allowed to change observables at this point.
         /// </summary>
-        public bool AllowStateReads { get; set; }
+        public bool AllowStateChanges { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether it is allowed to read observables at this point.
+        /// </summary>
+        public bool AllowStateReads { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="IDerivation"/> instance that the shared state is currently tracking.
@@ -236,6 +241,27 @@ namespace Cortex.Net
         public void OnSpy(object sender, SpyEventArgs spyEventArgs)
         {
             this.SpyEvent?.Invoke(sender, spyEventArgs);
+        }
+
+        /// <summary>
+        /// Start of a section where <see cref="AllowStateChanges"/> is modified.
+        /// </summary>
+        /// <param name="allowStateChanges">Whether to allow State changes.</param>
+        /// <returns>The previous value.</returns>
+        public bool StartAllowStateChanges(bool allowStateChanges)
+        {
+            var result = this.AllowStateChanges;
+            this.AllowStateChanges = allowStateChanges;
+            return result;
+        }
+
+        /// <summary>
+        /// End of a section where <see cref="AllowStateChanges"/> is modified.
+        /// </summary>
+        /// <param name="previousAllowStateChanges">The previous value to restore.</param>
+        public void EndAllowStateChanges(bool previousAllowStateChanges)
+        {
+            this.AllowStateChanges = previousAllowStateChanges;
         }
     }
 }

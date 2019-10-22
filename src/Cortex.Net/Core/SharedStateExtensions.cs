@@ -17,8 +17,6 @@
 namespace Cortex.Net.Core
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
 
     /// <summary>
     /// Extensions class for <see cref="ISharedState"/> instances.

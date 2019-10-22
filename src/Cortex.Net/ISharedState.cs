@@ -47,6 +47,11 @@ namespace Cortex.Net
         CortexConfiguration Configuration { get; }
 
         /// <summary>
+        /// Gets a value indicating whether it is allowed to change observables at this point.
+        /// </summary>
+        bool AllowStateChanges { get; }
+
+        /// <summary>
         /// Gets a value indicating whether it is allowed to read observables at this point.
         /// </summary>
         bool AllowStateReads { get; }
@@ -89,7 +94,14 @@ namespace Cortex.Net
         IDerivation StartUntracked();
 
         /// <summary>
-        /// Start of a section where allowedStateReads is modified.
+        /// Start of a section where <see cref="AllowStateChanges"/> is modified.
+        /// </summary>
+        /// <param name="allowStateChanges">Whether to allow State changes.</param>
+        /// <returns>The previous value.</returns>
+        bool StartAllowStateChanges(bool allowStateChanges);
+
+        /// <summary>
+        /// Start of a section where <see cref="AllowStateReads"/> is modified.
         /// </summary>
         /// <param name="allowStateReads">Whether to allow State reads.</param>
         /// <returns>The previous value.</returns>
@@ -115,10 +127,16 @@ namespace Cortex.Net
         void EndTracking(IDerivation previousDerivation);
 
         /// <summary>
-        /// End of a section where allowedStateReads is modified.
+        /// End of a section where <see cref="AllowStateReads"/> is modified.
         /// </summary>
         /// <param name="previousAllowStateReads">The previous value to restore.</param>
         void EndAllowStateReads(bool previousAllowStateReads);
+
+        /// <summary>
+        /// End of a section where <see cref="AllowStateChanges"/> is modified.
+        /// </summary>
+        /// <param name="previousAllowStateChanges">The previous value to restore.</param>
+        void EndAllowStateChanges(bool previousAllowStateChanges);
 
         /// <summary>
         /// Triggers the Spy event handler with the specified event args.
