@@ -26,5 +26,12 @@ namespace Cortex.Net
         /// Gets or sets the underlying value.
         /// </summary>
         T Value { get; set; }
+
+        /// <summary>
+        /// Suspends computation of this computed value when the last observer leaves.
+        /// Computed values are automatically teared down when the last observer leaves.
+        /// This process happens recursively, this computed might be the last observabe of another, etc.
+        /// </summary>
+        void Suspend();
     }
 }

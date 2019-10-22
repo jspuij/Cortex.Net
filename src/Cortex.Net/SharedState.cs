@@ -227,5 +227,15 @@ namespace Cortex.Net
 
             return result;
         }
+
+        /// <summary>
+        /// Triggers the Spy event handler with the specified event args.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="spyEventArgs">The event arguments for the spy event.</param>
+        public void OnSpy(object sender, SpyEventArgs spyEventArgs)
+        {
+            this.SpyEvent?.Invoke(sender, spyEventArgs);
+        }
     }
 }

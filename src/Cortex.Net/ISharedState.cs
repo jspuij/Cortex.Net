@@ -119,5 +119,12 @@ namespace Cortex.Net
         /// </summary>
         /// <param name="previousAllowStateReads">The previous value to restore.</param>
         void EndAllowStateReads(bool previousAllowStateReads);
+
+        /// <summary>
+        /// Triggers the Spy event handler with the specified event args.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="spyEventArgs">The event arguments for the spy event.</param>
+        void OnSpy(object sender, SpyEventArgs spyEventArgs);
     }
 }

@@ -79,6 +79,15 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It is not possible to assign a new value to this computed value ({0}).
+        /// </summary>
+        internal static string CannotAssignComputedValue {
+            get {
+                return ResourceManager.GetString("CannotAssignComputedValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only tracking IDerivation instances can be added with a DependenciesState != ({0}).
         /// </summary>
         internal static string CanOnlyAddTrackedDependencies {
@@ -102,6 +111,15 @@ namespace Cortex.Net.Properties {
         internal static string CycleDetectedInComputation {
             get {
                 return ResourceManager.GetString("CycleDetectedInComputation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The setter of computed value ({0}) is trying to update itself. Did you intend to update an observable value instead of a computed value?.
+        /// </summary>
+        internal static string CycleDetectedInSetter {
+            get {
+                return ResourceManager.GetString("CycleDetectedInSetter", resourceCulture);
             }
         }
         

@@ -123,6 +123,9 @@
   <data name="BindDependenciesExpectsStateNonEqual" xml:space="preserve">
     <value>BindDependencies expects a DependenciesState != ({0})</value>
   </data>
+  <data name="CannotAssignComputedValue" xml:space="preserve">
+    <value>It is not possible to assign a new value to this computed value ({0})</value>
+  </data>
   <data name="CanOnlyAddTrackedDependencies" xml:space="preserve">
     <value>Only tracking IDerivation instances can be added with a DependenciesState != ({0})</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="CycleDetectedInComputation" xml:space="preserve">
     <value>Cycle detected in computation ({0}): {1}</value>
+  </data>
+  <data name="CycleDetectedInSetter" xml:space="preserve">
+    <value>The setter of computed value ({0}) is trying to update itself. Did you intend to update an observable value instead of a computed value?</value>
   </data>
   <data name="GetExpressionNull" xml:space="preserve">
     <value>Get expression is null for ({0}) of type ({1})</value>

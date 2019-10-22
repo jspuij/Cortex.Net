@@ -22,6 +22,7 @@ namespace Cortex.Net.Core
     using System.Globalization;
     using System.Text;
     using Cortex.Net.Properties;
+    using Cortex.Net.Spy;
 
     /// <summary>
     /// A node in the state dependency root that observes other nodes, and can be observed itself.
@@ -33,6 +34,11 @@ namespace Cortex.Net.Core
         /// The derivation function to execute to get the value.
         /// </summary>
         private readonly Func<T> derivation;
+
+        /// <summary>
+        /// The optional setter function which can serve as the inverse function of the computed value.
+        /// </summary>
+        private readonly Action<T> setter;
 
         /// <summary>
         /// The subject of the getter / setter.
@@ -60,9 +66,19 @@ namespace Cortex.Net.Core
         private bool isComputing = false;
 
         /// <summary>
+        /// To check for setter cycles.
+        /// </summary>
+        private bool isRunningSetter = false;
+
+        /// <summary>
         /// The computed value.
         /// </summary>
         private T value;
+
+        /// <summary>
+        /// The last exception after accessing Value.
+        /// </summary>
+        private Exception lastException;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ComputedValue{T}"/> class.
@@ -78,7 +94,7 @@ namespace Cortex.Net.Core
             this.Name = options.Name;
             this.derivation = options.Getter;
 
-            // this.setter = options.Setter;
+            this.setter = options.Setter;
             this.scope = options.Context;
             this.equalityComparer = options.EqualityComparer;
             this.keepAlive = options.KeepAlive;
@@ -213,7 +229,27 @@ namespace Cortex.Net.Core
 
             set
             {
+                if (this.setter != null)
+                {
+                    if (this.isRunningSetter)
+                    {
+                        throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.CycleDetectedInSetter, this.Name));
+                    }
 
+                    this.isRunningSetter = true;
+                    try
+                    {
+                        this.setter(value);
+                    }
+                    finally
+                    {
+                        this.isRunningSetter = false;
+                    }
+                }
+                else
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.CannotAssignComputedValue, this.Name));
+                }
             }
         }
 
@@ -242,33 +278,48 @@ namespace Cortex.Net.Core
             this.PropagateMaybeChanged();
         }
 
+        /// <summary>
+        /// Suspends computation of this computed value when the last observer leaves.
+        /// Computed values are automatically teared down when the last observer leaves.
+        /// This process happens recursively, this computed might be the last observabe of another, etc.
+        /// </summary>
+        public void Suspend()
+        {
+            this.ClearObserving();
+            this.value = default;
+            this.lastException = null;
+        }
+
+        /// <summary>
+        /// Track computed value by calling the getter.
+        /// </summary>
+        /// <returns>Whether the value has changed.</returns>
         private bool TrackAndCompute()
         {
-            this.SpyReport();
-
-                spyReport({
-                    object: this.scope,
-                type: "compute",
-                name: this.name
-                })
-        }
-            const oldValue = this.value
-        const wasSuspended =
-            /* see #1208 */ this.dependenciesState === IDerivationState.NOT_TRACKING
-        const newValue = this.computeValue(true)
-
-        const changed =
-            wasSuspended ||
-            isCaughtException(oldValue) ||
-            isCaughtException(newValue) ||
-            !this.equals(oldValue, newValue)
-
-        if (changed)
+            this.SharedState.OnSpy(this, new ComputedSpyEventArgs()
             {
-                this.value = newValue
-        }
+                Context = this.scope,
+                Name = this.Name,
+            });
 
-            return changed
+            T oldValue = this.value;
+
+            var wasSuspended = this.DependenciesState == DerivationState.NotTracking;
+
+            (T newValue, Exception caughtException) = this.ComputeValue(true);
+
+            var changed = wasSuspended ||
+                this.lastException != null ||
+                caughtException != null ||
+                (this.equalityComparer != null ? !this.equalityComparer.Equals(oldValue, newValue) : !object.Equals(oldValue, newValue));
+
+            if (changed)
+            {
+                this.value = newValue;
+                this.lastException = caughtException;
+            }
+
+            return changed;
         }
 
         /// <summary>
