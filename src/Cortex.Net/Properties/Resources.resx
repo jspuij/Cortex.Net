@@ -126,6 +126,12 @@
   <data name="CanOnlyAddTrackedDependencies" xml:space="preserve">
     <value>Only tracking IDerivation instances can be added with a DependenciesState != ({0})</value>
   </data>
+  <data name="CaughtExceptionDuringGet" xml:space="preserve">
+    <value>Caught an exception during a get operation. Inspect the inner exception for details.</value>
+  </data>
+  <data name="CycleDetectedInComputation" xml:space="preserve">
+    <value>Cycle detected in computation ({0}): {1}</value>
+  </data>
   <data name="GetExpressionNull" xml:space="preserve">
     <value>Get expression is null for ({0}) of type ({1})</value>
   </data>

@@ -88,6 +88,24 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Caught an exception during a get operation. Inspect the inner exception for details..
+        /// </summary>
+        internal static string CaughtExceptionDuringGet {
+            get {
+                return ResourceManager.GetString("CaughtExceptionDuringGet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cycle detected in computation ({0}): {1}.
+        /// </summary>
+        internal static string CycleDetectedInComputation {
+            get {
+                return ResourceManager.GetString("CycleDetectedInComputation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Get expression is null for ({0}) of type ({1}).
         /// </summary>
         internal static string GetExpressionNull {

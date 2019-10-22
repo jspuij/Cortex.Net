@@ -1,4 +1,4 @@
-﻿// <copyright file="CortexConfiguration.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ComputedSpyEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -14,41 +14,25 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Cortex.Net
+namespace Cortex.Net.Spy
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using Cortex.Net.Core;
 
     /// <summary>
-    /// Configuration parameters for an <see cref="ISharedState"/> instance.
+    /// Event argument class for a spy event of a Computed Value.
     /// </summary>
-    public class CortexConfiguration
+    public class ComputedSpyEventArgs : SpyEventArgs
     {
         /// <summary>
-        /// Gets a value indicating whether to catch and rethrow exceptions.
-        /// This is useful for inspecting the state of the stack when an exception occurs while debugging.
+        /// Gets or sets the context of the spy event.
         /// </summary>
-        /// <remarks>
-        /// Enabling this setting makes it possible for the graph to be left in
-        /// an inconsistent state. Do not enable this in production.
-        /// </remarks>
-        public bool DisableErrorBoundaries { get; internal set; }
+        public object Context { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether to warn if observables are accessed outside a reactive context.
+        /// Gets or sets the name of the ComputedValue.
         /// </summary>
-        public bool ObservableRequiresReaction { get; internal set; }
-
-        /// <summary>
-        /// Gets a value indicating whether to warn if reactions are required to visit at least one observable.
-        /// </summary>
-        public bool ReactionRequiresObservable { get; internal set; }
-
-        /// <summary>
-        /// Gets a value indicating whether a <see cref="ComputedValue{T}"/> instance requires a reactive context.
-        /// </summary>
-        public bool ComputedRequiresReaction { get; internal set; }
+        public string Name { get; set; }
     }
 }

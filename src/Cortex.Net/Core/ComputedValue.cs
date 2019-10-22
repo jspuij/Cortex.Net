@@ -26,12 +26,64 @@ namespace Cortex.Net.Core
     /// <summary>
     /// A node in the state dependency root that observes other nodes, and can be observed itself.
     /// </summary>
-    public class ComputedValue : IObservable, IDerivation
+    /// <typeparam name="T">The type of the computed value.</typeparam>
+    public class ComputedValue<T> : IObservable, IDerivation, IComputedValue<T>
     {
+        /// <summary>
+        /// The derivation function to execute to get the value.
+        /// </summary>
+        private readonly Func<T> derivation;
+
+        /// <summary>
+        /// The subject of the getter / setter.
+        /// </summary>
+        private readonly object scope;
+
+        /// <summary>
+        /// The equality comparer that is used.
+        /// </summary>
+        private readonly IEqualityComparer<T> equalityComparer;
+
+        /// <summary>
+        /// A value indicating whether the computed value keeps calculating, even when it is not observed.
+        /// </summary>
+        private readonly bool keepAlive;
+
         /// <summary>
         /// Indicates whether this computedValue requires a reactive context.
         /// </summary>
         private readonly bool requiresReaction;
+
+        /// <summary>
+        /// To check for evaluation cycles.
+        /// </summary>
+        private bool isComputing = false;
+
+        /// <summary>
+        /// The computed value.
+        /// </summary>
+        private T value;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ComputedValue{T}"/> class.
+        /// </summary>
+        /// <param name="options">An <see cref="ComputedValueOptions{T}"/> instance that define the options for this computed value.</param>
+        public ComputedValue(ComputedValueOptions<T> options)
+        {
+            if (options is null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+
+            this.Name = options.Name;
+            this.derivation = options.Getter;
+
+            // this.setter = options.Setter;
+            this.scope = options.Context;
+            this.equalityComparer = options.EqualityComparer;
+            this.keepAlive = options.KeepAlive;
+            this.requiresReaction = options.RequiresReaction;
+        }
 
         /// <summary>
         /// Event that will fire after the <see cref="Atom"/> has become observed.
@@ -114,6 +166,58 @@ namespace Cortex.Net.Core
         public bool RequiresObservable { get; }
 
         /// <summary>
+        /// Gets or sets the underlying value.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown when a cycle in computation is detected or when an inner exception is thrown by one of the referenced observables.</exception>
+        public T Value
+        {
+            get
+            {
+                if (this.isComputing)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.CycleDetectedInComputation, this.Name, this.derivation));
+                }
+
+                Exception caughtException = null;
+                void ShouldComputeAction() => this.derivation();
+
+                if (this.SharedState.InBatch && this.HasObservers() && !this.keepAlive)
+                {
+                    if (this.ShouldCompute(ShouldComputeAction))
+                    {
+                        this.WarnAboutUntrackedRead();
+                        this.SharedState.StartBatch();
+                        (this.value, caughtException) = this.ComputeValue(false);
+                        this.SharedState.EndBatch();
+                    }
+                }
+                else
+                {
+                    this.ReportObserved();
+                    if (this.ShouldCompute(ShouldComputeAction))
+                    {
+                        if (this.TrackAndCompute())
+                        {
+                            this.PropagateChangeConfirmed();
+                        }
+                    }
+                }
+
+                if (caughtException != null)
+                {
+                    throw new InvalidOperationException(Resources.CaughtExceptionDuringGet, caughtException);
+                }
+
+                return this.value;
+            }
+
+            set
+            {
+
+            }
+        }
+
+        /// <summary>
         /// Method that triggers event <see cref="BecomeObserved"/>.
         /// </summary>
         public void OnBecomeObserved()
@@ -131,11 +235,84 @@ namespace Cortex.Net.Core
 
         /// <summary>
         /// Propagates confirmation of a possible change to all observers of
-        /// this <see cref="ComputedValue"/> for delayed computation.
+        /// this <see cref="ComputedValue{T}"/> for delayed computation.
         /// </summary>
         public void OnBecomeStale()
         {
             this.PropagateMaybeChanged();
+        }
+
+        private bool TrackAndCompute()
+        {
+            this.SpyReport();
+
+                spyReport({
+                    object: this.scope,
+                type: "compute",
+                name: this.name
+                })
+        }
+            const oldValue = this.value
+        const wasSuspended =
+            /* see #1208 */ this.dependenciesState === IDerivationState.NOT_TRACKING
+        const newValue = this.computeValue(true)
+
+        const changed =
+            wasSuspended ||
+            isCaughtException(oldValue) ||
+            isCaughtException(newValue) ||
+            !this.equals(oldValue, newValue)
+
+        if (changed)
+            {
+                this.value = newValue
+        }
+
+            return changed
+        }
+
+        /// <summary>
+        /// Computes a value.
+        /// </summary>
+        /// <param name="track">Track this derived function.</param>
+        /// <returns>The value or an exception.</returns>
+        private (T, Exception) ComputeValue(bool track)
+        {
+            this.isComputing = true;
+            this.SharedState.ComputationDepth++;
+
+            T result;
+            Exception caughtException = null;
+
+            if (track)
+            {
+                (result, caughtException) = this.TrackDerivedFunction(this.derivation);
+            }
+            else
+            {
+                if (this.SharedState.Configuration.DisableErrorBoundaries)
+                {
+                    result = this.derivation();
+                }
+                else
+                {
+                    try
+                    {
+                        result = this.derivation();
+                    }
+#pragma warning disable CA1031 // Do not catch general exception types
+                    catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
+                    {
+                        result = default;
+                        caughtException = e;
+                    }
+                }
+            }
+
+            this.SharedState.ComputationDepth--;
+            this.isComputing = false;
+            return (result, caughtException);
         }
 
         /// <summary>

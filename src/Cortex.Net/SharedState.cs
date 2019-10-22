@@ -20,6 +20,7 @@ namespace Cortex.Net
     using System.Collections.Generic;
     using System.Text;
     using Cortex.Net.Core;
+    using Cortex.Net.Spy;
 
     /// <summary>
     /// Holds the Shared state that all nodes of the Dependency Graph share.
@@ -45,6 +46,12 @@ namespace Cortex.Net
         {
             this.Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
+
+        /// <summary>
+        /// Spy event that fires when any observable attached to this Shared State reports a significant change.
+        /// Can be used to implement a state inspection tool or something like react-dev-tools.
+        /// </summary>
+        public event EventHandler<SpyEventArgs> SpyEvent;
 
         /// <summary>
         /// Gets a queue of all pending Unobservations.
@@ -75,6 +82,11 @@ namespace Cortex.Net
         /// Gets the shared derivation RunId counter.
         /// </summary>
         public int RunId { get; private set; } = 0;
+
+        /// <summary>
+        /// Gets or sets the computation depth.
+        /// </summary>
+        public int ComputationDepth { get; set; } = 0;
 
         /// <summary>
         /// Starts a Batch.

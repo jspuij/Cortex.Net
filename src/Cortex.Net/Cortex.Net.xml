@@ -4,6 +4,54 @@
         <name>Cortex.Net</name>
     </assembly>
     <members>
+        <member name="T:Cortex.Net.ComputedValueOptions`1">
+            <summary>
+            Options class for the Constructor of <see cref="T:Cortex.Net.Core.ComputedValue`1"/> class.
+            </summary>
+            <typeparam name="T">The type of the getter / setter.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.ComputedValueOptions`1.#ctor(System.Func{`0},System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.ComputedValueOptions`1"/> class.
+            </summary>
+            <param name="getter">The getter for the computed value.</param>
+            <param name="name">The name of the computed value.</param>
+        </member>
+        <member name="P:Cortex.Net.ComputedValueOptions`1.Getter">
+            <summary>
+            Gets the getter function.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ComputedValueOptions`1.Setter">
+            <summary>
+            Gets or sets setter function.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ComputedValueOptions`1.Name">
+            <summary>
+            Gets or sets the name of the computed value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ComputedValueOptions`1.EqualityComparer">
+            <summary>
+            Gets or sets an optional equality comparer for type <typeparamref name="T"/>.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ComputedValueOptions`1.Context">
+            <summary>
+            Gets or sets the context where the computed value operates on (If Any).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ComputedValueOptions`1.RequiresReaction">
+            <summary>
+            Gets or sets a value indicating whether the <see cref="T:Cortex.Net.Core.ComputedValue`1"/> requires a reactive context.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ComputedValueOptions`1.KeepAlive">
+            <summary>
+            Gets or sets a value indicating whether the computed value keeps calculating, even when it is not observed.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Core.Atom">
             <summary>
             Implements an Atom.
@@ -94,113 +142,163 @@
             </summary>
             <returns>The name of the Atom.</returns>
         </member>
-        <member name="T:Cortex.Net.Core.ComputedValue">
+        <member name="T:Cortex.Net.Core.ComputedValue`1">
             <summary>
             A node in the state dependency root that observes other nodes, and can be observed itself.
             </summary>
+            <typeparam name="T">The type of the computed value.</typeparam>
         </member>
-        <member name="F:Cortex.Net.Core.ComputedValue.requiresReaction">
+        <member name="F:Cortex.Net.Core.ComputedValue`1.derivation">
+            <summary>
+            The derivation function to execute to get the value.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.scope">
+            <summary>
+            The subject of the getter / setter.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.equalityComparer">
+            <summary>
+            The equality comparer that is used.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.keepAlive">
+            <summary>
+            A value indicating whether the computed value keeps calculating, even when it is not observed.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.requiresReaction">
             <summary>
             Indicates whether this computedValue requires a reactive context.
             </summary>
         </member>
-        <member name="E:Cortex.Net.Core.ComputedValue.BecomeObserved">
+        <member name="F:Cortex.Net.Core.ComputedValue`1.isComputing">
+            <summary>
+            To check for evaluation cycles.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.value">
+            <summary>
+            The computed value.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue`1.#ctor(Cortex.Net.ComputedValueOptions{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Core.ComputedValue`1"/> class.
+            </summary>
+            <param name="options">An <see cref="T:Cortex.Net.ComputedValueOptions`1"/> instance that define the options for this computed value.</param>
+        </member>
+        <member name="E:Cortex.Net.Core.ComputedValue`1.BecomeObserved">
             <summary>
             Event that will fire after the <see cref="T:Cortex.Net.Core.Atom"/> has become observed.
             </summary>
         </member>
-        <member name="E:Cortex.Net.Core.ComputedValue.BecomeUnobserved">
+        <member name="E:Cortex.Net.Core.ComputedValue`1.BecomeUnobserved">
             <summary>
             Event that will fire after the observable has become unobserved.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Core.ComputedValue.Observers">
+        <member name="P:Cortex.Net.Core.ComputedValue`1.Observers">
             <summary>
             Gets the Observers.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Core.ComputedValue.IsPendingUnobservation">
+        <member name="P:Cortex.Net.Core.ComputedValue`1.IsPendingUnobservation">
             <summary>
             Gets or sets a value indicating whether this atom is pending Unobservation.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Core.ComputedValue.LastAccessedBy">
+        <member name="P:Cortex.Net.Core.ComputedValue`1.LastAccessedBy">
             <summary>
             Gets or sets the Id of the derivation run that last accessed this observable.
             If this Id equals the <see cref="P:Cortex.Net.IDerivation.RunId"/> of the current derivation
             the dependency is already established.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Core.ComputedValue.IsBeingObserved">
+        <member name="P:Cortex.Net.Core.ComputedValue`1.IsBeingObserved">
             <summary>
             Gets or sets a value indicating whether the observable is being observed.
             An observable is being observed when at least one derivation actually accesses its
             value.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Core.ComputedValue.LowestObserverState">
+        <member name="P:Cortex.Net.Core.ComputedValue`1.LowestObserverState">
             <summary>
             Gets or sets the lowest <see cref="T:Cortex.Net.DerivationState"/> on any of it's observers.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Core.ComputedValue.Name">
+        <member name="P:Cortex.Net.Core.ComputedValue`1.Name">
             <summary>
             Gets the Name of the <see cref="T:Cortex.Net.Core.Atom"/> instance.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Core.ComputedValue.SharedState">
+        <member name="P:Cortex.Net.Core.ComputedValue`1.SharedState">
             <summary>
             Gets the Shared State of all the nodes in the dependency graph.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Core.ComputedValue.DependenciesState">
+        <member name="P:Cortex.Net.Core.ComputedValue`1.DependenciesState">
             <summary>
             Gets or sets the state of the dependencies of this <see cref="T:Cortex.Net.IDerivation"/> instance.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Core.ComputedValue.RunId">
+        <member name="P:Cortex.Net.Core.ComputedValue`1.RunId">
             <summary>
             Gets or sets the id of the current run of a derivation. Each time the derivation is tracked
             this number is increased by one. This number is unique within the current shared state.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Core.ComputedValue.Observing">
+        <member name="P:Cortex.Net.Core.ComputedValue`1.Observing">
             <summary>
             Gets a set of <see cref="T:Cortex.Net.IObservable"/> instances that are currently observed.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Core.ComputedValue.NewObserving">
+        <member name="P:Cortex.Net.Core.ComputedValue`1.NewObserving">
             <summary>
             Gets a set of <see cref="T:Cortex.Net.IObservable"/> instances that have been hit during a new derivation run.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Core.ComputedValue.IsTracing">
+        <member name="P:Cortex.Net.Core.ComputedValue`1.IsTracing">
             <summary>
             Gets or sets the trace mode of this Derivation.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Core.ComputedValue.RequiresObservable">
+        <member name="P:Cortex.Net.Core.ComputedValue`1.RequiresObservable">
             <summary>
             Gets a value indicating whether to warn if this derivation is required to visit at least one observable.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Core.ComputedValue.OnBecomeObserved">
+        <member name="P:Cortex.Net.Core.ComputedValue`1.Value">
             <summary>
-            Method that triggers event <see cref="E:Cortex.Net.Core.ComputedValue.BecomeObserved"/>.
+            Gets or sets the underlying value.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Thrown when a cycle in computation is detected or when an inner exception is thrown by one of the referenced observables.</exception>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue`1.OnBecomeObserved">
+            <summary>
+            Method that triggers event <see cref="E:Cortex.Net.Core.ComputedValue`1.BecomeObserved"/>.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Core.ComputedValue.OnBecomeUnobserved">
+        <member name="M:Cortex.Net.Core.ComputedValue`1.OnBecomeUnobserved">
             <summary>
-            Method that triggers event <see cref="E:Cortex.Net.Core.ComputedValue.BecomeUnobserved"/>.
+            Method that triggers event <see cref="E:Cortex.Net.Core.ComputedValue`1.BecomeUnobserved"/>.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Core.ComputedValue.OnBecomeStale">
+        <member name="M:Cortex.Net.Core.ComputedValue`1.OnBecomeStale">
             <summary>
             Propagates confirmation of a possible change to all observers of
-            this <see cref="T:Cortex.Net.Core.ComputedValue"/> for delayed computation.
+            this <see cref="T:Cortex.Net.Core.ComputedValue`1"/> for delayed computation.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Core.ComputedValue.WarnAboutUntrackedRead">
+        <member name="M:Cortex.Net.Core.ComputedValue`1.ComputeValue(System.Boolean)">
+            <summary>
+            Computes a value.
+            </summary>
+            <param name="track">Track this derived function.</param>
+            <returns>The value or an exception.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue`1.WarnAboutUntrackedRead">
             <summary>
             Warn about an untracked read of this computed value.
             </summary>
@@ -391,7 +489,7 @@
         </member>
         <member name="P:Cortex.Net.CortexConfiguration.ComputedRequiresReaction">
             <summary>
-            Gets a value indicating whether a <see cref="T:Cortex.Net.Core.ComputedValue"/> instance requires a reactive context.
+            Gets a value indicating whether a <see cref="T:Cortex.Net.Core.ComputedValue`1"/> instance requires a reactive context.
             </summary>
         </member>
         <member name="T:Cortex.Net.DerivationState">
@@ -444,6 +542,17 @@
         <member name="M:Cortex.Net.IAtom.ReportChanged">
             <summary>
             Invoke this method after this atom has changed to signal Cortex.Net that all its observers should invalidate.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.IComputedValue`1">
+            <summary>
+            Interface for Computed values.
+            </summary>
+            <typeparam name="T">The type of the computed value.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.IComputedValue`1.Value">
+            <summary>
+            Gets or sets the underlying value.
             </summary>
         </member>
         <member name="T:Cortex.Net.IDependencyNode">
@@ -561,6 +670,12 @@
             Interface that defines the Shared state that all nodes of the Dependency Graph share.
             </summary>
         </member>
+        <member name="E:Cortex.Net.ISharedState.SpyEvent">
+            <summary>
+            Spy event that fires when any observable attached to this Shared State reports a significant change.
+            Can be used to implement a state inspection tool or something like react-dev-tools.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.ISharedState.PendingUnobservations">
             <summary>
             Gets a queue of all pending Unobservations.
@@ -589,6 +704,11 @@
         <member name="P:Cortex.Net.ISharedState.RunId">
             <summary>
             Gets the shared derivation RunId counter.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.ComputationDepth">
+            <summary>
+            Gets or sets the computation depth.
             </summary>
         </member>
         <member name="M:Cortex.Net.ISharedState.StartBatch">
@@ -676,6 +796,16 @@
               Looks up a localized string similar to Only tracking IDerivation instances can be added with a DependenciesState != ({0}).
             </summary>
         </member>
+        <member name="P:Cortex.Net.Properties.Resources.CaughtExceptionDuringGet">
+            <summary>
+              Looks up a localized string similar to Caught an exception during a get operation. Inspect the inner exception for details..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.CycleDetectedInComputation">
+            <summary>
+              Looks up a localized string similar to Cycle detected in computation ({0}): {1}.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Properties.Resources.GetExpressionNull">
             <summary>
               Looks up a localized string similar to Get expression is null for ({0}) of type ({1}).
@@ -728,6 +858,12 @@
             <param name="configuration">The configuration to initialize <see cref="T:Cortex.Net.SharedState"/> instance with.</param>
             <exception cref="T:System.ArgumentNullException">Thrown when any of the arguments is null.</exception>
         </member>
+        <member name="E:Cortex.Net.SharedState.SpyEvent">
+            <summary>
+            Spy event that fires when any observable attached to this Shared State reports a significant change.
+            Can be used to implement a state inspection tool or something like react-dev-tools.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.SharedState.PendingUnobservations">
             <summary>
             Gets a queue of all pending Unobservations.
@@ -756,6 +892,11 @@
         <member name="P:Cortex.Net.SharedState.RunId">
             <summary>
             Gets the shared derivation RunId counter.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.ComputationDepth">
+            <summary>
+            Gets or sets the computation depth.
             </summary>
         </member>
         <member name="M:Cortex.Net.SharedState.StartBatch">
@@ -820,6 +961,11 @@
             <param name="onBecomeObserved">An <see cref="T:System.Action"/> that will be executed when the Atom changes from unobserved to observed.</param>
             <param name="onBecomeUnobserved">An <see cref="T:System.Action"/> that will be executed when the Atom changes from observed to unobserved.</param>
             <returns>A new instance that implements <see cref="T:Cortex.Net.IAtom"/>.</returns>
+        </member>
+        <member name="T:Cortex.Net.Spy.SpyEventArgs">
+            <summary>
+            Base class for Spy Events.
+            </summary>
         </member>
         <member name="T:Cortex.Net.TraceMode">
             <summary>

@@ -19,21 +19,63 @@ namespace Cortex.Net
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Cortex.Net.Core;
 
     /// <summary>
-    /// Options class for the Constructor of ComputedValue.
+    /// Options class for the Constructor of <see cref="ComputedValue{T}"/> class.
     /// </summary>
     /// <typeparam name="T">The type of the getter / setter.</typeparam>
     public class ComputedValueOptions<T>
     {
         /// <summary>
-        /// Gets or sets the getter function.
+        /// Initializes a new instance of the <see cref="ComputedValueOptions{T}"/> class.
         /// </summary>
-        public Func<T> Getter { get; set; }
+        /// <param name="getter">The getter for the computed value.</param>
+        /// <param name="name">The name of the computed value.</param>
+        public ComputedValueOptions(Func<T> getter, string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            this.Getter = getter ?? throw new ArgumentNullException(nameof(getter));
+            this.Name = name;
+        }
+
+        /// <summary>
+        /// Gets the getter function.
+        /// </summary>
+        public Func<T> Getter { get; private set; }
 
         /// <summary>
         /// Gets or sets setter function.
         /// </summary>
         public Action<T> Setter { get; set; } = null;
+
+        /// <summary>
+        /// Gets or sets the name of the computed value.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets an optional equality comparer for type <typeparamref name="T"/>.
+        /// </summary>
+        public IEqualityComparer<T> EqualityComparer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the context where the computed value operates on (If Any).
+        /// </summary>
+        public object Context { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the <see cref="ComputedValue{T}"/> requires a reactive context.
+        /// </summary>
+        public bool RequiresReaction { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the computed value keeps calculating, even when it is not observed.
+        /// </summary>
+        public bool KeepAlive { get; set; } = false;
     }
 }
