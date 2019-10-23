@@ -1236,6 +1236,11 @@
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
+        <member name="P:Cortex.Net.Properties.Resources.ActionNameNull">
+            <summary>
+              Looks up a localized string similar to Actions should have valid names, got nothing, autogenerating name..
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Properties.Resources.AlreadyAddedObserverToObservable">
             <summary>
               Looks up a localized string similar to The derivation ({0}) was already added to the set of observers of observable ({1}).
@@ -1306,7 +1311,15 @@
               Looks up a localized string similar to ({0}) is read outside a reactive context..
             </summary>
         </member>
+        <member name="P:Cortex.Net.Properties.Resources.String1">
+            <summary>
+              Looks up a localized string similar to .
+            </summary>
+        </member>
         <member name="T:Cortex.Net.SharedState">
+            <summary>
+            Holds the Shared state that all nodes of the Dependency Graph share.
+            </summary>
             <summary>
             Holds the Shared state that all nodes of the Dependency Graph share.
             </summary>
@@ -1472,6 +1485,142 @@
             End of a section where <see cref="P:Cortex.Net.SharedState.AllowStateChanges"/> is modified.
             </summary>
             <param name="previousAllowStateChanges">The previous value to restore.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction(System.String,System.Object,System.Action)">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``1(System.String,System.Object,System.Action{``0})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``2(System.String,System.Object,System.Action{``0,``1})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``3(System.String,System.Object,System.Action{``0,``1,``2})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``4(System.String,System.Object,System.Action{``0,``1,``2,``3})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``5(System.String,System.Object,System.Action{``0,``1,``2,``3,``4})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``6(System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``7(System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``8(System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``9(System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``10(System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``11(System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``12(System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``13(System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``14(System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``15(System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAction``16(System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
         <member name="T:Cortex.Net.Spy.ActionSpyEventArgs">
             <summary>

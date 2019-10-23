@@ -61,6 +61,15 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actions should have valid names, got nothing, autogenerating name..
+        /// </summary>
+        internal static string ActionNameNull {
+            get {
+                return ResourceManager.GetString("ActionNameNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The derivation ({0}) was already added to the set of observers of observable ({1}).
         /// </summary>
         internal static string AlreadyAddedObserverToObservable {
@@ -183,6 +192,15 @@ namespace Cortex.Net.Properties {
         internal static string ReadOutsideReaction {
             get {
                 return ResourceManager.GetString("ReadOutsideReaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
     }

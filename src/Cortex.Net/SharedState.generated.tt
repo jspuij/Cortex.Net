@@ -4,7 +4,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
-// <copyright file="ActionExtensions.generated.cs" company="Michel Weststrate, Jan-Willem Spuij">
+// <copyright file="SharedState.generated.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -20,14 +20,17 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Cortex.Net.Core
+namespace Cortex.Net
 {
+    using Cortex.Net.Core;
+    using Cortex.Net.Properties;
     using System;
+    using System.Diagnostics;
 
     /// <summary>
-    /// Extension methods for <see cref="Action"/> delegates.
+    /// Holds the Shared state that all nodes of the Dependency Graph share.
     /// </summary>
-    public static partial class ActionExtensions
+    public sealed partial class SharedState
 	{
 <# for (int i = 0; i < 17; i++) 
 {
@@ -38,38 +41,32 @@ namespace Cortex.Net.Core
 	j = 0;
 	string invokeArgs = string.Join(", ", Enumerable.Repeat("T", i).Select(t => $"arg{++j}"));
 	j = 0;
-	string paramHeaders = string.Join(Environment.NewLine, Enumerable.Repeat("T", i).Select(t => $"        /// <param name=\"arg{++j}\">Argument nr. {j}.</param>"));
-	j = 0;
 	string startActionArgs = i > 0 ? "new object[] {" + string.Join(", ", Enumerable.Repeat("T", i).Select(t => $"arg{++j}")) + "}" : "Array.Empty<object>()";
 
+	string commaInvokeArgs = "";
+
 	if (!string.IsNullOrEmpty(typeArgs)) typeArgs = "<" + typeArgs + ">";
-	if (!string.IsNullOrEmpty(paramArgs)) paramArgs = ", " + paramArgs;
+	if (!string.IsNullOrEmpty(invokeArgs)) commaInvokeArgs = ", " + invokeArgs;
 #>
 	    /// <summary>
-        /// Executes an Action that triggers reaction in all observables in the shared state.
+        /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
-        /// <param name="sharedState">The <see cref="ISharedState"/> instance to use.</param>
         /// <param name="actionName">The name of this action.</param>
         /// <param name="scope">The scope of this action.</param>
         /// <param name="action">The action itself.</param>
-<#=paramHeaders#>
-        internal static void ExecuteAction<#=typeArgs#>(ISharedState sharedState, string actionName, object scope, Action<#=typeArgs#> action<#=paramArgs#>)
+        public Action<#=typeArgs#> CreateAction<#=typeArgs#>(string actionName, object scope, Action<#=typeArgs#> action)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, <#=startActionArgs#>);
+            if (action is null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
 
-            try
+			if (string.IsNullOrEmpty(actionName))
             {
-                action.Invoke(<#=invokeArgs#>);
+                Trace.WriteLine(Resources.ActionNameNull);
             }
-            catch (Exception exception)
-            {
-                actionRunInfo.Exception = exception;
-                throw;
-            }
-            finally
-            {
-                EndAction(actionRunInfo);
-            }
+
+            return new Action<#=typeArgs#>((<#=paramArgs#>) => ActionExtensions.ExecuteAction<#=typeArgs#>(this, actionName, scope, action<#=commaInvokeArgs#>));
         }
 
 <# } #>

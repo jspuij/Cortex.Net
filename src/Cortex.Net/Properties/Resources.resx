@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActionNameNull" xml:space="preserve">
+    <value>Actions should have valid names, got nothing, autogenerating name.</value>
+  </data>
   <data name="AlreadyAddedObserverToObservable" xml:space="preserve">
     <value>The derivation ({0}) was already added to the set of observers of observable ({1})</value>
   </data>
@@ -158,5 +161,8 @@
   </data>
   <data name="ReadOutsideReaction" xml:space="preserve">
     <value>({0}) is read outside a reactive context.</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
   </data>
 </root>

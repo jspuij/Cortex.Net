@@ -25,7 +25,7 @@ namespace Cortex.Net
     /// <summary>
     /// Holds the Shared state that all nodes of the Dependency Graph share.
     /// </summary>
-    public sealed class SharedState : ISharedState
+    public sealed partial class SharedState : ISharedState
     {
         /// <summary>
         /// Batch counter to support reentrance of Start and EndBatch.
