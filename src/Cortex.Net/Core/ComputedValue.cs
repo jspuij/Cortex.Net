@@ -83,9 +83,15 @@ namespace Cortex.Net.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="ComputedValue{T}"/> class.
         /// </summary>
+        /// <param name="sharedState">The shared state this computedValue is connected to.</param>
         /// <param name="options">An <see cref="ComputedValueOptions{T}"/> instance that define the options for this computed value.</param>
-        public ComputedValue(ComputedValueOptions<T> options)
+        public ComputedValue(ISharedState sharedState, ComputedValueOptions<T> options)
         {
+            if (sharedState is null)
+            {
+                throw new ArgumentNullException(nameof(sharedState));
+            }
+
             if (options is null)
             {
                 throw new ArgumentNullException(nameof(options));
@@ -93,8 +99,8 @@ namespace Cortex.Net.Core
 
             this.Name = options.Name;
             this.derivation = options.Getter;
-
-            this.setter = options.Setter;
+            this.SharedState = sharedState;
+            this.setter = sharedState.CreateAction($"{options.Name}-setter", options.Context, options.Setter);
             this.scope = options.Context;
             this.equalityComparer = options.EqualityComparer;
             this.keepAlive = options.KeepAlive;

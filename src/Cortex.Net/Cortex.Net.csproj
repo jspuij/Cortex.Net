@@ -39,10 +39,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="SharedState.generated.cs">
-      <DependentUpon>SharedState.generated.tt</DependentUpon>
+    <Compile Update="Core\SharedStateExtensions.generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DependentUpon>SharedStateExtensions.generated.tt</DependentUpon>
     </Compile>
     <Compile Update="Core\ActionExtensions.generated.cs">
       <DesignTime>True</DesignTime>
@@ -64,8 +64,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="SharedState.generated.tt">
-      <LastGenOutput>SharedState.generated.cs</LastGenOutput>
+    <None Update="Core\SharedStateExtensions.generated.tt">
+      <LastGenOutput>SharedStateExtensions.generated.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Core\ActionExtensions.generated.tt">
