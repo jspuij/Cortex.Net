@@ -18,6 +18,7 @@ namespace Cortex.Net
 {
     using System;
     using System.Collections.Generic;
+    using Cortex.Net.Core;
     using Cortex.Net.Spy;
 
     /// <summary>
@@ -86,6 +87,17 @@ namespace Cortex.Net
         /// Gets or sets the Id of the Next Action.
         /// </summary>
         int NextActionId { get; set; }
+
+        /// <summary>
+        /// Gets a queue of pending reactions.
+        /// </summary>
+        Queue<Reaction> PendingReactions { get; }
+
+        /// <summary>
+        /// Gets a unique Id that is incremented every time.
+        /// </summary>
+        /// <returns>The new unique Id.</returns>
+        int GetUniqueId();
 
         /// <summary>
         /// Starts a Batch.
@@ -160,5 +172,11 @@ namespace Cortex.Net
         /// <param name="sender">The sender of the event.</param>
         /// <param name="spyEventArgs">The event arguments for the spy event.</param>
         void OnSpy(object sender, SpyEventArgs spyEventArgs);
+
+        /// <summary>
+        /// Runs reactions.
+        /// </summary>
+        void RunReactions();
+
     }
 }

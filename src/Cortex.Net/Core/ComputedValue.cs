@@ -159,7 +159,7 @@ namespace Cortex.Net.Core
         /// <summary>
         /// Gets or sets the state of the dependencies of this <see cref="IDerivation"/> instance.
         /// </summary>
-        public DerivationState DependenciesState { get; set; }
+        public DerivationState DependenciesState { get; set; } = DerivationState.NotTracking;
 
         /// <summary>
         /// Gets or sets the id of the current run of a derivation. Each time the derivation is tracked
@@ -170,17 +170,17 @@ namespace Cortex.Net.Core
         /// <summary>
         /// Gets a set of <see cref="IObservable"/> instances that are currently observed.
         /// </summary>
-        public ISet<IObservable> Observing { get; }
+        public ISet<IObservable> Observing { get; } = new HashSet<IObservable>();
 
         /// <summary>
         /// Gets a set of <see cref="IObservable"/> instances that have been hit during a new derivation run.
         /// </summary>
-        public ISet<IObservable> NewObserving { get; }
+        public ISet<IObservable> NewObserving { get; } = new HashSet<IObservable>();
 
         /// <summary>
         /// Gets or sets the trace mode of this Derivation.
         /// </summary>
-        public TraceMode IsTracing { get; set; }
+        public TraceMode IsTracing { get; set; } = TraceMode.None;
 
         /// <summary>
         /// Gets a value indicating whether to warn if this derivation is required to visit at least one observable.

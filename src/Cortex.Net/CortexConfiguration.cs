@@ -50,5 +50,10 @@ namespace Cortex.Net
         /// Gets a value indicating whether a <see cref="ComputedValue{T}"/> instance requires a reactive context.
         /// </summary>
         public bool ComputedRequiresReaction { get; internal set; }
+
+        /// <summary>
+        /// Gets the Maximum number of reaction iterations that is allowed.
+        /// </summary>
+        public int MaxReactionIteractions { get; internal set; } = 100;
     }
 }

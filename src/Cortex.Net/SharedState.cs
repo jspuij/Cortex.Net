@@ -18,8 +18,11 @@ namespace Cortex.Net
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
     using System.Text;
     using Cortex.Net.Core;
+    using Cortex.Net.Properties;
     using Cortex.Net.Spy;
 
     /// <summary>
@@ -108,6 +111,31 @@ namespace Cortex.Net
         /// Gets or sets the Id of the Next Action.
         /// </summary>
         public int NextActionId { get; set; } = 1;
+
+        /// <summary>
+        /// Gets a queue of pending reactions.
+        /// </summary>
+        public Queue<Reaction> PendingReactions { get; } = new Queue<Reaction>();
+
+        /// <summary>
+        /// Gets a value indicating whether this shared state is running reactions.
+        /// </summary>
+        public bool IsRunningReactions { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the Scheduler function. The Scheduler function can call
+        /// it's inner action to run the default reaction algorithm in Cortex.NET.
+        /// </summary>
+        public Action<Action> ReactionScheduler { get; set; }
+
+        /// <summary>
+        /// Gets a unique Id that is incremented every time and identifies unique instances.
+        /// </summary>
+        /// <returns>The new unique Id.</returns>
+        public int GetUniqueId()
+        {
+            return ++this.uniqueId;
+        }
 
         /// <summary>
         /// Starts a Batch.
@@ -231,7 +259,7 @@ namespace Cortex.Net
         {
             if (string.IsNullOrEmpty(name))
             {
-                name = $"Atom@{++this.uniqueId}";
+                name = $"Atom@{this.GetUniqueId()}";
             }
 
             var result = new Atom(this, name);
@@ -278,6 +306,56 @@ namespace Cortex.Net
         public void EndAllowStateChanges(bool previousAllowStateChanges)
         {
             this.AllowStateChanges = previousAllowStateChanges;
+        }
+
+        /// <summary>
+        /// Runs reactions. This implementation will run the default Reaction Scheduler function.
+        /// </summary>
+        public void RunReactions()
+        {
+            // Trampolining, if runReactions are already running, new reactions will be picked up
+            if (this.InBatch || this.IsRunningReactions)
+            {
+                return;
+            }
+
+            this.ReactionScheduler(new Action(this.RunReactionsDefaultAction));
+        }
+
+        /// <summary>
+        /// Default action that is ran when a new iteration of reactions is scheduled.
+        /// </summary>
+        private void RunReactionsDefaultAction()
+        {
+            this.IsRunningReactions = true;
+            var iterations = 0;
+
+            try
+            {
+                // While running reactions, new reactions might be triggered.
+                // Hence we work with two variables and check whether
+                // we converge to no remaining reactions after a while.
+                while (this.PendingReactions.Any())
+                {
+                    if (++iterations == this.Configuration.MaxReactionIteractions)
+                    {
+                        var reaction = this.PendingReactions.Peek();
+                        this.PendingReactions.Clear();
+                        throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.ReactionDoesNotConverge, iterations, reaction.Name));
+                    }
+
+                    var remainingReactions = this.PendingReactions.ToList();
+                    this.PendingReactions.Clear();
+
+                    foreach (var reaction in remainingReactions)
+                    {
+                        reaction.RunReaction();
+                    }
+                }
+            } finally
+            {
+                this.IsRunningReactions = false;
+            }
         }
     }
 }

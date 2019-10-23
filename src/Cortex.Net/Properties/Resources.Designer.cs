@@ -187,20 +187,20 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reaction doesn&apos;t converge to a stable state after ({0}) iterations. Probably there is a cycle in the reactive function: ({1}).
+        /// </summary>
+        internal static string ReactionDoesNotConverge {
+            get {
+                return ResourceManager.GetString("ReactionDoesNotConverge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ({0}) is read outside a reactive context..
         /// </summary>
         internal static string ReadOutsideReaction {
             get {
                 return ResourceManager.GetString("ReadOutsideReaction", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
     }

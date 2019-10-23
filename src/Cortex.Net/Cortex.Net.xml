@@ -845,6 +845,89 @@
             </summary>
             <param name="observable">The observable to report.</param>
         </member>
+        <member name="T:Cortex.Net.Core.Reaction">
+             <summary>
+             A reaction is an <see cref="T:Cortex.Net.IDerivation"/> implementation that always run and does not have observers itself.
+             </summary>
+             <remarks>
+             Reactions are a special kind of derivations. Several things distinguishes them from normal reactive computations:
+            
+             1) They will always run, not like derivations that only run when unobserved. This means that they are very suitable
+                 for triggering side effects like logging, updating the DOM and making network requests.
+             2) They are not observable themselves
+             3) They will always run after any 'normal' derivations
+             4) They are allowed to change the state and thereby triggering themselves again, as long as they make sure the state
+                propagates to a stable state in a reasonable amount of iterations.
+            
+             The state machine of a Reaction is as follows:
+            
+             1) after creating, the reaction should be started by calling `runReaction` or by scheduling it(see also `autorun`)
+             2) the `onInvalidate` handler should somehow result in a call to `this.track(someFunction)`
+             3) all observables accessed in `someFunction` will be observed by this reaction.
+             4) as soon as some of the dependencies has changed the Reaction will be rescheduled for another run (after the
+                current mutation or transaction). `isScheduled` will yield true once a dependency is stale and during this period.
+             5) `onInvalidate` will be called, and we are back at step 1.
+             </remarks>
+        </member>
+        <member name="M:Cortex.Net.Core.Reaction.#ctor(Cortex.Net.ISharedState,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Core.Reaction"/> class.
+            </summary>
+            <param name="sharedState">The shared state to use.</param>
+            <param name="name">The name to use.</param>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.Name">
+            <summary>
+            Gets the Name of the <see cref="T:Cortex.Net.Core.Atom"/> instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.SharedState">
+            <summary>
+            Gets the Shared State of all the nodes in the dependency graph.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.DependenciesState">
+            <summary>
+            Gets or sets the state of the dependencies of this <see cref="T:Cortex.Net.IDerivation"/> instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.RunId">
+            <summary>
+            Gets or sets the id of the current run of a derivation. Each time the derivation is tracked
+            this number is increased by one. This number is unique within the current shared state.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.Observing">
+            <summary>
+            Gets a set of <see cref="T:Cortex.Net.IObservable"/> instances that are currently observed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.NewObserving">
+            <summary>
+            Gets a set of <see cref="T:Cortex.Net.IObservable"/> instances that have been hit during a new derivation run.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.IsTracing">
+            <summary>
+            Gets or sets the trace mode of this Derivation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.RequiresObservable">
+            <summary>
+            Gets a value indicating whether to warn if this derivation is required to visit at least one observable.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Reaction.Dispose">
+            <summary>
+            Disposes the reaction by removing it from the list of reactions.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Reaction.OnBecomeStale">
+            <summary>
+            Propagates confirmation of a possible change to all observers of
+            this <see cref="T:Cortex.Net.Core.Reaction"/> for delayed computation.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Core.SharedStateExtensions">
             <summary>
             Extensions class for <see cref="T:Cortex.Net.ISharedState"/> instances.
@@ -1303,6 +1386,12 @@
             Gets or sets the Id of the Next Action.
             </summary>
         </member>
+        <member name="M:Cortex.Net.ISharedState.GetUniqueId">
+            <summary>
+            Gets a unique Id that is incremented every time.
+            </summary>
+            <returns>The new unique Id.</returns>
+        </member>
         <member name="M:Cortex.Net.ISharedState.StartBatch">
             <summary>
             Starts a Batch.
@@ -1556,6 +1645,12 @@
             <summary>
             Gets or sets the Id of the Next Action.
             </summary>
+        </member>
+        <member name="M:Cortex.Net.SharedState.GetUniqueId">
+            <summary>
+            Gets a unique Id that is incremented every time and identifies unique instances.
+            </summary>
+            <returns>The new unique Id.</returns>
         </member>
         <member name="M:Cortex.Net.SharedState.StartBatch">
             <summary>
