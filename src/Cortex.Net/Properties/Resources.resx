@@ -144,6 +144,9 @@
   <data name="GlobalUnobservationOnlyWithoutObservers" xml:space="preserve">
     <value>Global unobservation should only be queued without observers.</value>
   </data>
+  <data name="InvalidActionStack" xml:space="preserve">
+    <value>Invalid action stack. did you forget to finish an action?</value>
+  </data>
   <data name="IsNull" xml:space="preserve">
     <value>({0}) is null.</value>
   </data>

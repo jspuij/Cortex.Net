@@ -72,6 +72,22 @@ namespace Cortex.Net
         int ComputationDepth { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to suppress reaction errors.
+        /// Suppressing happens when an action is the root cause of reactions to fail further because of the incorrect state.
+        /// </summary>
+        bool SuppressReactionErrors { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Id of the Current Action.
+        /// </summary>
+        int CurrentActionId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Id of the Next Action.
+        /// </summary>
+        int NextActionId { get; set; }
+
+        /// <summary>
         /// Starts a Batch.
         /// </summary>
         /// <remarks>

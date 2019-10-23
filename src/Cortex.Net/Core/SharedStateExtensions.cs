@@ -28,28 +28,61 @@ namespace Cortex.Net.Core
         /// </summary>
         /// <typeparam name="T">The type of the return value of the function.</typeparam>
         /// <param name="sharedState">The <see cref="ISharedState"/> instance to use to temporarily stop tracking derivations.</param>
-        /// <param name="func">The function to execute.</param>
+        /// <param name="function">The function to execute.</param>
         /// <returns>The return value.</returns>
-        public static T Untracked<T>(this ISharedState sharedState, Func<T> func)
+        public static T Untracked<T>(this ISharedState sharedState, Func<T> function)
         {
             if (sharedState is null)
             {
                 throw new ArgumentNullException(nameof(sharedState));
             }
 
-            if (func is null)
+            if (function is null)
             {
-                throw new ArgumentNullException(nameof(func));
+                throw new ArgumentNullException(nameof(function));
             }
 
             var previousDerivation = sharedState.StartUntracked();
             try
             {
-                return func();
+                return function();
             }
             finally
             {
                 sharedState.EndTracking(previousDerivation);
+            }
+        }
+
+        /// <summary>
+        /// Executes a function while specifying <see cref="ISharedState.AllowStateChanges"/>. The previous value of
+        /// <see cref="ISharedState.AllowStateChanges"/> is automatically restored.
+        /// </summary>
+        /// <typeparam name="T">The result type of the function.</typeparam>
+        /// <param name="sharedState">The shared state to operate on.</param>
+        /// <param name="allowStateChanges">The value for AllStateChanges to use while executing the function.</param>
+        /// <param name="function">The function to execute.</param>
+        /// <returns>The return value of the function.</returns>
+        public static T AllowStateChanges<T>(this ISharedState sharedState, bool allowStateChanges, Func<T> function)
+        {
+            if (sharedState is null)
+            {
+                throw new ArgumentNullException(nameof(sharedState));
+            }
+
+            if (function is null)
+            {
+                throw new ArgumentNullException(nameof(function));
+            }
+
+            var previousAllowStateChanges = sharedState.StartAllowStateChanges(allowStateChanges);
+
+            try
+            {
+                return function();
+            }
+            finally
+            {
+                sharedState.EndAllowStateChanges(previousAllowStateChanges);
             }
         }
     }

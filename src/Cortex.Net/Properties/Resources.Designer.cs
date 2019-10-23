@@ -142,6 +142,15 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid action stack. did you forget to finish an action?.
+        /// </summary>
+        internal static string InvalidActionStack {
+            get {
+                return ResourceManager.GetString("InvalidActionStack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ({0}) is null..
         /// </summary>
         internal static string IsNull {
