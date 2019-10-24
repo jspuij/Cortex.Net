@@ -19,6 +19,7 @@ namespace Cortex.Net.Core
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Cortex.Net.Spy;
 
     /// <summary>
     /// A reaction is an <see cref="IDerivation"/> implementation that always run and does not have observers itself.
@@ -45,6 +46,11 @@ namespace Cortex.Net.Core
     public sealed class Reaction : IDerivation, IDisposable
     {
         /// <summary>
+        /// Handler that is executed when this reaction is invalidated.
+        /// </summary>
+        private readonly Action onInvalidate;
+
+        /// <summary>
         /// Indicates whether this reaction is scheduled.
         /// </summary>
         private bool isScheduled;
@@ -53,6 +59,10 @@ namespace Cortex.Net.Core
         /// Indicates whether this reaction is disposed.
         /// </summary>
         private bool isDisposed;
+
+        /// <summary>
+        /// Indicates whether tracking is pending.
+        /// </summary>
         private bool isTrackPending;
 
         /// <summary>
@@ -60,9 +70,11 @@ namespace Cortex.Net.Core
         /// </summary>
         /// <param name="sharedState">The shared state to use.</param>
         /// <param name="name">The name to use.</param>
-        public Reaction(ISharedState sharedState, string name)
+        /// <param name="onInvalidate">Handler to run when this reaction is invalidated. This handler should call <see cref="Track"/>.</param>
+        public Reaction(ISharedState sharedState, string name, Action onInvalidate)
         {
             this.SharedState = sharedState ?? throw new ArgumentNullException(nameof(sharedState));
+            this.onInvalidate = onInvalidate ?? throw new ArgumentNullException(nameof(onInvalidate));
             this.Name = !string.IsNullOrEmpty(name) ? name : $"{this.SharedState.GetUniqueId()}";
         }
 
@@ -124,15 +136,6 @@ namespace Cortex.Net.Core
             this.Schedule();
         }
 
-        private void Schedule()
-        {
-            if (!this.isScheduled)
-            {
-                this.isScheduled = true;
-                this.SharedState.PendingReactions.Enqueue(this);
-            }
-        }
-
         /// <summary>
         /// Runs this single reaction.
         /// </summary>
@@ -152,26 +155,38 @@ namespace Cortex.Net.Core
 
                 try
                 {
-                    this.OnInvalidate()
-                    if (
-                        this._isTrackPending &&
-                        isSpyEnabled() &&
-                        process.env.NODE_ENV !== "production"
-                    )
+                    this.onInvalidate();
+                    if (this.isTrackPending)
                     {
-                        // onInvalidate didn't trigger track right away..
-                        spyReport({
-                        name: this.name,
-                            type: "scheduled-reaction"
-                        })
+                        this.SharedState.OnSpy(this, new ReactionScheduledSpyEventArgs()
+                        {
+                            Name = this.Name,
+                        });
                     }
                 }
-                catch (e)
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch (Exception exception)
+#pragma warning restore CA1031 // Do not catch general exception types
                 {
-                    this.reportExceptionInDerivation(e)
+                    this.ReportExceptionInDerivation(exception);
                 }
             }
+
             this.SharedState.EndBatch();
+        }
+
+        private void Schedule()
+        {
+            if (!this.isScheduled)
+            {
+                this.isScheduled = true;
+                this.SharedState.PendingReactions.Enqueue(this);
+            }
+        }
+
+        private void ReportExceptionInDerivation(Exception exception)
+        {
+            throw new NotImplementedException();
         }
     }
 }

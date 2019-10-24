@@ -869,12 +869,33 @@
              5) `onInvalidate` will be called, and we are back at step 1.
              </remarks>
         </member>
-        <member name="M:Cortex.Net.Core.Reaction.#ctor(Cortex.Net.ISharedState,System.String)">
+        <member name="F:Cortex.Net.Core.Reaction.onInvalidate">
+            <summary>
+            Handler that is executed when this reaction is invalidated.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.Reaction.isScheduled">
+            <summary>
+            Indicates whether this reaction is scheduled.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.Reaction.isDisposed">
+            <summary>
+            Indicates whether this reaction is disposed.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.Reaction.isTrackPending">
+            <summary>
+            Indicates whether tracking is pending.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Reaction.#ctor(Cortex.Net.ISharedState,System.String,System.Action)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Core.Reaction"/> class.
             </summary>
             <param name="sharedState">The shared state to use.</param>
             <param name="name">The name to use.</param>
+            <param name="onInvalidate">Handler to run when this reaction is invalidated. This handler should call <see cref="!:Track"/>.</param>
         </member>
         <member name="P:Cortex.Net.Core.Reaction.Name">
             <summary>
@@ -926,6 +947,11 @@
             <summary>
             Propagates confirmation of a possible change to all observers of
             this <see cref="T:Cortex.Net.Core.Reaction"/> for delayed computation.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Reaction.RunReaction">
+            <summary>
+            Runs this single reaction.
             </summary>
         </member>
         <member name="T:Cortex.Net.Core.SharedStateExtensions">
@@ -1137,6 +1163,11 @@
         <member name="P:Cortex.Net.CortexConfiguration.ComputedRequiresReaction">
             <summary>
             Gets a value indicating whether a <see cref="T:Cortex.Net.Core.ComputedValue`1"/> instance requires a reactive context.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.CortexConfiguration.MaxReactionIteractions">
+            <summary>
+            Gets the Maximum number of reaction iterations that is allowed.
             </summary>
         </member>
         <member name="T:Cortex.Net.DerivationState">
@@ -1386,6 +1417,11 @@
             Gets or sets the Id of the Next Action.
             </summary>
         </member>
+        <member name="P:Cortex.Net.ISharedState.PendingReactions">
+            <summary>
+            Gets a queue of pending reactions.
+            </summary>
+        </member>
         <member name="M:Cortex.Net.ISharedState.GetUniqueId">
             <summary>
             Gets a unique Id that is incremented every time.
@@ -1465,6 +1501,11 @@
             </summary>
             <param name="sender">The sender of the event.</param>
             <param name="spyEventArgs">The event arguments for the spy event.</param>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.RunReactions">
+            <summary>
+            Runs reactions.
+            </summary>
         </member>
         <member name="T:Cortex.Net.Properties.Resources">
             <summary>
@@ -1552,14 +1593,14 @@
               Looks up a localized string similar to ({0}) should only be called when the shared state is in batch mode..
             </summary>
         </member>
+        <member name="P:Cortex.Net.Properties.Resources.ReactionDoesNotConverge">
+            <summary>
+              Looks up a localized string similar to Reaction doesn&apos;t converge to a stable state after ({0}) iterations. Probably there is a cycle in the reactive function: ({1}).
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Properties.Resources.ReadOutsideReaction">
             <summary>
               Looks up a localized string similar to ({0}) is read outside a reactive context..
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Properties.Resources.String1">
-            <summary>
-              Looks up a localized string similar to .
             </summary>
         </member>
         <member name="T:Cortex.Net.SharedState">
@@ -1644,6 +1685,22 @@
         <member name="P:Cortex.Net.SharedState.NextActionId">
             <summary>
             Gets or sets the Id of the Next Action.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.PendingReactions">
+            <summary>
+            Gets a queue of pending reactions.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.IsRunningReactions">
+            <summary>
+            Gets a value indicating whether this shared state is running reactions.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.ReactionScheduler">
+            <summary>
+            Gets or sets the Scheduler function. The Scheduler function can call
+            it's inner action to run the default reaction algorithm in Cortex.NET.
             </summary>
         </member>
         <member name="M:Cortex.Net.SharedState.GetUniqueId">
@@ -1735,6 +1792,16 @@
             </summary>
             <param name="previousAllowStateChanges">The previous value to restore.</param>
         </member>
+        <member name="M:Cortex.Net.SharedState.RunReactions">
+            <summary>
+            Runs reactions. This implementation will run the default Reaction Scheduler function.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.SharedState.RunReactionsDefaultAction">
+            <summary>
+            Default action that is ran when a new iteration of reactions is scheduled.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Spy.ActionSpyEventArgs">
             <summary>
             Event arguments for an Action spy event.
@@ -1778,6 +1845,21 @@
         <member name="P:Cortex.Net.Spy.ComputedSpyEventArgs.Name">
             <summary>
             Gets or sets the name of the ComputedValue.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ReactionScheduledSpyEventArgs">
+            <summary>
+            Event arguments for spy when a reaction is scheduled.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ReactionSpyEventArgs">
+            <summary>
+            Event arguments for spy when something inside a Reaction happens.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ReactionSpyEventArgs.Name">
+            <summary>
+            Gets or sets the name of the Reaction.
             </summary>
         </member>
         <member name="T:Cortex.Net.Spy.SpyEventArgs">
