@@ -156,34 +156,29 @@ namespace Cortex.Net
         /// </remarks>
         public void EndBatch()
         {
-            // TODO: Implement EndBatch method.
+            if (--this.batchCount == 0)
+            {
+                this.RunReactions();
 
-            /*
-            if (--globalState.inBatch === 0) {
-                runReactions()
                 // the batch is actually about to finish, all unobserving should happen here.
-                const list = globalState.pendingUnobservations
-                for (let i = 0; i < list.length; i++) {
-                    const observable = list[i]
-                    observable.isPendingUnobservation = false
-                    if (observable.observers.size === 0) {
-                        if (observable.isBeingObserved) {
-                            // if this observable had reactive observers, trigger the hooks
-                            observable.isBeingObserved = false
-                            observable.onBecomeUnobserved()
+                foreach (var observable in this.PendingUnobservations)
+                {
+                    observable.IsPendingUnobservation = false;
+                    if (observable.HasObservers())
+                    {
+                        if (observable.IsBeingObserved)
+                        {
+                            observable.IsBeingObserved = false;
+                            observable.OnBecomeUnobserved();
                         }
-                        if (observable instanceof ComputedValue) {
-                            // computed values are automatically teared down when the last observer leaves
-                            // this process happens recursively, this computed might be the last observabe of another, etc..
-                            observable.suspend()
+
+                        if (observable is IComputedValue<object> computedValue)
+                        {
+                            computedValue.Suspend();
                         }
                     }
                 }
-                globalState.pendingUnobservations = []
             }
-            */
-
-            throw new NotImplementedException();
         }
 
         /// <summary>

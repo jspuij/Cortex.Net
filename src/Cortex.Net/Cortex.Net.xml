@@ -954,6 +954,12 @@
             this <see cref="T:Cortex.Net.Core.Reaction"/> for delayed computation.
             </summary>
         </member>
+        <member name="M:Cortex.Net.Core.Reaction.Track(System.Action)">
+            <summary>
+            Tracks this reaction using the specified action.
+            </summary>
+            <param name="action">The action to use to track.</param>
+        </member>
         <member name="M:Cortex.Net.Core.Reaction.RunReaction">
             <summary>
             Runs this single reaction.

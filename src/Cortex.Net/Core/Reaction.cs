@@ -248,6 +248,7 @@ namespace Cortex.Net.Core
             {
                 this.isScheduled = true;
                 this.SharedState.PendingReactions.Enqueue(this);
+                this.SharedState.RunReactions();
             }
         }
 
