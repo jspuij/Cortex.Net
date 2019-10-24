@@ -25,7 +25,6 @@ namespace Cortex.Net.Spy
     /// </summary>
     public abstract class SpyEventArgs : EventArgs
     {
-
         /// <summary>
         /// Gets or sets the name of the object.
         /// </summary>

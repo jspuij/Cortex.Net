@@ -1827,21 +1827,6 @@
             Gets or sets the Id of the Action.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ActionSpyEventArgs.Arguments">
-            <summary>
-            Gets or sets the arguments of the invocation.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Spy.ActionSpyEventArgs.Context">
-            <summary>
-            Gets or sets the context of the invocation.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Spy.ActionSpyEventArgs.Duration">
-            <summary>
-            Gets or sets the duration of the action.
-            </summary>
-        </member>
         <member name="T:Cortex.Net.Spy.ActionStartSpyEventArgs">
             <summary>
             Event arguments for a start Action spy event.

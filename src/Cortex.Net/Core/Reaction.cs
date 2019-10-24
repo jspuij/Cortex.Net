@@ -151,6 +151,10 @@ namespace Cortex.Net.Core
             this.Schedule();
         }
 
+        /// <summary>
+        /// Tracks this reaction using the specified action.
+        /// </summary>
+        /// <param name="action">The action to use to track.</param>
         public void Track(Action action)
         {
             if (this.isDisposed)

@@ -29,20 +29,5 @@ namespace Cortex.Net.Spy
         /// Gets or sets the Id of the Action.
         /// </summary>
         public int ActionId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the arguments of the invocation.
-        /// </summary>
-        public IEnumerable<object> Arguments { get; set; }
-
-        /// <summary>
-        /// Gets or sets the context of the invocation.
-        /// </summary>
-        public object Context { get; set; }
-
-        /// <summary>
-        /// Gets or sets the duration of the action.
-        /// </summary>
-        public TimeSpan Duration { get; set; }
     }
 }
