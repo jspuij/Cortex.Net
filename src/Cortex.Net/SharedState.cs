@@ -352,7 +352,8 @@ namespace Cortex.Net
                         reaction.RunReaction();
                     }
                 }
-            } finally
+            }
+            finally
             {
                 this.IsRunningReactions = false;
             }

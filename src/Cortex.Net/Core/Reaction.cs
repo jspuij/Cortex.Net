@@ -66,6 +66,11 @@ namespace Cortex.Net.Core
         private bool isTrackPending;
 
         /// <summary>
+        /// Indicaes whether tracking is running.
+        /// </summary>
+        private bool isRunning;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Reaction"/> class.
         /// </summary>
         /// <param name="sharedState">The shared state to use.</param>
@@ -120,11 +125,21 @@ namespace Cortex.Net.Core
         public bool RequiresObservable { get; }
 
         /// <summary>
-        /// Disposes the reaction by removing it from the list of reactions.
+        /// Disposes the reaction by clearing the observables it is observing.
         /// </summary>
         public void Dispose()
         {
-            throw new NotImplementedException();
+            if (!this.isDisposed)
+            {
+                this.isDisposed = true;
+                if (!this.isRunning)
+                    {
+                    // if disposed while running, clean up later. Maybe not optimal, but rare case
+                    this.SharedState.StartBatch();
+                    this.ClearObserving();
+                    this.SharedState.EndBatch();
+                }
+            }
         }
 
         /// <summary>
@@ -134,6 +149,54 @@ namespace Cortex.Net.Core
         public void OnBecomeStale()
         {
             this.Schedule();
+        }
+
+        public void Track(Action action)
+        {
+            if (this.isDisposed)
+            {
+                return;
+            }
+
+            this.SharedState.StartBatch();
+
+            this.SharedState.OnSpy(this, new ReactionStartSpyEventArgs()
+            {
+                Name = this.Name,
+                StartTime = DateTime.UtcNow,
+            });
+
+            this.isRunning = true;
+
+            object result = null;
+            Exception exception = null;
+
+            (result, exception) = this.TrackDerivedFunction(() =>
+            {
+                action();
+                return result;
+            });
+
+            this.isRunning = false;
+            this.isTrackPending = false;
+            if (this.isDisposed)
+            {
+                // disposed during last run. Clean up everything that was bound after the dispose call.
+                this.ClearObserving();
+            }
+
+            if (exception != null)
+            {
+                this.ReportExceptionInDerivation(exception);
+            }
+
+            this.SharedState.OnSpy(this, new ReactionEndSpyEventArgs()
+            {
+                Name = this.Name,
+                EndTime = DateTime.UtcNow,
+            });
+
+            this.SharedState.EndBatch();
         }
 
         /// <summary>
@@ -186,7 +249,32 @@ namespace Cortex.Net.Core
 
         private void ReportExceptionInDerivation(Exception exception)
         {
-            throw new NotImplementedException();
+            // TODO: Create decent error handling because this will not work in .NET
+//            if (this.ErrorHandler)
+//            {
+//                this.ErrorHandler(this, exception);
+//                return;
+//            }
+//            if (this.SharedState.Configuration.DisableErrorBoundaries)
+//            {
+//                throw exception;
+//            }
+//        const message = `[mobx] Encountered an uncaught exception that was thrown by a reaction or observer component, in: '${this}'`
+//        if (globalState.suppressReactionErrors) {
+//            console.warn(`[mobx] (error in reaction '${this.name}' suppressed, fix error of causing action below)`) // prettier-ignore
+//        } else {
+//            console.error(message, error)
+//    /** If debugging brought you here, please, read the above message :-). Tnx! */
+//          }
+//        if (isSpyEnabled()) {
+//            spyReport({
+//               type: "error",
+//                name: this.name,
+//                message,
+//                error: "" + error
+//            })
+//        }
+//        globalState.globalReactionErrorHandlers.forEach(f => f(error, this))
         }
     }
 }

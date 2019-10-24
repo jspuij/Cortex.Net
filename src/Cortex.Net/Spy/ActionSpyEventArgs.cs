@@ -23,17 +23,12 @@ namespace Cortex.Net.Spy
     /// <summary>
     /// Event arguments for an Action spy event.
     /// </summary>
-    public class ActionSpyEventArgs : SpyEventArgs
+    public abstract class ActionSpyEventArgs : SpyEventArgs
     {
         /// <summary>
         /// Gets or sets the Id of the Action.
         /// </summary>
         public int ActionId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the Action.
-        /// </summary>
-        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the arguments of the invocation.

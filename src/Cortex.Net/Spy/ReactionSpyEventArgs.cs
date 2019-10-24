@@ -23,11 +23,7 @@ namespace Cortex.Net.Spy
     /// <summary>
     /// Event arguments for spy when something inside a Reaction happens.
     /// </summary>
-    public class ReactionSpyEventArgs : SpyEventArgs
+    public abstract class ReactionSpyEventArgs : SpyEventArgs
     {
-        /// <summary>
-        /// Gets or sets the name of the Reaction.
-        /// </summary>
-        public string Name { get; set; }
     }
 }

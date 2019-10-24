@@ -23,7 +23,12 @@ namespace Cortex.Net.Spy
     /// <summary>
     /// Base class for Spy Events.
     /// </summary>
-    public class SpyEventArgs : EventArgs
+    public abstract class SpyEventArgs : EventArgs
     {
+
+        /// <summary>
+        /// Gets or sets the name of the object.
+        /// </summary>
+        public string Name { get; set; }
     }
 }

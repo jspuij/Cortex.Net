@@ -889,13 +889,18 @@
             Indicates whether tracking is pending.
             </summary>
         </member>
+        <member name="F:Cortex.Net.Core.Reaction.isRunning">
+            <summary>
+            Indicaes whether tracking is running.
+            </summary>
+        </member>
         <member name="M:Cortex.Net.Core.Reaction.#ctor(Cortex.Net.ISharedState,System.String,System.Action)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Core.Reaction"/> class.
             </summary>
             <param name="sharedState">The shared state to use.</param>
             <param name="name">The name to use.</param>
-            <param name="onInvalidate">Handler to run when this reaction is invalidated. This handler should call <see cref="!:Track"/>.</param>
+            <param name="onInvalidate">Handler to run when this reaction is invalidated. This handler should call <see cref="M:Cortex.Net.Core.Reaction.Track(System.Action)"/>.</param>
         </member>
         <member name="P:Cortex.Net.Core.Reaction.Name">
             <summary>
@@ -940,7 +945,7 @@
         </member>
         <member name="M:Cortex.Net.Core.Reaction.Dispose">
             <summary>
-            Disposes the reaction by removing it from the list of reactions.
+            Disposes the reaction by clearing the observables it is observing.
             </summary>
         </member>
         <member name="M:Cortex.Net.Core.Reaction.OnBecomeStale">
@@ -1802,6 +1807,16 @@
             Default action that is ran when a new iteration of reactions is scheduled.
             </summary>
         </member>
+        <member name="T:Cortex.Net.Spy.ActionEndSpyEventArgs">
+            <summary>
+            Event arguments for an end Action spy event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ActionEndSpyEventArgs.EndTime">
+            <summary>
+            Gets or sets the end Time of the action.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Spy.ActionSpyEventArgs">
             <summary>
             Event arguments for an Action spy event.
@@ -1810,11 +1825,6 @@
         <member name="P:Cortex.Net.Spy.ActionSpyEventArgs.ActionId">
             <summary>
             Gets or sets the Id of the Action.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Spy.ActionSpyEventArgs.Name">
-            <summary>
-            Gets or sets the name of the Action.
             </summary>
         </member>
         <member name="P:Cortex.Net.Spy.ActionSpyEventArgs.Arguments">
@@ -1832,6 +1842,26 @@
             Gets or sets the duration of the action.
             </summary>
         </member>
+        <member name="T:Cortex.Net.Spy.ActionStartSpyEventArgs">
+            <summary>
+            Event arguments for a start Action spy event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ActionStartSpyEventArgs.Arguments">
+            <summary>
+            Gets or sets the arguments of the invocation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ActionStartSpyEventArgs.Context">
+            <summary>
+            Gets or sets the context of the invocation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ActionStartSpyEventArgs.StartTime">
+            <summary>
+            Gets or sets the start Time of the action.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Spy.ComputedSpyEventArgs">
             <summary>
             Event argument class for a spy event of a Computed Value.
@@ -1842,9 +1872,14 @@
             Gets or sets the context of the spy event.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ComputedSpyEventArgs.Name">
+        <member name="T:Cortex.Net.Spy.ReactionEndSpyEventArgs">
             <summary>
-            Gets or sets the name of the ComputedValue.
+            Event arguments for the start of tracking of a <see cref="T:Cortex.Net.Core.Reaction"/>.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ReactionEndSpyEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
             </summary>
         </member>
         <member name="T:Cortex.Net.Spy.ReactionScheduledSpyEventArgs">
@@ -1857,14 +1892,24 @@
             Event arguments for spy when something inside a Reaction happens.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ReactionSpyEventArgs.Name">
+        <member name="T:Cortex.Net.Spy.ReactionStartSpyEventArgs">
             <summary>
-            Gets or sets the name of the Reaction.
+            Event arguments for the start of tracking of a <see cref="T:Cortex.Net.Core.Reaction"/>.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ReactionStartSpyEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
             </summary>
         </member>
         <member name="T:Cortex.Net.Spy.SpyEventArgs">
             <summary>
             Base class for Spy Events.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.SpyEventArgs.Name">
+            <summary>
+            Gets or sets the name of the object.
             </summary>
         </member>
         <member name="T:Cortex.Net.TraceMode">

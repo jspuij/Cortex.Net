@@ -177,6 +177,5 @@ namespace Cortex.Net
         /// Runs reactions.
         /// </summary>
         void RunReactions();
-
     }
 }

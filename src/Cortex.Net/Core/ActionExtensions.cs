@@ -56,12 +56,13 @@ namespace Cortex.Net.Core
 
             if (notifySpy)
             {
-                sharedState.OnSpy(actionRunInfo, new ActionSpyEventArgs()
+                sharedState.OnSpy(actionRunInfo, new ActionStartSpyEventArgs()
                 {
                     Name = actionRunInfo.Name,
                     ActionId = actionRunInfo.ActionId,
                     Context = scope,
                     Arguments = arguments,
+                    StartTime = actionRunInfo.StartDateTime,
                 });
             }
 
@@ -94,11 +95,11 @@ namespace Cortex.Net.Core
 
             if (actionRunInfo.NotifySpy)
             {
-                actionRunInfo.SharedState.OnSpy(actionRunInfo, new ActionSpyEventArgs()
+                actionRunInfo.SharedState.OnSpy(actionRunInfo, new ActionEndSpyEventArgs()
                 {
                     ActionId = actionRunInfo.ActionId,
                     Name = actionRunInfo.Name,
-                    Duration = DateTime.UtcNow - actionRunInfo.StartDateTime,
+                    EndTime = DateTime.UtcNow,
                 });
             }
 

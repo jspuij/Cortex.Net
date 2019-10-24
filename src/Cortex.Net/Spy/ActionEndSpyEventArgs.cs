@@ -1,4 +1,4 @@
-﻿// <copyright file="ComputedSpyEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ActionStartSpyEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -21,13 +21,13 @@ namespace Cortex.Net.Spy
     using System.Text;
 
     /// <summary>
-    /// Event argument class for a spy event of a Computed Value.
+    /// Event arguments for an end Action spy event.
     /// </summary>
-    public class ComputedSpyEventArgs : SpyEventArgs
+    public class ActionEndSpyEventArgs : ActionSpyEventArgs
     {
         /// <summary>
-        /// Gets or sets the context of the spy event.
+        /// Gets or sets the end Time of the action.
         /// </summary>
-        public object Context { get; set; }
+        public DateTime EndTime { get; set; }
     }
 }
