@@ -16,6 +16,7 @@
 
 namespace Cortex.Net.Test
 {
+    using Cortex.Net.Core;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -26,6 +27,8 @@ namespace Cortex.Net.Test
     /// </summary>
     public class IDependencyNodeTests
     {
+        private static readonly SharedState SharedState = new SharedState(new CortexConfiguration());
+
         /// <summary>
         /// Gets the implementations of IDependencyNode.
         /// </summary>
@@ -33,7 +36,12 @@ namespace Cortex.Net.Test
         {
             get
             {
-                return Array.Empty<object[]>();
+                return new object[][]
+                {
+                    new object[] { new Atom(SharedState, "test") },
+                    new object[] { new ComputedValue<int>(SharedState, new ComputedValueOptions<int>(() => 3, "test")) },
+                    new object[] { new Reaction(SharedState, "test", () => { }) },
+                };
             }
         }
 
@@ -51,6 +59,23 @@ namespace Cortex.Net.Test
             }
 
             Assert.NotNull(node.Name);
+        }
+
+        /// <summary>
+        /// Tests whether the Shared State is not null and equals central SharedState.
+        /// </summary>
+        /// <param name="node">The node to test.</param>
+        [Theory]
+        [MemberData(nameof(Implementations))]
+        public void SharedStateTest(IDependencyNode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            Assert.NotNull(node.SharedState);
+            Assert.Equal(node.SharedState, SharedState);
         }
     }
 }

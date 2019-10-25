@@ -100,7 +100,12 @@ namespace Cortex.Net.Core
             this.Name = options.Name;
             this.derivation = options.Getter;
             this.SharedState = sharedState;
-            this.setter = sharedState.CreateAction($"{options.Name}-setter", options.Context, options.Setter);
+
+            if (options.Setter != null)
+            {
+                this.setter = sharedState.CreateAction($"{options.Name}-setter", options.Context, options.Setter);
+            }
+
             this.scope = options.Context;
             this.equalityComparer = options.EqualityComparer;
             this.keepAlive = options.KeepAlive;

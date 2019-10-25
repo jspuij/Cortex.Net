@@ -4,6 +4,42 @@
         <name>Cortex.Net</name>
     </assembly>
     <members>
+        <member name="T:Cortex.Net.AutorunOptions">
+            <summary>
+            Specifies the options for an Autorun instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.AutorunOptions.Delay">
+            <summary>
+            Gets or sets the delay.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.AutorunOptions.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.AutorunOptions.RequiresObservable">
+            <summary>
+            Gets or sets a value indicating whether observables are required in the view function.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.AutorunOptions.Scheduler">
+            <summary>
+            Gets or sets the scheduler function to use. The function is async
+            so that other code can be executed in the mean time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.AutorunOptions.ErrorHandler">
+            <summary>
+            Gets or sets error handler function that is called in case of an error. Otherwise the error is propagated.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.AutorunOptions.Context">
+            <summary>
+            Gets or sets the context.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.ComputedValueOptions`1">
             <summary>
             Options class for the Constructor of <see cref="T:Cortex.Net.Core.ComputedValue`1"/> class.
@@ -753,6 +789,22 @@
             </summary>
             <param name="derivation">The derivation to use.</param>
         </member>
+        <member name="T:Cortex.Net.Core.DisposableDelegate">
+            <summary>
+            Class that executes a delegate on disposal.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.DisposableDelegate.#ctor(System.Action)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Core.DisposableDelegate"/> class.
+            </summary>
+            <param name="action">The delegate to execute on disposal.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.DisposableDelegate.Dispose">
+            <summary>
+            Executes the delegate that was encapsulated by this <see cref="T:Cortex.Net.Core.DisposableDelegate"/>.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Core.ObservableExtensions">
             <summary>
             Extension methods for the <see cref="T:Cortex.Net.IObservable"/> interface.
@@ -943,6 +995,11 @@
             Gets a value indicating whether to warn if this derivation is required to visit at least one observable.
             </summary>
         </member>
+        <member name="P:Cortex.Net.Core.Reaction.IsDisposed">
+            <summary>
+            Gets a value indicating whether this reaction is disposed.
+            </summary>
+        </member>
         <member name="M:Cortex.Net.Core.Reaction.Dispose">
             <summary>
             Disposes the reaction by clearing the observables it is observing.
@@ -963,6 +1020,11 @@
         <member name="M:Cortex.Net.Core.Reaction.RunReaction">
             <summary>
             Runs this single reaction.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Reaction.Schedule">
+            <summary>
+            Schedules the reaction for execution.
             </summary>
         </member>
         <member name="T:Cortex.Net.Core.SharedStateExtensions">
@@ -992,6 +1054,26 @@
             <param name="allowStateChanges">The value for AllStateChanges to use while executing the function.</param>
             <param name="function">The function to execute.</param>
             <returns>The return value of the function.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.SharedStateExtensions.Reaction``1(Cortex.Net.ISharedState,System.Func{Cortex.Net.Core.Reaction,``0},System.Action{``0,Cortex.Net.Core.Reaction},Cortex.Net.ReactionOptions{``0})">
+            <summary>
+            Creates a reaction that operates on data of type T.
+            </summary>
+            <typeparam name="T">The type the reaction operates on.</typeparam>
+            <param name="sharedState">The shared state to use.</param>
+            <param name="expression">The expression that delivers a value.</param>
+            <param name="effect">The effect that is executed when the value changes.</param>
+            <param name="options">The options to use for the reaction.</param>
+            <returns>An <see cref="T:System.IDisposable"/> instance that can be used to stop the reaction.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.SharedStateExtensions.WrapErrorHandler``1(System.Action{System.Exception},System.Action{``0,Cortex.Net.Core.Reaction})">
+            <summary>
+            Wraps the error handler function around an action.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+            <param name="errorHandler">The errorhandler to use.</param>
+            <param name="action">The action to wrap.</param>
+            <returns>The wrapped action.</returns>
         </member>
         <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction(Cortex.Net.ISharedState,System.String,System.Object,System.Action)">
             <summary>
@@ -1612,6 +1694,22 @@
         <member name="P:Cortex.Net.Properties.Resources.ReadOutsideReaction">
             <summary>
               Looks up a localized string similar to ({0}) is read outside a reactive context..
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.ReactionOptions`1">
+            <summary>
+            Specifies the options for an <see cref="T:Cortex.Net.Core.Reaction"/> instance.
+            </summary>
+            <typeparam name="T">The type of the value that is monitored by the reaction for changes.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.ReactionOptions`1.FireImmediately">
+            <summary>
+            Gets or sets a value indicating whether to fire the effect immediately.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ReactionOptions`1.EqualityComparer">
+            <summary>
+            Gets or sets the Equality comparer to use to compare the value type.
             </summary>
         </member>
         <member name="T:Cortex.Net.SharedState">

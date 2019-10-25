@@ -126,7 +126,7 @@ namespace Cortex.Net
         /// Gets or sets the Scheduler function. The Scheduler function can call
         /// it's inner action to run the default reaction algorithm in Cortex.NET.
         /// </summary>
-        public Action<Action> ReactionScheduler { get; set; }
+        public Action<Action> ReactionScheduler { get; set; } = x => x();
 
         /// <summary>
         /// Gets a unique Id that is incremented every time and identifies unique instances.

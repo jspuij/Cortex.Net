@@ -20,6 +20,12 @@
             </summary>
             <param name="node">The node to test.</param>
         </member>
+        <member name="M:Cortex.Net.Test.IDependencyNodeTests.SharedStateTest(Cortex.Net.IDependencyNode)">
+            <summary>
+            Tests whether the Shared State is not null and equals central SharedState.
+            </summary>
+            <param name="node">The node to test.</param>
+        </member>
         <member name="T:Cortex.Net.Test.Properties.Resources">
             <summary>
               A strongly-typed resource class, for looking up localized strings, etc.
