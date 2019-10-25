@@ -33,6 +33,22 @@ namespace Cortext.Next.Playground
             {
                 Console.WriteLine($"Computed: {(e as ComputedSpyEventArgs).Name}");
             }
+            if (e is ReactionStartSpyEventArgs)
+            {
+                Console.WriteLine($"Reaction started: {(e as ReactionSpyEventArgs).Name}");
+            }
+            if (e is ReactionEndSpyEventArgs)
+            {
+                Console.WriteLine($"Reaction ended: {(e as ReactionSpyEventArgs).Name}");
+            }
+            if (e is ActionStartSpyEventArgs)
+            {
+                Console.WriteLine($"Action started: {(e as ActionStartSpyEventArgs).Name}");
+            }
+            if (e is ActionEndSpyEventArgs)
+            {
+                Console.WriteLine($"Action ended: {(e as ActionEndSpyEventArgs).Name}");
+            }
         }
     }
 }

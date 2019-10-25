@@ -120,7 +120,7 @@ namespace Cortex.Net.Core
 
             var name = options.Name ?? $"Reaction@{sharedState.GetUniqueId()}";
             var action = sharedState.CreateAction(
-                name,
+                name + "effect",
                 options.Context,
                 options.ErrorHandler != null ? WrapErrorHandler(options.ErrorHandler, effect) : effect);
             var runSync = options.Scheduler != null && options.Delay == 0;
