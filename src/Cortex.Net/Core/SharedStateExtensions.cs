@@ -17,6 +17,7 @@
 namespace Cortex.Net.Core
 {
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Extensions class for <see cref="ISharedState"/> instances.
@@ -85,5 +86,79 @@ namespace Cortex.Net.Core
                 sharedState.EndAllowStateChanges(previousAllowStateChanges);
             }
         }
+
+        /// <summary>
+        /// Creates a reaction that operates on data of type T.
+        /// </summary>
+        /// <typeparam name="T">The type the reaction operates on.</typeparam>
+        /// <param name="sharedState">The shared state to use.</param>
+        /// <param name="expression">The expression that delivers a value.</param>
+        /// <param name="effect">The effect that is executed when the value changes.</param>
+        /// <param name="options">The options to use for the reaction.</param>
+        /// <returns>An <see cref="IDisposable"/> instance that can be used to stop the reaction.</returns>
+        public static IDisposable Reaction<T>(this ISharedState sharedState, Func<Reaction, T> expression, Action<T, Reaction> effect, ReactionOptions<T> options = null)
+        {
+            if (sharedState is null)
+            {
+                throw new ArgumentNullException(nameof(sharedState));
+            }
+
+            if (expression is null)
+            {
+                throw new ArgumentNullException(nameof(expression));
+            }
+
+            if (effect is null)
+            {
+                throw new ArgumentNullException(nameof(effect));
+            }
+
+            if (options is null)
+            {
+                options = new ReactionOptions<T>();
+            }
+
+            var name = options.Name ?? $"Reaction@{sharedState.GetUniqueId()}";
+            var action = sharedState.CreateAction(
+                name,
+                options.Context,
+                options.ErrorHandler != null ? WrapErrorHandler(options.ErrorHandler, effect) : effect);
+            var runSync = options.Scheduler != null && options.Delay == 0;
+        }
+
+        /// <summary>
+        /// Wraps the error handler function around an action.
+        /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="errorHandler">The errorhandler to use.</param>
+        /// <param name="action">The action to wrap.</param>
+        /// <returns>The wrapped action.</returns>
+        private static Action<T, Reaction> WrapErrorHandler<T>(Action<Exception> errorHandler, Action<T, Reaction> action)
+        {
+            return new Action<T, Reaction>((value, reaction) =>
+            {
+                try
+                {
+                    action(value, reaction);
+                }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch (Exception exception)
+#pragma warning restore CA1031 // Do not catch general exception types
+                {
+                    errorHandler(exception);
+                }
+            });
+        }
+
+        private static Func<Task> CreateSchedulerFromOptions<T>(ReactionOptions<T> options, Func<Task> action)
+        {
+            return options.Scheduler ?? (options.Delay > 0
+                ? new Func<Task>(async () =>
+                {
+                    await Task.Delay(options.Delay).ConfigureAwait(true);
+                    await action().ConfigureAwait(true);
+                })
+            : action);
+}
     }
 }

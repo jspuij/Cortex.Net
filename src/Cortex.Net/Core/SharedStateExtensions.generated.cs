@@ -52,7 +52,6 @@ namespace Cortex.Net.Core
 
             return new Action(() => ActionExtensions.ExecuteAction(sharedState, actionName, scope, action));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -79,7 +78,6 @@ namespace Cortex.Net.Core
 
             return new Action<T1>((T1 arg1) => ActionExtensions.ExecuteAction<T1>(sharedState, actionName, scope, action, arg1));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -106,7 +104,6 @@ namespace Cortex.Net.Core
 
             return new Action<T1,T2>((T1 arg1, T2 arg2) => ActionExtensions.ExecuteAction<T1,T2>(sharedState, actionName, scope, action, arg1, arg2));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -133,7 +130,6 @@ namespace Cortex.Net.Core
 
             return new Action<T1,T2,T3>((T1 arg1, T2 arg2, T3 arg3) => ActionExtensions.ExecuteAction<T1,T2,T3>(sharedState, actionName, scope, action, arg1, arg2, arg3));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -160,7 +156,6 @@ namespace Cortex.Net.Core
 
             return new Action<T1,T2,T3,T4>((T1 arg1, T2 arg2, T3 arg3, T4 arg4) => ActionExtensions.ExecuteAction<T1,T2,T3,T4>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -187,7 +182,6 @@ namespace Cortex.Net.Core
 
             return new Action<T1,T2,T3,T4,T5>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) => ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -214,7 +208,6 @@ namespace Cortex.Net.Core
 
             return new Action<T1,T2,T3,T4,T5,T6>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6) => ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -241,7 +234,6 @@ namespace Cortex.Net.Core
 
             return new Action<T1,T2,T3,T4,T5,T6,T7>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) => ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6,T7>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6, arg7));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -268,7 +260,6 @@ namespace Cortex.Net.Core
 
             return new Action<T1,T2,T3,T4,T5,T6,T7,T8>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8) => ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -295,7 +286,6 @@ namespace Cortex.Net.Core
 
             return new Action<T1,T2,T3,T4,T5,T6,T7,T8,T9>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) => ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -322,7 +312,6 @@ namespace Cortex.Net.Core
 
             return new Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10) => ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -349,7 +338,6 @@ namespace Cortex.Net.Core
 
             return new Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11) => ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -376,7 +364,6 @@ namespace Cortex.Net.Core
 
             return new Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12) => ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -403,7 +390,6 @@ namespace Cortex.Net.Core
 
             return new Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13) => ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -430,7 +416,6 @@ namespace Cortex.Net.Core
 
             return new Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14) => ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -457,7 +442,6 @@ namespace Cortex.Net.Core
 
             return new Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15) => ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15));
         }
-
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -484,6 +468,5 @@ namespace Cortex.Net.Core
 
             return new Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15, T16 arg16) => ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16));
         }
-
 	}
 }
