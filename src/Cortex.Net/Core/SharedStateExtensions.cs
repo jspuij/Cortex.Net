@@ -124,6 +124,71 @@ namespace Cortex.Net.Core
                 options.Context,
                 options.ErrorHandler != null ? WrapErrorHandler(options.ErrorHandler, effect) : effect);
             var runSync = options.Scheduler != null && options.Delay == 0;
+
+            var firstTime = true;
+            var isScheduled = false;
+            T value = default;
+            Reaction reaction = null;
+
+            var equals =
+                options.EqualityComparer != null ?
+                new Func<T, T, bool>(options.EqualityComparer.Equals) :
+                new Func<T, T, bool>((x, y) => Equals(x, y));
+
+            var scheduler = CreateSchedulerFromOptions(options, ReactionRunner);
+
+            reaction = new Reaction(
+                sharedState,
+                name,
+                () =>
+                {
+                    if (firstTime || runSync)
+                    {
+                        ReactionRunner().RunSynchronously();
+                    }
+                    else if (!isScheduled)
+                    {
+                        isScheduled = true;
+                        scheduler().RunSynchronously();
+                    }
+                });
+
+            Task ReactionRunner()
+            {
+                isScheduled = false; // Q: move into reaction runner?
+                if (reaction.IsDisposed)
+                {
+                    return Task.CompletedTask;
+                }
+
+                var changed = false;
+
+                reaction.Track(() =>
+                {
+                    var nextValue = expression(reaction);
+                    changed = firstTime || !equals(value, nextValue);
+                    value = nextValue;
+                });
+                if (firstTime && options.FireImmediately)
+                {
+                    action(value, reaction);
+                }
+
+                if (!firstTime && changed)
+                {
+                    action(value, reaction);
+                }
+
+                if (firstTime)
+                {
+                    firstTime = false;
+                }
+
+                return Task.CompletedTask;
+            }
+
+            reaction.Schedule();
+            return reaction;
         }
 
         /// <summary>

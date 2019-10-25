@@ -125,6 +125,11 @@ namespace Cortex.Net.Core
         public bool RequiresObservable { get; }
 
         /// <summary>
+        /// Gets a value indicating whether this reaction is disposed.
+        /// </summary>
+        public bool IsDisposed { get => this.isDisposed; }
+
+        /// <summary>
         /// Disposes the reaction by clearing the observables it is observing.
         /// </summary>
         public void Dispose()
@@ -242,7 +247,10 @@ namespace Cortex.Net.Core
             this.SharedState.EndBatch();
         }
 
-        private void Schedule()
+        /// <summary>
+        /// Schedules the reaction for execution.
+        /// </summary>
+        internal void Schedule()
         {
             if (!this.isScheduled)
             {
