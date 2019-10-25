@@ -16,10 +16,10 @@
 
 namespace Cortex.Net.Test
 {
-    using Cortex.Net.Core;
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Cortex.Net.Core;
     using Xunit;
 
     /// <summary>

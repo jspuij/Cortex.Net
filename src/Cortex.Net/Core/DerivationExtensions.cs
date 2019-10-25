@@ -53,8 +53,9 @@ namespace Cortex.Net.Core
                     return false;
                 case DerivationState.NotTracking:
                 case DerivationState.Stale:
-                    return true;
                 case DerivationState.PossiblyStale:
+                    return true;
+                
                         // no need for those computeds to be reported, they will be picked up in trackDerivedFunction.
                     var previousDerivation = derivation.SharedState.StartUntracked();
 
