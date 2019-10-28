@@ -21,6 +21,7 @@ namespace Cortex.Net.Core
     using System.Diagnostics;
     using System.Globalization;
     using System.Text;
+    using Cortex.Net.Api;
     using Cortex.Net.Properties;
     using Cortex.Net.Spy;
 

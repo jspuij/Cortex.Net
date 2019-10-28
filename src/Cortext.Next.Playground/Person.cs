@@ -12,6 +12,7 @@ namespace Cortext.Next.Playground
         private readonly IAtom firstNameAtom;
         private readonly IAtom lastNameAtom;
         private readonly ComputedValue<string> fullnameComputedValue;
+        private readonly Action<string, string> testAction;
 
         private string firstName;
         private string lastName;
@@ -30,6 +31,7 @@ namespace Cortext.Next.Playground
                 KeepAlive = true,
             });
 
+            testAction = sharedState.CreateAction<string, string>("ChangeBothNames", this, ChangeBothNames);
         }
 
         public string FirstName

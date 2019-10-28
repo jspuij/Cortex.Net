@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cortex.Net.Fody</name>
+    </assembly>
+    <members>
+        <member name="T:Cortex.Net.Fody.ActionWeaver">
+            <summary>
+            Weaves methods decorated with an <see cref="T:Cortex.Net.Api.ActionAttribute"/>.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ActionWeaver.InnerMethodPrefix">
+            <summary>
+            The prefix for an inner method that is the target of an action.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ActionWeaver.InnerActionFieldPrefix">
+            <summary>
+            The prefix for an inner field that contains the action.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ActionWeaver.cortexWeaver">
+            <summary>
+            A reference to the parent Cortex.Net weaver.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ActionWeaver.#ctor(Cortex.Net.Fody.CortexWeaver)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ActionWeaver"/> class.
+            </summary>
+            <param name="cortexWeaver">A reference to the Parent Cortex.Net weaver.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.ActionWeaver.Execute">
+            <summary>
+            Executes this action weaver.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ActionWeaver.WeaveMethod(Mono.Cecil.MethodDefinition)">
+            <summary>
+            Weaves a method that was Decorated with the <see cref="T:Cortex.Net.Api.ActionAttribute"/>.
+            </summary>
+            <param name="methodDefinition">The method definition.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.ActionWeaver.GetActionType(Mono.Cecil.MethodDefinition)">
+            <summary>
+            Gets the Action type for the private field that is added to the class for the private method.
+            </summary>
+            <param name="methodDefinition">The method definition for the action.</param>
+            <returns>A type reference.</returns>
+        </member>
+        <member name="T:Cortex.Net.Fody.CortexWeaver">
+            <summary>
+            Orchestrates weaving of classes with Cortex.Net Observables, Actions and Reactions.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.CortexWeaver.Execute">
+            <summary>
+            Called when the weaver is executed.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.CortexWeaver.GetAssembliesForScanning">
+            <summary>
+            Return a list of assembly names for scanning. Used as a list for Fody.BaseModuleWeaver.FindType.
+            </summary>
+            <returns>All types in the references assembly.</returns>
+        </member>
+        <member name="T:Cortex.Net.Fody.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.Properties.Resources.MoreThan16Parameters">
+            <summary>
+              Looks up a localized string similar to CannotHandle more than 16 parameters on Action Method: ({0}).
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -16,6 +16,7 @@
 
 namespace Cortex.Net.Core
 {
+    using Cortex.Net.Api;
     using System;
     using System.Threading.Tasks;
 
