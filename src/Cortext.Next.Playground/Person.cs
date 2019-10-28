@@ -1,4 +1,5 @@
 ﻿using Cortex.Net;
+using Cortex.Net.Api;
 using Cortex.Net.Core;
 using System;
 using System.Collections.Generic;
@@ -60,5 +61,12 @@ namespace Cortext.Next.Playground
         }
 
         public string FullName => this.fullnameComputedValue.Value;
+
+        [Action]
+        public void ChangeBothNames(string firstName, string lastName)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+        }
     }
 }

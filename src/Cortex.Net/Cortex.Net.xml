@@ -4,6 +4,27 @@
         <name>Cortex.Net</name>
     </assembly>
     <members>
+        <member name="T:Cortex.Net.Api.ActionAttribute">
+            <summary>
+            Attribute that signals that the method it is applied to, should be interpreted as an action.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ActionAttribute"/> class.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ActionAttribute"/> class.
+            </summary>
+            <param name="name">The name of the action.</param>
+        </member>
+        <member name="P:Cortex.Net.Api.ActionAttribute.Name">
+            <summary>
+            Gets the Name of the action.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Api.ActionExtensions">
             <summary>
             Extensions class for <see cref="T:Cortex.Net.ISharedState"/> instances.
@@ -1013,6 +1034,27 @@
         <member name="M:Cortex.Net.Core.ComputedValue`1.WarnAboutUntrackedRead">
             <summary>
             Warn about an untracked read of this computed value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Core.DelegateDisposable">
+            <summary>
+            Implements <see cref="T:System.IDisposable"/> by executing a deletgate.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.DelegateDisposable.disposeDelegate">
+            <summary>
+            The delegate that is executed on disposal.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.DelegateDisposable.#ctor(System.Action)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Core.DelegateDisposable"/> class.
+            </summary>
+            <param name="disposeDelegate">Action to execute when this instance is disposed.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.DelegateDisposable.Dispose">
+            <summary>
+            Disposes this instance by executing the delegate.
             </summary>
         </member>
         <member name="T:Cortex.Net.Core.DerivationExtensions">

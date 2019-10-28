@@ -137,6 +137,7 @@ namespace Cortex.Net.Core
 
             var scheduler = CreateSchedulerFromOptions(options, ReactionRunner);
 
+#pragma warning disable CA2000 // Dispose objects before losing scope
             reaction = new Reaction(
                 sharedState,
                 name,
@@ -152,6 +153,7 @@ namespace Cortex.Net.Core
                         scheduler().RunSynchronously();
                     }
                 });
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
             Task ReactionRunner()
             {
@@ -188,7 +190,7 @@ namespace Cortex.Net.Core
             }
 
             reaction.Schedule();
-            return reaction;
+            return new DisposableDelegate(() => reaction.Dispose());
         }
 
         /// <summary>

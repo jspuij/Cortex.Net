@@ -14,19 +14,21 @@ namespace Cortext.Next.Playground
                 
             });
 
-            //sharedState.SpyEvent += SharedState_SpyEvent;
+            sharedState.SpyEvent += SharedState_SpyEvent;
 
             var person = new Person(sharedState);
 
-            sharedState.Reaction<string>(r => person.FullName, (s, r) => Console.WriteLine($"Fullname Changed: {s}"));
+            var d = sharedState.Reaction<string>(r => person.FullName, (s, r) => Console.WriteLine($"Fullname Changed: {s}"));
 
             person.FirstName = "Jan-Willem";
             person.LastName = "Spuij";
 
             Console.WriteLine(person.FullName);
 
+            d.Dispose();
+
             person.LastName = "Spuijtje";
-             
+
             Console.WriteLine(person.FullName);
         }
 
