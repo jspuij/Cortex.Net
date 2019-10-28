@@ -206,11 +206,10 @@ namespace Cortex.Net.Core
                 }
 
                 Exception caughtException = null;
-                void ShouldComputeAction() => this.derivation();
-
+                
                 if (this.SharedState.InBatch && this.HasObservers() && !this.keepAlive)
                 {
-                    if (this.ShouldCompute(ShouldComputeAction))
+                    if (this.ShouldCompute())
                     {
                         this.WarnAboutUntrackedRead();
                         this.SharedState.StartBatch();
@@ -221,7 +220,7 @@ namespace Cortex.Net.Core
                 else
                 {
                     this.ReportObserved();
-                    if (this.ShouldCompute(ShouldComputeAction))
+                    if (this.ShouldCompute())
                     {
                         if (this.TrackAndCompute())
                         {
@@ -262,6 +261,16 @@ namespace Cortex.Net.Core
                     throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.CannotAssignComputedValue, this.Name));
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the value. 
+        /// Explicit implementation of <see cref="IComputedValue.Value"/>.
+        /// </summary>
+        object IComputedValue.Value
+        {
+            get => (object)this.Value;
+            set => this.Value = (T)value;
         }
 
         /// <summary>

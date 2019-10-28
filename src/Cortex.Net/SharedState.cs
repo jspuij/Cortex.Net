@@ -172,7 +172,7 @@ namespace Cortex.Net
                             observable.OnBecomeUnobserved();
                         }
 
-                        if (observable is IComputedValue<object> computedValue)
+                        if (observable is IComputedValue computedValue)
                         {
                             computedValue.Suspend();
                         }

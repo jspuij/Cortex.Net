@@ -695,6 +695,12 @@
             </summary>
             <exception cref="T:System.InvalidOperationException">Thrown when a cycle in computation is detected or when an inner exception is thrown by one of the referenced observables.</exception>
         </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.Cortex#Net#IComputedValue#Value">
+            <summary>
+            Gets or sets the value. 
+            Explicit implementation of <see cref="P:Cortex.Net.IComputedValue.Value"/>.
+            </summary>
+        </member>
         <member name="M:Cortex.Net.Core.ComputedValue`1.OnBecomeObserved">
             <summary>
             Method that triggers event <see cref="E:Cortex.Net.Core.ComputedValue`1.BecomeObserved"/>.
@@ -741,7 +747,7 @@
             Extension methods for <see cref="T:Cortex.Net.IDerivation"/> interface implementations.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Core.DerivationExtensions.ShouldCompute(Cortex.Net.IDerivation,System.Action)">
+        <member name="M:Cortex.Net.Core.DerivationExtensions.ShouldCompute(Cortex.Net.IDerivation)">
             <summary>
             Checks whether the <see cref="T:Cortex.Net.IDerivation"/>instance should recompute itself.
             </summary>
@@ -878,6 +884,13 @@
             </remarks>
         </member>
         <member name="M:Cortex.Net.Core.ObservableExtensions.IsDerivation(Cortex.Net.IObservable)">
+            <summary>
+            Checks whether the observable is a derivation as well.
+            </summary>
+            <param name="observable">The observable to check.</param>
+            <returns>True if the observable is a derivation, false otherwise.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.IsComputedValue(Cortex.Net.IObservable)">
             <summary>
             Checks whether the observable is a derivation as well.
             </summary>
@@ -1326,7 +1339,18 @@
             Gets or sets the underlying value.
             </summary>
         </member>
-        <member name="M:Cortex.Net.IComputedValue`1.Suspend">
+        <member name="T:Cortex.Net.IComputedValue">
+            <summary>
+            Interface for Computed values.
+            </summary>
+            <typeparam name="T">The type of the computed value.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.IComputedValue.Value">
+            <summary>
+            Gets or sets the underlying value.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.IComputedValue.Suspend">
             <summary>
             Suspends computation of this computed value when the last observer leaves.
             Computed values are automatically teared down when the last observer leaves.

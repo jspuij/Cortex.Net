@@ -25,6 +25,9 @@ namespace Cortext.Next.Playground
 
             Console.WriteLine(person.FullName);
 
+            person.LastName = "Spuijtje";
+             
+            Console.WriteLine(person.FullName);
         }
 
         private static void SharedState_SpyEvent(object sender, Cortex.Net.Spy.SpyEventArgs e)

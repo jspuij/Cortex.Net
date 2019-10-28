@@ -35,16 +35,11 @@ namespace Cortex.Net.Core
         /// <returns>True when it needs to recompute, false otherwise.</returns>
         /// <exception cref="ArgumentNullException">When any of the arguments is null.</exception>
         /// <remarks>Might throw any other exception that a getter for <see cref="IObservable"/> will thow.</remarks>
-        public static bool ShouldCompute(this IDerivation derivation, Action action)
+        public static bool ShouldCompute(this IDerivation derivation)
         {
             if (derivation is null)
             {
                 throw new ArgumentNullException(nameof(derivation));
-            }
-
-            if (action is null)
-            {
-                throw new ArgumentNullException(nameof(action));
             }
 
             switch (derivation.DependenciesState)
@@ -53,25 +48,24 @@ namespace Cortex.Net.Core
                     return false;
                 case DerivationState.NotTracking:
                 case DerivationState.Stale:
-                case DerivationState.PossiblyStale:
                     return true;
-
+                case DerivationState.PossiblyStale:
                         // no need for those computeds to be reported, they will be picked up in trackDerivedFunction.
                     var previousDerivation = derivation.SharedState.StartUntracked();
 
                     foreach (var observable in derivation.Observing)
                     {
-                        if (observable.IsDerivation())
+                        if (observable.IsComputedValue())
                         {
                             if (observable.SharedState.Configuration.DisableErrorBoundaries)
                             {
-                                action();
+                                var value = (observable as IComputedValue).Value;
                             }
                             else
                             {
                                 try
                                 {
-                                    action();
+                                    var value = (observable as IComputedValue).Value;
                                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                                 catch
@@ -81,6 +75,12 @@ namespace Cortex.Net.Core
                                     derivation.SharedState.EndTracking(previousDerivation);
                                     return true;
                                 }
+                            }
+
+                            if (derivation.DependenciesState == DerivationState.Stale)
+                            {
+                                derivation.SharedState.EndTracking(previousDerivation);
+                                return true;
                             }
                         }
                     }

@@ -266,7 +266,7 @@ namespace Cortex.Net.Core
                 return;
             }
 
-            observable.LowestObserverState = DerivationState.Stale;
+            observable.LowestObserverState = DerivationState.PossiblyStale;
 
             foreach (var derivation in observable.Observers)
             {
@@ -292,6 +292,16 @@ namespace Cortex.Net.Core
         public static bool IsDerivation(this IObservable observable)
         {
             return observable is IDerivation;
+        }
+
+        /// <summary>
+        /// Checks whether the observable is a derivation as well.
+        /// </summary>
+        /// <param name="observable">The observable to check.</param>
+        /// <returns>True if the observable is a derivation, false otherwise.</returns>
+        public static bool IsComputedValue(this IObservable observable)
+        {
+            return observable is IComputedValue;
         }
 
         /// <summary>

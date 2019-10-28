@@ -221,7 +221,7 @@ namespace Cortex.Net.Core
             this.SharedState.StartBatch();
             this.isScheduled = false;
 
-            if (this.ShouldCompute(() => { }))
+            if (this.ShouldCompute())
             {
                 this.isTrackPending = true;
 

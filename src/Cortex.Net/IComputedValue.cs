@@ -20,12 +20,24 @@ namespace Cortex.Net
     /// Interface for Computed values.
     /// </summary>
     /// <typeparam name="T">The type of the computed value.</typeparam>
-    public interface IComputedValue<T>
+    public interface IComputedValue<T> : IComputedValue
     {
         /// <summary>
         /// Gets or sets the underlying value.
         /// </summary>
         T Value { get; set; }
+    }
+
+    /// <summary>
+    /// Interface for Computed values.
+    /// </summary>
+    /// <typeparam name="T">The type of the computed value.</typeparam>
+    public interface IComputedValue
+    {
+        /// <summary>
+        /// Gets or sets the underlying value.
+        /// </summary>
+        object Value { get; set; }
 
         /// <summary>
         /// Suspends computation of this computed value when the last observer leaves.
