@@ -206,7 +206,7 @@ namespace Cortex.Net.Core
                 }
 
                 Exception caughtException = null;
-                
+
                 if (this.SharedState.InBatch && this.HasObservers() && !this.keepAlive)
                 {
                     if (this.ShouldCompute())
@@ -264,7 +264,7 @@ namespace Cortex.Net.Core
         }
 
         /// <summary>
-        /// Gets or sets the value. 
+        /// Gets or sets the value.
         /// Explicit implementation of <see cref="IComputedValue.Value"/>.
         /// </summary>
         object IComputedValue.Value

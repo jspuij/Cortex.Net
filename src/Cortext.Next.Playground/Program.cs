@@ -14,7 +14,7 @@ namespace Cortext.Next.Playground
                 
             });
 
-            sharedState.SpyEvent += SharedState_SpyEvent;
+            //sharedState.SpyEvent += SharedState_SpyEvent;
 
             var person = new Person(sharedState);
 

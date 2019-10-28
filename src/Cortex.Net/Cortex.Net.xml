@@ -697,7 +697,7 @@
         </member>
         <member name="P:Cortex.Net.Core.ComputedValue`1.Cortex#Net#IComputedValue#Value">
             <summary>
-            Gets or sets the value. 
+            Gets or sets the value.
             Explicit implementation of <see cref="P:Cortex.Net.IComputedValue.Value"/>.
             </summary>
         </member>
@@ -752,7 +752,6 @@
             Checks whether the <see cref="T:Cortex.Net.IDerivation"/>instance should recompute itself.
             </summary>
             <param name="derivation">The derivation.</param>
-            <param name="action">The action to use to determine whether this derivation should compute.</param>
             <returns>True when it needs to recompute, false otherwise.</returns>
             <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
             <remarks>Might throw any other exception that a getter for <see cref="T:Cortex.Net.IObservable"/> will thow.</remarks>
@@ -1343,11 +1342,11 @@
             <summary>
             Interface for Computed values.
             </summary>
-            <typeparam name="T">The type of the computed value.</typeparam>
         </member>
         <member name="P:Cortex.Net.IComputedValue.Value">
             <summary>
             Gets or sets the underlying value.
+            Best to be implemented specifically.
             </summary>
         </member>
         <member name="M:Cortex.Net.IComputedValue.Suspend">

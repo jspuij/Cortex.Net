@@ -25,17 +25,17 @@ namespace Cortex.Net
         /// <summary>
         /// Gets or sets the underlying value.
         /// </summary>
-        T Value { get; set; }
+        new T Value { get; set; }
     }
 
     /// <summary>
     /// Interface for Computed values.
     /// </summary>
-    /// <typeparam name="T">The type of the computed value.</typeparam>
     public interface IComputedValue
     {
         /// <summary>
         /// Gets or sets the underlying value.
+        /// Best to be implemented specifically.
         /// </summary>
         object Value { get; set; }
 

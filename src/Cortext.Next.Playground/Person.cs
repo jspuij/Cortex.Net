@@ -21,7 +21,7 @@ namespace Cortext.Next.Playground
             firstNameAtom = sharedState.CreateAtom("firstName");
             lastNameAtom = sharedState.CreateAtom("lastName");
 
-            Func<string> getter = () => this.FirstName + " " + this.LastName;
+            string getter() => this.FirstName + " " + this.LastName;
 
             fullnameComputedValue = new ComputedValue<string>(sharedState, new ComputedValueOptions<string>(getter, "FullName")
             {

@@ -31,7 +31,6 @@ namespace Cortex.Net.Core
         /// Checks whether the <see cref="IDerivation"/>instance should recompute itself.
         /// </summary>
         /// <param name="derivation">The derivation.</param>
-        /// <param name="action">The action to use to determine whether this derivation should compute.</param>
         /// <returns>True when it needs to recompute, false otherwise.</returns>
         /// <exception cref="ArgumentNullException">When any of the arguments is null.</exception>
         /// <remarks>Might throw any other exception that a getter for <see cref="IObservable"/> will thow.</remarks>

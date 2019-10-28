@@ -76,7 +76,7 @@ namespace Cortex.Net.Core
         /// <param name="sharedState">The shared state to use.</param>
         /// <param name="name">The name to use.</param>
         /// <param name="onInvalidate">Handler to run when this reaction is invalidated. This handler should call <see cref="Track"/>.</param>
-        public Reaction(ISharedState sharedState, string name, Action onInvalidate)
+        internal Reaction(ISharedState sharedState, string name, Action onInvalidate)
         {
             this.SharedState = sharedState ?? throw new ArgumentNullException(nameof(sharedState));
             this.onInvalidate = onInvalidate ?? throw new ArgumentNullException(nameof(onInvalidate));
