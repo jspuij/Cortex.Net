@@ -43,6 +43,14 @@ namespace Cortex.Net
         /// <summary>
         /// Initializes a new instance of the <see cref="SharedState"/> class.
         /// </summary>
+        public SharedState()
+            : this(new CortexConfiguration())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SharedState"/> class.
+        /// </summary>
         /// <param name="configuration">The configuration to initialize <see cref="SharedState"/> instance with.</param>
         /// <exception cref="ArgumentNullException">Thrown when any of the arguments is null.</exception>
         public SharedState(CortexConfiguration configuration)

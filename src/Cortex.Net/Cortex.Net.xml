@@ -4,97 +4,330 @@
         <name>Cortex.Net</name>
     </assembly>
     <members>
-        <member name="T:Cortex.Net.AutorunOptions">
+        <member name="T:Cortex.Net.Api.ActionExtensions">
             <summary>
-            Specifies the options for an Autorun instance.
+            Extensions class for <see cref="T:Cortex.Net.ISharedState"/> instances.
             </summary>
         </member>
-        <member name="P:Cortex.Net.AutorunOptions.Delay">
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction(Cortex.Net.ISharedState,System.String,System.Object,System.Action)">
             <summary>
-            Gets or sets the delay.
+            Creates an Action that triggers reaction in all observables in the shared state.
             </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
-        <member name="P:Cortex.Net.AutorunOptions.Name">
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``1(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0})">
             <summary>
-            Gets or sets the name.
+            Creates an Action that triggers reaction in all observables in the shared state.
             </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
-        <member name="P:Cortex.Net.AutorunOptions.RequiresObservable">
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``2(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1})">
             <summary>
-            Gets or sets a value indicating whether observables are required in the view function.
+            Creates an Action that triggers reaction in all observables in the shared state.
             </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
-        <member name="P:Cortex.Net.AutorunOptions.Scheduler">
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``3(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2})">
             <summary>
-            Gets or sets the scheduler function to use. The function is async
-            so that other code can be executed in the mean time.
+            Creates an Action that triggers reaction in all observables in the shared state.
             </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
-        <member name="P:Cortex.Net.AutorunOptions.ErrorHandler">
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``4(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3})">
             <summary>
-            Gets or sets error handler function that is called in case of an error. Otherwise the error is propagated.
+            Creates an Action that triggers reaction in all observables in the shared state.
             </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
-        <member name="P:Cortex.Net.AutorunOptions.Context">
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``5(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4})">
             <summary>
-            Gets or sets the context.
+            Creates an Action that triggers reaction in all observables in the shared state.
             </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
-        <member name="T:Cortex.Net.ComputedValueOptions`1">
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``6(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5})">
             <summary>
-            Options class for the Constructor of <see cref="T:Cortex.Net.Core.ComputedValue`1"/> class.
+            Creates an Action that triggers reaction in all observables in the shared state.
             </summary>
-            <typeparam name="T">The type of the getter / setter.</typeparam>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
-        <member name="M:Cortex.Net.ComputedValueOptions`1.#ctor(System.Func{`0},System.String)">
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``7(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6})">
             <summary>
-            Initializes a new instance of the <see cref="T:Cortex.Net.ComputedValueOptions`1"/> class.
+            Creates an Action that triggers reaction in all observables in the shared state.
             </summary>
-            <param name="getter">The getter for the computed value.</param>
-            <param name="name">The name of the computed value.</param>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
-        <member name="P:Cortex.Net.ComputedValueOptions`1.Getter">
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``8(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7})">
             <summary>
-            Gets the getter function.
+            Creates an Action that triggers reaction in all observables in the shared state.
             </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
-        <member name="P:Cortex.Net.ComputedValueOptions`1.Setter">
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``9(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8})">
             <summary>
-            Gets or sets setter function.
+            Creates an Action that triggers reaction in all observables in the shared state.
             </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
-        <member name="P:Cortex.Net.ComputedValueOptions`1.Name">
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``10(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">
             <summary>
-            Gets or sets the name of the computed value.
+            Creates an Action that triggers reaction in all observables in the shared state.
             </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
-        <member name="P:Cortex.Net.ComputedValueOptions`1.EqualityComparer">
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``11(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">
             <summary>
-            Gets or sets an optional equality comparer for type <typeparamref name="T"/>.
+            Creates an Action that triggers reaction in all observables in the shared state.
             </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
-        <member name="P:Cortex.Net.ComputedValueOptions`1.Context">
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``12(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">
             <summary>
-            Gets or sets the context where the computed value operates on (If Any).
+            Creates an Action that triggers reaction in all observables in the shared state.
             </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
-        <member name="P:Cortex.Net.ComputedValueOptions`1.RequiresReaction">
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``13(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">
             <summary>
-            Gets or sets a value indicating whether the <see cref="T:Cortex.Net.Core.ComputedValue`1"/> requires a reactive context.
+            Creates an Action that triggers reaction in all observables in the shared state.
             </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
-        <member name="P:Cortex.Net.ComputedValueOptions`1.KeepAlive">
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``14(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">
             <summary>
-            Gets or sets a value indicating whether the computed value keeps calculating, even when it is not observed.
+            Creates an Action that triggers reaction in all observables in the shared state.
             </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``15(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``16(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
         <member name="T:Cortex.Net.Core.ActionExtensions">
             <summary>
+            Extensions class for <see cref="T:Cortex.Net.ISharedState"/> instances.
+            </summary>
+            <summary>
             Extension methods for <see cref="T:System.Action"/> delegates.
             </summary>
             <summary>
             Extension methods for <see cref="T:System.Action"/> delegates.
             </summary>
+            <summary>
+            Extensions class for <see cref="T:Cortex.Net.ISharedState"/> instances.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction(Cortex.Net.ISharedState,System.String,System.Object,System.Action)">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``1(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``2(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``3(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``4(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``5(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``6(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``7(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``8(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``9(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``10(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``11(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``12(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``13(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``14(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``15(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.CreateAction``16(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
         </member>
         <member name="M:Cortex.Net.Core.ActionExtensions.StartAction(Cortex.Net.ISharedState,System.String,System.Object,System.Object[])">
             <summary>
@@ -400,6 +633,46 @@
             <param name="arg14">Argument nr. 14.</param>
             <param name="arg15">Argument nr. 15.</param>
             <param name="arg16">Argument nr. 16.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.Untracked``1(Cortex.Net.ISharedState,System.Func{``0})">
+            <summary>
+            Executes a function without tracking derivations.
+            </summary>
+            <typeparam name="T">The type of the return value of the function.</typeparam>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use to temporarily stop tracking derivations.</param>
+            <param name="function">The function to execute.</param>
+            <returns>The return value.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.AllowStateChanges``1(Cortex.Net.ISharedState,System.Boolean,System.Func{``0})">
+            <summary>
+            Executes a function while specifying <see cref="P:Cortex.Net.ISharedState.AllowStateChanges"/>. The previous value of
+            <see cref="P:Cortex.Net.ISharedState.AllowStateChanges"/> is automatically restored.
+            </summary>
+            <typeparam name="T">The result type of the function.</typeparam>
+            <param name="sharedState">The shared state to operate on.</param>
+            <param name="allowStateChanges">The value for AllStateChanges to use while executing the function.</param>
+            <param name="function">The function to execute.</param>
+            <returns>The return value of the function.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.Reaction``1(Cortex.Net.ISharedState,System.Func{Cortex.Net.Core.Reaction,``0},System.Action{``0,Cortex.Net.Core.Reaction},Cortex.Net.ReactionOptions{``0})">
+            <summary>
+            Creates a reaction that operates on data of type T.
+            </summary>
+            <typeparam name="T">The type the reaction operates on.</typeparam>
+            <param name="sharedState">The shared state to use.</param>
+            <param name="expression">The expression that delivers a value.</param>
+            <param name="effect">The effect that is executed when the value changes.</param>
+            <param name="options">The options to use for the reaction.</param>
+            <returns>An <see cref="T:System.IDisposable"/> instance that can be used to stop the reaction.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.WrapErrorHandler``1(System.Action{System.Exception},System.Action{``0,Cortex.Net.Core.Reaction})">
+            <summary>
+            Wraps the error handler function around an action.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+            <param name="errorHandler">The errorhandler to use.</param>
+            <param name="action">The action to wrap.</param>
+            <returns>The wrapped action.</returns>
         </member>
         <member name="T:Cortex.Net.Core.ActionRunInfo">
             <summary>
@@ -1039,206 +1312,89 @@
             Schedules the reaction for execution.
             </summary>
         </member>
-        <member name="T:Cortex.Net.Core.SharedStateExtensions">
+        <member name="T:Cortex.Net.AutorunOptions">
             <summary>
-            Extensions class for <see cref="T:Cortex.Net.ISharedState"/> instances.
-            </summary>
-            <summary>
-            Extensions class for <see cref="T:Cortex.Net.ISharedState"/> instances.
+            Specifies the options for an Autorun instance.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.Untracked``1(Cortex.Net.ISharedState,System.Func{``0})">
+        <member name="P:Cortex.Net.AutorunOptions.Delay">
             <summary>
-            Executes a function without tracking derivations.
+            Gets or sets the delay.
             </summary>
-            <typeparam name="T">The type of the return value of the function.</typeparam>
-            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use to temporarily stop tracking derivations.</param>
-            <param name="function">The function to execute.</param>
-            <returns>The return value.</returns>
         </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.AllowStateChanges``1(Cortex.Net.ISharedState,System.Boolean,System.Func{``0})">
+        <member name="P:Cortex.Net.AutorunOptions.Name">
             <summary>
-            Executes a function while specifying <see cref="P:Cortex.Net.ISharedState.AllowStateChanges"/>. The previous value of
-            <see cref="P:Cortex.Net.ISharedState.AllowStateChanges"/> is automatically restored.
+            Gets or sets the name.
             </summary>
-            <typeparam name="T">The result type of the function.</typeparam>
-            <param name="sharedState">The shared state to operate on.</param>
-            <param name="allowStateChanges">The value for AllStateChanges to use while executing the function.</param>
-            <param name="function">The function to execute.</param>
-            <returns>The return value of the function.</returns>
         </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.Reaction``1(Cortex.Net.ISharedState,System.Func{Cortex.Net.Core.Reaction,``0},System.Action{``0,Cortex.Net.Core.Reaction},Cortex.Net.ReactionOptions{``0})">
+        <member name="P:Cortex.Net.AutorunOptions.RequiresObservable">
             <summary>
-            Creates a reaction that operates on data of type T.
+            Gets or sets a value indicating whether observables are required in the view function.
             </summary>
-            <typeparam name="T">The type the reaction operates on.</typeparam>
-            <param name="sharedState">The shared state to use.</param>
-            <param name="expression">The expression that delivers a value.</param>
-            <param name="effect">The effect that is executed when the value changes.</param>
-            <param name="options">The options to use for the reaction.</param>
-            <returns>An <see cref="T:System.IDisposable"/> instance that can be used to stop the reaction.</returns>
         </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.WrapErrorHandler``1(System.Action{System.Exception},System.Action{``0,Cortex.Net.Core.Reaction})">
+        <member name="P:Cortex.Net.AutorunOptions.Scheduler">
             <summary>
-            Wraps the error handler function around an action.
+            Gets or sets the scheduler function to use. The function is async
+            so that other code can be executed in the mean time.
             </summary>
-            <typeparam name="T">The type of the value.</typeparam>
-            <param name="errorHandler">The errorhandler to use.</param>
-            <param name="action">The action to wrap.</param>
-            <returns>The wrapped action.</returns>
         </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction(Cortex.Net.ISharedState,System.String,System.Object,System.Action)">
+        <member name="P:Cortex.Net.AutorunOptions.ErrorHandler">
             <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
+            Gets or sets error handler function that is called in case of an error. Otherwise the error is propagated.
             </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
         </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``1(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0})">
+        <member name="P:Cortex.Net.AutorunOptions.Context">
             <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
+            Gets or sets the context.
             </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
         </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``2(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1})">
+        <member name="T:Cortex.Net.ComputedValueOptions`1">
             <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
+            Options class for the Constructor of <see cref="T:Cortex.Net.Core.ComputedValue`1"/> class.
             </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
+            <typeparam name="T">The type of the getter / setter.</typeparam>
         </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``3(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2})">
+        <member name="M:Cortex.Net.ComputedValueOptions`1.#ctor(System.Func{`0},System.String)">
             <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
+            Initializes a new instance of the <see cref="T:Cortex.Net.ComputedValueOptions`1"/> class.
             </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
+            <param name="getter">The getter for the computed value.</param>
+            <param name="name">The name of the computed value.</param>
         </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``4(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3})">
+        <member name="P:Cortex.Net.ComputedValueOptions`1.Getter">
             <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
+            Gets the getter function.
             </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
         </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``5(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4})">
+        <member name="P:Cortex.Net.ComputedValueOptions`1.Setter">
             <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
+            Gets or sets setter function.
             </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
         </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``6(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5})">
+        <member name="P:Cortex.Net.ComputedValueOptions`1.Name">
             <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
+            Gets or sets the name of the computed value.
             </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
         </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``7(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6})">
+        <member name="P:Cortex.Net.ComputedValueOptions`1.EqualityComparer">
             <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
+            Gets or sets an optional equality comparer for type <typeparamref name="T"/>.
             </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
         </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``8(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7})">
+        <member name="P:Cortex.Net.ComputedValueOptions`1.Context">
             <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
+            Gets or sets the context where the computed value operates on (If Any).
             </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
         </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``9(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8})">
+        <member name="P:Cortex.Net.ComputedValueOptions`1.RequiresReaction">
             <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
+            Gets or sets a value indicating whether the <see cref="T:Cortex.Net.Core.ComputedValue`1"/> requires a reactive context.
             </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
         </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``10(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">
+        <member name="P:Cortex.Net.ComputedValueOptions`1.KeepAlive">
             <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
+            Gets or sets a value indicating whether the computed value keeps calculating, even when it is not observed.
             </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
-        </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``11(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">
-            <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
-            </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
-        </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``12(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">
-            <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
-            </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
-        </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``13(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">
-            <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
-            </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
-        </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``14(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">
-            <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
-            </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
-        </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``15(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">
-            <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
-            </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
-        </member>
-        <member name="M:Cortex.Net.Core.SharedStateExtensions.CreateAction``16(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">
-            <summary>
-            Creates an Action that triggers reaction in all observables in the shared state.
-            </summary>
-            <param name="sharedState">The name of the shared state to use to create this action.</param>
-            <param name="actionName">The name of this action.</param>
-            <param name="scope">The scope of this action.</param>
-            <param name="action">The action itself.</param>
         </member>
         <member name="T:Cortex.Net.CortexConfiguration">
             <summary>
@@ -1748,6 +1904,11 @@
         <member name="F:Cortex.Net.SharedState.uniqueId">
             <summary>
             A unique Id that is incremented and used to identify instances.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.SharedState.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.SharedState"/> class.
             </summary>
         </member>
         <member name="M:Cortex.Net.SharedState.#ctor(Cortex.Net.CortexConfiguration)">

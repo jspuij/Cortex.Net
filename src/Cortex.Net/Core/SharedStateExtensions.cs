@@ -22,7 +22,7 @@ namespace Cortex.Net.Core
     /// <summary>
     /// Extensions class for <see cref="ISharedState"/> instances.
     /// </summary>
-    public static partial class SharedStateExtensions
+    public static partial class ActionExtensions
     {
         /// <summary>
         /// Executes a function without tracking derivations.

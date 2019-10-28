@@ -4,7 +4,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
-// <copyright file="SharedStateExtensions.generated.cs" company="Michel Weststrate, Jan-Willem Spuij">
+// <copyright file="ActionExtensions.generated.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -20,9 +20,8 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Cortex.Net.Core
+namespace Cortex.Net.Api
 {
-    using Cortex.Net.Core;
     using Cortex.Net.Properties;
     using System;
     using System.Diagnostics;
@@ -30,7 +29,7 @@ namespace Cortex.Net.Core
     /// <summary>
     /// Extensions class for <see cref="ISharedState"/> instances.
     /// </summary>
-    public static partial class SharedStateExtensions
+    public static partial class ActionExtensions
 	{
 <# for (int i = 0; i < 17; i++) 
 {
@@ -72,7 +71,7 @@ namespace Cortex.Net.Core
                 Trace.WriteLine(Resources.ActionNameNull);
             }
 
-            return new Action<#=typeArgs#>((<#=paramArgs#>) => ActionExtensions.ExecuteAction<#=typeArgs#>(sharedState, actionName, scope, action<#=commaInvokeArgs#>));
+            return new Action<#=typeArgs#>((<#=paramArgs#>) => Core.ActionExtensions.ExecuteAction<#=typeArgs#>(sharedState, actionName, scope, action<#=commaInvokeArgs#>));
         }
 <# } #>
 	}
