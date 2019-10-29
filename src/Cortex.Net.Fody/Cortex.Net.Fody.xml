@@ -55,6 +55,12 @@
             <param name="methodDefinition">The method definition for the action.</param>
             <returns>A type reference.</returns>
         </member>
+        <member name="M:Cortex.Net.Fody.ActionWeaver.EmitSharedStateSetter(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldDefinition,System.String,Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference)">
+            <summary>
+            Emits most of the body of the shared state setter.
+            </summary>
+            <param name="processor">The ILProcessor to use.</param>
+        </member>
         <member name="T:Cortex.Net.Fody.CortexWeaver">
             <summary>
             Orchestrates weaving of classes with Cortex.Net Observables, Actions and Reactions.

@@ -181,7 +181,7 @@ namespace Cortex.Net.Fody
             // generate method body.
             var processor = method.Body.GetILProcessor();
             processor.Emit(OpCodes.Ldarg_0);
-            processor.Emit(OpCodes.Ldarg_0);
+            processor.Emit(OpCodes.Ldarg_1);
             processor.Emit(OpCodes.Stfld, backingFieldReference);
 
             // execute processor action before return.

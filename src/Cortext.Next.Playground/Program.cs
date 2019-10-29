@@ -2,6 +2,7 @@
 using Cortex.Net.Spy;
 using Cortex.Net.Core;
 using System;
+using Cortex.Net.Api;
 
 namespace Cortext.Next.Playground
 {
@@ -14,7 +15,7 @@ namespace Cortext.Next.Playground
                 
             });
 
-            sharedState.SpyEvent += SharedState_SpyEvent;
+            //sharedState.SpyEvent += SharedState_SpyEvent;
 
             var person = new Person(sharedState);
 
@@ -25,11 +26,21 @@ namespace Cortext.Next.Playground
 
             Console.WriteLine(person.FullName);
 
-            d.Dispose();
+//            d.Dispose();
 
             person.LastName = "Spuijtje";
 
+            person.ChangeBothNames("Eddy", "Tick");
+
             Console.WriteLine(person.FullName);
+
+            var personWeaver = new PersonWeave();
+            ((IObservableObject)personWeaver).SharedState = sharedState;
+            personWeaver.ChangeBothNames("Eddy", "Tick");
+            Console.WriteLine(personWeaver.FirstName);
+            Console.WriteLine(personWeaver.LastName);
+
+
         }
 
         private static void SharedState_SpyEvent(object sender, Cortex.Net.Spy.SpyEventArgs e)

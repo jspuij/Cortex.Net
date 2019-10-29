@@ -12,7 +12,7 @@ namespace Cortext.Next.Playground
         private readonly IAtom firstNameAtom;
         private readonly IAtom lastNameAtom;
         private readonly ComputedValue<string> fullnameComputedValue;
-        private readonly Action<string, string> testAction;
+        private Action<string, string> testAction;
 
         private string firstName;
         private string lastName;
@@ -31,7 +31,11 @@ namespace Cortext.Next.Playground
                 KeepAlive = true,
             });
 
-            testAction = sharedState.CreateAction<string, string>("ChangeBothNames", this, ChangeBothNames);
+            testAction = sharedState.CreateAction("ChangeBothNames", this, new Action<string, string>((f, l) =>
+            {
+                this.FirstName = f;
+                this.lastName = l;
+            }));
         }
 
         public string FirstName
@@ -64,16 +68,27 @@ namespace Cortext.Next.Playground
 
         public string FullName => this.fullnameComputedValue.Value;
 
+        private ISharedState sharedState;
+
         ISharedState IObservableObject.SharedState
         {
-            get;
-            set;
+            get => sharedState;
+            set
+            {
+                sharedState = value;
+
+                if (value == null)
+                {
+                    return;
+                }
+
+                testAction = sharedState.CreateAction<string, string>("ChangeBothNames", this, ChangeBothNames);
+            }
         }
 
         public void ChangeBothNames(string firstName, string lastName)
         {
-            FirstName = firstName;
-            LastName = lastName;
+            testAction(firstName, lastName);
         }
     }
 }

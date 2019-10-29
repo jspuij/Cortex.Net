@@ -37,7 +37,7 @@ namespace Cortex.Net.Fody
         /// <returns>All types in the references assembly.</returns>
         public override IEnumerable<string> GetAssembliesForScanning()
         {
-            yield break;
+            return new string[] { "System.Runtime" };
         }
     }
 }
