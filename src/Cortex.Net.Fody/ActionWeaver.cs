@@ -251,8 +251,19 @@ namespace Cortex.Net.Fody
             MethodReference createActionMethod;
 
             MethodReference actionTypeConstructorReference = actionType.Resolve().Methods.Single(x => x.IsConstructor);
+            
+            var parameters = actionTypeConstructorReference.Parameters;
+            var hasThis = actionTypeConstructorReference.HasThis;
+            var explicitThis = actionTypeConstructorReference.ExplicitThis;
 
             actionTypeConstructorReference = new MethodReference(actionTypeConstructorReference.Name, voidType, actionType);
+            actionTypeConstructorReference.HasThis = hasThis;
+            actionTypeConstructorReference.ExplicitThis = explicitThis;
+
+            foreach (var parameter in parameters)
+            {
+                actionTypeConstructorReference.Parameters.Add(parameter);
+            }
 
             if (actionType is GenericInstanceType)
             {
@@ -269,6 +280,7 @@ namespace Cortex.Net.Fody
             }
             else
             {
+                actionTypeConstructorReference = moduleDefinition.ImportReference(actionTypeConstructorReference);
                 createActionMethod = moduleDefinition.ImportReference(actionExtensions.Resolve().Methods.Single(x => x.Name.Contains("CreateAction") && !x.GenericParameters.Any()));
             }
 
