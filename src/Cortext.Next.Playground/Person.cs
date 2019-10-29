@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Cortext.Next.Playground
 {
-    public class Person
+    public class Person : IObservableObject
     {
         private readonly IAtom firstNameAtom;
         private readonly IAtom lastNameAtom;
@@ -64,7 +64,12 @@ namespace Cortext.Next.Playground
 
         public string FullName => this.fullnameComputedValue.Value;
 
-        [Action]
+        ISharedState IObservableObject.SharedState
+        {
+            get;
+            set;
+        }
+
         public void ChangeBothNames(string firstName, string lastName)
         {
             FirstName = firstName;

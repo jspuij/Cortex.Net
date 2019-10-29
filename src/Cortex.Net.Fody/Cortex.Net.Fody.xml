@@ -35,6 +35,13 @@
             Executes this action weaver.
             </summary>
         </member>
+        <member name="M:Cortex.Net.Fody.ActionWeaver.DuplicateAsInnerMethod(Mono.Cecil.MethodDefinition)">
+            <summary>
+            Duplicates a method with with the same body as the source method
+            and adds it to the class to the class.
+            </summary>
+            <param name="sourceMethod">The source method.</param>
+        </member>
         <member name="M:Cortex.Net.Fody.ActionWeaver.WeaveMethod(Mono.Cecil.MethodDefinition)">
             <summary>
             Weaves a method that was Decorated with the <see cref="T:Cortex.Net.Api.ActionAttribute"/>.
@@ -51,11 +58,6 @@
         <member name="T:Cortex.Net.Fody.CortexWeaver">
             <summary>
             Orchestrates weaving of classes with Cortex.Net Observables, Actions and Reactions.
-            </summary>
-        </member>
-        <member name="M:Cortex.Net.Fody.CortexWeaver.Execute">
-            <summary>
-            Called when the weaver is executed.
             </summary>
         </member>
         <member name="M:Cortex.Net.Fody.CortexWeaver.GetAssembliesForScanning">
@@ -84,6 +86,51 @@
             <summary>
               Looks up a localized string similar to CannotHandle more than 16 parameters on Action Method: ({0}).
             </summary>
+        </member>
+        <member name="T:Cortex.Net.Fody.TypeDefinitionExtenions">
+            <summary>
+            Extension methods for <see cref="T:Mono.Cecil.TypeDefinition"/> instances.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeDefinitionExtenions.CreateBackingField(Mono.Cecil.TypeDefinition,Mono.Cecil.TypeReference,System.String)">
+            <summary>
+            Creates a backing field for a property.
+            </summary>
+            <param name="classType">The type reference of the class.</param>
+            <param name="fieldType">The type reference of the Field.</param>
+            <param name="name">The name of the Property</param>
+            <returns>The Field definition. It has already been added to the class type.</returns>
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeDefinitionExtenions.CreateDefaultGetter(Mono.Cecil.TypeDefinition,Mono.Cecil.FieldDefinition,System.String,Mono.Cecil.MethodAttributes)">
+            <summary>
+            Creates a default getter for a property.
+            </summary>
+            <param name="classType">The type reference of the class.</param>
+            <param name="backingField">A reference to the backing field.</param>
+            <param name="name">The name of the property</param>
+            <param name="methodAttributes">The methodAttributes for this getter. Default value is MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName.</param>
+            <returns>A method definition. The method is already added to the <paramref name="classType"/>.</returns>
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeDefinitionExtenions.CreateDefaultSetter(Mono.Cecil.TypeDefinition,Mono.Cecil.FieldDefinition,System.String,Mono.Cecil.MethodAttributes,System.Action{Mono.Cecil.Cil.ILProcessor})">
+            <summary>
+            Creates a default getter for a property.
+            </summary>
+            <param name="classType">The type reference of the class.</param>
+            <param name="backingField">A reference to the backing field.</param>
+            <param name="name">The name of the property</param>
+            <param name="methodAttributes">The methodAttributes for this getter. Default value is MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName.</param>
+            <param name="emitAction">Extra emit action after default setter.</param>
+            <returns>A method definition. The method is already added to the <paramref name="classType"/>.</returns>
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeDefinitionExtenions.CreateProperty(Mono.Cecil.TypeDefinition,System.String,Mono.Cecil.MethodDefinition,Mono.Cecil.MethodDefinition)">
+            <summary>
+            Creates a property using the specified getter / setter.
+            </summary>
+            <param name="classType">The type of the class to create the property on.</param>
+            <param name="name">The name of the property.</param>
+            <param name="getter">The getter for the property.</param>
+            <param name="setter">The setter for the property. Can be null.</param>
+            <returns>The created property definitition.</returns>
         </member>
     </members>
 </doc>

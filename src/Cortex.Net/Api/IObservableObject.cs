@@ -1,5 +1,5 @@
-﻿// <copyright file="CortexWeaver.cs" company="Jan-Willem Spuij">
-// Copyright 2019 Jan-Willem Spuij
+﻿// <copyright file="IObservableObject.cs" company="Michel Weststrate, Jan-Willem Spuij">
+// Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy,
@@ -14,30 +14,17 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Cortex.Net.Fody
+namespace Cortex.Net.Api
 {
-    using System;
-    using System.Collections.Generic;
-    using global::Fody;
-
     /// <summary>
-    /// Orchestrates weaving of classes with Cortex.Net Observables, Actions and Reactions.
+    /// Interface implemented by observable objects. This interface can either be manually
+    /// implemented, or weaved or proxied into an object.
     /// </summary>
-    public class CortexWeaver : BaseModuleWeaver
+    public interface IObservableObject
     {
-        public override void Execute()
-        {
-            var actionWeaver = new ActionWeaver(this);
-            actionWeaver.Execute();
-        }
-
         /// <summary>
-        /// Return a list of assembly names for scanning. Used as a list for Fody.BaseModuleWeaver.FindType.
+        /// Gets or sets the Shared State on this object.
         /// </summary>
-        /// <returns>All types in the references assembly.</returns>
-        public override IEnumerable<string> GetAssembliesForScanning()
-        {
-            yield break;
-        }
+        ISharedState SharedState { get; set; }
     }
 }

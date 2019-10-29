@@ -77,25 +77,36 @@ namespace Cortex.Net.Fody
         }
 
         /// <summary>
+        /// Duplicates a method with with the same body as the source method
+        /// and adds it to the class to the class.
+        /// </summary>
+        /// <param name="sourceMethod">The source method.</param>
+        private static void DuplicateAsInnerMethod(MethodDefinition sourceMethod)
+        {
+            var innerDefinition = new MethodDefinition($"{InnerMethodPrefix}{sourceMethod.Name}", (sourceMethod.Attributes & ~MethodAttributes.Public) | MethodAttributes.Private, sourceMethod.ReturnType);
+
+            innerDefinition.Body = sourceMethod.Body;
+            innerDefinition.IsStatic = sourceMethod.IsStatic;
+
+            foreach (var parameter in sourceMethod.Parameters)
+            {
+                innerDefinition.Parameters.Add(parameter);
+            }
+
+            sourceMethod.DeclaringType.Methods.Add(innerDefinition);
+        }
+
+        /// <summary>
         /// Weaves a method that was Decorated with the <see cref="ActionAttribute"/>.
         /// </summary>
         /// <param name="methodDefinition">The method definition.</param>
         private void WeaveMethod(MethodDefinition methodDefinition)
         {
-            var moduleDefinition = this.cortexWeaver.ModuleDefinition;
+            var moduleDefinition = methodDefinition.Module;
             var declaringType = methodDefinition.DeclaringType;
 
-            var innerDefinition = new MethodDefinition($"{InnerMethodPrefix}{methodDefinition.Name}", methodDefinition.Attributes, methodDefinition.ReturnType);
-
-            innerDefinition.Body = methodDefinition.Body;
-            innerDefinition.IsStatic = methodDefinition.IsStatic;
-
-            foreach (var parameter in methodDefinition.Parameters)
-            {
-                innerDefinition.Parameters.Add(parameter);
-            }
-
-            methodDefinition.DeclaringType.Methods.Add(innerDefinition);
+            // Duplicate the action method as private inner method.
+            DuplicateAsInnerMethod(methodDefinition);
 
             var fieldAttributes = FieldAttributes.Private;
             if (methodDefinition.IsStatic)
@@ -103,11 +114,42 @@ namespace Cortex.Net.Fody
                 fieldAttributes |= FieldAttributes.Static;
             }
 
+            // convert the method definition to a corresponding Action<> delegate.
             var actionType = this.GetActionType(methodDefinition);
 
+            // add the delegate as field to the class.
             var fieldDefinition = new FieldDefinition($"{InnerActionFieldPrefix}{methodDefinition.Name}_Action", fieldAttributes, actionType);
-
             declaringType.Fields.Add(fieldDefinition);
+
+            var iObservableObjectInterfaceType = moduleDefinition.ImportReference(typeof(IObservableObject));
+            var iObservableObjectinterfaceDefinition = new InterfaceImplementation(iObservableObjectInterfaceType);
+
+            // If this object does not implement IObservableObject, add it, plus a default implementation.
+            if (!declaringType.Interfaces.Contains(iObservableObjectinterfaceDefinition))
+            {
+                var getOverride = iObservableObjectInterfaceType.Resolve().Methods.Single(x => x.Name.Contains($"get_SharedState"));
+                var setOverride = iObservableObjectInterfaceType.Resolve().Methods.Single(x => x.Name.Contains($"set_SharedState"));
+
+                declaringType.Interfaces.Add(iObservableObjectinterfaceDefinition);
+
+                var fieldTypeReference = moduleDefinition.ImportReference(typeof(ISharedState));
+
+                // add backing field for shared state to the class
+                var backingField = declaringType.CreateBackingField(fieldTypeReference, "Cortex.Net.Api.IObservableObject.SharedState");
+
+                var methodAttributes = MethodAttributes.Private | MethodAttributes.Final | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.NewSlot | MethodAttributes.Virtual;
+
+                // add getter
+                var getter = declaringType.CreateDefaultGetter(backingField, "Cortex.Net.Api.IObservableObject.SharedState", methodAttributes);
+                getter.Overrides.Add(moduleDefinition.ImportReference(getOverride));
+
+                // add getter
+                var setter = declaringType.CreateDefaultSetter(backingField, "Cortex.Net.Api.IObservableObject.SharedState", methodAttributes, null);
+                setter.Overrides.Add(moduleDefinition.ImportReference(setOverride));
+
+                // add property
+                declaringType.CreateProperty("Cortex.Net.Api.IObservableObject.SharedState", getter, setter);
+            }
         }
 
         /// <summary>
