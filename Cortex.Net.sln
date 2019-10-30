@@ -18,7 +18,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortext.Next.Playground", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortex.Net.Fody", "src\Cortex.Net.Fody\Cortex.Net.Fody.csproj", "{062DC911-53C6-4CB0-B4A9-AD6AB98D52BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortex.Net.Fody.Test", "test\Cortex.Net.Fody.Test\Cortex.Net.Fody.Test.csproj", "{6A213F26-6769-432E-A157-DCEBA92F9E3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortex.Net.Fody.Test", "test\Cortex.Net.Fody.Test\Cortex.Net.Fody.Test.csproj", "{6A213F26-6769-432E-A157-DCEBA92F9E3D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{0E4B8F86-ED56-410C-B07F-340258B54990}"
+	ProjectSection(SolutionItems) = preProject
+		docs\index.md = docs\index.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
