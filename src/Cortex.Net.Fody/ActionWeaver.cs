@@ -21,6 +21,7 @@ namespace Cortex.Net.Fody
     using System.Linq;
     using Cortex.Net.Api;
     using Cortex.Net.Fody.Properties;
+    using global::Fody;
     using Mono.Cecil;
     using Mono.Cecil.Cil;
 
@@ -42,7 +43,7 @@ namespace Cortex.Net.Fody
         /// <summary>
         /// A reference to the parent Cortex.Net weaver.
         /// </summary>
-        private readonly CortexWeaver cortexWeaver;
+        private readonly BaseModuleWeaver cortexWeaver;
 
         /// <summary>
         /// The queue to add ILProcessor actions to.
@@ -52,11 +53,12 @@ namespace Cortex.Net.Fody
         /// <summary>
         /// Initializes a new instance of the <see cref="ActionWeaver"/> class.
         /// </summary>
-        /// <param name="cortexWeaver">A reference to the Parent Cortex.Net weaver.</param>
+        /// <param name="parentWeaver">A reference to the Parent Cortex.Net weaver.</param>
         /// <param name="processorQueue">The queue to add ILProcessor actions to.</param>
-        public ActionWeaver(CortexWeaver cortexWeaver, ISharedStateAssignmentILProcessorQueue processorQueue)
+        /// <exception cref="ArgumentNullException">When any of the arguments is null.</exception>
+        public ActionWeaver(BaseModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue)
         {
-            this.cortexWeaver = cortexWeaver ?? throw new ArgumentNullException(nameof(cortexWeaver));
+            this.cortexWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
             this.processorQueue = processorQueue ?? throw new ArgumentNullException(nameof(processorQueue));
         }
 

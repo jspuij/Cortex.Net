@@ -17,5 +17,12 @@ namespace Cortext.Next.Playground
             FirstName = firstName;
             LastName = lastName;
         }
+
+        [Action]
+        public void ChangeBothNamesToJohnDoe()
+        {
+            FirstName = "John";
+            LastName = "Doe";
+        }
     }
 }

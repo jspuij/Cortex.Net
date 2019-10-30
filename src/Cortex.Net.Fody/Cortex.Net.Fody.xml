@@ -29,12 +29,13 @@
             The queue to add ILProcessor actions to.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.ActionWeaver.#ctor(Cortex.Net.Fody.CortexWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue)">
+        <member name="M:Cortex.Net.Fody.ActionWeaver.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ActionWeaver"/> class.
             </summary>
-            <param name="cortexWeaver">A reference to the Parent Cortex.Net weaver.</param>
+            <param name="parentWeaver">A reference to the Parent Cortex.Net weaver.</param>
             <param name="processorQueue">The queue to add ILProcessor actions to.</param>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
         </member>
         <member name="M:Cortex.Net.Fody.ActionWeaver.Execute">
             <summary>
