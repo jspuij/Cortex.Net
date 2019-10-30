@@ -17,10 +17,8 @@
 namespace Cortex.Net.Fody
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Text;
     using Cortex.Net.Api;
     using Cortex.Net.Fody.Properties;
     using Mono.Cecil;
@@ -47,12 +45,19 @@ namespace Cortex.Net.Fody
         private readonly CortexWeaver cortexWeaver;
 
         /// <summary>
+        /// The queue to add ILProcessor actions to.
+        /// </summary>
+        private readonly ISharedStateAssignmentILProcessorQueue processorQueue;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ActionWeaver"/> class.
         /// </summary>
         /// <param name="cortexWeaver">A reference to the Parent Cortex.Net weaver.</param>
-        public ActionWeaver(CortexWeaver cortexWeaver)
+        /// <param name="processorQueue">The queue to add ILProcessor actions to.</param>
+        public ActionWeaver(CortexWeaver cortexWeaver, ISharedStateAssignmentILProcessorQueue processorQueue)
         {
             this.cortexWeaver = cortexWeaver ?? throw new ArgumentNullException(nameof(cortexWeaver));
+            this.processorQueue = processorQueue ?? throw new ArgumentNullException(nameof(processorQueue));
         }
 
         /// <summary>
@@ -101,25 +106,66 @@ namespace Cortex.Net.Fody
         }
 
         /// <summary>
+        /// Rewrites the body of the method with the Action Attribute to call the Cortex.NET action.
+        /// </summary>
+        /// <param name="methodDefinition">The method definition to rewrite.</param>
+        /// <param name="actionType">The type of the action delegate to invoke.</param>
+        /// <param name="fieldDefinition">The definition of the field that holds the action delegate.</param>
+        private static void RewriteActionMethodBody(MethodDefinition methodDefinition, TypeReference actionType, FieldDefinition fieldDefinition)
+        {
+            methodDefinition.Body = new MethodBody(methodDefinition);
+            var processor = methodDefinition.Body.GetILProcessor();
+
+            var invokeMethod = actionType.Resolve().Methods.Single(x => x.Name == "Invoke");
+            var invokeReference = invokeMethod.GetGenericMethodOnInstantance(actionType);
+
+            // load the field where the action delegate is stored.
+            processor.Emit(OpCodes.Ldarg_0);
+            processor.Emit(OpCodes.Ldfld, fieldDefinition);
+
+            // push all function arguments onto the evaluation stack.
+            for (int i = 0; i < methodDefinition.Parameters.Count; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        processor.Emit(OpCodes.Ldarg_1);
+                        break;
+                    case 1:
+                        processor.Emit(OpCodes.Ldarg_2);
+                        break;
+                    case 2:
+                        processor.Emit(OpCodes.Ldarg_3);
+                        break;
+                    default:
+                        processor.Emit(OpCodes.Ldarg_S, i + 1);
+                        break;
+                }
+            }
+
+            // call the action delegate with the arguments on the evaluation stack.
+            processor.Emit(OpCodes.Callvirt, invokeReference);
+            processor.Emit(OpCodes.Ret);
+        }
+
+        /// <summary>
         /// Emits most of the body of the shared state setter.
         /// </summary>
         /// <param name="processor">The ILProcessor to use.</param>
-        /// <param name="backingField">The backing field for the shared state.</param>
+        /// <param name="sharedStateBackingField">The backing field for the shared state.</param>
         /// <param name="actionName">The action name.</param>
         /// <param name="innerDefinition">The inner definition of the action method.</param>
         /// <param name="actionType">The action type.</param>
-        /// <param name="fieldDefinition">The field definition.</param>
+        /// <param name="actionFieldDefinition">The field definition.</param>
         private static void EmitSharedStateSetter(
             ILProcessor processor,
-            FieldDefinition backingField,
+            FieldReference sharedStateBackingField,
             string actionName,
             MethodDefinition innerDefinition,
             TypeReference actionType,
-            FieldDefinition fieldDefinition)
+            FieldDefinition actionFieldDefinition)
         {
-            var moduleDefinition = backingField.Module;
-
-            var backingFieldReference = moduleDefinition.ImportReference(backingField);
+            var moduleDefinition = sharedStateBackingField.Module;
 
             var actionExtensions = moduleDefinition.ImportReference(typeof(ActionExtensions));
             var voidType = moduleDefinition.ImportReference(typeof(void));
@@ -149,33 +195,16 @@ namespace Cortex.Net.Fody
                 createActionMethod = moduleDefinition.ImportReference(actionExtensions.Resolve().Methods.Single(x => x.Name.Contains("CreateAction") && !x.GenericParameters.Any()));
             }
 
-            // if (value != null)
-            processor.Emit(OpCodes.Ldarg_1);
-            var ldArg0 = processor.Create(OpCodes.Ldarg_0);
-            processor.Emit(OpCodes.Brtrue_S, ldArg0);
-            processor.Emit(OpCodes.Ret);
-
-            // 1 = reference to this
-            processor.Append(ldArg0);
-
-            // 2 = reference to this.sharedState
             processor.Emit(OpCodes.Ldarg_0);
-            processor.Emit(OpCodes.Ldfld, backingFieldReference);
-
-            // 3 = reference to the actionName
+            processor.Emit(OpCodes.Ldarg_0);
+            processor.Emit(OpCodes.Ldfld, sharedStateBackingField);
             processor.Emit(OpCodes.Ldstr, actionName);
-
-            // 4 = reference to this
             processor.Emit(OpCodes.Ldarg_0);
-
-            // 5 = reference to this.innerdefinition
             processor.Emit(OpCodes.Ldarg_0);
             processor.Emit(OpCodes.Ldftn, innerDefinition);
-
-            // 4 = create delegate with this.innerdefition as arguments.
             processor.Emit(OpCodes.Newobj, actionTypeConstructorReference);
             processor.Emit(OpCodes.Call, createActionMethod);
-            processor.Emit(OpCodes.Stfld, fieldDefinition);
+            processor.Emit(OpCodes.Stfld, actionFieldDefinition);
         }
 
         /// <summary>
@@ -203,65 +232,19 @@ namespace Cortex.Net.Fody
             var fieldDefinition = new FieldDefinition($"{InnerActionFieldPrefix}{methodDefinition.Name}_Action", fieldAttributes, actionType);
             declaringType.Fields.Add(fieldDefinition);
 
-            var iObservableObjectInterfaceType = moduleDefinition.ImportReference(typeof(IObservableObject));
-            var iObservableObjectinterfaceDefinition = new InterfaceImplementation(iObservableObjectInterfaceType);
+            // push IL code for initialization of action members to the queue to emit in the ISharedState setter.
+            this.processorQueue.SharedStateAssignmentQueue.Enqueue(
+                (declaringType,
+                (processor, sharedStateBackingField) => EmitSharedStateSetter(
+                    processor,
+                    sharedStateBackingField,
+                    methodDefinition.Name,
+                    innerDefinition,
+                    actionType,
+                    fieldDefinition)));
 
-            // If this object does not implement IObservableObject, add it, plus a default implementation.
-            if (!declaringType.Interfaces.Contains(iObservableObjectinterfaceDefinition))
-            {
-                var getOverride = iObservableObjectInterfaceType.Resolve().Methods.Single(x => x.Name.Contains($"get_SharedState"));
-                var setOverride = iObservableObjectInterfaceType.Resolve().Methods.Single(x => x.Name.Contains($"set_SharedState"));
-
-                declaringType.Interfaces.Add(iObservableObjectinterfaceDefinition);
-
-                var fieldTypeReference = moduleDefinition.ImportReference(typeof(ISharedState));
-
-                // add backing field for shared state to the class
-                var backingField = declaringType.CreateBackingField(fieldTypeReference, "Cortex.Net.Api.IObservableObject.SharedState");
-
-                var methodAttributes = MethodAttributes.Private | MethodAttributes.Final | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.NewSlot | MethodAttributes.Virtual;
-
-                // add getter
-                var getter = declaringType.CreateDefaultGetter(backingField, "Cortex.Net.Api.IObservableObject.SharedState", methodAttributes);
-                getter.Overrides.Add(moduleDefinition.ImportReference(getOverride));
-
-                // add getter
-                var setter = declaringType.CreateDefaultSetter(backingField, "Cortex.Net.Api.IObservableObject.SharedState", methodAttributes, p => EmitSharedStateSetter(p, backingField, methodDefinition.Name, innerDefinition, actionType, fieldDefinition));
-                setter.Overrides.Add(moduleDefinition.ImportReference(setOverride));
-
-                // add property
-                declaringType.CreateProperty("Cortex.Net.Api.IObservableObject.SharedState", getter, setter);
-            }
-
-            methodDefinition.Body = new MethodBody(methodDefinition);
-            var processor = methodDefinition.Body.GetILProcessor();
-
-            var invokeMethod = actionType.Resolve().Methods.Single(x => x.Name == "Invoke");
-            var invokeReference = invokeMethod.GetGenericMethodOnInstantance(actionType);
-
-            processor.Emit(OpCodes.Ldarg_0);
-            processor.Emit(OpCodes.Ldfld, fieldDefinition);
-            for (int i = 0; i < methodDefinition.Parameters.Count; i++)
-            {
-                switch (i)
-                {
-                    case 0:
-                        processor.Emit(OpCodes.Ldarg_1);
-                        break;
-                    case 1:
-                        processor.Emit(OpCodes.Ldarg_2);
-                        break;
-                    case 2:
-                        processor.Emit(OpCodes.Ldarg_3);
-                        break;
-                    default:
-                        processor.Emit(OpCodes.Ldarg_S, i + 1);
-                        break;
-                }
-            }
-
-            processor.Emit(OpCodes.Callvirt, invokeReference);
-            processor.Emit(OpCodes.Ret);
+            // rewrite the action method body.
+            RewriteActionMethodBody(methodDefinition, actionType, fieldDefinition);
         }
 
         /// <summary>

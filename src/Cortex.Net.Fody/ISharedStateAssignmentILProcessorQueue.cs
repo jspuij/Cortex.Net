@@ -1,4 +1,4 @@
-﻿// <copyright file="CortexWeaver.cs" company="Jan-Willem Spuij">
+﻿// <copyright file="ISharedStateAssignmentILProcessorQueue.cs" company="Jan-Willem Spuij">
 // Copyright 2019 Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -18,31 +18,18 @@ namespace Cortex.Net.Fody
 {
     using System;
     using System.Collections.Generic;
-    using global::Fody;
+    using System.Text;
+    using Mono.Cecil;
+    using Mono.Cecil.Cil;
 
     /// <summary>
-    /// Orchestrates weaving of classes with Cortex.Net Observables, Actions and Reactions.
+    /// Interface that holds a Queue with <see cref="ILProcessor"/> actions to be executed when <see cref="ISharedState"/> is assigned on an observable oject.
     /// </summary>
-    public class CortexWeaver : BaseModuleWeaver
+    public interface ISharedStateAssignmentILProcessorQueue
     {
         /// <summary>
-        /// Executes the <see cref="CortexWeaver"/>.
+        /// Gets a <see cref="Queue{T}"/> with actions to be executed to emit the IL code on <see cref="ISharedState"/> Assignment.
         /// </summary>
-        public override void Execute()
-        {
-            var observableObjectWeaver = new ObservableObjectInterfaceWeaver(this);
-            var actionWeaver = new ActionWeaver(this, observableObjectWeaver);
-            actionWeaver.Execute();
-            observableObjectWeaver.Execute();
-        }
-
-        /// <summary>
-        /// Return a list of assembly names for scanning. Used as a list for Fody.BaseModuleWeaver.FindType.
-        /// </summary>
-        /// <returns>All types in the references assembly.</returns>
-        public override IEnumerable<string> GetAssembliesForScanning()
-        {
-            return new string[] { "System.Runtime" };
-        }
+        Queue<(TypeDefinition, Action<ILProcessor, FieldReference>)> SharedStateAssignmentQueue { get; }
     }
 }

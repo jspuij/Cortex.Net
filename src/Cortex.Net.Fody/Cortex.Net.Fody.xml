@@ -24,11 +24,17 @@
             A reference to the parent Cortex.Net weaver.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.ActionWeaver.#ctor(Cortex.Net.Fody.CortexWeaver)">
+        <member name="F:Cortex.Net.Fody.ActionWeaver.processorQueue">
+            <summary>
+            The queue to add ILProcessor actions to.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ActionWeaver.#ctor(Cortex.Net.Fody.CortexWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ActionWeaver"/> class.
             </summary>
             <param name="cortexWeaver">A reference to the Parent Cortex.Net weaver.</param>
+            <param name="processorQueue">The queue to add ILProcessor actions to.</param>
         </member>
         <member name="M:Cortex.Net.Fody.ActionWeaver.Execute">
             <summary>
@@ -42,16 +48,24 @@
             </summary>
             <param name="sourceMethod">The source method.</param>
         </member>
-        <member name="M:Cortex.Net.Fody.ActionWeaver.EmitSharedStateSetter(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldDefinition,System.String,Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,Mono.Cecil.FieldDefinition)">
+        <member name="M:Cortex.Net.Fody.ActionWeaver.RewriteActionMethodBody(Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,Mono.Cecil.FieldDefinition)">
+            <summary>
+            Rewrites the body of the method with the Action Attribute to call the Cortex.NET action.
+            </summary>
+            <param name="methodDefinition">The method definition to rewrite.</param>
+            <param name="actionType">The type of the action delegate to invoke.</param>
+            <param name="fieldDefinition">The definition of the field that holds the action delegate.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.ActionWeaver.EmitSharedStateSetter(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldReference,System.String,Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,Mono.Cecil.FieldDefinition)">
             <summary>
             Emits most of the body of the shared state setter.
             </summary>
             <param name="processor">The ILProcessor to use.</param>
-            <param name="backingField">The backing field for the shared state.</param>
+            <param name="sharedStateBackingField">The backing field for the shared state.</param>
             <param name="actionName">The action name.</param>
             <param name="innerDefinition">The inner definition of the action method.</param>
             <param name="actionType">The action type.</param>
-            <param name="fieldDefinition">The field definition.</param>
+            <param name="actionFieldDefinition">The field definition.</param>
         </member>
         <member name="M:Cortex.Net.Fody.ActionWeaver.WeaveMethod(Mono.Cecil.MethodDefinition)">
             <summary>
@@ -82,6 +96,16 @@
             </summary>
             <returns>All types in the references assembly.</returns>
         </member>
+        <member name="T:Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue">
+            <summary>
+            Interface that holds a Queue with <see cref="T:Mono.Cecil.Cil.ILProcessor"/> actions to be executed when <see cref="T:Cortex.Net.ISharedState"/> is assigned on an observable oject.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue.SharedStateAssignmentQueue">
+            <summary>
+            Gets a <see cref="T:System.Collections.Generic.Queue`1"/> with actions to be executed to emit the IL code on <see cref="T:Cortex.Net.ISharedState"/> Assignment.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Fody.MethodReferenceExtensions">
             <summary>
             Extension methods for <see cref="T:Mono.Cecil.MethodReference"/> instances.
@@ -94,6 +118,39 @@
             <param name="genericMethod">A reference to the generic method.</param>
             <param name="instantiantedType">The instantiated type.</param>
             <returns>A new method reference.</returns>
+        </member>
+        <member name="T:Cortex.Net.Fody.ObservableObjectInterfaceWeaver">
+            <summary>
+            Weaves the implementation for <see cref="T:Cortex.Net.Api.IObservableObject"/> on an object.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ObservableObjectInterfaceWeaver.cortexWeaver">
+            <summary>
+            A reference to the parent Cortex.Net weaver.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ObservableObjectInterfaceWeaver.#ctor(Cortex.Net.Fody.CortexWeaver)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ObservableObjectInterfaceWeaver"/> class.
+            </summary>
+            <param name="cortexWeaver">The cortex weaver.</param>
+        </member>
+        <member name="P:Cortex.Net.Fody.ObservableObjectInterfaceWeaver.SharedStateAssignmentQueue">
+            <summary>
+            Gets a Queue with delegates to be executed to emit the IL code on sharedStateAssignment.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ObservableObjectInterfaceWeaver.Execute">
+            <summary>
+            Executes this weaver.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ObservableObjectInterfaceWeaver.ExecuteProcessorActions(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldDefinition,System.Collections.Generic.IEnumerable{System.Action{Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldReference}})">
+            <summary>
+            Executes the processoractions agains the processor.
+            </summary>
+            <param name="processor">The processor to use.</param>
+            <param name="processorActions">The processor actions to execute.</param>
         </member>
         <member name="T:Cortex.Net.Fody.Properties.Resources">
             <summary>
