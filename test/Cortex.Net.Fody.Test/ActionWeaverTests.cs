@@ -46,9 +46,26 @@ namespace Cortex.Net.Fody.Test
         [Fact]
         public void ExecuteTests()
         {
+            var sharedState = new SharedState();
+
             var testClass = new ActionTestClass();
             Assert.True(testClass is IObservableObject);
-            
+            ((IObservableObject)testClass).SharedState = sharedState;
+            string expected = "Lisa";
+            testClass.SetName(expected);
+            Assert.Equal(expected, testClass.Name);
+            testClass.SetNameToJohn();
+            Assert.Equal("John", testClass.Name);
+        }
+
+        /// <summary>
+        /// Tests that executing operations on an object that is not attached to shared state does not throw exceptions.
+        /// </summary>
+        [Fact]
+        public void NoSharedStateDoesNotThrow()
+        {
+            var testClass = new ActionTestClass();
+            Assert.True(testClass is IObservableObject);
             string expected = "Lisa";
             testClass.SetName(expected);
             Assert.Equal(expected, testClass.Name);

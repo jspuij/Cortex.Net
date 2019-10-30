@@ -19,5 +19,10 @@
             Tests execution of the <see cref="T:Cortex.Net.Fody.ActionWeaver"/> class.
             </summary>
         </member>
+        <member name="M:Cortex.Net.Fody.Test.ActionWeaverTests.NoSharedStateDoesNotThrow">
+            <summary>
+            Tests that executing operations on an object that is not attached to shared state does not throw exceptions.
+            </summary>
+        </member>
     </members>
 </doc>
