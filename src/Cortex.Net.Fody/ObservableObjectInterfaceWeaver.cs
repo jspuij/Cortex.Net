@@ -109,6 +109,7 @@ namespace Cortex.Net.Fody
         /// Executes the processoractions agains the processor.
         /// </summary>
         /// <param name="processor">The processor to use.</param>
+        /// <param name="backingField">The backing field for the <see cref="ISharedState"/> instance.</param>
         /// <param name="processorActions">The processor actions to execute.</param>
         private static void ExecuteProcessorActions(ILProcessor processor, FieldDefinition backingField, IEnumerable<Action<ILProcessor, FieldReference>> processorActions)
         {

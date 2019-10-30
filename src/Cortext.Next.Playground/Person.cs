@@ -31,11 +31,7 @@ namespace Cortext.Next.Playground
                 KeepAlive = true,
             });
 
-            testAction = sharedState.CreateAction("ChangeBothNames", this, new Action<string, string>((f, l) =>
-            {
-                this.FirstName = f;
-                this.lastName = l;
-            }));
+            testAction = sharedState.CreateAction("ChangeBothNames", this, new Action<string, string>(this.ChangeBothNames));
         }
 
         public string FirstName
@@ -86,9 +82,19 @@ namespace Cortext.Next.Playground
             }
         }
 
+        private int changeBothNamesCount = 0;
+
         public void ChangeBothNames(string firstName, string lastName)
         {
-            testAction(firstName, lastName);
+            if (this.testAction != null && (++changeBothNamesCount %2) == 1)
+            {
+                this.testAction(firstName, lastName);
+                changeBothNamesCount -= 2;
+                return;
+            }
+
+            this.FirstName = firstName;
+            this.LastName = lastName;
         }
     }
 }

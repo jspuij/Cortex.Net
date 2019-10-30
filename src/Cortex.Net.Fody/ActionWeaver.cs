@@ -17,6 +17,7 @@
 namespace Cortex.Net.Fody
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using Cortex.Net.Api;
@@ -33,7 +34,7 @@ namespace Cortex.Net.Fody
         /// <summary>
         /// The prefix for an inner method that is the target of an action.
         /// </summary>
-        private const string InnerMethodPrefix = "Cortex_Net_Fvclsnf97SxcMxlkizajkz_";
+        private const string InnerCounterFieldPrefix = "cortex_Net_Fvclsnf97SxcMxlkizajkz_";
 
         /// <summary>
         /// The prefix for an inner field that contains the action.
@@ -68,15 +69,15 @@ namespace Cortex.Net.Fody
         internal void Execute()
         {
             var decoratedMethods = from t in this.cortexWeaver.ModuleDefinition.GetTypes()
-                             from m in t.Methods
-                             where
-                                t != null &&
-                                t.IsClass &&
-                                t.BaseType != null &&
-                                m != null &&
-                                m.CustomAttributes != null &&
-                                m.CustomAttributes.Any(x => x.AttributeType.FullName == typeof(ActionAttribute).FullName)
-                             select m;
+                                   from m in t.Methods
+                                   where
+                                      t != null &&
+                                      t.IsClass &&
+                                      t.BaseType != null &&
+                                      m != null &&
+                                      m.CustomAttributes != null &&
+                                      m.CustomAttributes.Any(x => x.AttributeType.FullName == typeof(ActionAttribute).FullName)
+                                   select m;
 
             foreach (var method in decoratedMethods.ToList())
             {
@@ -85,45 +86,53 @@ namespace Cortex.Net.Fody
         }
 
         /// <summary>
-        /// Duplicates a method with with the same body as the source method
-        /// and adds it to the class to the class.
-        /// </summary>
-        /// <param name="sourceMethod">The source method.</param>
-        private static MethodDefinition DuplicateAsInnerMethod(MethodDefinition sourceMethod)
-        {
-            var innerDefinition = new MethodDefinition($"{InnerMethodPrefix}{sourceMethod.Name}", (sourceMethod.Attributes & ~MethodAttributes.Public) | MethodAttributes.Private, sourceMethod.ReturnType)
-            {
-                Body = sourceMethod.Body,
-                IsStatic = sourceMethod.IsStatic,
-            };
-
-            foreach (var parameter in sourceMethod.Parameters)
-            {
-                innerDefinition.Parameters.Add(parameter);
-            }
-
-            sourceMethod.DeclaringType.Methods.Add(innerDefinition);
-
-            return innerDefinition;
-        }
-
-        /// <summary>
         /// Rewrites the body of the method with the Action Attribute to call the Cortex.NET action.
         /// </summary>
         /// <param name="methodDefinition">The method definition to rewrite.</param>
         /// <param name="actionType">The type of the action delegate to invoke.</param>
-        /// <param name="fieldDefinition">The definition of the field that holds the action delegate.</param>
-        private static void RewriteActionMethodBody(MethodDefinition methodDefinition, TypeReference actionType, FieldDefinition fieldDefinition)
+        /// <param name="counterFieldDefinition">The definition of the field that holds the entrance counter.</param>
+        /// <param name="actionFieldDefinition">The definition of the field that holds the action delegate.</param>
+        private static void ExtendActionMethodBody(MethodDefinition methodDefinition, TypeReference actionType, FieldDefinition counterFieldDefinition, FieldDefinition actionFieldDefinition)
         {
-            methodDefinition.Body = new MethodBody(methodDefinition);
             var processor = methodDefinition.Body.GetILProcessor();
+
+            var originalStart = methodDefinition.Body.Instructions.First();
+            var originalEnd = methodDefinition.Body.Instructions.Last();
+
+            var prefix = new List<Instruction>
+            {
+                // if fieldDefinition == null, jump to originalStart.
+                processor.Create(OpCodes.Ldarg_0),
+                processor.Create(OpCodes.Ldfld, actionFieldDefinition),
+                processor.Create(OpCodes.Brfalse_S, originalStart),
+
+                // this pointers for later store and refetch. This bypasses local variable declarations that may not play nice with existing local variables.
+                processor.Create(OpCodes.Ldarg_0),
+                processor.Create(OpCodes.Ldarg_0),
+
+                // load counterfield definition and add 1
+                processor.Create(OpCodes.Ldarg_0),
+                processor.Create(OpCodes.Ldfld, counterFieldDefinition),
+                processor.Create(OpCodes.Ldc_I4_1),
+                processor.Create(OpCodes.Add),
+
+                // store and refetch. Divide by 2 and keep remainder.
+                processor.Create(OpCodes.Stfld, counterFieldDefinition),
+                processor.Create(OpCodes.Ldfld, counterFieldDefinition),
+                processor.Create(OpCodes.Ldc_I4_2),
+                processor.Create(OpCodes.Rem),
+
+                // if remainder is not 1, jump to original start of function.
+                processor.Create(OpCodes.Ldc_I4_1),
+                processor.Create(OpCodes.Bne_Un_S, originalStart),
+
+                // load the field where the action delegate is stored.
+                processor.Create(OpCodes.Ldarg_0),
+                processor.Create(OpCodes.Ldfld, actionFieldDefinition),
+            };
 
             var invokeMethod = actionType.Resolve().Methods.Single(x => x.Name == "Invoke");
             var invokeReference = invokeMethod.GetGenericMethodOnInstantance(actionType);
-
-            // load the field where the action delegate is stored.
-            processor.Emit(OpCodes.Ldarg_0);
-            processor.Emit(OpCodes.Ldfld, fieldDefinition);
 
             // push all function arguments onto the evaluation stack.
             for (int i = 0; i < methodDefinition.Parameters.Count; i++)
@@ -131,23 +140,39 @@ namespace Cortex.Net.Fody
                 switch (i)
                 {
                     case 0:
-                        processor.Emit(OpCodes.Ldarg_1);
+                        prefix.Add(processor.Create(OpCodes.Ldarg_1));
                         break;
                     case 1:
-                        processor.Emit(OpCodes.Ldarg_2);
+                        prefix.Add(processor.Create(OpCodes.Ldarg_2));
                         break;
                     case 2:
-                        processor.Emit(OpCodes.Ldarg_3);
+                        prefix.Add(processor.Create(OpCodes.Ldarg_3));
                         break;
                     default:
-                        processor.Emit(OpCodes.Ldarg_S, i + 1);
+                        prefix.Add(processor.Create(OpCodes.Ldarg_S, i + 1));
                         break;
                 }
             }
 
             // call the action delegate with the arguments on the evaluation stack.
-            processor.Emit(OpCodes.Callvirt, invokeReference);
-            processor.Emit(OpCodes.Ret);
+            prefix.Add(processor.Create(OpCodes.Callvirt, invokeReference));
+
+            // this pointers for fetch and store;
+            prefix.Add(processor.Create(OpCodes.Ldarg_0));
+            prefix.Add(processor.Create(OpCodes.Ldarg_0));
+
+            // this.counterFieldDefinition -= 2;
+            prefix.Add(processor.Create(OpCodes.Ldfld, counterFieldDefinition));
+            prefix.Add(processor.Create(OpCodes.Ldc_I4_2));
+            prefix.Add(processor.Create(OpCodes.Sub));
+            prefix.Add(processor.Create(OpCodes.Stfld, counterFieldDefinition));
+
+            prefix.Add(processor.Create(OpCodes.Ret));
+
+            foreach (var instruction in prefix)
+            {
+                processor.InsertBefore(originalStart, instruction);
+            }
         }
 
         /// <summary>
@@ -155,19 +180,18 @@ namespace Cortex.Net.Fody
         /// </summary>
         /// <param name="processor">The ILProcessor to use.</param>
         /// <param name="sharedStateBackingField">The backing field for the shared state.</param>
-        /// <param name="actionName">The action name.</param>
-        /// <param name="innerDefinition">The inner definition of the action method.</param>
+        /// <param name="methodDefinition">The inner definition of the action method.</param>
         /// <param name="actionType">The action type.</param>
         /// <param name="actionFieldDefinition">The field definition.</param>
         private static void EmitSharedStateSetter(
-            ILProcessor processor,
-            FieldReference sharedStateBackingField,
-            string actionName,
-            MethodDefinition innerDefinition,
-            TypeReference actionType,
-            FieldDefinition actionFieldDefinition)
+        ILProcessor processor,
+        FieldReference sharedStateBackingField,
+        MethodDefinition methodDefinition,
+        TypeReference actionType,
+        FieldDefinition actionFieldDefinition)
         {
             var moduleDefinition = sharedStateBackingField.Module;
+            var actionName = methodDefinition.Name;
 
             var actionExtensions = moduleDefinition.ImportReference(typeof(ActionExtensions));
             var voidType = moduleDefinition.ImportReference(typeof(void));
@@ -203,7 +227,7 @@ namespace Cortex.Net.Fody
             processor.Emit(OpCodes.Ldstr, actionName);
             processor.Emit(OpCodes.Ldarg_0);
             processor.Emit(OpCodes.Ldarg_0);
-            processor.Emit(OpCodes.Ldftn, innerDefinition);
+            processor.Emit(OpCodes.Ldftn, methodDefinition);
             processor.Emit(OpCodes.Newobj, actionTypeConstructorReference);
             processor.Emit(OpCodes.Call, createActionMethod);
             processor.Emit(OpCodes.Stfld, actionFieldDefinition);
@@ -218,9 +242,6 @@ namespace Cortex.Net.Fody
             var moduleDefinition = methodDefinition.Module;
             var declaringType = methodDefinition.DeclaringType;
 
-            // Duplicate the action method as private inner method.
-            var innerDefinition = DuplicateAsInnerMethod(methodDefinition);
-
             var fieldAttributes = FieldAttributes.Private;
             if (methodDefinition.IsStatic)
             {
@@ -231,8 +252,12 @@ namespace Cortex.Net.Fody
             var actionType = this.GetActionType(methodDefinition);
 
             // add the delegate as field to the class.
-            var fieldDefinition = new FieldDefinition($"{InnerActionFieldPrefix}{methodDefinition.Name}_Action", fieldAttributes, actionType);
-            declaringType.Fields.Add(fieldDefinition);
+            var actionFieldDefinition = new FieldDefinition($"{InnerActionFieldPrefix}{methodDefinition.Name}_Action", fieldAttributes, actionType);
+            declaringType.Fields.Add(actionFieldDefinition);
+
+            // add entrance counter field.
+            var entranceCounterDefinition = new FieldDefinition($"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", fieldAttributes, moduleDefinition.TypeSystem.Int32);
+            declaringType.Fields.Add(entranceCounterDefinition);
 
             // push IL code for initialization of action members to the queue to emit in the ISharedState setter.
             this.processorQueue.SharedStateAssignmentQueue.Enqueue(
@@ -240,13 +265,12 @@ namespace Cortex.Net.Fody
                 (processor, sharedStateBackingField) => EmitSharedStateSetter(
                     processor,
                     sharedStateBackingField,
-                    methodDefinition.Name,
-                    innerDefinition,
+                    methodDefinition,
                     actionType,
-                    fieldDefinition)));
+                    actionFieldDefinition)));
 
-            // rewrite the action method body.
-            RewriteActionMethodBody(methodDefinition, actionType, fieldDefinition);
+            // extend the action method body.
+            ExtendActionMethodBody(methodDefinition, actionType, entranceCounterDefinition, actionFieldDefinition);
         }
 
         /// <summary>

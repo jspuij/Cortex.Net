@@ -9,7 +9,7 @@
             Weaves methods decorated with an <see cref="T:Cortex.Net.Api.ActionAttribute"/>.
             </summary>
         </member>
-        <member name="F:Cortex.Net.Fody.ActionWeaver.InnerMethodPrefix">
+        <member name="F:Cortex.Net.Fody.ActionWeaver.InnerCounterFieldPrefix">
             <summary>
             The prefix for an inner method that is the target of an action.
             </summary>
@@ -42,29 +42,22 @@
             Executes this action weaver.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.ActionWeaver.DuplicateAsInnerMethod(Mono.Cecil.MethodDefinition)">
-            <summary>
-            Duplicates a method with with the same body as the source method
-            and adds it to the class to the class.
-            </summary>
-            <param name="sourceMethod">The source method.</param>
-        </member>
-        <member name="M:Cortex.Net.Fody.ActionWeaver.RewriteActionMethodBody(Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,Mono.Cecil.FieldDefinition)">
+        <member name="M:Cortex.Net.Fody.ActionWeaver.ExtendActionMethodBody(Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,Mono.Cecil.FieldDefinition,Mono.Cecil.FieldDefinition)">
             <summary>
             Rewrites the body of the method with the Action Attribute to call the Cortex.NET action.
             </summary>
             <param name="methodDefinition">The method definition to rewrite.</param>
             <param name="actionType">The type of the action delegate to invoke.</param>
-            <param name="fieldDefinition">The definition of the field that holds the action delegate.</param>
+            <param name="counterFieldDefinition">The definition of the field that holds the entrance counter.</param>
+            <param name="actionFieldDefinition">The definition of the field that holds the action delegate.</param>
         </member>
-        <member name="M:Cortex.Net.Fody.ActionWeaver.EmitSharedStateSetter(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldReference,System.String,Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,Mono.Cecil.FieldDefinition)">
+        <member name="M:Cortex.Net.Fody.ActionWeaver.EmitSharedStateSetter(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldReference,Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,Mono.Cecil.FieldDefinition)">
             <summary>
             Emits most of the body of the shared state setter.
             </summary>
             <param name="processor">The ILProcessor to use.</param>
             <param name="sharedStateBackingField">The backing field for the shared state.</param>
-            <param name="actionName">The action name.</param>
-            <param name="innerDefinition">The inner definition of the action method.</param>
+            <param name="methodDefinition">The inner definition of the action method.</param>
             <param name="actionType">The action type.</param>
             <param name="actionFieldDefinition">The field definition.</param>
         </member>
@@ -151,6 +144,7 @@
             Executes the processoractions agains the processor.
             </summary>
             <param name="processor">The processor to use.</param>
+            <param name="backingField">The backing field for the <see cref="T:Cortex.Net.ISharedState"/> instance.</param>
             <param name="processorActions">The processor actions to execute.</param>
         </member>
         <member name="T:Cortex.Net.Fody.Properties.Resources">
