@@ -31,7 +31,7 @@ namespace Cortex.Net.Fody
         /// </summary>
         /// <param name="classType">The type reference of the class.</param>
         /// <param name="fieldType">The type reference of the Field.</param>
-        /// <param name="name">The name of the Property</param>
+        /// <param name="name">The name of the Property.</param>
         /// <returns>The Field definition. It has already been added to the class type.</returns>
         public static FieldDefinition CreateBackingField(this TypeDefinition classType, TypeReference fieldType, string name)
         {
@@ -75,7 +75,7 @@ namespace Cortex.Net.Fody
         /// </summary>
         /// <param name="classType">The type reference of the class.</param>
         /// <param name="backingField">A reference to the backing field.</param>
-        /// <param name="name">The name of the property</param>
+        /// <param name="name">The name of the property.</param>
         /// <param name="methodAttributes">The methodAttributes for this getter. Default value is MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName.</param>
         /// <returns>A method definition. The method is already added to the <paramref name="classType"/>.</returns>
         public static MethodDefinition CreateDefaultGetter(this TypeDefinition classType, FieldDefinition backingField, string name, MethodAttributes methodAttributes = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName)
@@ -133,11 +133,16 @@ namespace Cortex.Net.Fody
         /// </summary>
         /// <param name="classType">The type reference of the class.</param>
         /// <param name="backingField">A reference to the backing field.</param>
-        /// <param name="name">The name of the property</param>
+        /// <param name="name">The name of the property.</param>
         /// <param name="methodAttributes">The methodAttributes for this getter. Default value is MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName.</param>
         /// <param name="emitAction">Extra emit action after default setter.</param>
         /// <returns>A method definition. The method is already added to the <paramref name="classType"/>.</returns>
-        public static MethodDefinition CreateDefaultSetter(this TypeDefinition classType, FieldDefinition backingField, string name, MethodAttributes methodAttributes = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName, Action <ILProcessor> emitAction = null)
+        public static MethodDefinition CreateDefaultSetter(
+            this TypeDefinition classType,
+            FieldDefinition backingField,
+            string name,
+            MethodAttributes methodAttributes = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName,
+            Action<ILProcessor> emitAction = null)
         {
             if (classType is null)
             {
@@ -221,15 +226,16 @@ namespace Cortex.Net.Fody
             }
 
             // create the property.
-            var property = new PropertyDefinition(name, PropertyAttributes.None, getter.ReturnType);
-
-            // getter and/or setter
-            property.GetMethod = getter;
+            var property = new PropertyDefinition(name, PropertyAttributes.None, getter.ReturnType)
+            {
+                GetMethod = getter,
+            };
 
             if (setter != null)
             {
                 property.SetMethod = setter;
             }
+
             // add to classtype.
             classType.Properties.Add(property);
             return property;

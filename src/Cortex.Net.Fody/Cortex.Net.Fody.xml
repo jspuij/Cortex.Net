@@ -42,6 +42,17 @@
             </summary>
             <param name="sourceMethod">The source method.</param>
         </member>
+        <member name="M:Cortex.Net.Fody.ActionWeaver.EmitSharedStateSetter(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldDefinition,System.String,Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,Mono.Cecil.FieldDefinition)">
+            <summary>
+            Emits most of the body of the shared state setter.
+            </summary>
+            <param name="processor">The ILProcessor to use.</param>
+            <param name="backingField">The backing field for the shared state.</param>
+            <param name="actionName">The action name.</param>
+            <param name="innerDefinition">The inner definition of the action method.</param>
+            <param name="actionType">The action type.</param>
+            <param name="fieldDefinition">The field definition.</param>
+        </member>
         <member name="M:Cortex.Net.Fody.ActionWeaver.WeaveMethod(Mono.Cecil.MethodDefinition)">
             <summary>
             Weaves a method that was Decorated with the <see cref="T:Cortex.Net.Api.ActionAttribute"/>.
@@ -55,15 +66,14 @@
             <param name="methodDefinition">The method definition for the action.</param>
             <returns>A type reference.</returns>
         </member>
-        <member name="M:Cortex.Net.Fody.ActionWeaver.EmitSharedStateSetter(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldDefinition,System.String,Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,Mono.Cecil.FieldDefinition)">
-            <summary>
-            Emits most of the body of the shared state setter.
-            </summary>
-            <param name="processor">The ILProcessor to use.</param>
-        </member>
         <member name="T:Cortex.Net.Fody.CortexWeaver">
             <summary>
             Orchestrates weaving of classes with Cortex.Net Observables, Actions and Reactions.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.CortexWeaver.Execute">
+            <summary>
+            Executes the <see cref="T:Cortex.Net.Fody.CortexWeaver"/>.
             </summary>
         </member>
         <member name="M:Cortex.Net.Fody.CortexWeaver.GetAssembliesForScanning">
@@ -71,6 +81,19 @@
             Return a list of assembly names for scanning. Used as a list for Fody.BaseModuleWeaver.FindType.
             </summary>
             <returns>All types in the references assembly.</returns>
+        </member>
+        <member name="T:Cortex.Net.Fody.MethodReferenceExtensions">
+            <summary>
+            Extension methods for <see cref="T:Mono.Cecil.MethodReference"/> instances.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.MethodReferenceExtensions.GetGenericMethodOnInstantance(Mono.Cecil.MethodReference,Mono.Cecil.TypeReference)">
+            <summary>
+            Gets a method reference to the generic method on the instantiated type specified.
+            </summary>
+            <param name="genericMethod">A reference to the generic method.</param>
+            <param name="instantiantedType">The instantiated type.</param>
+            <returns>A new method reference.</returns>
         </member>
         <member name="T:Cortex.Net.Fody.Properties.Resources">
             <summary>
@@ -104,7 +127,7 @@
             </summary>
             <param name="classType">The type reference of the class.</param>
             <param name="fieldType">The type reference of the Field.</param>
-            <param name="name">The name of the Property</param>
+            <param name="name">The name of the Property.</param>
             <returns>The Field definition. It has already been added to the class type.</returns>
         </member>
         <member name="M:Cortex.Net.Fody.TypeDefinitionExtenions.CreateDefaultGetter(Mono.Cecil.TypeDefinition,Mono.Cecil.FieldDefinition,System.String,Mono.Cecil.MethodAttributes)">
@@ -113,7 +136,7 @@
             </summary>
             <param name="classType">The type reference of the class.</param>
             <param name="backingField">A reference to the backing field.</param>
-            <param name="name">The name of the property</param>
+            <param name="name">The name of the property.</param>
             <param name="methodAttributes">The methodAttributes for this getter. Default value is MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName.</param>
             <returns>A method definition. The method is already added to the <paramref name="classType"/>.</returns>
         </member>
@@ -123,7 +146,7 @@
             </summary>
             <param name="classType">The type reference of the class.</param>
             <param name="backingField">A reference to the backing field.</param>
-            <param name="name">The name of the property</param>
+            <param name="name">The name of the property.</param>
             <param name="methodAttributes">The methodAttributes for this getter. Default value is MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName.</param>
             <param name="emitAction">Extra emit action after default setter.</param>
             <returns>A method definition. The method is already added to the <paramref name="classType"/>.</returns>

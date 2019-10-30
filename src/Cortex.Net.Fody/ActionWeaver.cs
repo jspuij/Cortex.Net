@@ -84,10 +84,11 @@ namespace Cortex.Net.Fody
         /// <param name="sourceMethod">The source method.</param>
         private static MethodDefinition DuplicateAsInnerMethod(MethodDefinition sourceMethod)
         {
-            var innerDefinition = new MethodDefinition($"{InnerMethodPrefix}{sourceMethod.Name}", (sourceMethod.Attributes & ~MethodAttributes.Public) | MethodAttributes.Private, sourceMethod.ReturnType);
-
-            innerDefinition.Body = sourceMethod.Body;
-            innerDefinition.IsStatic = sourceMethod.IsStatic;
+            var innerDefinition = new MethodDefinition($"{InnerMethodPrefix}{sourceMethod.Name}", (sourceMethod.Attributes & ~MethodAttributes.Public) | MethodAttributes.Private, sourceMethod.ReturnType)
+            {
+                Body = sourceMethod.Body,
+                IsStatic = sourceMethod.IsStatic,
+            };
 
             foreach (var parameter in sourceMethod.Parameters)
             {
@@ -97,6 +98,84 @@ namespace Cortex.Net.Fody
             sourceMethod.DeclaringType.Methods.Add(innerDefinition);
 
             return innerDefinition;
+        }
+
+        /// <summary>
+        /// Emits most of the body of the shared state setter.
+        /// </summary>
+        /// <param name="processor">The ILProcessor to use.</param>
+        /// <param name="backingField">The backing field for the shared state.</param>
+        /// <param name="actionName">The action name.</param>
+        /// <param name="innerDefinition">The inner definition of the action method.</param>
+        /// <param name="actionType">The action type.</param>
+        /// <param name="fieldDefinition">The field definition.</param>
+        private static void EmitSharedStateSetter(
+            ILProcessor processor,
+            FieldDefinition backingField,
+            string actionName,
+            MethodDefinition innerDefinition,
+            TypeReference actionType,
+            FieldDefinition fieldDefinition)
+        {
+            var moduleDefinition = backingField.Module;
+
+            var backingFieldReference = moduleDefinition.ImportReference(backingField);
+
+            var actionExtensions = moduleDefinition.ImportReference(typeof(ActionExtensions));
+            var voidType = moduleDefinition.ImportReference(typeof(void));
+
+            MethodReference createActionMethod;
+
+            MethodReference actionTypeConstructorReference = actionType.Resolve().Methods.Single(x => x.IsConstructor);
+
+            actionTypeConstructorReference = actionTypeConstructorReference.GetGenericMethodOnInstantance(actionType);
+
+            if (actionType is GenericInstanceType)
+            {
+                actionTypeConstructorReference = moduleDefinition.ImportReference(actionTypeConstructorReference, (GenericInstanceType)actionType);
+
+                createActionMethod = actionExtensions.Resolve().Methods.Single(x => x.Name.Contains("CreateAction") && x.GenericParameters.Count == ((GenericInstanceType)actionType).GenericArguments.Count);
+                var createActionInstanceMethod = new GenericInstanceMethod(createActionMethod);
+                foreach (var parameter in ((GenericInstanceType)actionType).GenericArguments)
+                {
+                    createActionInstanceMethod.GenericArguments.Add(parameter.Resolve());
+                }
+
+                createActionMethod = moduleDefinition.ImportReference(createActionInstanceMethod);
+            }
+            else
+            {
+                actionTypeConstructorReference = moduleDefinition.ImportReference(actionTypeConstructorReference);
+                createActionMethod = moduleDefinition.ImportReference(actionExtensions.Resolve().Methods.Single(x => x.Name.Contains("CreateAction") && !x.GenericParameters.Any()));
+            }
+
+            // if (value != null)
+            processor.Emit(OpCodes.Ldarg_1);
+            var ldArg0 = processor.Create(OpCodes.Ldarg_0);
+            processor.Emit(OpCodes.Brtrue_S, ldArg0);
+            processor.Emit(OpCodes.Ret);
+
+            // 1 = reference to this
+            processor.Append(ldArg0);
+
+            // 2 = reference to this.sharedState
+            processor.Emit(OpCodes.Ldarg_0);
+            processor.Emit(OpCodes.Ldfld, backingFieldReference);
+
+            // 3 = reference to the actionName
+            processor.Emit(OpCodes.Ldstr, actionName);
+
+            // 4 = reference to this
+            processor.Emit(OpCodes.Ldarg_0);
+
+            // 5 = reference to this.innerdefinition
+            processor.Emit(OpCodes.Ldarg_0);
+            processor.Emit(OpCodes.Ldftn, innerDefinition);
+
+            // 4 = create delegate with this.innerdefition as arguments.
+            processor.Emit(OpCodes.Newobj, actionTypeConstructorReference);
+            processor.Emit(OpCodes.Call, createActionMethod);
+            processor.Emit(OpCodes.Stfld, fieldDefinition);
         }
 
         /// <summary>
@@ -119,7 +198,7 @@ namespace Cortex.Net.Fody
 
             // convert the method definition to a corresponding Action<> delegate.
             var actionType = this.GetActionType(methodDefinition);
-            
+
             // add the delegate as field to the class.
             var fieldDefinition = new FieldDefinition($"{InnerActionFieldPrefix}{methodDefinition.Name}_Action", fieldAttributes, actionType);
             declaringType.Fields.Add(fieldDefinition);
@@ -147,12 +226,42 @@ namespace Cortex.Net.Fody
                 getter.Overrides.Add(moduleDefinition.ImportReference(getOverride));
 
                 // add getter
-                var setter = declaringType.CreateDefaultSetter(backingField, "Cortex.Net.Api.IObservableObject.SharedState", methodAttributes, p => this.EmitSharedStateSetter(p, backingField, methodDefinition.Name, innerDefinition, actionType, fieldDefinition));
+                var setter = declaringType.CreateDefaultSetter(backingField, "Cortex.Net.Api.IObservableObject.SharedState", methodAttributes, p => EmitSharedStateSetter(p, backingField, methodDefinition.Name, innerDefinition, actionType, fieldDefinition));
                 setter.Overrides.Add(moduleDefinition.ImportReference(setOverride));
 
                 // add property
                 declaringType.CreateProperty("Cortex.Net.Api.IObservableObject.SharedState", getter, setter);
             }
+
+            methodDefinition.Body = new MethodBody(methodDefinition);
+            var processor = methodDefinition.Body.GetILProcessor();
+
+            var invokeMethod = actionType.Resolve().Methods.Single(x => x.Name == "Invoke");
+            var invokeReference = invokeMethod.GetGenericMethodOnInstantance(actionType);
+
+            processor.Emit(OpCodes.Ldarg_0);
+            processor.Emit(OpCodes.Ldfld, fieldDefinition);
+            for (int i = 0; i < methodDefinition.Parameters.Count; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        processor.Emit(OpCodes.Ldarg_1);
+                        break;
+                    case 1:
+                        processor.Emit(OpCodes.Ldarg_2);
+                        break;
+                    case 2:
+                        processor.Emit(OpCodes.Ldarg_3);
+                        break;
+                    default:
+                        processor.Emit(OpCodes.Ldarg_S, i + 1);
+                        break;
+                }
+            }
+
+            processor.Emit(OpCodes.Callvirt, invokeReference);
+            processor.Emit(OpCodes.Ret);
         }
 
         /// <summary>
@@ -233,85 +342,6 @@ namespace Cortex.Net.Fody
             }
 
             return instance;
-        }
-
-        /// <summary>
-        /// Emits most of the body of the shared state setter.
-        /// </summary>
-        /// <param name="processor">The ILProcessor to use.</param>
-        private void EmitSharedStateSetter(ILProcessor processor, FieldDefinition backingField, string actionName, MethodDefinition innerDefinition, TypeReference actionType, FieldDefinition fieldDefinition)
-        {
-            var moduleDefinition = backingField.Module;
-
-            var backingFieldReference = moduleDefinition.ImportReference(backingField);
-
-            var actionExtensions = moduleDefinition.ImportReference(typeof(ActionExtensions));
-            var voidType = moduleDefinition.ImportReference(typeof(void));
-
-            MethodReference createActionMethod;
-
-            MethodReference actionTypeConstructorReference = actionType.Resolve().Methods.Single(x => x.IsConstructor);
-            
-            var parameters = actionTypeConstructorReference.Parameters;
-            var hasThis = actionTypeConstructorReference.HasThis;
-            var explicitThis = actionTypeConstructorReference.ExplicitThis;
-
-            actionTypeConstructorReference = new MethodReference(actionTypeConstructorReference.Name, voidType, actionType);
-            actionTypeConstructorReference.HasThis = hasThis;
-            actionTypeConstructorReference.ExplicitThis = explicitThis;
-
-            foreach (var parameter in parameters)
-            {
-                actionTypeConstructorReference.Parameters.Add(parameter);
-            }
-
-            if (actionType is GenericInstanceType)
-            {
-                actionTypeConstructorReference = moduleDefinition.ImportReference(actionTypeConstructorReference, (GenericInstanceType)actionType);
-
-                createActionMethod = actionExtensions.Resolve().Methods.Single(x => x.Name.Contains("CreateAction") && x.GenericParameters.Count == ((GenericInstanceType)actionType).GenericArguments.Count);
-                var createActionInstanceMethod = new GenericInstanceMethod(createActionMethod);
-                foreach (var parameter in ((GenericInstanceType)actionType).GenericArguments)
-                {
-                    createActionInstanceMethod.GenericArguments.Add(parameter.Resolve());
-                }
-
-                createActionMethod = moduleDefinition.ImportReference(createActionInstanceMethod);
-            }
-            else
-            {
-                actionTypeConstructorReference = moduleDefinition.ImportReference(actionTypeConstructorReference);
-                createActionMethod = moduleDefinition.ImportReference(actionExtensions.Resolve().Methods.Single(x => x.Name.Contains("CreateAction") && !x.GenericParameters.Any()));
-            }
-
-            // if (value != null)
-            processor.Emit(OpCodes.Ldarg_1);
-            var ldArg0 = processor.Create(OpCodes.Ldarg_0);
-            processor.Emit(OpCodes.Brtrue_S, ldArg0);
-            processor.Emit(OpCodes.Ret);
-
-            // 1 = reference to this
-            processor.Append(ldArg0);
-
-            // 2 = reference to this.sharedState
-            processor.Emit(OpCodes.Ldarg_0);
-            processor.Emit(OpCodes.Ldfld, backingFieldReference);
-
-            // 3 = reference to the actionName
-            processor.Emit(OpCodes.Ldstr, actionName);
-
-            // 4 = reference to this
-            processor.Emit(OpCodes.Ldarg_0);
-
-            // 5 = reference to this.innerdefinition
-            processor.Emit(OpCodes.Ldarg_0);
-            processor.Emit(OpCodes.Ldftn, innerDefinition);
-
-            // 4 = create delegate with this.innerdefition as arguments.
-            processor.Emit(OpCodes.Newobj, actionTypeConstructorReference);
-            processor.Emit(OpCodes.Call, createActionMethod);
-            processor.Emit(OpCodes.Stfld, fieldDefinition);
-
         }
     }
 }

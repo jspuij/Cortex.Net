@@ -25,6 +25,9 @@ namespace Cortex.Net.Fody
     /// </summary>
     public class CortexWeaver : BaseModuleWeaver
     {
+        /// <summary>
+        /// Executes the <see cref="CortexWeaver"/>.
+        /// </summary>
         public override void Execute()
         {
             var actionWeaver = new ActionWeaver(this);

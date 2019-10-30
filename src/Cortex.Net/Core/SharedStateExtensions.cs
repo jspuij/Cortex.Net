@@ -16,9 +16,9 @@
 
 namespace Cortex.Net.Core
 {
-    using Cortex.Net.Api;
     using System;
     using System.Threading.Tasks;
+    using Cortex.Net.Api;
 
     /// <summary>
     /// Extensions class for <see cref="ISharedState"/> instances.
@@ -139,6 +139,7 @@ namespace Cortex.Net.Core
             var scheduler = CreateSchedulerFromOptions(options, ReactionRunner);
 
 #pragma warning disable CA2000 // Dispose objects before losing scope
+#pragma warning disable IDE0067 // Dispose objects before losing scope
             reaction = new Reaction(
                 sharedState,
                 name,
@@ -154,6 +155,7 @@ namespace Cortex.Net.Core
                         scheduler().RunSynchronously();
                     }
                 });
+#pragma warning restore IDE0067 // Dispose objects before losing scope
 #pragma warning restore CA2000 // Dispose objects before losing scope
 
             Task ReactionRunner()
