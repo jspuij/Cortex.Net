@@ -35,6 +35,7 @@ Add `<CortextWeaver/>` to [FodyWeavers.xml](https://github.com/Fody/Home/blob/ma
 <Weavers>
   <CortextWeaver/>
 </Weavers>
+```
 
 ## Introduction
 
