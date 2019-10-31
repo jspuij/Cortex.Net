@@ -1491,19 +1491,19 @@
             Method that is called when the <see cref="T:Cortex.Net.IDerivation"/> instance has become stale.
             </summary>
         </member>
-        <member name="T:Cortex.Net.IEnhancer`1">
+        <member name="T:Cortex.Net.IEnhancer">
             <summary>
             Enhances the specified type by some kind of technique.
             </summary>
-            <typeparam name="T">The type to enhance.</typeparam>
         </member>
-        <member name="M:Cortex.Net.IEnhancer`1.Enhance(`0,`0,System.String)">
+        <member name="M:Cortex.Net.IEnhancer.Enhance``1(``0,``0,System.String)">
             <summary>
             Enhances the newvalue.
             </summary>
             <param name="newValue">The new value.</param>
             <param name="originalValue">The original value.</param>
             <param name="name">The name of this object.</param>
+            <typeparam name="T">The type to enhance.</typeparam>
             <returns>A new value, but enhanced.</returns>
         </member>
         <member name="T:Cortex.Net.IObservable">
@@ -2253,6 +2253,43 @@
             Log relevant info and trigger a breakpoint to an attached debugger.
             </summary>
         </member>
+        <member name="T:Cortex.Net.Types.ObservableObject">
+            <summary>
+            Base or inner class for observable objects.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableObject.defaultEnhancer">
+            <summary>
+            The default enhancer that possibly makes new values observable as well.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableObject.keys">
+            <summary>
+            An atom for managing addition or removal of property / method keys.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableObject.sharedState">
+            <summary>
+            A reference to the shared state.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.#ctor(System.String,Cortex.Net.ISharedState)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableObject"/> class.
+            </summary>
+            <param name="name">The name of the objservable ovject.</param>
+            <param name="sharedState">The shared state for this ObservableObject.</param>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableObject.Name">
+            <summary>
+            Gets the name of this ObservableObject.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableObject.SharedState">
+            <summary>
+            Gets or sets the Shared State on this object.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Types.ObservableValue`1">
             <summary>
             Observable value. Can be changed and can be observed.
@@ -2279,7 +2316,7 @@
             The value of the observable.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Types.ObservableValue`1.#ctor(Cortex.Net.ISharedState,System.String,Cortex.Net.IEnhancer{`0},`0)">
+        <member name="M:Cortex.Net.Types.ObservableValue`1.#ctor(Cortex.Net.ISharedState,System.String,Cortex.Net.IEnhancer,`0)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableValue`1"/> class.
             </summary>

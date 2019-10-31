@@ -23,8 +23,7 @@ namespace Cortex.Net
     /// <summary>
     /// Enhances the specified type by some kind of technique.
     /// </summary>
-    /// <typeparam name="T">The type to enhance.</typeparam>
-    public interface IEnhancer<T>
+    public interface IEnhancer
     {
         /// <summary>
         /// Enhances the newvalue.
@@ -32,7 +31,8 @@ namespace Cortex.Net
         /// <param name="newValue">The new value.</param>
         /// <param name="originalValue">The original value.</param>
         /// <param name="name">The name of this object.</param>
+        /// <typeparam name="T">The type to enhance.</typeparam>
         /// <returns>A new value, but enhanced.</returns>
-        T Enhance(T newValue, T originalValue, string name);
+        T Enhance<T>(T newValue, T originalValue, string name);
     }
 }

@@ -42,7 +42,7 @@ namespace Cortex.Net.Types
         /// <summary>
         /// An enhancer that possibly makes new values observable as well.
         /// </summary>
-        private readonly IEnhancer<T> enhancer;
+        private readonly IEnhancer enhancer;
 
         /// <summary>
         /// The value of the observable.
@@ -56,7 +56,7 @@ namespace Cortex.Net.Types
         /// <param name="name">The name of this observable value.</param>
         /// <param name="enhancer">The enhancer to use on the type.</param>
         /// <param name="value">The initial value of the Observable.</param>
-        public ObservableValue(ISharedState sharedState, string name, IEnhancer<T> enhancer, T value = default)
+        public ObservableValue(ISharedState sharedState, string name, IEnhancer enhancer, T value = default)
             : base(
                   sharedState ?? throw new ArgumentNullException(nameof(sharedState)),
                   string.IsNullOrEmpty(name) ? $"{nameof(ObservableValue<T>)}@{sharedState.GetUniqueId()}" : name)
