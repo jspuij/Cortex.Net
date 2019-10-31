@@ -6,7 +6,7 @@ hide_title: true
 
 # Cortex.Net
 
-State management like [MobX](https://mobx.js.org/README.html) for .NET
+_State management like [MobX](https://mobx.js.org/README.html) for .NET_
 
 ## NuGet installation
 
