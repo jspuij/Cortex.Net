@@ -1,4 +1,4 @@
-﻿// <copyright file="IObservableObject.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ValueChangedEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -14,17 +14,17 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Cortex.Net.Api
+namespace Cortex.Net.Types
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     /// <summary>
-    /// Interface implemented by observable objects. This interface can either be manually
-    /// implemented, or weaved or proxied into an object.
+    /// Event arguments for a value that has changed.
     /// </summary>
-    public interface IObservableObject
+    /// <typeparam name="T">The type of the value that has changed.</typeparam>
+    public class ValueChangedEventArgs<T> : ValueEventArgs<T>
     {
-        /// <summary>
-        /// Gets or sets the Shared State on this object.
-        /// </summary>
-        ISharedState SharedState { get; set; }
     }
 }

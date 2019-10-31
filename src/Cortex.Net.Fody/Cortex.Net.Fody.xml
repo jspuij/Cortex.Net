@@ -115,7 +115,7 @@
         </member>
         <member name="T:Cortex.Net.Fody.ObservableObjectInterfaceWeaver">
             <summary>
-            Weaves the implementation for <see cref="T:Cortex.Net.Api.IObservableObject"/> on an object.
+            Weaves the implementation for <see cref="T:Cortex.Net.IObservableObject"/> on an object.
             </summary>
         </member>
         <member name="F:Cortex.Net.Fody.ObservableObjectInterfaceWeaver.cortexWeaver">

@@ -115,6 +115,15 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Computed values are not allowed to cause side effects by changing observables that are already being observed. Tried to modify: ({0}).
+        /// </summary>
+        internal static string ComputedValuesAreNotAllowedToCauseSideEffects {
+            get {
+                return ResourceManager.GetString("ComputedValuesAreNotAllowedToCauseSideEffects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cycle detected in computation ({0}): {1}.
         /// </summary>
         internal static string CycleDetectedInComputation {
@@ -165,6 +174,24 @@ namespace Cortex.Net.Properties {
         internal static string IsNull {
             get {
                 return ResourceManager.GetString("IsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Side effects like changing state are not allowed at this point. Are you trying to modify state from, for example, the render function of a React component? Tried to modify: ({0}).
+        /// </summary>
+        internal static string ModifiedOutsideAction {
+            get {
+                return ResourceManager.GetString("ModifiedOutsideAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Since strict-mode is enabled, changing observed observable values outside actions is not allowed. Please wrap the code in an `action` if this change is intended. Tried to modify: ({0}).
+        /// </summary>
+        internal static string ModifiedOutsideActionEnforceAlways {
+            get {
+                return ResourceManager.GetString("ModifiedOutsideActionEnforceAlways", resourceCulture);
             }
         }
         

@@ -55,5 +55,10 @@ namespace Cortex.Net
         /// Gets the Maximum number of reaction iterations that is allowed.
         /// </summary>
         public int MaxReactionIteractions { get; internal set; } = 100;
+
+        /// <summary>
+        /// Gets a value that defines how strict modification of state should be enforced.
+        /// </summary>
+        public EnforceAction EnforceActions { get; internal set; }
     }
 }

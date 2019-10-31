@@ -183,17 +183,6 @@
             <param name="scope">The scope of this action.</param>
             <param name="action">The action itself.</param>
         </member>
-        <member name="T:Cortex.Net.Api.IObservableObject">
-            <summary>
-            Interface implemented by observable objects. This interface can either be manually
-            implemented, or weaved or proxied into an object.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Api.IObservableObject.SharedState">
-            <summary>
-            Gets or sets the Shared State on this object.
-            </summary>
-        </member>
         <member name="T:Cortex.Net.AutorunOptions">
             <summary>
             Specifies the options for an Autorun instance.
@@ -779,6 +768,17 @@
             </summary>
             <returns>The name of the Atom.</returns>
         </member>
+        <member name="T:Cortex.Net.Core.AtomExtensions">
+            <summary>
+            Extension methods for the <see cref="T:Cortex.Net.IAtom"/> interface.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.AtomExtensions.CheckIfStateModificationsAreAllowed(Cortex.Net.IAtom)">
+            <summary>
+            Checks if State modifications are allowed and writes a warning to the Trace log.
+            </summary>
+            <param name="atom">The observable to report.</param>
+        </member>
         <member name="T:Cortex.Net.Core.ComputedValue`1">
             <summary>
             A node in the state dependency root that observes other nodes, and can be observed itself.
@@ -1328,6 +1328,11 @@
             Gets the Maximum number of reaction iterations that is allowed.
             </summary>
         </member>
+        <member name="P:Cortex.Net.CortexConfiguration.EnforceActions">
+            <summary>
+            Gets a value that defines how strict modification of state should be enforced.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.DerivationState">
             <summary>
             The state of the <see cref="T:Cortex.Net.IDerivation"/> instance.
@@ -1360,6 +1365,27 @@
             <summary>
             A shallow dependency has changed since last computation and the derivation
             will need to recompute when it's necessary next.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.EnforceAction">
+            <summary>
+            An enumeration that defines how strict modification of state should be enforced.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.EnforceAction.Observed">
+            <summary>
+            All state that is observed somewhere needs to be changed through actions.
+            This is the recommended strictness mode in non-trivial applications.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.EnforceAction.Never">
+            <summary>
+            State can be modified from anywhere
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.EnforceAction.Always">
+            <summary>
+            State always needs be updated (which in practice also includes creation) in actions.
             </summary>
         </member>
         <member name="T:Cortex.Net.IAtom">
@@ -1465,6 +1491,21 @@
             Method that is called when the <see cref="T:Cortex.Net.IDerivation"/> instance has become stale.
             </summary>
         </member>
+        <member name="T:Cortex.Net.IEnhancer`1">
+            <summary>
+            Enhances the specified type by some kind of technique.
+            </summary>
+            <typeparam name="T">The type to enhance.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.IEnhancer`1.Enhance(`0,`0,System.String)">
+            <summary>
+            Enhances the newvalue.
+            </summary>
+            <param name="newValue">The new value.</param>
+            <param name="originalValue">The original value.</param>
+            <param name="name">The name of this object.</param>
+            <returns>A new value, but enhanced.</returns>
+        </member>
         <member name="T:Cortex.Net.IObservable">
             <summary>
             Represents something that is Observable.
@@ -1517,6 +1558,56 @@
         <member name="M:Cortex.Net.IObservable.OnBecomeUnobserved">
             <summary>
             Method that at least must be implented to trigger event <see cref="E:Cortex.Net.IObservable.BecomeUnobserved"/>.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.IObservableObject">
+            <summary>
+            Interface implemented by observable objects. This interface can either be manually
+            implemented, or weaved or proxied into an object.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IObservableObject.SharedState">
+            <summary>
+            Gets or sets the Shared State on this object.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.IObservableValue`1">
+            <summary>
+            Interface for Observable values.
+            </summary>
+            <typeparam name="T">The type of the computed value.</typeparam>
+        </member>
+        <member name="E:Cortex.Net.IObservableValue`1.Change">
+            <summary>
+            Event that fires before the value will change.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.IObservableValue`1.Changed">
+            <summary>
+            Event that fires after the value has changed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IObservableValue`1.Value">
+            <summary>
+            Gets or sets the underlying value.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.IObservableValue`1.Observe(System.EventHandler{Cortex.Net.Types.ValueChangedEventArgs{`0}},System.Boolean)">
+            <summary>
+            Registers the secified event handler, and optionally fires it first.
+            </summary>
+            <param name="changedEventHandler">The event handler to register.</param>
+            <param name="fireImmediately">Whether to fire the event handler immediately.</param>
+        </member>
+        <member name="T:Cortex.Net.IObservableValue">
+            <summary>
+            Interface for Observable values.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IObservableValue.Value">
+            <summary>
+            Gets or sets the underlying value.
+            Best to be implemented specifically.
             </summary>
         </member>
         <member name="T:Cortex.Net.ISharedState">
@@ -1722,6 +1813,11 @@
               Looks up a localized string similar to Caught an exception during a get operation. Inspect the inner exception for details..
             </summary>
         </member>
+        <member name="P:Cortex.Net.Properties.Resources.ComputedValuesAreNotAllowedToCauseSideEffects">
+            <summary>
+              Looks up a localized string similar to Computed values are not allowed to cause side effects by changing observables that are already being observed. Tried to modify: ({0}).
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Properties.Resources.CycleDetectedInComputation">
             <summary>
               Looks up a localized string similar to Cycle detected in computation ({0}): {1}.
@@ -1750,6 +1846,16 @@
         <member name="P:Cortex.Net.Properties.Resources.IsNull">
             <summary>
               Looks up a localized string similar to ({0}) is null..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ModifiedOutsideAction">
+            <summary>
+              Looks up a localized string similar to Side effects like changing state are not allowed at this point. Are you trying to modify state from, for example, the render function of a React component? Tried to modify: ({0}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ModifiedOutsideActionEnforceAlways">
+            <summary>
+              Looks up a localized string similar to &quot;Since strict-mode is enabled, changing observed observable values outside actions is not allowed. Please wrap the code in an `action` if this change is intended. Tried to modify: ({0}).
             </summary>
         </member>
         <member name="P:Cortex.Net.Properties.Resources.ObserverNotInObservable">
@@ -2042,6 +2148,51 @@
             Gets or sets the context of the spy event.
             </summary>
         </member>
+        <member name="T:Cortex.Net.Spy.ObservableValueCreateEventArgs">
+            <summary>
+            Event arguments for spy event when an observable is created.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableValueCreateEventArgs.NewValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableValueEndEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableValueEndEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableValueEventArgs">
+            <summary>
+            Event arguments for an Action spy event.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableValueStartEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableValueStartEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableValueStartEventArgs.OldValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableValueStartEventArgs.NewValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Spy.ReactionEndSpyEventArgs">
             <summary>
             Event arguments for the start of tracking of a <see cref="T:Cortex.Net.Core.Reaction"/>.
@@ -2100,6 +2251,123 @@
         <member name="F:Cortex.Net.TraceMode.Break">
             <summary>
             Log relevant info and trigger a breakpoint to an attached debugger.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableValue`1">
+            <summary>
+            Observable value. Can be changed and can be observed.
+            </summary>
+            <typeparam name="T">The type of the Observable value.</typeparam>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableValue`1.changeEventHandlers">
+            <summary>
+            A set of event handlers for the change event.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableValue`1.changedEventHandlers">
+            <summary>
+            A set of event handlers for the changed event.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableValue`1.enhancer">
+            <summary>
+            An enhancer that possibly makes new values observable as well.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableValue`1.value">
+            <summary>
+            The value of the observable.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableValue`1.#ctor(Cortex.Net.ISharedState,System.String,Cortex.Net.IEnhancer{`0},`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableValue`1"/> class.
+            </summary>
+            <param name="sharedState">The shared state this Observable will be attached to.</param>
+            <param name="name">The name of this observable value.</param>
+            <param name="enhancer">The enhancer to use on the type.</param>
+            <param name="value">The initial value of the Observable.</param>
+        </member>
+        <member name="E:Cortex.Net.Types.ObservableValue`1.Change">
+            <summary>
+            Event that fires before the value will change.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.Types.ObservableValue`1.Changed">
+            <summary>
+            Event that fires after the value has changed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableValue`1.Value">
+            <summary>
+            Gets or sets the underlying value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableValue`1.Cortex#Net#IObservableValue#Value">
+            <summary>
+            Gets or sets the underlying value.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableValue`1.Observe(System.EventHandler{Cortex.Net.Types.ValueChangedEventArgs{`0}},System.Boolean)">
+            <summary>
+            Registers the secified event handler, and optionally fires it first.
+            </summary>
+            <param name="changedEventHandler">The event handler to register.</param>
+            <param name="fireImmediately">Whether to fire the event handler immediately.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableValue`1.PrepareNewValue(`0)">
+            <summary>
+            Prepares setting of a new Value.
+            </summary>
+            <param name="newValue">The new value.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableValue`1.SetNewValue(`0)">
+            <summary>
+            Sets a new value.
+            </summary>
+            <param name="newValue">The new value to set.</param>
+        </member>
+        <member name="T:Cortex.Net.Types.ValueChangedEventArgs`1">
+            <summary>
+            Event arguments for a value that has changed.
+            </summary>
+            <typeparam name="T">The type of the value that has changed.</typeparam>
+        </member>
+        <member name="T:Cortex.Net.Types.ValueChangeEventArgs`1">
+            <summary>
+            Event arguments for a value that will change.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ValueChangeEventArgs`1.Cancel">
+            <summary>
+            Gets or sets a value indicating whether the change should be canceled.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ValueChangeEventArgs`1.Changed">
+            <summary>
+            Gets a value indicating whether the value has been changed by an event handler.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ValueEventArgs`1">
+            <summary>
+            Base class for value event args.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ValueEventArgs`1.OldValue">
+            <summary>
+            Gets or sets old value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ValueEventArgs`1.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ValueEventArgs`1.Context">
+            <summary>
+            Gets or sets the context for the event.
             </summary>
         </member>
     </members>

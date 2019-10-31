@@ -135,6 +135,9 @@
   <data name="CaughtExceptionDuringGet" xml:space="preserve">
     <value>Caught an exception during a get operation. Inspect the inner exception for details.</value>
   </data>
+  <data name="ComputedValuesAreNotAllowedToCauseSideEffects" xml:space="preserve">
+    <value>Computed values are not allowed to cause side effects by changing observables that are already being observed. Tried to modify: ({0})</value>
+  </data>
   <data name="CycleDetectedInComputation" xml:space="preserve">
     <value>Cycle detected in computation ({0}): {1}</value>
   </data>
@@ -152,6 +155,12 @@
   </data>
   <data name="IsNull" xml:space="preserve">
     <value>({0}) is null.</value>
+  </data>
+  <data name="ModifiedOutsideAction" xml:space="preserve">
+    <value>Side effects like changing state are not allowed at this point. Are you trying to modify state from, for example, the render function of a React component? Tried to modify: ({0})</value>
+  </data>
+  <data name="ModifiedOutsideActionEnforceAlways" xml:space="preserve">
+    <value>"Since strict-mode is enabled, changing observed observable values outside actions is not allowed. Please wrap the code in an `action` if this change is intended. Tried to modify: ({0})</value>
   </data>
   <data name="ObserverNotInObservable" xml:space="preserve">
     <value>The derivation ({0}) does not exist in the set of observers of observable ({1})</value>
