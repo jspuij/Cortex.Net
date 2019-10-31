@@ -49,6 +49,8 @@ which includes the UI, data serialization, server communication, etc.
 
 [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor) and Cortex.Net together are a powerful combination. Blazor renders the application state by providing mechanisms to translate it into a tree of renderable components. Cortex.Net provides the mechanism to store and update the application state that Blazor then uses.
 
+<img alt="Cortex.Net unidirectional flow" src="https://github.com/mobxjs/mobx/raw/master/docs/assets/flow.png" align="center" />
+
 Both Blazor and Cortex.Net provide optimal and unique solutions to common problems in application development. Blazor provides mechanisms to optimally render UI by using a virtual DOM that reduces the number of costly DOM mutations. Cortex.Net provides mechanisms to optimally synchronize application state with your Blazor components by using a reactive virtual dependency state graph that is only updated when strictly needed and is never stale.
 
 Usage is not limited to Front-End state management though, the author uses it in an agent-based system as a Glorified Excel Spreadsheet. Possibilities are endless.
