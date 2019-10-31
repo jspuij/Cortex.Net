@@ -6,7 +6,7 @@ hide_title: true
 
 # Cortex.Net
 
-State management like MobX for .NET
+State management like [MobX](https://mobx.js.org/README.html) for .NET
 
 ## NuGet installation
 
@@ -35,3 +35,8 @@ Add `<CortextWeaver/>` to [FodyWeavers.xml](https://github.com/Fody/Home/blob/ma
 <Weavers>
   <CortextWeaver/>
 </Weavers>
+
+## Introduction
+
+Cortex.Net is a library that makes state management simple and scalable by transparently applying [functional reactive programming](https://en.wikipedia.org/wiki/Functional_reactive_programming) (TFRP). It is more or less a direct port of the excellent [MobX](https://mobx.js.org/README.html) library. As C# has Class-based inheritance versus the Prototype-based inheritance model of JavaScript, porting the library introduced some unique challenges. These are mostly solved by [Weaving](https://github.com/Fody/Fody) your library of state objects.
+
