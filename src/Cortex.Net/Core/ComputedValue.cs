@@ -271,7 +271,17 @@ namespace Cortex.Net.Core
         object IValue.Value
         {
             get => (object)this.Value;
-            set => this.Value = (T)value;
+            set
+            {
+                if (value is null)
+                {
+                    this.Value = default(T);
+                }
+                else
+                {
+                    this.Value = (T)value;
+                }
+            }
         }
 
         /// <summary>

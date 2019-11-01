@@ -139,7 +139,22 @@ namespace Cortex.Net.Types
         /// <summary>
         /// Gets or sets the underlying value.
         /// </summary>
-        object IValue.Value { get => this.Value; set => this.Value = (T)value; }
+        object IValue.Value
+        {
+            get => this.Value;
+
+            set
+            {
+                if (value is null)
+                {
+                    this.Value = default(T);
+                }
+                else
+                {
+                    this.Value = (T)value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the untracked value of this observable.

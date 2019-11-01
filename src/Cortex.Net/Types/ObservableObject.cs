@@ -262,10 +262,10 @@ namespace Cortex.Net.Types
                 return observableValue.Value;
             }
 
-            var referenceEnhancer = this.sharedState.ReferenceEnhancer();
+            var referenceEnhancer = this.SharedState.ReferenceEnhancer();
 
             var exists = this.values.ContainsKey(key);
-            observableValue = new ObservableValue<bool>(this.sharedState, $"{this.Name}.{key}?", referenceEnhancer, exists);
+            observableValue = new ObservableValue<bool>(this.SharedState, $"{this.Name}.{key}?", referenceEnhancer, exists);
             this.pendingKeys.Add(key, observableValue);
             return observableValue.Value; // read to subscribe
         }
@@ -313,7 +313,7 @@ namespace Cortex.Net.Types
             }
 
             var newValue = keyAddEventArgs.NewValue;
-            var observableValue = new ObservableValue<T>(this.sharedState, $"{this.Name}.{propertyName}", enhancer, newValue);
+            var observableValue = new ObservableValue<T>(this.SharedState, $"{this.Name}.{propertyName}", enhancer, newValue);
 
             this.values.Add(propertyName, observableValue);
             newValue = observableValue.Value; // observableValue might have changed it
@@ -343,7 +343,76 @@ namespace Cortex.Net.Types
                 throw new ArgumentOutOfRangeException(nameof(key), string.Format(CultureInfo.CurrentCulture, Resources.PropertyOrMethodAlreadyExistOnObservableObject, key, this.Name));
             }
 
-            this.values.Add(key, new ComputedValue<T>(this.sharedState, computedValueOptions));
+            this.values.Add(key, new ComputedValue<T>(this.SharedState, computedValueOptions));
+        }
+
+        /// <summary>
+        /// Removes a property or computed value.
+        /// </summary>
+        /// <param name="key">The key to remove.</param>
+        public void Remove(string key)
+        {
+            if (!this.values.ContainsKey(key))
+            {
+                return;
+            }
+
+            var keyAddEventArgs = new ObjectKeyRemoveEventArgs<T>()
+            {
+                Cancel = false,
+                Context = this,
+                Key = key,
+            };
+
+            foreach (var handler in this.changeEventHandlers)
+            {
+                handler(this, keyAddEventArgs);
+            }
+
+            if (keyAddEventArgs.Cancel)
+            {
+                return;
+            }
+
+            try
+            {
+                this.SharedState.StartBatch();
+
+                var oldObservable = this.values[key];
+
+                var oldValue = oldObservable.Value;
+                oldObservable.Value = null;
+
+                // notify key and keyset listeners
+                this.keys.ReportChanged();
+
+                this.values.Remove(key);
+
+                if (this.pendingKeys.TryGetValue(key, out var observablePendingKey))
+                {
+                    observablePendingKey.Value = false;
+                }
+
+                // delete the prop
+                delete this.target[key]
+                const change =
+                notify || notifySpy
+                    ? {
+                type: "remove",
+                          object: this.proxy || target,
+                          oldValue: oldValue,
+                          name: key
+                      }
+                    : null
+                if (notifySpy && process.env.NODE_ENV !== "production")
+                    spyReportStart({ ...change, name: this.name, key })
+            if (notify) notifyListeners(this, change)
+                if (notifySpy && process.env.NODE_ENV !== "production") spyReportEnd()
+            }
+            finally
+            {
+                this.SharedState.EndBatch();
+          }
         }
 
         /// <summary>
