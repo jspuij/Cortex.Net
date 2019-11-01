@@ -1,4 +1,4 @@
-﻿// <copyright file="ObjectChangeEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ReferenceEnhancer.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -21,29 +21,21 @@ namespace Cortex.Net.Types
     using System.Text;
 
     /// <summary>
-    /// Event arguments for a value on an object that will change.
+    /// Reference enhancer. Does nothing but return the same value.
     /// </summary>
-    /// <typeparam name="T">The type of the value that will change.</typeparam>
-    public class ObjectChangeEventArgs<T> : ObjectEventArgs
+    public class ReferenceEnhancer : IEnhancer
     {
         /// <summary>
-        /// Gets or sets old value.
+        /// Enhances the newvalue.
         /// </summary>
-        public T OldValue { get; set; }
-
-        /// <summary>
-        /// Gets or sets new value.
-        /// </summary>
-        public T NewValue { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the change should be canceled.
-        /// </summary>
-        public bool Cancel { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the value has been changed by an event handler.
-        /// </summary>
-        public bool Changed => !Equals(this.NewValue, this.OldValue);
+        /// <param name="newValue">The new value.</param>
+        /// <param name="originalValue">The original value.</param>
+        /// <param name="name">The name of this object.</param>
+        /// <typeparam name="T">The type to enhance.</typeparam>
+        /// <returns>A new value, but enhanced.</returns>
+        public T Enhance<T>(T newValue, T originalValue, string name)
+        {
+            return newValue;
+        }
     }
 }

@@ -214,6 +214,15 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Property or method with name ({0}) allready exists on object with name ({1}).
+        /// </summary>
+        internal static string PropertyOrMethodAlreadyExistOnObservableObject {
+            get {
+                return ResourceManager.GetString("PropertyOrMethodAlreadyExistOnObservableObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Property or method with name ({0}) not found on object with name ({1}).
         /// </summary>
         internal static string PropertyOrMethodNotFoundOnObservableObject {

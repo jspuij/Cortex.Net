@@ -17,6 +17,7 @@
 namespace Cortex.Net.Core
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using Cortex.Net.Api;
 
@@ -53,6 +54,21 @@ namespace Cortex.Net.Core
             {
                 sharedState.EndTracking(previousDerivation);
             }
+        }
+
+        /// <summary>
+        /// Gets the reference enhancer from the Shared State.
+        /// </summary>
+        /// <param name="sharedState">The shared state that should provide the reference enhancer.</param>
+        /// <returns>The IEnhancer instance.</returns>
+        public static IEnhancer ReferenceEnhancer(this ISharedState sharedState)
+        {
+            if (sharedState is null)
+            {
+                throw new ArgumentNullException(nameof(sharedState));
+            }
+
+            return sharedState.Enhancers.Single(x => x is Types.ReferenceEnhancer);
         }
 
         /// <summary>
@@ -229,6 +245,6 @@ namespace Cortex.Net.Core
                     await action().ConfigureAwait(true);
                 })
             : action);
-}
+        }
     }
 }

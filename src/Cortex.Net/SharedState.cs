@@ -18,18 +18,25 @@ namespace Cortex.Net
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
     using System.Text;
     using Cortex.Net.Core;
     using Cortex.Net.Properties;
     using Cortex.Net.Spy;
+    using Cortex.Net.Types;
 
     /// <summary>
     /// Holds the Shared state that all nodes of the Dependency Graph share.
     /// </summary>
     public sealed partial class SharedState : ISharedState
     {
+        private readonly IList<IEnhancer> enhancers = new List<IEnhancer>()
+        {
+            new ReferenceEnhancer(),
+        };
+
         /// <summary>
         /// Batch counter to support reentrance of Start and EndBatch.
         /// </summary>
@@ -135,6 +142,11 @@ namespace Cortex.Net
         /// it's inner action to run the default reaction algorithm in Cortex.NET.
         /// </summary>
         public Action<Action> ReactionScheduler { get; set; } = x => x();
+
+        /// <summary>
+        /// Gets a list of enhancers on this SharedState.
+        /// </summary>
+        public IList<IEnhancer> Enhancers => this.enhancers;
 
         /// <summary>
         /// Gets a unique Id that is incremented every time and identifies unique instances.

@@ -592,6 +592,13 @@
             <param name="function">The function to execute.</param>
             <returns>The return value.</returns>
         </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ReferenceEnhancer(Cortex.Net.ISharedState)">
+            <summary>
+            Gets the reference enhancer from the Shared State.
+            </summary>
+            <param name="sharedState">The shared state that should provide the reference enhancer.</param>
+            <returns>The IEnhancer instance.</returns>
+        </member>
         <member name="M:Cortex.Net.Core.ActionExtensions.AllowStateChanges``1(Cortex.Net.ISharedState,System.Boolean,System.Func{``0})">
             <summary>
             Executes a function while specifying <see cref="P:Cortex.Net.ISharedState.AllowStateChanges"/>. The previous value of
@@ -1655,6 +1662,11 @@
             Gets a queue of pending reactions.
             </summary>
         </member>
+        <member name="P:Cortex.Net.ISharedState.Enhancers">
+            <summary>
+            Gets a list of enhancers.
+            </summary>
+        </member>
         <member name="M:Cortex.Net.ISharedState.GetUniqueId">
             <summary>
             Gets a unique Id that is incremented every time.
@@ -1863,6 +1875,11 @@
               Looks up a localized string similar to ({0}) should only be called when the shared state is in batch mode..
             </summary>
         </member>
+        <member name="P:Cortex.Net.Properties.Resources.PropertyOrMethodAlreadyExistOnObservableObject">
+            <summary>
+              Looks up a localized string similar to Property or method with name ({0}) allready exists on object with name ({1}).
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Properties.Resources.PropertyOrMethodNotFoundOnObservableObject">
             <summary>
               Looks up a localized string similar to Property or method with name ({0}) not found on object with name ({1}).
@@ -1997,6 +2014,11 @@
             <summary>
             Gets or sets the Scheduler function. The Scheduler function can call
             it's inner action to run the default reaction algorithm in Cortex.NET.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.Enhancers">
+            <summary>
+            Gets a list of enhancers on this SharedState.
             </summary>
         </member>
         <member name="M:Cortex.Net.SharedState.GetUniqueId">
@@ -2148,14 +2170,59 @@
             Gets or sets the context of the spy event.
             </summary>
         </member>
-        <member name="T:Cortex.Net.Spy.ObservableObjectEndEventArgs">
+        <member name="T:Cortex.Net.Spy.ObservableObjectAddedEndEventArgs">
             <summary>
             Event arguments for spy event when an observable update is started.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectEndEventArgs.EndTime">
+        <member name="P:Cortex.Net.Spy.ObservableObjectAddedEndEventArgs.EndTime">
             <summary>
             Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectAddedStartEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectAddedStartEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectAddedStartEventArgs.NewValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectChangedEndEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectChangedEndEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectChangedStartEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectChangedStartEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectChangedStartEventArgs.OldValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectChangedStartEventArgs.NewValue">
+            <summary>
+            Gets or sets the New value.
             </summary>
         </member>
         <member name="T:Cortex.Net.Spy.ObservableObjectEventArgs">
@@ -2171,26 +2238,6 @@
         <member name="P:Cortex.Net.Spy.ObservableObjectEventArgs.Key">
             <summary>
             Gets or sets the key of the property or method.
-            </summary>
-        </member>
-        <member name="T:Cortex.Net.Spy.ObservableObjectStartEventArgs">
-            <summary>
-            Event arguments for spy event when an observable update is started.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectStartEventArgs.StartTime">
-            <summary>
-            Gets or sets the Start time.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectStartEventArgs.OldValue">
-            <summary>
-            Gets or sets the New value.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectStartEventArgs.NewValue">
-            <summary>
-            Gets or sets the New value.
             </summary>
         </member>
         <member name="T:Cortex.Net.Spy.ObservableValueCreateEventArgs">
@@ -2298,44 +2345,44 @@
             Log relevant info and trigger a breakpoint to an attached debugger.
             </summary>
         </member>
-        <member name="T:Cortex.Net.Types.ObjectChangedEventArgs">
+        <member name="T:Cortex.Net.Types.ObjectChangedEventArgs`1">
             <summary>
             Event arguments for a value that has changed.
             </summary>
             <typeparam name="T">The type of the value that has changed.</typeparam>
         </member>
-        <member name="P:Cortex.Net.Types.ObjectChangedEventArgs.OldValue">
+        <member name="P:Cortex.Net.Types.ObjectChangedEventArgs`1.OldValue">
             <summary>
             Gets or sets old value.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Types.ObjectChangedEventArgs.NewValue">
+        <member name="P:Cortex.Net.Types.ObjectChangedEventArgs`1.NewValue">
             <summary>
             Gets or sets new value.
             </summary>
         </member>
-        <member name="T:Cortex.Net.Types.ObjectChangeEventArgs">
+        <member name="T:Cortex.Net.Types.ObjectChangeEventArgs`1">
             <summary>
             Event arguments for a value on an object that will change.
             </summary>
             <typeparam name="T">The type of the value that will change.</typeparam>
         </member>
-        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs.OldValue">
+        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs`1.OldValue">
             <summary>
             Gets or sets old value.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs.NewValue">
+        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs`1.NewValue">
             <summary>
             Gets or sets new value.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs.Cancel">
+        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs`1.Cancel">
             <summary>
             Gets or sets a value indicating whether the change should be canceled.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs.Changed">
+        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs`1.Changed">
             <summary>
             Gets a value indicating whether the value has been changed by an event handler.
             </summary>
@@ -2353,6 +2400,38 @@
         <member name="P:Cortex.Net.Types.ObjectEventArgs.Key">
             <summary>
             Gets or sets the key of the property or method.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObjectKeyAddedEventArgs`1">
+            <summary>
+            Event arguments for a value on an object that will change.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectKeyAddedEventArgs`1.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectKeyAddedEventArgs`1.Cancel">
+            <summary>
+            Gets or sets a value indicating whether the change should be canceled.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObjectKeyAddEventArgs`1">
+            <summary>
+            Event arguments for a value on an object that will change.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectKeyAddEventArgs`1.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectKeyAddEventArgs`1.Cancel">
+            <summary>
+            Gets or sets a value indicating whether the change should be canceled.
             </summary>
         </member>
         <member name="T:Cortex.Net.Types.ObservableObject">
@@ -2375,6 +2454,11 @@
             The dictionary of <see cref="T:Cortex.Net.Core.ComputedValue`1"/> and <see cref="T:Cortex.Net.Types.ObservableValue`1"/> instances.
             </summary>
         </member>
+        <member name="F:Cortex.Net.Types.ObservableObject.pendingKeys">
+            <summary>
+            A dictionary of keys that are probably pending for addition.
+            </summary>
+        </member>
         <member name="F:Cortex.Net.Types.ObservableObject.defaultEnhancer">
             <summary>
             The default enhancer that possibly makes new values observable as well.
@@ -2394,9 +2478,9 @@
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableObject"/> class.
             </summary>
+            <param name="sharedState">The shared state for this ObservableObject.</param>
             <param name="name">The name of the objservable ovject.</param>
             <param name="defaultEnhancer">The default enhancer to use for newly created values.</param>
-            <param name="sharedState">The shared state for this ObservableObject.</param>
             <param name="values">A dictionary with values.</param>
         </member>
         <member name="E:Cortex.Net.Types.ObservableObject.Change">
@@ -2436,6 +2520,38 @@
             <param name="key">The key.</param>
             <param name="value">The value.</param>
             <exception cref="T:System.ArgumentOutOfRangeException">Thrown when the key does not exist in the values.</exception>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.Has(System.String)">
+            <summary>
+            Returns whether this <see cref="T:Cortex.Net.Types.ObservableObject"/> instance has a property of method with the name <paramref name="key"/>.
+            </summary>
+            <param name="key">The key to check.</param>
+            <returns>True when this object contains the key, false otherwise.</returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.AddObservableProperty``1(System.String,``0,Cortex.Net.IEnhancer)">
+            <summary>
+            Adds an Observable property to this <see cref="T:Cortex.Net.Types.ObservableObject"/> instnace.
+            </summary>
+            <typeparam name="T">The type of the property.</typeparam>
+            <param name="propertyName">The name of the property.</param>
+            <param name="initialValue">The initial value.</param>
+            <param name="enhancer">The enhancer to use.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.AddComputedMember``1(System.String,Cortex.Net.ComputedValueOptions{``0})">
+            <summary>
+            Adds a Computed Value.
+            </summary>
+            <typeparam name="T">The return type of the member.</typeparam>
+            <param name="key">The key of the member.</param>
+            <param name="computedValueOptions">The computed value options.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.NotifyPropertyAddition``1(System.String,``0)">
+            <summary>
+            Notifies listeners of property addition.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+            <param name="key">The name of the property.</param>
+            <param name="newValue">The new value.</param>
         </member>
         <member name="T:Cortex.Net.Types.ObservableValue`1">
             <summary>
@@ -2516,6 +2632,21 @@
             Sets a new value.
             </summary>
             <param name="newValue">The new value to set.</param>
+        </member>
+        <member name="T:Cortex.Net.Types.ReferenceEnhancer">
+            <summary>
+            Reference enhancer. Does nothing but return the same value.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Types.ReferenceEnhancer.Enhance``1(``0,``0,System.String)">
+            <summary>
+            Enhances the newvalue.
+            </summary>
+            <param name="newValue">The new value.</param>
+            <param name="originalValue">The original value.</param>
+            <param name="name">The name of this object.</param>
+            <typeparam name="T">The type to enhance.</typeparam>
+            <returns>A new value, but enhanced.</returns>
         </member>
         <member name="T:Cortex.Net.Types.ValueChangedEventArgs`1">
             <summary>

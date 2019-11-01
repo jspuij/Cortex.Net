@@ -24,16 +24,16 @@ namespace Cortex.Net.Types
     /// Event arguments for a value that has changed.
     /// </summary>
     /// <typeparam name="T">The type of the value that has changed.</typeparam>
-    public class ObjectChangedEventArgs : ObjectEventArgs
+    public class ObjectChangedEventArgs<T> : ObjectEventArgs
     {
         /// <summary>
         /// Gets or sets old value.
         /// </summary>
-        public object OldValue { get; set; }
+        public T OldValue { get; set; }
 
         /// <summary>
         /// Gets or sets new value.
         /// </summary>
-        public object NewValue { get; set; }
+        public T NewValue { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="ObjectChangeEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ObjectKeyAddEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -24,13 +24,8 @@ namespace Cortex.Net.Types
     /// Event arguments for a value on an object that will change.
     /// </summary>
     /// <typeparam name="T">The type of the value that will change.</typeparam>
-    public class ObjectChangeEventArgs<T> : ObjectEventArgs
+    public class ObjectKeyAddEventArgs<T> : ObjectEventArgs
     {
-        /// <summary>
-        /// Gets or sets old value.
-        /// </summary>
-        public T OldValue { get; set; }
-
         /// <summary>
         /// Gets or sets new value.
         /// </summary>
@@ -40,10 +35,5 @@ namespace Cortex.Net.Types
         /// Gets or sets a value indicating whether the change should be canceled.
         /// </summary>
         public bool Cancel { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the value has been changed by an event handler.
-        /// </summary>
-        public bool Changed => !Equals(this.NewValue, this.OldValue);
     }
 }

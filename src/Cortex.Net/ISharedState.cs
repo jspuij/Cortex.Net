@@ -94,6 +94,11 @@ namespace Cortex.Net
         Queue<Reaction> PendingReactions { get; }
 
         /// <summary>
+        /// Gets a list of enhancers.
+        /// </summary>
+        IList<IEnhancer> Enhancers { get; }
+
+        /// <summary>
         /// Gets a unique Id that is incremented every time.
         /// </summary>
         /// <returns>The new unique Id.</returns>

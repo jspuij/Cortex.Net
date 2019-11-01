@@ -27,22 +27,27 @@ namespace Cortex.Net.Types
     /// <summary>
     /// Base or inner class for observable objects.
     /// </summary>
-    internal class ObservableObject : IObservableObject
+    public class ObservableObject : IObservableObject
     {
         /// <summary>
         /// A set of event handlers for the change event.
         /// </summary>
-        private readonly HashSet<EventHandler<ObjectChangeEventArgs>> changeEventHandlers = new HashSet<EventHandler<ObjectChangeEventArgs>>();
+        private readonly HashSet<EventHandler<ObjectEventArgs>> changeEventHandlers = new HashSet<EventHandler<ObjectEventArgs>>();
 
         /// <summary>
         /// A set of event handlers for the changed event.
         /// </summary>
-        private readonly HashSet<EventHandler<ObjectChangedEventArgs>> changedEventHandlers = new HashSet<EventHandler<ObjectChangedEventArgs>>();
+        private readonly HashSet<EventHandler<ObjectEventArgs>> changedEventHandlers = new HashSet<EventHandler<ObjectEventArgs>>();
 
         /// <summary>
         /// The dictionary of <see cref="ComputedValue{T}"/> and <see cref="ObservableValue{T}"/> instances.
         /// </summary>
         private readonly IDictionary<string, IValue> values;
+
+        /// <summary>
+        /// A dictionary of keys that are probably pending for addition.
+        /// </summary>
+        private readonly IDictionary<string, IObservableValue<bool>> pendingKeys = new Dictionary<string, IObservableValue<bool>>();
 
         /// <summary>
         /// The default enhancer that possibly makes new values observable as well.
@@ -62,11 +67,11 @@ namespace Cortex.Net.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableObject"/> class.
         /// </summary>
+        /// <param name="sharedState">The shared state for this ObservableObject.</param>
         /// <param name="name">The name of the objservable ovject.</param>
         /// <param name="defaultEnhancer">The default enhancer to use for newly created values.</param>
-        /// <param name="sharedState">The shared state for this ObservableObject.</param>
         /// <param name="values">A dictionary with values.</param>
-        public ObservableObject(string name, IEnhancer defaultEnhancer, ISharedState sharedState = null, IDictionary<string, IValue> values = null)
+        public ObservableObject(string name, IEnhancer defaultEnhancer, ISharedState sharedState, IDictionary<string, IValue> values = null)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -90,7 +95,7 @@ namespace Cortex.Net.Types
         /// <summary>
         /// Event that fires before a value on the object will change.
         /// </summary>
-        public event EventHandler<ObjectChangeEventArgs> Change
+        public event EventHandler<ObjectEventArgs> Change
         {
             add
             {
@@ -106,7 +111,7 @@ namespace Cortex.Net.Types
         /// <summary>
         /// Event that fires after a value on the object has changed.
         /// </summary>
-        public event EventHandler<ObjectChangedEventArgs> Changed
+        public event EventHandler<ObjectEventArgs> Changed
         {
             add
             {
@@ -137,6 +142,10 @@ namespace Cortex.Net.Types
                 if (this.sharedState != null)
                 {
                     this.keys = new Atom(this.sharedState, $"{this.Name}.keys");
+                    this.pendingKeys.Clear();
+                    this.values.Clear();
+                    this.changeEventHandlers.Clear();
+                    this.changedEventHandlers.Clear();
                 }
             }
         }
@@ -183,10 +192,11 @@ namespace Cortex.Net.Types
 
             var observable = ivalue as ObservableValue<T>;
             T oldValue = observable.UntrackedValue;
-            var changeEventArgs = new ObjectChangeEventArgs()
+            var changeEventArgs = new ObjectChangeEventArgs<T>()
             {
                 Cancel = false,
                 Context = this,
+                Key = key,
                 NewValue = value,
                 OldValue = oldValue,
             };
@@ -205,7 +215,7 @@ namespace Cortex.Net.Types
 
             if (changed)
             {
-                this.SharedState.OnSpy(this, new ObservableObjectStartEventArgs()
+                this.SharedState.OnSpy(this, new ObservableObjectChangedStartEventArgs()
                 {
                     Name = this.Name,
                     Context = this,
@@ -217,7 +227,7 @@ namespace Cortex.Net.Types
 
                 observable.SetNewValue(newValue);
 
-                var eventArgs = new ObjectChangedEventArgs()
+                var eventArgs = new ObjectChangedEventArgs<T>()
                 {
                     Context = this,
                     Key = key,
@@ -230,7 +240,7 @@ namespace Cortex.Net.Types
                     handler(this, eventArgs);
                 }
 
-                this.SharedState.OnSpy(this, new ObservableObjectEndEventArgs()
+                this.SharedState.OnSpy(this, new ObservableObjectChangedEndEventArgs()
                 {
                     Name = this.Name,
                     Context = this,
@@ -238,6 +248,147 @@ namespace Cortex.Net.Types
                     EndTime = DateTime.UtcNow,
                 });
             }
+        }
+
+        /// <summary>
+        /// Returns whether this <see cref="ObservableObject"/> instance has a property of method with the name <paramref name="key"/>.
+        /// </summary>
+        /// <param name="key">The key to check.</param>
+        /// <returns>True when this object contains the key, false otherwise.</returns>
+        public bool Has(string key)
+        {
+            if (this.pendingKeys.TryGetValue(key, out var observableValue))
+            {
+                return observableValue.Value;
+            }
+
+            var referenceEnhancer = this.sharedState.ReferenceEnhancer();
+
+            var exists = this.values.ContainsKey(key);
+            observableValue = new ObservableValue<bool>(this.sharedState, $"{this.Name}.{key}?", referenceEnhancer, exists);
+            this.pendingKeys.Add(key, observableValue);
+            return observableValue.Value; // read to subscribe
+        }
+
+        /// <summary>
+        /// Adds an Observable property to this <see cref="ObservableObject"/> instnace.
+        /// </summary>
+        /// <typeparam name="T">The type of the property.</typeparam>
+        /// <param name="propertyName">The name of the property.</param>
+        /// <param name="initialValue">The initial value.</param>
+        /// <param name="enhancer">The enhancer to use.</param>
+        public void AddObservableProperty<T>(string propertyName, T initialValue = default, IEnhancer enhancer = null)
+        {
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                throw new ArgumentNullException(nameof(propertyName));
+            }
+
+            if (enhancer == null)
+            {
+                enhancer = this.defaultEnhancer;
+            }
+
+            if (this.values.ContainsKey(propertyName))
+            {
+                throw new ArgumentOutOfRangeException(nameof(propertyName), string.Format(CultureInfo.CurrentCulture, Resources.PropertyOrMethodAlreadyExistOnObservableObject, propertyName, this.Name));
+            }
+
+            var keyAddEventArgs = new ObjectKeyAddEventArgs<T>()
+            {
+                Cancel = false,
+                Context = this,
+                NewValue = initialValue,
+                Key = propertyName,
+            };
+
+            foreach (var handler in this.changeEventHandlers)
+            {
+                handler(this, keyAddEventArgs);
+            }
+
+            if (keyAddEventArgs.Cancel)
+            {
+                return;
+            }
+
+            var newValue = keyAddEventArgs.NewValue;
+            var observableValue = new ObservableValue<T>(this.sharedState, $"{this.Name}.{propertyName}", enhancer, newValue);
+
+            this.values.Add(propertyName, observableValue);
+            newValue = observableValue.Value; // observableValue might have changed it
+            this.NotifyPropertyAddition(propertyName, newValue);
+        }
+
+        /// <summary>
+        /// Adds a Computed Value.
+        /// </summary>
+        /// <typeparam name="T">The return type of the member.</typeparam>
+        /// <param name="key">The key of the member.</param>
+        /// <param name="computedValueOptions">The computed value options.</param>
+        public void AddComputedMember<T>(string key, ComputedValueOptions<T> computedValueOptions)
+        {
+            if (string.IsNullOrEmpty(key))
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+
+            if (computedValueOptions is null)
+            {
+                throw new ArgumentNullException(nameof(computedValueOptions));
+            }
+
+            if (this.values.ContainsKey(key))
+            {
+                throw new ArgumentOutOfRangeException(nameof(key), string.Format(CultureInfo.CurrentCulture, Resources.PropertyOrMethodAlreadyExistOnObservableObject, key, this.Name));
+            }
+
+            this.values.Add(key, new ComputedValue<T>(this.sharedState, computedValueOptions));
+        }
+
+        /// <summary>
+        /// Notifies listeners of property addition.
+        /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="key">The name of the property.</param>
+        /// <param name="newValue">The new value.</param>
+        private void NotifyPropertyAddition<T>(string key, T newValue)
+        {
+            this.SharedState.OnSpy(this, new ObservableObjectAddedStartEventArgs()
+            {
+                Name = this.Name,
+                Context = this,
+                Key = key,
+                NewValue = newValue,
+                StartTime = DateTime.UtcNow,
+            });
+
+            var eventArgs = new ObjectKeyAddedEventArgs<T>()
+            {
+                Context = this,
+                Key = key,
+                NewValue = newValue,
+            };
+
+            foreach (var handler in this.changedEventHandlers)
+            {
+                handler(this, eventArgs);
+            }
+
+            this.SharedState.OnSpy(this, new ObservableObjectAddedEndEventArgs()
+            {
+                Name = this.Name,
+                Context = this,
+                Key = key,
+                EndTime = DateTime.UtcNow,
+            });
+
+            if (this.pendingKeys.TryGetValue(key, out var pendingKey))
+            {
+                pendingKey.Value = true;
+            }
+
+            this.keys.ReportChanged();
         }
     }
 }

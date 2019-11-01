@@ -1,4 +1,4 @@
-﻿// <copyright file="ObservableObjectEndEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ObjectKeyAddedEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -14,20 +14,26 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Cortex.Net.Spy
+namespace Cortex.Net.Types
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
     /// <summary>
-    /// Event arguments for spy event when an observable update is started.
+    /// Event arguments for a value on an object that will change.
     /// </summary>
-    public class ObservableObjectEndEventArgs : ObservableObjectEventArgs
+    /// <typeparam name="T">The type of the value that will change.</typeparam>
+    public class ObjectKeyAddedEventArgs<T> : ObjectEventArgs
     {
         /// <summary>
-        /// Gets or sets the End time.
+        /// Gets or sets new value.
         /// </summary>
-        public DateTime EndTime { get; set; }
+        public T NewValue { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the change should be canceled.
+        /// </summary>
+        public bool Cancel { get; set; }
     }
 }
