@@ -266,9 +266,9 @@ namespace Cortex.Net.Core
 
         /// <summary>
         /// Gets or sets the value.
-        /// Explicit implementation of <see cref="IComputedValue.Value"/>.
+        /// Explicit implementation of <see cref="IValue.Value"/>.
         /// </summary>
-        object IComputedValue.Value
+        object IValue.Value
         {
             get => (object)this.Value;
             set => this.Value = (T)value;

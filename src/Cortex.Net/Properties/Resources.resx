@@ -168,6 +168,9 @@
   <data name="OnlyInBatch" xml:space="preserve">
     <value>({0}) should only be called when the shared state is in batch mode.</value>
   </data>
+  <data name="PropertyOrMethodNotFoundOnObservableObject" xml:space="preserve">
+    <value>Property or method with name ({0}) not found on object with name ({1})</value>
+  </data>
   <data name="ReactionDoesNotConverge" xml:space="preserve">
     <value>Reaction doesn't converge to a stable state after ({0}) iterations. Probably there is a cycle in the reactive function: ({1})</value>
   </data>

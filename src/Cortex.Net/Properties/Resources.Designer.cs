@@ -214,6 +214,15 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Property or method with name ({0}) not found on object with name ({1}).
+        /// </summary>
+        internal static string PropertyOrMethodNotFoundOnObservableObject {
+            get {
+                return ResourceManager.GetString("PropertyOrMethodNotFoundOnObservableObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reaction doesn&apos;t converge to a stable state after ({0}) iterations. Probably there is a cycle in the reactive function: ({1}).
         /// </summary>
         internal static string ReactionDoesNotConverge {

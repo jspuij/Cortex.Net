@@ -27,16 +27,6 @@ namespace Cortex.Net.Types
     public class ValueEventArgs<T> : EventArgs
     {
         /// <summary>
-        /// Gets or sets old value.
-        /// </summary>
-        public T OldValue { get; set; }
-
-        /// <summary>
-        /// Gets or sets new value.
-        /// </summary>
-        public T NewValue { get; set; }
-
-        /// <summary>
         /// Gets or sets the context for the event.
         /// </summary>
         public object Context { get; set; }

@@ -1,4 +1,4 @@
-﻿// <copyright file="IComputedValue.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="IValue.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -16,24 +16,31 @@
 
 namespace Cortex.Net
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     /// <summary>
-    /// Interface for Computed values.
+    /// Typed value interface.
     /// </summary>
-    /// <typeparam name="T">The type of the computed value.</typeparam>
-    public interface IComputedValue<T> : IComputedValue, IValue<T>
+    /// <typeparam name="T">The type of the value.</typeparam>
+    public interface IValue<T> : IValue
     {
+        /// <summary>
+        /// Gets or sets the underlying value.
+        /// </summary>
+        new T Value { get; set; }
     }
 
     /// <summary>
-    /// Interface for Computed values.
+    /// Value interface.
     /// </summary>
-    public interface IComputedValue : IValue
+    public interface IValue
     {
         /// <summary>
-        /// Suspends computation of this computed value when the last observer leaves.
-        /// Computed values are automatically teared down when the last observer leaves.
-        /// This process happens recursively, this computed might be the last observabe of another, etc.
+        /// Gets or sets the underlying value.
+        /// Best to be implemented specifically.
         /// </summary>
-        void Suspend();
+        object Value { get; set; }
     }
 }

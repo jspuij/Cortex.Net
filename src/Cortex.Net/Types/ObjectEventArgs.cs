@@ -1,4 +1,4 @@
-﻿// <copyright file="IComputedValue.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ObjectEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -14,26 +14,25 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Cortex.Net
+namespace Cortex.Net.Types
 {
-    /// <summary>
-    /// Interface for Computed values.
-    /// </summary>
-    /// <typeparam name="T">The type of the computed value.</typeparam>
-    public interface IComputedValue<T> : IComputedValue, IValue<T>
-    {
-    }
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
 
     /// <summary>
-    /// Interface for Computed values.
+    /// Base class for object event args.
     /// </summary>
-    public interface IComputedValue : IValue
+    public class ObjectEventArgs : EventArgs
     {
         /// <summary>
-        /// Suspends computation of this computed value when the last observer leaves.
-        /// Computed values are automatically teared down when the last observer leaves.
-        /// This process happens recursively, this computed might be the last observabe of another, etc.
+        /// Gets or sets the context for the event.
         /// </summary>
-        void Suspend();
+        public object Context { get; set; }
+
+        /// <summary>
+        /// Gets or sets the key of the property or method.
+        /// </summary>
+        public string Key { get; set; }
     }
 }

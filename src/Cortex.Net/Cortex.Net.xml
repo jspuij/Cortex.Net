@@ -928,10 +928,10 @@
             </summary>
             <exception cref="T:System.InvalidOperationException">Thrown when a cycle in computation is detected or when an inner exception is thrown by one of the referenced observables.</exception>
         </member>
-        <member name="P:Cortex.Net.Core.ComputedValue`1.Cortex#Net#IComputedValue#Value">
+        <member name="P:Cortex.Net.Core.ComputedValue`1.Cortex#Net#IValue#Value">
             <summary>
             Gets or sets the value.
-            Explicit implementation of <see cref="P:Cortex.Net.IComputedValue.Value"/>.
+            Explicit implementation of <see cref="P:Cortex.Net.IValue.Value"/>.
             </summary>
         </member>
         <member name="M:Cortex.Net.Core.ComputedValue`1.OnBecomeObserved">
@@ -1412,20 +1412,9 @@
             </summary>
             <typeparam name="T">The type of the computed value.</typeparam>
         </member>
-        <member name="P:Cortex.Net.IComputedValue`1.Value">
-            <summary>
-            Gets or sets the underlying value.
-            </summary>
-        </member>
         <member name="T:Cortex.Net.IComputedValue">
             <summary>
             Interface for Computed values.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.IComputedValue.Value">
-            <summary>
-            Gets or sets the underlying value.
-            Best to be implemented specifically.
             </summary>
         </member>
         <member name="M:Cortex.Net.IComputedValue.Suspend">
@@ -1587,28 +1576,12 @@
             Event that fires after the value has changed.
             </summary>
         </member>
-        <member name="P:Cortex.Net.IObservableValue`1.Value">
-            <summary>
-            Gets or sets the underlying value.
-            </summary>
-        </member>
         <member name="M:Cortex.Net.IObservableValue`1.Observe(System.EventHandler{Cortex.Net.Types.ValueChangedEventArgs{`0}},System.Boolean)">
             <summary>
             Registers the secified event handler, and optionally fires it first.
             </summary>
             <param name="changedEventHandler">The event handler to register.</param>
             <param name="fireImmediately">Whether to fire the event handler immediately.</param>
-        </member>
-        <member name="T:Cortex.Net.IObservableValue">
-            <summary>
-            Interface for Observable values.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.IObservableValue.Value">
-            <summary>
-            Gets or sets the underlying value.
-            Best to be implemented specifically.
-            </summary>
         </member>
         <member name="T:Cortex.Net.ISharedState">
             <summary>
@@ -1767,6 +1740,28 @@
             Runs reactions.
             </summary>
         </member>
+        <member name="T:Cortex.Net.IValue`1">
+            <summary>
+            Typed value interface.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.IValue`1.Value">
+            <summary>
+            Gets or sets the underlying value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.IValue">
+            <summary>
+            Value interface.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IValue.Value">
+            <summary>
+            Gets or sets the underlying value.
+            Best to be implemented specifically.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Properties.Resources">
             <summary>
               A strongly-typed resource class, for looking up localized strings, etc.
@@ -1866,6 +1861,11 @@
         <member name="P:Cortex.Net.Properties.Resources.OnlyInBatch">
             <summary>
               Looks up a localized string similar to ({0}) should only be called when the shared state is in batch mode..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.PropertyOrMethodNotFoundOnObservableObject">
+            <summary>
+              Looks up a localized string similar to Property or method with name ({0}) not found on object with name ({1}).
             </summary>
         </member>
         <member name="P:Cortex.Net.Properties.Resources.ReactionDoesNotConverge">
@@ -2148,6 +2148,51 @@
             Gets or sets the context of the spy event.
             </summary>
         </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectEndEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectEndEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectEventArgs">
+            <summary>
+            Event arguments for an Observable Object spy event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectEventArgs.Context">
+            <summary>
+            Gets or sets the context of the event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectEventArgs.Key">
+            <summary>
+            Gets or sets the key of the property or method.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectStartEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectStartEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectStartEventArgs.OldValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectStartEventArgs.NewValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Spy.ObservableValueCreateEventArgs">
             <summary>
             Event arguments for spy event when an observable is created.
@@ -2253,9 +2298,81 @@
             Log relevant info and trigger a breakpoint to an attached debugger.
             </summary>
         </member>
+        <member name="T:Cortex.Net.Types.ObjectChangedEventArgs">
+            <summary>
+            Event arguments for a value that has changed.
+            </summary>
+            <typeparam name="T">The type of the value that has changed.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectChangedEventArgs.OldValue">
+            <summary>
+            Gets or sets old value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectChangedEventArgs.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObjectChangeEventArgs">
+            <summary>
+            Event arguments for a value on an object that will change.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs.OldValue">
+            <summary>
+            Gets or sets old value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs.Cancel">
+            <summary>
+            Gets or sets a value indicating whether the change should be canceled.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs.Changed">
+            <summary>
+            Gets a value indicating whether the value has been changed by an event handler.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObjectEventArgs">
+            <summary>
+            Base class for object event args.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectEventArgs.Context">
+            <summary>
+            Gets or sets the context for the event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectEventArgs.Key">
+            <summary>
+            Gets or sets the key of the property or method.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Types.ObservableObject">
             <summary>
             Base or inner class for observable objects.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableObject.changeEventHandlers">
+            <summary>
+            A set of event handlers for the change event.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableObject.changedEventHandlers">
+            <summary>
+            A set of event handlers for the changed event.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableObject.values">
+            <summary>
+            The dictionary of <see cref="T:Cortex.Net.Core.ComputedValue`1"/> and <see cref="T:Cortex.Net.Types.ObservableValue`1"/> instances.
             </summary>
         </member>
         <member name="F:Cortex.Net.Types.ObservableObject.defaultEnhancer">
@@ -2273,12 +2390,24 @@
             A reference to the shared state.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Types.ObservableObject.#ctor(System.String,Cortex.Net.ISharedState)">
+        <member name="M:Cortex.Net.Types.ObservableObject.#ctor(System.String,Cortex.Net.IEnhancer,Cortex.Net.ISharedState,System.Collections.Generic.IDictionary{System.String,Cortex.Net.IValue})">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableObject"/> class.
             </summary>
             <param name="name">The name of the objservable ovject.</param>
+            <param name="defaultEnhancer">The default enhancer to use for newly created values.</param>
             <param name="sharedState">The shared state for this ObservableObject.</param>
+            <param name="values">A dictionary with values.</param>
+        </member>
+        <member name="E:Cortex.Net.Types.ObservableObject.Change">
+            <summary>
+            Event that fires before a value on the object will change.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.Types.ObservableObject.Changed">
+            <summary>
+            Event that fires after a value on the object has changed.
+            </summary>
         </member>
         <member name="P:Cortex.Net.Types.ObservableObject.Name">
             <summary>
@@ -2289,6 +2418,24 @@
             <summary>
             Gets or sets the Shared State on this object.
             </summary>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.Read``1(System.String)">
+            <summary>
+            Gets the value for property or method with specified key.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+            <param name="key">The key.</param>
+            <returns>The value.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when the key does not exist in the values.</exception>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.Write``1(System.String,``0)">
+            <summary>
+            Sets the value for property or method with the specified value.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when the key does not exist in the values.</exception>
         </member>
         <member name="T:Cortex.Net.Types.ObservableValue`1">
             <summary>
@@ -2340,9 +2487,14 @@
             Gets or sets the underlying value.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Types.ObservableValue`1.Cortex#Net#IObservableValue#Value">
+        <member name="P:Cortex.Net.Types.ObservableValue`1.Cortex#Net#IValue#Value">
             <summary>
             Gets or sets the underlying value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableValue`1.UntrackedValue">
+            <summary>
+            Gets the untracked value of this observable.
             </summary>
         </member>
         <member name="M:Cortex.Net.Types.ObservableValue`1.Observe(System.EventHandler{Cortex.Net.Types.ValueChangedEventArgs{`0}},System.Boolean)">
@@ -2357,6 +2509,7 @@
             Prepares setting of a new Value.
             </summary>
             <param name="newValue">The new value.</param>
+            <returns>The value plus a boolean indicating whether the observable value has changed.</returns>
         </member>
         <member name="M:Cortex.Net.Types.ObservableValue`1.SetNewValue(`0)">
             <summary>
@@ -2370,11 +2523,31 @@
             </summary>
             <typeparam name="T">The type of the value that has changed.</typeparam>
         </member>
+        <member name="P:Cortex.Net.Types.ValueChangedEventArgs`1.OldValue">
+            <summary>
+            Gets or sets old value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ValueChangedEventArgs`1.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Types.ValueChangeEventArgs`1">
             <summary>
             Event arguments for a value that will change.
             </summary>
             <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ValueChangeEventArgs`1.OldValue">
+            <summary>
+            Gets or sets old value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ValueChangeEventArgs`1.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
         </member>
         <member name="P:Cortex.Net.Types.ValueChangeEventArgs`1.Cancel">
             <summary>
@@ -2391,16 +2564,6 @@
             Base class for value event args.
             </summary>
             <typeparam name="T">The type of the value.</typeparam>
-        </member>
-        <member name="P:Cortex.Net.Types.ValueEventArgs`1.OldValue">
-            <summary>
-            Gets or sets old value.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Types.ValueEventArgs`1.NewValue">
-            <summary>
-            Gets or sets new value.
-            </summary>
         </member>
         <member name="P:Cortex.Net.Types.ValueEventArgs`1.Context">
             <summary>

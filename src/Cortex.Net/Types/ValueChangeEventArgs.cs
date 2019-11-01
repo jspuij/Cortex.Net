@@ -27,6 +27,16 @@ namespace Cortex.Net.Types
     public class ValueChangeEventArgs<T> : ValueEventArgs<T>
     {
         /// <summary>
+        /// Gets or sets old value.
+        /// </summary>
+        public T OldValue { get; set; }
+
+        /// <summary>
+        /// Gets or sets new value.
+        /// </summary>
+        public T NewValue { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the change should be canceled.
         /// </summary>
         public bool Cancel { get; set; }

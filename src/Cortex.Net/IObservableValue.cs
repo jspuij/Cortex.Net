@@ -23,7 +23,7 @@ namespace Cortex.Net
     /// Interface for Observable values.
     /// </summary>
     /// <typeparam name="T">The type of the computed value.</typeparam>
-    public interface IObservableValue<T> : IObservableValue
+    public interface IObservableValue<T> : IValue, IValue<T>
     {
         /// <summary>
         /// Event that fires before the value will change.
@@ -36,27 +36,10 @@ namespace Cortex.Net
         event EventHandler<ValueChangedEventArgs<T>> Changed;
 
         /// <summary>
-        /// Gets or sets the underlying value.
-        /// </summary>
-        new T Value { get; set; }
-
-        /// <summary>
         /// Registers the secified event handler, and optionally fires it first.
         /// </summary>
         /// <param name="changedEventHandler">The event handler to register.</param>
         /// <param name="fireImmediately">Whether to fire the event handler immediately.</param>
         void Observe(EventHandler<ValueChangedEventArgs<T>> changedEventHandler, bool fireImmediately);
-    }
-
-    /// <summary>
-    /// Interface for Observable values.
-    /// </summary>
-    public interface IObservableValue
-    {
-        /// <summary>
-        /// Gets or sets the underlying value.
-        /// Best to be implemented specifically.
-        /// </summary>
-        object Value { get; set; }
     }
 }

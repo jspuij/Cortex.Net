@@ -139,7 +139,18 @@ namespace Cortex.Net.Types
         /// <summary>
         /// Gets or sets the underlying value.
         /// </summary>
-        object IObservableValue.Value { get => this.Value; set => this.Value = (T)value; }
+        object IValue.Value { get => this.Value; set => this.Value = (T)value; }
+
+        /// <summary>
+        /// Gets the untracked value of this observable.
+        /// </summary>
+        internal T UntrackedValue
+        {
+            get
+            {
+                return this.value;
+            }
+        }
 
         /// <summary>
         /// Registers the secified event handler, and optionally fires it first.
@@ -170,7 +181,8 @@ namespace Cortex.Net.Types
         /// Prepares setting of a new Value.
         /// </summary>
         /// <param name="newValue">The new value.</param>
-        private (T, bool hasChanged) PrepareNewValue(T newValue)
+        /// <returns>The value plus a boolean indicating whether the observable value has changed.</returns>
+        internal (T, bool hasChanged) PrepareNewValue(T newValue)
         {
             this.CheckIfStateModificationsAreAllowed();
 
@@ -201,7 +213,7 @@ namespace Cortex.Net.Types
         /// Sets a new value.
         /// </summary>
         /// <param name="newValue">The new value to set.</param>
-        private void SetNewValue(T newValue)
+        internal void SetNewValue(T newValue)
         {
             var oldValue = this.value;
             this.value = newValue;
