@@ -1,4 +1,4 @@
-﻿// <copyright file="ObjectKeyRemoveEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ObservableObjectRemovedStartEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -14,20 +14,25 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Cortex.Net.Types
+namespace Cortex.Net.Spy
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
     /// <summary>
-    /// Event arguments for a property on an object that will be removed.
+    /// Event arguments for spy event when an observable update is started.
     /// </summary>
-    public class ObjectKeyRemoveEventArgs : ObjectEventArgs
+    public class ObservableObjectRemovedStartEventArgs : ObservableObjectEventArgs
     {
         /// <summary>
-        /// Gets or sets a value indicating whether the change should be canceled.
+        /// Gets or sets the Start time.
         /// </summary>
-        public bool Cancel { get; set; }
+        public DateTime StartTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the New value.
+        /// </summary>
+        public object OldValue { get; set; }
     }
 }

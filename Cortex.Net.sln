@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortex.Net.Fody.Test", "tes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{0E4B8F86-ED56-410C-B07F-340258B54990}"
 	ProjectSection(SolutionItems) = preProject
-		docs\index.md = docs\index.md
+		docs\README.md = docs\README.md
 	EndProjectSection
 EndProject
 Global

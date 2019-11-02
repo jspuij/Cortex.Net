@@ -357,7 +357,7 @@ namespace Cortex.Net.Types
                 return;
             }
 
-            var keyAddEventArgs = new ObjectKeyRemoveEventArgs<T>()
+            var keyAddEventArgs = new ObjectKeyRemoveEventArgs()
             {
                 Cancel = false,
                 Context = this,
@@ -393,21 +393,34 @@ namespace Cortex.Net.Types
                     observablePendingKey.Value = false;
                 }
 
-                // delete the prop
-                delete this.target[key]
-                const change =
-                notify || notifySpy
-                    ? {
-                type: "remove",
-                          object: this.proxy || target,
-                          oldValue: oldValue,
-                          name: key
-                      }
-                    : null
-                if (notifySpy && process.env.NODE_ENV !== "production")
-                    spyReportStart({ ...change, name: this.name, key })
-            if (notify) notifyListeners(this, change)
-                if (notifySpy && process.env.NODE_ENV !== "production") spyReportEnd()
+                this.SharedState.OnSpy(this, new ObservableObjectRemovedStartEventArgs()
+                {
+                    Name = this.Name,
+                    Context = this,
+                    Key = key,
+                    OldValue = oldValue,
+                    StartTime = DateTime.UtcNow,
+                });
+
+                var eventArgs = new ObjectKeyRemovedEventArgs()
+                {
+                    Context = this,
+                    Key = key,
+                    OldValue = oldValue,
+                };
+
+                foreach (var handler in this.changedEventHandlers)
+                {
+                    handler(this, eventArgs);
+                }
+
+                this.SharedState.OnSpy(this, new ObservableObjectRemovedEndEventArgs()
+                {
+                    Name = this.Name,
+                    Context = this,
+                    Key = key,
+                    EndTime = DateTime.UtcNow,
+                });
             }
             finally
             {

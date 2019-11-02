@@ -2240,6 +2240,31 @@
             Gets or sets the key of the property or method.
             </summary>
         </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectRemovedEndEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectRemovedEndEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectRemovedStartEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectRemovedStartEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectRemovedStartEventArgs.OldValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Spy.ObservableValueCreateEventArgs">
             <summary>
             Event arguments for spy event when an observable is created.
@@ -2434,6 +2459,26 @@
             Gets or sets a value indicating whether the change should be canceled.
             </summary>
         </member>
+        <member name="T:Cortex.Net.Types.ObjectKeyRemovedEventArgs">
+            <summary>
+            Event arguments for a property on an object that will be removed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectKeyRemovedEventArgs.OldValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObjectKeyRemoveEventArgs">
+            <summary>
+            Event arguments for a property on an object that will be removed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectKeyRemoveEventArgs.Cancel">
+            <summary>
+            Gets or sets a value indicating whether the change should be canceled.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Types.ObservableObject">
             <summary>
             Base or inner class for observable objects.
@@ -2544,6 +2589,12 @@
             <typeparam name="T">The return type of the member.</typeparam>
             <param name="key">The key of the member.</param>
             <param name="computedValueOptions">The computed value options.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.Remove(System.String)">
+            <summary>
+            Removes a property or computed value.
+            </summary>
+            <param name="key">The key to remove.</param>
         </member>
         <member name="M:Cortex.Net.Types.ObservableObject.NotifyPropertyAddition``1(System.String,``0)">
             <summary>

@@ -1,4 +1,4 @@
-﻿// <copyright file="ObjectKeyRemoveEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ObjectKeyRemovedEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -23,11 +23,11 @@ namespace Cortex.Net.Types
     /// <summary>
     /// Event arguments for a property on an object that will be removed.
     /// </summary>
-    public class ObjectKeyRemoveEventArgs : ObjectEventArgs
+    public class ObjectKeyRemovedEventArgs : ObjectEventArgs
     {
         /// <summary>
-        /// Gets or sets a value indicating whether the change should be canceled.
+        /// Gets or sets new value.
         /// </summary>
-        public bool Cancel { get; set; }
+        public object OldValue { get; set; }
     }
 }
