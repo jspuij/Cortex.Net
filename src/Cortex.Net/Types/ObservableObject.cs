@@ -201,10 +201,7 @@ namespace Cortex.Net.Types
                 OldValue = oldValue,
             };
 
-            foreach (var handler in this.changeEventHandlers)
-            {
-                handler(this, changeEventArgs);
-            }
+            this.InterceptChange(changeEventArgs);
 
             if (changeEventArgs.Cancel || !changeEventArgs.Changed)
             {
@@ -299,10 +296,7 @@ namespace Cortex.Net.Types
                 Key = propertyName,
             };
 
-            foreach (var handler in this.changeEventHandlers)
-            {
-                handler(this, keyAddEventArgs);
-            }
+            this.InterceptChange(keyAddEventArgs);
 
             if (keyAddEventArgs.Cancel)
             {
@@ -354,19 +348,17 @@ namespace Cortex.Net.Types
                 return;
             }
 
-            var keyAddEventArgs = new ObjectKeyRemoveEventArgs()
+            var keyRemoveEventArgs = new ObjectKeyRemoveEventArgs()
             {
                 Cancel = false,
                 Context = this,
                 Key = key,
             };
 
-            foreach (var handler in this.changeEventHandlers)
-            {
-                handler(this, keyAddEventArgs);
-            }
+            this.InterceptChange(keyRemoveEventArgs);
 
-            if (keyAddEventArgs.Cancel)
+
+            if (keyRemoveEventArgs.Cancel)
             {
                 return;
             }
