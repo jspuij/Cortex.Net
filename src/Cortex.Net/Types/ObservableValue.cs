@@ -209,10 +209,7 @@ namespace Cortex.Net.Types
                 OldValue = this.value,
             };
 
-            foreach (var handler in this.changeEventHandlers)
-            {
-                handler(this, changeEventArgs);
-            }
+            this.InterceptChange(changeEventArgs);
 
             if (changeEventArgs.Cancel || !changeEventArgs.Changed)
             {
@@ -245,19 +242,47 @@ namespace Cortex.Net.Types
         }
 
         /// <summary>
+        /// Fires a Change event that can be intercepted and or canceled.
+        /// </summary>
+        /// <param name="changeEventArgs">The change event args.</param>
+        private void InterceptChange(ValueChangeEventArgs<T> changeEventArgs)
+        {
+            var previousDerivation = this.SharedState.StartUntracked();
+            try
+            {
+                foreach (var handler in this.changeEventHandlers)
+                {
+                    handler(this, changeEventArgs);
+                    if (changeEventArgs.Cancel)
+                    {
+                        break;
+                    }
+                }
+            }
+            finally
+            {
+                this.SharedState.EndTracking(previousDerivation);
+            }
+        }
+
+        /// <summary>
         /// Notifies Listeners on the <see cref="Changed"/> event.
         /// </summary>
         /// <param name="eventArgs">The event arguments.</param>
         private void NotifyListeners(ValueChangedEventArgs<T> eventArgs)
         {
             var previousDerivation = this.SharedState.StartUntracked();
-
-            foreach (var handler in this.changedEventHandlers)
+            try
             {
-                handler(this, eventArgs);
+                foreach (var handler in this.changedEventHandlers)
+                {
+                    handler(this, eventArgs);
+                }
             }
-
-            this.SharedState.EndTracking(previousDerivation);
+            finally
+            {
+                this.SharedState.EndTracking(previousDerivation);
+            }
         }
     }
 }

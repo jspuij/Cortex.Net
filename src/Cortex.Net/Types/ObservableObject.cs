@@ -32,7 +32,7 @@ namespace Cortex.Net.Types
         /// <summary>
         /// A set of event handlers for the change event.
         /// </summary>
-        private readonly HashSet<EventHandler<ObjectEventArgs>> changeEventHandlers = new HashSet<EventHandler<ObjectEventArgs>>();
+        private readonly HashSet<EventHandler<ObjectCancellableEventArgs>> changeEventHandlers = new HashSet<EventHandler<ObjectCancellableEventArgs>>();
 
         /// <summary>
         /// A set of event handlers for the changed event.
@@ -95,7 +95,7 @@ namespace Cortex.Net.Types
         /// <summary>
         /// Event that fires before a value on the object will change.
         /// </summary>
-        public event EventHandler<ObjectEventArgs> Change
+        public event EventHandler<ObjectCancellableEventArgs> Change
         {
             add
             {
@@ -465,19 +465,47 @@ namespace Cortex.Net.Types
         }
 
         /// <summary>
+        /// Fires a Change event that can be intercepted and or canceled.
+        /// </summary>
+        /// <param name="changeEventArgs">The change event args.</param>
+        private void InterceptChange(ObjectCancellableEventArgs changeEventArgs)
+        {
+            var previousDerivation = this.SharedState.StartUntracked();
+            try
+            {
+                foreach (var handler in this.changeEventHandlers)
+                {
+                    handler(this, changeEventArgs);
+                    if (changeEventArgs.Cancel)
+                    {
+                        break;
+                    }
+                }
+            }
+            finally
+            {
+                this.SharedState.EndTracking(previousDerivation);
+            }
+        }
+
+        /// <summary>
         /// Notifies Listeners on the <see cref="Changed"/> event.
         /// </summary>
         /// <param name="eventArgs">The event arguments.</param>
         private void NotifyListeners(ObjectEventArgs eventArgs)
         {
             var previousDerivation = this.SharedState.StartUntracked();
-
-            foreach (var handler in this.changedEventHandlers)
+            try
             {
-                handler(this, eventArgs);
+                foreach (var handler in this.changedEventHandlers)
+                {
+                    handler(this, eventArgs);
+                }
             }
-
-            this.SharedState.EndTracking(previousDerivation);
+            finally
+            {
+                this.SharedState.EndTracking(previousDerivation);
+            }
         }
     }
 }

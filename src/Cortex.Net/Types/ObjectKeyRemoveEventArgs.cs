@@ -23,11 +23,7 @@ namespace Cortex.Net.Types
     /// <summary>
     /// Event arguments for a property on an object that will be removed.
     /// </summary>
-    public class ObjectKeyRemoveEventArgs : ObjectEventArgs
+    public class ObjectKeyRemoveEventArgs : ObjectCancellableEventArgs
     {
-        /// <summary>
-        /// Gets or sets a value indicating whether the change should be canceled.
-        /// </summary>
-        public bool Cancel { get; set; }
     }
 }

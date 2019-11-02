@@ -24,7 +24,7 @@ namespace Cortex.Net.Types
     /// Event arguments for a value on an object that will change.
     /// </summary>
     /// <typeparam name="T">The type of the value that will change.</typeparam>
-    public class ObjectChangeEventArgs<T> : ObjectEventArgs
+    public class ObjectChangeEventArgs<T> : ObjectCancellableEventArgs
     {
         /// <summary>
         /// Gets or sets old value.
@@ -35,11 +35,6 @@ namespace Cortex.Net.Types
         /// Gets or sets new value.
         /// </summary>
         public T NewValue { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the change should be canceled.
-        /// </summary>
-        public bool Cancel { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the value has been changed by an event handler.

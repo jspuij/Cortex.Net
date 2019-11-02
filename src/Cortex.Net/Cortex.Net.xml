@@ -2370,6 +2370,16 @@
             Log relevant info and trigger a breakpoint to an attached debugger.
             </summary>
         </member>
+        <member name="T:Cortex.Net.Types.ObjectCancellableEventArgs">
+            <summary>
+            Base class for object event args.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectCancellableEventArgs.Cancel">
+            <summary>
+            Gets or sets a value indicating whether the change should be canceled.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Types.ObjectChangedEventArgs`1">
             <summary>
             Event arguments for a value that has changed.
@@ -2400,11 +2410,6 @@
         <member name="P:Cortex.Net.Types.ObjectChangeEventArgs`1.NewValue">
             <summary>
             Gets or sets new value.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs`1.Cancel">
-            <summary>
-            Gets or sets a value indicating whether the change should be canceled.
             </summary>
         </member>
         <member name="P:Cortex.Net.Types.ObjectChangeEventArgs`1.Changed">
@@ -2454,11 +2459,6 @@
             Gets or sets new value.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Types.ObjectKeyAddEventArgs`1.Cancel">
-            <summary>
-            Gets or sets a value indicating whether the change should be canceled.
-            </summary>
-        </member>
         <member name="T:Cortex.Net.Types.ObjectKeyRemovedEventArgs">
             <summary>
             Event arguments for a property on an object that will be removed.
@@ -2472,11 +2472,6 @@
         <member name="T:Cortex.Net.Types.ObjectKeyRemoveEventArgs">
             <summary>
             Event arguments for a property on an object that will be removed.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Types.ObjectKeyRemoveEventArgs.Cancel">
-            <summary>
-            Gets or sets a value indicating whether the change should be canceled.
             </summary>
         </member>
         <member name="T:Cortex.Net.Types.ObservableObject">
@@ -2604,6 +2599,12 @@
             <param name="key">The name of the property.</param>
             <param name="newValue">The new value.</param>
         </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.InterceptChange(Cortex.Net.Types.ObjectCancellableEventArgs)">
+            <summary>
+            Fires a Change event that can be intercepted and or canceled.
+            </summary>
+            <param name="changeEventArgs">The change event args.</param>
+        </member>
         <member name="M:Cortex.Net.Types.ObservableObject.NotifyListeners(Cortex.Net.Types.ObjectEventArgs)">
             <summary>
             Notifies Listeners on the <see cref="E:Cortex.Net.Types.ObservableObject.Changed"/> event.
@@ -2689,6 +2690,12 @@
             Sets a new value.
             </summary>
             <param name="newValue">The new value to set.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableValue`1.InterceptChange(Cortex.Net.Types.ValueChangeEventArgs{`0})">
+            <summary>
+            Fires a Change event that can be intercepted and or canceled.
+            </summary>
+            <param name="changeEventArgs">The change event args.</param>
         </member>
         <member name="M:Cortex.Net.Types.ObservableValue`1.NotifyListeners(Cortex.Net.Types.ValueChangedEventArgs{`0})">
             <summary>

@@ -1,4 +1,4 @@
-﻿// <copyright file="ObjectKeyAddEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ObjectCancellableEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -21,14 +21,13 @@ namespace Cortex.Net.Types
     using System.Text;
 
     /// <summary>
-    /// Event arguments for a value on an object that will change.
+    /// Base class for object event args.
     /// </summary>
-    /// <typeparam name="T">The type of the value that will change.</typeparam>
-    public class ObjectKeyAddEventArgs<T> : ObjectCancellableEventArgs
+    public class ObjectCancellableEventArgs : ObjectEventArgs
     {
         /// <summary>
-        /// Gets or sets new value.
+        /// Gets or sets a value indicating whether the change should be canceled.
         /// </summary>
-        public T NewValue { get; set; }
+        public bool Cancel { get; set; }
     }
 }
