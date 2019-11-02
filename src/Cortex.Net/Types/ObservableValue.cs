@@ -147,7 +147,7 @@ namespace Cortex.Net.Types
             {
                 if (value is null)
                 {
-                    this.Value = default(T);
+                    this.Value = default;
                 }
                 else
                 {
@@ -241,10 +241,23 @@ namespace Cortex.Net.Types
                 NewValue = newValue,
             };
 
+            this.NotifyListeners(eventArgs);
+        }
+
+        /// <summary>
+        /// Notifies Listeners on the <see cref="Changed"/> event.
+        /// </summary>
+        /// <param name="eventArgs">The event arguments.</param>
+        private void NotifyListeners(ValueChangedEventArgs<T> eventArgs)
+        {
+            var previousDerivation = this.SharedState.StartUntracked();
+
             foreach (var handler in this.changedEventHandlers)
             {
                 handler(this, eventArgs);
             }
+
+            this.SharedState.EndTracking(previousDerivation);
         }
     }
 }

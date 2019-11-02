@@ -235,10 +235,7 @@ namespace Cortex.Net.Types
                     NewValue = newValue,
                 };
 
-                foreach (var handler in this.changedEventHandlers)
-                {
-                    handler(this, eventArgs);
-                }
+                this.NotifyListeners(eventArgs);
 
                 this.SharedState.OnSpy(this, new ObservableObjectChangedEndEventArgs()
                 {
@@ -409,10 +406,7 @@ namespace Cortex.Net.Types
                     OldValue = oldValue,
                 };
 
-                foreach (var handler in this.changedEventHandlers)
-                {
-                    handler(this, eventArgs);
-                }
+                this.NotifyListeners(eventArgs);
 
                 this.SharedState.OnSpy(this, new ObservableObjectRemovedEndEventArgs()
                 {
@@ -452,10 +446,7 @@ namespace Cortex.Net.Types
                 NewValue = newValue,
             };
 
-            foreach (var handler in this.changedEventHandlers)
-            {
-                handler(this, eventArgs);
-            }
+            this.NotifyListeners(eventArgs);
 
             this.SharedState.OnSpy(this, new ObservableObjectAddedEndEventArgs()
             {
@@ -471,6 +462,22 @@ namespace Cortex.Net.Types
             }
 
             this.keys.ReportChanged();
+        }
+
+        /// <summary>
+        /// Notifies Listeners on the <see cref="Changed"/> event.
+        /// </summary>
+        /// <param name="eventArgs">The event arguments.</param>
+        private void NotifyListeners(ObjectEventArgs eventArgs)
+        {
+            var previousDerivation = this.SharedState.StartUntracked();
+
+            foreach (var handler in this.changedEventHandlers)
+            {
+                handler(this, eventArgs);
+            }
+
+            this.SharedState.EndTracking(previousDerivation);
         }
     }
 }

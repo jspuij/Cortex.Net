@@ -2604,6 +2604,12 @@
             <param name="key">The name of the property.</param>
             <param name="newValue">The new value.</param>
         </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.NotifyListeners(Cortex.Net.Types.ObjectEventArgs)">
+            <summary>
+            Notifies Listeners on the <see cref="E:Cortex.Net.Types.ObservableObject.Changed"/> event.
+            </summary>
+            <param name="eventArgs">The event arguments.</param>
+        </member>
         <member name="T:Cortex.Net.Types.ObservableValue`1">
             <summary>
             Observable value. Can be changed and can be observed.
@@ -2683,6 +2689,12 @@
             Sets a new value.
             </summary>
             <param name="newValue">The new value to set.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableValue`1.NotifyListeners(Cortex.Net.Types.ValueChangedEventArgs{`0})">
+            <summary>
+            Notifies Listeners on the <see cref="E:Cortex.Net.Types.ObservableValue`1.Changed"/> event.
+            </summary>
+            <param name="eventArgs">The event arguments.</param>
         </member>
         <member name="T:Cortex.Net.Types.ReferenceEnhancer">
             <summary>
