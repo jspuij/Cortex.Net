@@ -1,6 +1,7 @@
 ﻿using Cortex.Net;
 using Cortex.Net.Api;
 using Cortex.Net.Core;
+using Cortex.Net.Types;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,23 +10,20 @@ namespace Cortext.Next.Playground
 {
     public class Person : IObservableObject
     {
-        private readonly IAtom firstNameAtom;
-        private readonly IAtom lastNameAtom;
-        private readonly ComputedValue<string> fullnameComputedValue;
+        private readonly ObservableObject observableObject;
         private Action<string, string> testAction;
-
-        private string firstName;
-        private string lastName;
-
 
         public Person(SharedState sharedState)
         {
-            firstNameAtom = sharedState.CreateAtom("firstName");
-            lastNameAtom = sharedState.CreateAtom("lastName");
+
+
+            observableObject = new ObservableObject(nameof(Person),sharedState.ReferenceEnhancer(), sharedState);
+            observableObject.AddObservableProperty<string>(nameof(FirstName));
+            observableObject.AddObservableProperty<string>(nameof(LastName));
 
             string getter() => this.FirstName + " " + this.LastName;
 
-            fullnameComputedValue = new ComputedValue<string>(sharedState, new ComputedValueOptions<string>(getter, "FullName")
+            observableObject.AddComputedMember<string>(nameof(FullName), new ComputedValueOptions<string>(getter, nameof(FullName))
             {
                 Context = this,
                 KeepAlive = true,
@@ -38,13 +36,11 @@ namespace Cortext.Next.Playground
         {
             get
             {
-                firstNameAtom.ReportObserved();
-                return firstName;
+                return this.observableObject.Read<string>(nameof(FirstName));
             }
             set
             {
-                firstName = value;
-                firstNameAtom.ReportChanged();
+                this.observableObject.Write(nameof(FirstName), value);
             }
         }
 
@@ -52,17 +48,15 @@ namespace Cortext.Next.Playground
         {
             get
             {
-                lastNameAtom.ReportObserved();
-                return lastName;
+                return this.observableObject.Read<string>(nameof(LastName));
             }
             set
             {
-                lastName = value;
-                lastNameAtom.ReportChanged();
+                this.observableObject.Write(nameof(LastName), value);
             }
         }
 
-        public string FullName => this.fullnameComputedValue.Value;
+        public string FullName => this.observableObject.Read<string>(nameof(FullName));
 
         private ISharedState sharedState;
 

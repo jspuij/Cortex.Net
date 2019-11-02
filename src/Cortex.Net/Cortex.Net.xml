@@ -1307,7 +1307,7 @@
         </member>
         <member name="P:Cortex.Net.CortexConfiguration.DisableErrorBoundaries">
             <summary>
-            Gets a value indicating whether to catch and rethrow exceptions.
+            Gets or sets a value indicating whether to catch and rethrow exceptions.
             This is useful for inspecting the state of the stack when an exception occurs while debugging.
             </summary>
             <remarks>
@@ -1317,27 +1317,27 @@
         </member>
         <member name="P:Cortex.Net.CortexConfiguration.ObservableRequiresReaction">
             <summary>
-            Gets a value indicating whether to warn if observables are accessed outside a reactive context.
+            Gets or sets a value indicating whether to warn if observables are accessed outside a reactive context.
             </summary>
         </member>
         <member name="P:Cortex.Net.CortexConfiguration.ReactionRequiresObservable">
             <summary>
-            Gets a value indicating whether to warn if reactions are required to visit at least one observable.
+            Gets or sets a value indicating whether to warn if reactions are required to visit at least one observable.
             </summary>
         </member>
         <member name="P:Cortex.Net.CortexConfiguration.ComputedRequiresReaction">
             <summary>
-            Gets a value indicating whether a <see cref="T:Cortex.Net.Core.ComputedValue`1"/> instance requires a reactive context.
+            Gets or sets a value indicating whether a <see cref="T:Cortex.Net.Core.ComputedValue`1"/> instance requires a reactive context.
             </summary>
         </member>
         <member name="P:Cortex.Net.CortexConfiguration.MaxReactionIteractions">
             <summary>
-            Gets the Maximum number of reaction iterations that is allowed.
+            Gets or sets the Maximum number of reaction iterations that is allowed.
             </summary>
         </member>
         <member name="P:Cortex.Net.CortexConfiguration.EnforceActions">
             <summary>
-            Gets a value that defines how strict modification of state should be enforced.
+            Gets or sets a value that defines how strict modification of state should be enforced.
             </summary>
         </member>
         <member name="T:Cortex.Net.DerivationState">

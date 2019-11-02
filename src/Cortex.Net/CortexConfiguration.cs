@@ -27,38 +27,38 @@ namespace Cortex.Net
     public class CortexConfiguration
     {
         /// <summary>
-        /// Gets a value indicating whether to catch and rethrow exceptions.
+        /// Gets or sets a value indicating whether to catch and rethrow exceptions.
         /// This is useful for inspecting the state of the stack when an exception occurs while debugging.
         /// </summary>
         /// <remarks>
         /// Enabling this setting makes it possible for the graph to be left in
         /// an inconsistent state. Do not enable this in production.
         /// </remarks>
-        public bool DisableErrorBoundaries { get; internal set; }
+        public bool DisableErrorBoundaries { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether to warn if observables are accessed outside a reactive context.
+        /// Gets or sets a value indicating whether to warn if observables are accessed outside a reactive context.
         /// </summary>
-        public bool ObservableRequiresReaction { get; internal set; }
+        public bool ObservableRequiresReaction { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether to warn if reactions are required to visit at least one observable.
+        /// Gets or sets a value indicating whether to warn if reactions are required to visit at least one observable.
         /// </summary>
-        public bool ReactionRequiresObservable { get; internal set; }
+        public bool ReactionRequiresObservable { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether a <see cref="ComputedValue{T}"/> instance requires a reactive context.
+        /// Gets or sets a value indicating whether a <see cref="ComputedValue{T}"/> instance requires a reactive context.
         /// </summary>
-        public bool ComputedRequiresReaction { get; internal set; }
+        public bool ComputedRequiresReaction { get; set; }
 
         /// <summary>
-        /// Gets the Maximum number of reaction iterations that is allowed.
+        /// Gets or sets the Maximum number of reaction iterations that is allowed.
         /// </summary>
-        public int MaxReactionIteractions { get; internal set; } = 100;
+        public int MaxReactionIteractions { get; set; } = 100;
 
         /// <summary>
-        /// Gets a value that defines how strict modification of state should be enforced.
+        /// Gets or sets a value that defines how strict modification of state should be enforced.
         /// </summary>
-        public EnforceAction EnforceActions { get; internal set; }
+        public EnforceAction EnforceActions { get; set; }
     }
 }

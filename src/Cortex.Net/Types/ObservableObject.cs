@@ -164,7 +164,7 @@ namespace Cortex.Net.Types
                 throw new ArgumentOutOfRangeException(nameof(key), string.Format(CultureInfo.CurrentCulture, Resources.PropertyOrMethodNotFoundOnObservableObject, key, this.Name));
             }
 
-            return ((IValue<T>)this.values).Value;
+            return ((IValue<T>)this.values[key]).Value;
         }
 
         /// <summary>
@@ -356,7 +356,6 @@ namespace Cortex.Net.Types
             };
 
             this.InterceptChange(keyRemoveEventArgs);
-
 
             if (keyRemoveEventArgs.Cancel)
             {

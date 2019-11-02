@@ -44,7 +44,7 @@ namespace Cortex.Net.Core
             }
 
             // Should not be possible to change observed state outside strict mode, except during initialization, see Mobx #563
-            if (!sharedState.AllowStateChanges && (atom.HasObservers() || sharedState.Configuration.EnforceActions == EnforceAction.Always))
+            if (!sharedState.AllowStateChanges && sharedState.Configuration.EnforceActions != EnforceAction.Never && (atom.HasObservers() || sharedState.Configuration.EnforceActions == EnforceAction.Always))
             {
                 throw new InvalidOperationException(string.Format(
                     CultureInfo.CurrentCulture,

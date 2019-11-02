@@ -12,10 +12,10 @@ namespace Cortext.Next.Playground
         {
             var sharedState = new SharedState(new CortexConfiguration()
             {
-                
+                EnforceActions = EnforceAction.Never,
             });
 
-            //sharedState.SpyEvent += SharedState_SpyEvent;
+            sharedState.SpyEvent += SharedState_SpyEvent;
 
             var person = new Person(sharedState);
 
@@ -47,23 +47,23 @@ namespace Cortext.Next.Playground
         {
             if (e is ComputedSpyEventArgs)
             {
-                Console.WriteLine($"Computed: {(e as ComputedSpyEventArgs).Name}");
+                Console.WriteLine($"[Spy] Computed: {(e as ComputedSpyEventArgs).Name}");
             }
             if (e is ReactionStartSpyEventArgs)
             {
-                Console.WriteLine($"Reaction started: {(e as ReactionSpyEventArgs).Name}");
+                Console.WriteLine($"[Spy] Reaction started: {(e as ReactionSpyEventArgs).Name}");
             }
             if (e is ReactionEndSpyEventArgs)
             {
-                Console.WriteLine($"Reaction ended: {(e as ReactionSpyEventArgs).Name}");
+                Console.WriteLine($"[Spy] Reaction ended: {(e as ReactionSpyEventArgs).Name}");
             }
             if (e is ActionStartSpyEventArgs)
             {
-                Console.WriteLine($"Action started: {(e as ActionStartSpyEventArgs).Name}");
+                Console.WriteLine($"[Spy] Action started: {(e as ActionStartSpyEventArgs).Name}");
             }
             if (e is ActionEndSpyEventArgs)
             {
-                Console.WriteLine($"Action ended: {(e as ActionEndSpyEventArgs).Name}");
+                Console.WriteLine($"[Spy] Action ended: {(e as ActionEndSpyEventArgs).Name}");
             }
         }
     }
