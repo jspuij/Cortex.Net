@@ -191,7 +191,15 @@ namespace Cortex.Net.Fody
         FieldDefinition actionFieldDefinition)
         {
             var moduleDefinition = sharedStateBackingField.Module;
+
+            // determine the name of the action.
+            var attribute = methodDefinition.CustomAttributes.Single(x => x.AttributeType.FullName == typeof(ActionAttribute).FullName);
             var actionName = methodDefinition.Name;
+            var attributeArgument = attribute.ConstructorArguments.FirstOrDefault();
+            if (!string.IsNullOrEmpty(attributeArgument.Value as string))
+            {
+                actionName = attributeArgument.Value as string;
+            }
 
             var actionExtensions = moduleDefinition.ImportReference(typeof(ActionExtensions));
             var voidType = moduleDefinition.ImportReference(typeof(void));

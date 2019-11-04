@@ -57,6 +57,29 @@ namespace Cortex.Net.Core
         }
 
         /// <summary>
+        /// Gets the enhancer specified by the type from the Shared State.
+        /// </summary>
+        /// <param name="sharedState">The shared state that should provide the reference enhancer.</param>
+        /// <param name="enhancerType">The type of the enhancer.</param>
+        /// <returns>The IEnhancer instance.</returns>
+        /// <exception cref="ArgumentNullException"> When either of the arguments is null.</exception>
+        /// <exception cref="InvalidOperationException"> When the type was not found in the list of enhancers.</exception>
+        public static IEnhancer GetEnhancer(this ISharedState sharedState, Type enhancerType)
+        {
+            if (sharedState is null)
+            {
+                throw new ArgumentNullException(nameof(sharedState));
+            }
+
+            if (enhancerType is null)
+            {
+                throw new ArgumentNullException(nameof(enhancerType));
+            }
+
+            return sharedState.Enhancers.Single(x => x.GetType() == enhancerType);
+        }
+
+        /// <summary>
         /// Gets the reference enhancer from the Shared State.
         /// </summary>
         /// <param name="sharedState">The shared state that should provide the reference enhancer.</param>
@@ -69,6 +92,21 @@ namespace Cortex.Net.Core
             }
 
             return sharedState.Enhancers.Single(x => x is Types.ReferenceEnhancer);
+        }
+
+        /// <summary>
+        /// Gets the deep enhancer from the Shared State.
+        /// </summary>
+        /// <param name="sharedState">The shared state that should provide the deep enhancer.</param>
+        /// <returns>The IEnhancer instance.</returns>
+        public static IEnhancer DeepEnhancer(this ISharedState sharedState)
+        {
+            if (sharedState is null)
+            {
+                throw new ArgumentNullException(nameof(sharedState));
+            }
+
+            return sharedState.Enhancers.Single(x => x is Types.DeepEnhancer);
         }
 
         /// <summary>

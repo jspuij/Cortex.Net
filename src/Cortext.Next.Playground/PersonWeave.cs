@@ -7,11 +7,13 @@ namespace Cortext.Next.Playground
 {
     public class PersonWeave
     {
+        [Observable]
         public string FirstName { get; set; }
 
+        [Observable]
         public string LastName { get; set; }
 
-        [Action]
+        [Action("PipoNames")]
         public void ChangeBothNames(string firstName, string lastName)
         {
             FirstName = firstName;

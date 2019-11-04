@@ -183,6 +183,45 @@
             <param name="scope">The scope of this action.</param>
             <param name="action">The action itself.</param>
         </member>
+        <member name="T:Cortex.Net.Api.ObservableAttribute">
+            <summary>
+            Attribute that signals that the property or class. it is applied to, should be interpreted as an observable.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.ObservableAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ObservableAttribute"/> class.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.ObservableAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ObservableAttribute"/> class.
+            </summary>
+            <param name="name">The name of the action.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ObservableAttribute.#ctor(System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ObservableAttribute"/> class.
+            </summary>
+            <param name="enhancerType">The type of the enhancer.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ObservableAttribute.#ctor(System.String,System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ObservableAttribute"/> class.
+            </summary>
+            <param name="name">The name of the action.</param>
+            <param name="enhancerType">The type of the enhancer.</param>
+        </member>
+        <member name="P:Cortex.Net.Api.ObservableAttribute.Name">
+            <summary>
+            Gets the Name of the action.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Api.ObservableAttribute.EnhancerType">
+            <summary>
+            Gets the Name of the action.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.AutorunOptions">
             <summary>
             Specifies the options for an Autorun instance.
@@ -597,6 +636,13 @@
             Gets the reference enhancer from the Shared State.
             </summary>
             <param name="sharedState">The shared state that should provide the reference enhancer.</param>
+            <returns>The IEnhancer instance.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.DeepEnhancer(Cortex.Net.ISharedState)">
+            <summary>
+            Gets the deep enhancer from the Shared State.
+            </summary>
+            <param name="sharedState">The shared state that should provide the deep enhancer.</param>
             <returns>The IEnhancer instance.</returns>
         </member>
         <member name="M:Cortex.Net.Core.ActionExtensions.AllowStateChanges``1(Cortex.Net.ISharedState,System.Boolean,System.Func{``0})">
@@ -2369,6 +2415,21 @@
             <summary>
             Log relevant info and trigger a breakpoint to an attached debugger.
             </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.DeepEnhancer">
+            <summary>
+            DeepEnhancer enhancer. Tries to enhance child objects as well.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Types.DeepEnhancer.Enhance``1(``0,``0,System.String)">
+            <summary>
+            Enhances the newvalue.
+            </summary>
+            <param name="newValue">The new value.</param>
+            <param name="originalValue">The original value.</param>
+            <param name="name">The name of this object.</param>
+            <typeparam name="T">The type to enhance.</typeparam>
+            <returns>A new value, but enhanced.</returns>
         </member>
         <member name="T:Cortex.Net.Types.ObjectCancellableEventArgs">
             <summary>

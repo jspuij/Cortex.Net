@@ -4,6 +4,7 @@ using Cortex.Net.Core;
 using Cortex.Net.Types;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Cortext.Next.Playground
@@ -15,9 +16,7 @@ namespace Cortext.Next.Playground
 
         public Person(SharedState sharedState)
         {
-
-
-            observableObject = new ObservableObject(nameof(Person),sharedState.ReferenceEnhancer(), sharedState);
+            observableObject = new ObservableObject(nameof(Person),sharedState.GetEnhancer(typeof(DeepEnhancer)), sharedState);
             observableObject.AddObservableProperty<string>(nameof(FirstName));
             observableObject.AddObservableProperty<string>(nameof(LastName));
 

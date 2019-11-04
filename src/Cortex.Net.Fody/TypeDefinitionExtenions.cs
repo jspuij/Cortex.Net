@@ -35,6 +35,18 @@ namespace Cortex.Net.Fody
         /// <returns>The Field definition. It has already been added to the class type.</returns>
         public static FieldDefinition CreateBackingField(this TypeDefinition classType, TypeReference fieldType, string name)
         {
+            return CreateField(classType, fieldType, $"<{name}>k__BackingField");
+        }
+
+        /// <summary>
+        /// Creates a field.
+        /// </summary>
+        /// <param name="classType">The type reference of the class.</param>
+        /// <param name="fieldType">The type reference of the Field.</param>
+        /// <param name="name">The name of the field.</param>
+        /// <returns>The Field definition. It has already been added to the class type.</returns>
+        public static FieldDefinition CreateField(this TypeDefinition classType, TypeReference fieldType, string name)
+        {
             if (classType is null)
             {
                 throw new ArgumentNullException(nameof(classType));
@@ -50,7 +62,7 @@ namespace Cortex.Net.Fody
                 throw new ArgumentNullException(nameof(name));
             }
 
-            var field = new FieldDefinition($"<{name}>k__BackingField", FieldAttributes.Private, fieldType);
+            var field = new FieldDefinition(name, FieldAttributes.Private, fieldType);
 
             // Add compiler generated attribute.
             var compilerGeneratedAttributeType = classType.Module.ImportReference(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute));

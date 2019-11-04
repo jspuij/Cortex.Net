@@ -1,4 +1,4 @@
-﻿// <copyright file="CortexWeaver.cs" company="Jan-Willem Spuij">
+﻿// <copyright file="PropertyDefinitionExtensions.cs" company="Jan-Willem Spuij">
 // Copyright 2019 Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -18,33 +18,33 @@ namespace Cortex.Net.Fody
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
     using global::Fody;
+    using Mono.Cecil;
 
     /// <summary>
-    /// Orchestrates weaving of classes with Cortex.Net Observables, Actions and Reactions.
+    /// Extension methods for <see cref="PropertyDefinition"/> instances.
     /// </summary>
-    public class CortexWeaver : BaseModuleWeaver
+    public static class PropertyDefinitionExtensions
     {
         /// <summary>
-        /// Executes the <see cref="CortexWeaver"/>.
+        /// Gets the backing field of an Auto generated property.
         /// </summary>
-        public override void Execute()
+        /// <param name="propertyDefinition">The property definition to get the backing field from.</param>
+        /// <returns>The field definition of the Backing field.</returns>
+        public static FieldDefinition GetBackingField(this PropertyDefinition propertyDefinition)
         {
-            var observableObjectWeaver = new ObservableObjectInterfaceWeaver(this);
-            var actionWeaver = new ActionWeaver(this, observableObjectWeaver);
-            var observableWeaver = new ObservableWeaver(this, observableObjectWeaver);
-            actionWeaver.Execute();
-            observableWeaver.Execute();
-            observableObjectWeaver.Execute();
-        }
+            if (propertyDefinition is null)
+            {
+                throw new ArgumentNullException(nameof(propertyDefinition));
+            }
 
-        /// <summary>
-        /// Return a list of assembly names for scanning. Used as a list for Fody.BaseModuleWeaver.FindType.
-        /// </summary>
-        /// <returns>All types in the references assembly.</returns>
-        public override IEnumerable<string> GetAssembliesForScanning()
-        {
-            return new string[] { "System.Runtime" };
+            var result = (from f in propertyDefinition.DeclaringType.Fields
+                          where f.Name == $"<{propertyDefinition.Name}>k__BackingField" || f.Name == $"_{propertyDefinition.Name}"
+                          select f).Single();
+
+            return result;
         }
     }
 }
