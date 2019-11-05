@@ -145,7 +145,7 @@ namespace Cortex.Net.Fody
             // Get the backing field and remove it.
             var backingField = property.GetBackingField();
             module.ImportReference(backingField);
-            // declaringType.Fields.Remove(backingField);
+            declaringType.Fields.Remove(backingField);
 
             // get or create the ObservableObjectField.
             FieldDefinition observableObjectField = declaringType.Fields.FirstOrDefault(x => x.FieldType.FullName == typeof(ObservableObject).FullName);
@@ -175,6 +175,56 @@ namespace Cortex.Net.Fody
                     enhancerType,
                     sharedStateBackingField,
                     observableObjectField)));
+
+            this.RewriteGetMethod(getMethod, observableObjectField, propertyName, property.PropertyType);
+            this.RewriteSetMethod(setMethod, observableObjectField, propertyName, property.PropertyType);
+        }
+
+        /// <summary>
+        /// Rewrites the Get Method of the Property.
+        /// </summary>
+        /// <param name="getMethod">The get method of the property.</param>
+        /// <param name="observableObjectField">The field for the observable object.</param>
+        /// <param name="propertyName">The name of the property.</param>
+        /// <param name="propertyType">The property Type.</param>
+        private void RewriteGetMethod(MethodDefinition getMethod, FieldDefinition observableObjectField, string propertyName, TypeReference propertyType)
+        {
+            getMethod.Body.Instructions.Clear();
+            var processor = getMethod.Body.GetILProcessor();
+
+            var observableObjectType = this.cortexWeaver.ModuleDefinition.ImportReference(typeof(ObservableObject)).Resolve();
+            var observableObjectReadPropertyMethod = new GenericInstanceMethod(observableObjectType.Methods.FirstOrDefault(m => m.Name == "Read"));
+            observableObjectReadPropertyMethod.GenericArguments.Add(propertyType);
+
+            processor.Emit(OpCodes.Ldarg_0);
+            processor.Emit(OpCodes.Ldfld, observableObjectField);
+            processor.Emit(OpCodes.Ldstr, propertyName);
+            processor.Emit(OpCodes.Callvirt, this.cortexWeaver.ModuleDefinition.ImportReference(observableObjectReadPropertyMethod));
+            processor.Emit(OpCodes.Ret);
+        }
+
+        /// <summary>
+        /// Rewrites the Set Method of the Property.
+        /// </summary>
+        /// <param name="setMethod">The set method of the property.</param>
+        /// <param name="observableObjectField">The field for the observable object.</param>
+        /// <param name="propertyName">The name of the property.</param>
+        /// <param name="propertyType">The property Type.</param>
+        private void RewriteSetMethod(MethodDefinition setMethod, FieldDefinition observableObjectField, string propertyName, TypeReference propertyType)
+        {
+            setMethod.Body.Instructions.Clear();
+            var processor = setMethod.Body.GetILProcessor();
+
+            var observableObjectType = this.cortexWeaver.ModuleDefinition.ImportReference(typeof(ObservableObject)).Resolve();
+            var observableObjectWritePropertyMethod = new GenericInstanceMethod(observableObjectType.Methods.FirstOrDefault(m => m.Name == "Write"));
+            observableObjectWritePropertyMethod.GenericArguments.Add(propertyType);
+
+            processor.Emit(OpCodes.Ldarg_0);
+            processor.Emit(OpCodes.Ldfld, observableObjectField);
+            processor.Emit(OpCodes.Ldstr, propertyName);
+            processor.Emit(OpCodes.Ldarg_1);
+            processor.Emit(OpCodes.Callvirt, this.cortexWeaver.ModuleDefinition.ImportReference(observableObjectWritePropertyMethod));
+            processor.Emit(OpCodes.Ret);
         }
 
         /// <summary>

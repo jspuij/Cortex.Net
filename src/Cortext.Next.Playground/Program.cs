@@ -36,6 +36,9 @@ namespace Cortext.Next.Playground
 
             var personWeaver = new PersonWeave();
             ((IObservableObject)personWeaver).SharedState = sharedState;
+            var d2 = sharedState.Reaction<string>(r => personWeaver.FirstName, (s, r) => Console.WriteLine($"Firstname Changed: {s}"));
+            var d3 = sharedState.Reaction<string>(r => personWeaver.LastName, (s, r) => Console.WriteLine($"LastName Changed: {s}"));
+
             personWeaver.ChangeBothNames("Eddy", "Tick");
             Console.WriteLine(personWeaver.FirstName);
             Console.WriteLine(personWeaver.LastName);

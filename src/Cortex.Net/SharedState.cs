@@ -35,6 +35,7 @@ namespace Cortex.Net
         private readonly IList<IEnhancer> enhancers = new List<IEnhancer>()
         {
             new ReferenceEnhancer(),
+            new DeepEnhancer(),
         };
 
         /// <summary>

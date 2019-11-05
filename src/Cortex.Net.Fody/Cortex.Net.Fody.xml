@@ -192,6 +192,24 @@
             </summary>
             <param name="property">The property to make observable.</param>
         </member>
+        <member name="M:Cortex.Net.Fody.ObservableWeaver.RewriteGetMethod(Mono.Cecil.MethodDefinition,Mono.Cecil.FieldDefinition,System.String,Mono.Cecil.TypeReference)">
+            <summary>
+            Rewrites the Get Method of the Property.
+            </summary>
+            <param name="getMethod">The get method of the property.</param>
+            <param name="observableObjectField">The field for the observable object.</param>
+            <param name="propertyName">The name of the property.</param>
+            <param name="propertyType">The property Type.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.ObservableWeaver.RewriteSetMethod(Mono.Cecil.MethodDefinition,Mono.Cecil.FieldDefinition,System.String,Mono.Cecil.TypeReference)">
+            <summary>
+            Rewrites the Set Method of the Property.
+            </summary>
+            <param name="setMethod">The set method of the property.</param>
+            <param name="observableObjectField">The field for the observable object.</param>
+            <param name="propertyName">The name of the property.</param>
+            <param name="propertyType">The property Type.</param>
+        </member>
         <member name="M:Cortex.Net.Fody.ObservableWeaver.EmitObservableObjectInit(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.TypeReference,Mono.Cecil.FieldReference,Mono.Cecil.FieldDefinition)">
             <summary>
             Emits the IL code to initialize the observable object. for the <see cref="P:Cortex.Net.IObservableObject.SharedState"/> setter.
