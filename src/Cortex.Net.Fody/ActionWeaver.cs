@@ -44,7 +44,7 @@ namespace Cortex.Net.Fody
         /// <summary>
         /// A reference to the parent Cortex.Net weaver.
         /// </summary>
-        private readonly BaseModuleWeaver cortexWeaver;
+        private readonly BaseModuleWeaver parentWeaver;
 
         /// <summary>
         /// The queue to add ILProcessor actions to.
@@ -59,7 +59,7 @@ namespace Cortex.Net.Fody
         /// <exception cref="ArgumentNullException">When any of the arguments is null.</exception>
         public ActionWeaver(BaseModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue)
         {
-            this.cortexWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
+            this.parentWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
             this.processorQueue = processorQueue ?? throw new ArgumentNullException(nameof(processorQueue));
         }
 
@@ -68,7 +68,7 @@ namespace Cortex.Net.Fody
         /// </summary>
         internal void Execute()
         {
-            var decoratedMethods = from t in this.cortexWeaver.ModuleDefinition.GetTypes()
+            var decoratedMethods = from t in this.parentWeaver.ModuleDefinition.GetTypes()
                                    from m in t.Methods
                                    where
                                       t != null &&
@@ -272,7 +272,7 @@ namespace Cortex.Net.Fody
         /// <returns>A type reference.</returns>
         private TypeReference GetActionType(MethodDefinition methodDefinition)
         {
-            var moduleDefinition = this.cortexWeaver.ModuleDefinition;
+            var moduleDefinition = this.parentWeaver.ModuleDefinition;
 
             if (methodDefinition.Parameters == null || !methodDefinition.Parameters.Any())
             {

@@ -25,7 +25,6 @@ namespace Cortext.Next.Playground
             observableObject.AddComputedMember<string>(nameof(FullName), new ComputedValueOptions<string>(getter, nameof(FullName))
             {
                 Context = this,
-                KeepAlive = true,
             });
 
             testAction = sharedState.CreateAction("ChangeBothNames", this, new Action<string, string>(this.ChangeBothNames));

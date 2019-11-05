@@ -19,7 +19,7 @@
             The prefix for an inner field that contains the action.
             </summary>
         </member>
-        <member name="F:Cortex.Net.Fody.ActionWeaver.cortexWeaver">
+        <member name="F:Cortex.Net.Fody.ActionWeaver.parentWeaver">
             <summary>
             A reference to the parent Cortex.Net weaver.
             </summary>
@@ -72,6 +72,63 @@
             Gets the Action type for the private field that is added to the class for the private method.
             </summary>
             <param name="methodDefinition">The method definition for the action.</param>
+            <returns>A type reference.</returns>
+        </member>
+        <member name="T:Cortex.Net.Fody.ComputedWeaver">
+            <summary>
+            Weaves properties and methods decorated with an <see cref="T:Cortex.Net.Api.ComputedAttribute"/>.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ComputedWeaver.InnerCounterFieldPrefix">
+            <summary>
+            The prefix for an inner method that is the target of an action.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ComputedWeaver.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ComputedWeaver"/> class.
+            </summary>
+            <param name="parentWeaver">A reference to the Parent Cortex.Net weaver.</param>
+            <param name="processorQueue">The queue to add ILProcessor actions to.</param>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+        </member>
+        <member name="M:Cortex.Net.Fody.ComputedWeaver.Execute">
+            <summary>
+            Executes this observable weaver.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ComputedWeaver.WeaveMethod(Mono.Cecil.MethodDefinition)">
+            <summary>
+            Weaves a method that is decorated with a <see cref="T:Cortex.Net.Api.ComputedAttribute"/>.
+            </summary>
+            <param name="methodDefinition">The method definition of the decorated method.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.ComputedWeaver.ExtendMethodBody(Mono.Cecil.MethodDefinition,System.String,Mono.Cecil.FieldDefinition,Mono.Cecil.FieldDefinition)">
+            <summary>
+            Extends the method body of the Computed method.
+            </summary>
+            <param name="methodDefinition">The method Definition to extend.</param>
+            <param name="counterFieldDefinition">The entrance counter to register recursive calls.</param>
+            <param name="observableObjectField">The observable object field.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.ComputedWeaver.EmitComputedMemberAdd(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,System.Boolean,System.Boolean,Mono.Cecil.FieldReference,Mono.Cecil.FieldDefinition)">
+            <summary>
+            Emits IL code for adding a computed member on this observable object.
+            </summary>
+            <param name="processor">The ILProcessor to use.</param>
+            <param name="computedName">The name of the computed member.</param>
+            <param name="methodDefinition">The methodDefinition of the member.</param>
+            <param name="equalityComparerType">The equality comparer type.</param>
+            <param name="requiresReaction">Whether the computed value requires a reaction.</param>
+            <param name="keepAlive">Whether to keep the computed value alive.</param>
+            <param name="sharedStateBackingField">The backing field for the shared state.</param>
+            <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the <see cref="T:Cortex.Net.Types.ObservableObject"/> instance is kept.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.ComputedWeaver.GetFunctionType(Mono.Cecil.MethodDefinition)">
+            <summary>
+            Gets the Function type for the computed method that is passed.
+            </summary>
+            <param name="methodDefinition">The method definition for the function.</param>
             <returns>A type reference.</returns>
         </member>
         <member name="T:Cortex.Net.Fody.CortexWeaver">
@@ -147,24 +204,46 @@
             <param name="backingField">The backing field for the <see cref="T:Cortex.Net.ISharedState"/> instance.</param>
             <param name="processorActions">The processor actions to execute.</param>
         </member>
-        <member name="T:Cortex.Net.Fody.ObservableWeaver">
+        <member name="T:Cortex.Net.Fody.ObservableObjectWeaverBase">
             <summary>
-            Weaves properties and classes decorated with an <see cref="T:Cortex.Net.Api.ObservableAttribute"/>.
+            Base class for Weavers that operate on an <see cref="T:Cortex.Net.Types.ObservableObject"/>.
             </summary>
         </member>
-        <member name="F:Cortex.Net.Fody.ObservableWeaver.InnerObservableObjectFieldName">
+        <member name="F:Cortex.Net.Fody.ObservableObjectWeaverBase.InnerObservableObjectFieldName">
             <summary>
             The name of an Inner ObservableObjectField.
             </summary>
         </member>
-        <member name="F:Cortex.Net.Fody.ObservableWeaver.cortexWeaver">
+        <member name="M:Cortex.Net.Fody.ObservableObjectWeaverBase.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue)">
             <summary>
-            A reference to the parent Cortex.Net weaver.
+            Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ObservableObjectWeaverBase"/> class.
+            </summary>
+            <param name="parentWeaver">The parent weaver.</param>
+            <param name="processorQueue">The processor queue to add delegates to.</param>
+        </member>
+        <member name="P:Cortex.Net.Fody.ObservableObjectWeaverBase.ParentWeaver">
+            <summary>
+            Gets the parent weaver of this Weaver.
             </summary>
         </member>
-        <member name="F:Cortex.Net.Fody.ObservableWeaver.processorQueue">
+        <member name="P:Cortex.Net.Fody.ObservableObjectWeaverBase.ProcessorQueue">
             <summary>
-            The queue to add ILProcessor actions to.
+            Gets the processor queue that contains delegates to be processed when the shared state is assigned.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ObservableObjectWeaverBase.EmitObservableObjectInit(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.TypeReference,Mono.Cecil.FieldReference,Mono.Cecil.FieldDefinition)">
+            <summary>
+            Emits the IL code to initialize the observable object. for the <see cref="P:Cortex.Net.IObservableObject.SharedState"/> setter.
+            </summary>
+            <param name="processor">The <see cref="T:Mono.Cecil.Cil.ILProcessor"/> instance that will generate the setter body.</param>
+            <param name="objectName">The name of the object.</param>
+            <param name="enhancerType">The type reference of the enhancer to use.</param>
+            <param name="sharedStateBackingField">A <see cref="T:Mono.Cecil.FieldReference"/> to the backing field of the Shared STate.</param>
+            <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the <see cref="T:Cortex.Net.Types.ObservableObject"/> instance is kept.</param>
+        </member>
+        <member name="T:Cortex.Net.Fody.ObservableWeaver">
+            <summary>
+            Weaves properties and classes decorated with an <see cref="T:Cortex.Net.Api.ObservableAttribute"/>.
             </summary>
         </member>
         <member name="M:Cortex.Net.Fody.ObservableWeaver.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue)">
@@ -210,16 +289,6 @@
             <param name="observableObjectField">The field for the observable object.</param>
             <param name="propertyName">The name of the property.</param>
             <param name="propertyType">The property Type.</param>
-        </member>
-        <member name="M:Cortex.Net.Fody.ObservableWeaver.EmitObservableObjectInit(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.TypeReference,Mono.Cecil.FieldReference,Mono.Cecil.FieldDefinition)">
-            <summary>
-            Emits the IL code to initialize the observable object. for the <see cref="P:Cortex.Net.IObservableObject.SharedState"/> setter.
-            </summary>
-            <param name="processor">The <see cref="T:Mono.Cecil.Cil.ILProcessor"/> instance that will generate the setter body.</param>
-            <param name="objectName">The name of the object.</param>
-            <param name="enhancerType">The type reference of the enhancer to use.</param>
-            <param name="sharedStateBackingField">A <see cref="T:Mono.Cecil.FieldReference"/> to the backing field of the Shared STate.</param>
-            <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the <see cref="T:Cortex.Net.Types.ObservableObject"/> instance is kept.</param>
         </member>
         <member name="M:Cortex.Net.Fody.ObservableWeaver.EmitObservablePropertyAdd(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.TypeReference,Mono.Cecil.TypeReference,Mono.Cecil.FieldReference,Mono.Cecil.FieldDefinition)">
             <summary>

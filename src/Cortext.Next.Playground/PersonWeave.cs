@@ -14,6 +14,15 @@ namespace Cortext.Next.Playground
 
         public int Counter { get; set; }
 
+        [Computed]
+        public string FullName => $"{this.FirstName} {this.LastName}";
+
+        [Computed]
+        public string FullName2()
+        {
+            return $"{this.FirstName} {this.LastName}";
+        }
+
         [Action("PipoNames")]
         public void ChangeBothNames(string firstName, string lastName)
         {

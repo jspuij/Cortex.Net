@@ -183,6 +183,67 @@
             <param name="scope">The scope of this action.</param>
             <param name="action">The action itself.</param>
         </member>
+        <member name="T:Cortex.Net.Api.ComputedAttribute">
+            <summary>
+            Attribute that signals that the property or method it is applied to, should be interpreted as a computed value.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.ComputedAttribute.#ctor(System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ComputedAttribute"/> class.
+            </summary>
+            <param name="requiresReaction">Whether the computed has to be calculated inside a reactive context.</param>
+            <param name="keepAlive">whether to keep the computed value alive when it's not observed.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ComputedAttribute.#ctor(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ComputedAttribute"/> class.
+            </summary>
+            <param name="name">The name of the action.</param>
+            <param name="requiresReaction">Whether the computed has to be calculated inside a reactive context.</param>
+            <param name="keepAlive">whether to keep the computed value alive when it's not observed.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ComputedAttribute.#ctor(System.Collections.IEqualityComparer,System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ComputedAttribute"/> class.
+            </summary>
+            <param name="equalityComparer">The comparer used to see whether the value has changed.</param>
+            <param name="requiresReaction">Whether the computed has to be calculated inside a reactive context.</param>
+            <param name="keepAlive">whether to keep the computed value alive when it's not observed.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ComputedAttribute.#ctor(System.String,System.Collections.IEqualityComparer,System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ComputedAttribute"/> class.
+            </summary>
+            <param name="name">The name of the action.</param>
+            <param name="equalityComparer">The comparer used to see whether the value has changed.</param>
+            <param name="requiresReaction">Whether the computed has to be calculated inside a reactive context.</param>
+            <param name="keepAlive">whether to keep the computed value alive when it's not observed.</param>
+        </member>
+        <member name="P:Cortex.Net.Api.ComputedAttribute.Name">
+            <summary>
+            Gets the Name of the action.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Api.ComputedAttribute.RequiresReaction">
+            <summary>
+             Gets a value indicating whether a reactive context is required.
+             it is recommended to set this one to true on very expensive computed values.
+             If you try to read it's value, but the value is not being tracked by some observe, it will cause the computed to throw,
+             instead of doing an expensive re-evalution.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Api.ComputedAttribute.KeepAlive">
+            <summary>
+            Gets a value indicating whether to keep this computed value alive if it is not observed by anybody.
+            Be aware, this can easily lead to memory leaks as it will result in every observable used by this computed value, keeping the computed value in memory.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Api.ComputedAttribute.EqualityComparer">
+            <summary>
+            Gets the Comparer used for equality.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Api.ObservableAttribute">
             <summary>
             Attribute that signals that the property or class. it is applied to, should be interpreted as an observable.
