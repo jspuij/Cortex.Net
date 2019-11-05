@@ -631,6 +631,16 @@
             <param name="function">The function to execute.</param>
             <returns>The return value.</returns>
         </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.GetEnhancer(Cortex.Net.ISharedState,System.Type)">
+            <summary>
+            Gets the enhancer specified by the type from the Shared State.
+            </summary>
+            <param name="sharedState">The shared state that should provide the reference enhancer.</param>
+            <param name="enhancerType">The type of the enhancer.</param>
+            <returns>The IEnhancer instance.</returns>
+            <exception cref="T:System.ArgumentNullException"> When either of the arguments is null.</exception>
+            <exception cref="T:System.InvalidOperationException"> When the type was not found in the list of enhancers.</exception>
+        </member>
         <member name="M:Cortex.Net.Core.ActionExtensions.ReferenceEnhancer(Cortex.Net.ISharedState)">
             <summary>
             Gets the reference enhancer from the Shared State.

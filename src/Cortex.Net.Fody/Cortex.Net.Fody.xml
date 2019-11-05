@@ -154,7 +154,7 @@
         </member>
         <member name="F:Cortex.Net.Fody.ObservableWeaver.InnerObservableObjectFieldName">
             <summary>
-            The name of an Inner ObservableObjectField;
+            The name of an Inner ObservableObjectField.
             </summary>
         </member>
         <member name="F:Cortex.Net.Fody.ObservableWeaver.cortexWeaver">
@@ -175,24 +175,78 @@
             <param name="processorQueue">The queue to add ILProcessor actions to.</param>
             <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
         </member>
-        <member name="M:Cortex.Net.Fody.ObservableWeaver.EmitSharedStateSetter(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldReference,Mono.Cecil.FieldDefinition)">
-            <summary>
-            Emits the IL code for the <see cref="P:Cortex.Net.IObservableObject.SharedState"/> setter.
-            </summary>
-            <param name="processor">The <see cref="T:Mono.Cecil.Cil.ILProcessor"/> instance that will generate the setter body.</param>
-            <param name="sharedStateBackingField">A <see cref="T:Mono.Cecil.FieldReference"/> to the backing field of the Shared STate.</param>
-            <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the <see cref="T:Cortex.Net.Types.ObservableObject"/> instance is kept.</param>
-        </member>
         <member name="M:Cortex.Net.Fody.ObservableWeaver.Execute">
             <summary>
             Executes this observable weaver.
             </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ObservableWeaver.WeaveClass(Mono.Cecil.TypeDefinition)">
+            <summary>
+            Weaves an entire class.
+            </summary>
+            <param name="decoratedClass">The class that was decorated with the attribute.</param>
         </member>
         <member name="M:Cortex.Net.Fody.ObservableWeaver.WeaveProperty(Mono.Cecil.PropertyDefinition)">
             <summary>
             Weaves a property on an observable object.
             </summary>
             <param name="property">The property to make observable.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.ObservableWeaver.EmitObservableObjectInit(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.TypeReference,Mono.Cecil.FieldReference,Mono.Cecil.FieldDefinition)">
+            <summary>
+            Emits the IL code to initialize the observable object. for the <see cref="P:Cortex.Net.IObservableObject.SharedState"/> setter.
+            </summary>
+            <param name="processor">The <see cref="T:Mono.Cecil.Cil.ILProcessor"/> instance that will generate the setter body.</param>
+            <param name="objectName">The name of the object.</param>
+            <param name="enhancerType">The type reference of the enhancer to use.</param>
+            <param name="sharedStateBackingField">A <see cref="T:Mono.Cecil.FieldReference"/> to the backing field of the Shared STate.</param>
+            <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the <see cref="T:Cortex.Net.Types.ObservableObject"/> instance is kept.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.ObservableWeaver.EmitObservablePropertyAdd(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.TypeReference,Mono.Cecil.TypeReference,Mono.Cecil.FieldReference,Mono.Cecil.FieldDefinition)">
+            <summary>
+            Emits the IL code to add an Observable property to the observable object. for the <see cref="P:Cortex.Net.IObservableObject.SharedState"/> setter.
+            </summary>
+            <param name="processor">The <see cref="T:Mono.Cecil.Cil.ILProcessor"/> instance that will generate the setter body.</param>
+            <param name="propertyName">The name of the object.</param>
+            <param name="propertyType">The type reference of Property.</param>
+            <param name="enhancerType">The type reference of the enhancer to use.</param>
+            <param name="sharedStateBackingField">A <see cref="T:Mono.Cecil.FieldReference"/> to the backing field of the Shared STate.</param>
+            <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the <see cref="T:Cortex.Net.Types.ObservableObject"/> instance is kept.</param>
+        </member>
+        <member name="T:Cortex.Net.Fody.OpcodeSelector">
+            <summary>
+            Opcode selector for Short Forms.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.OpcodeSelector.Ldarg(Mono.Cecil.Cil.ILProcessor,System.Int32)">
+            <summary>
+            Gets the best short form opcode for Ldarg.
+            </summary>
+            <param name="processor">The Il Processor to generate the instruction on.</param>
+            <param name="index">The index.</param>
+            <returns>An instruction.</returns>
+        </member>
+        <member name="M:Cortex.Net.Fody.OpcodeSelector.Ldloc(Mono.Cecil.Cil.ILProcessor,System.Int32)">
+            <summary>
+            Gets the best short form opcode for Ldloc.
+            </summary>
+            <param name="processor">The Il Processor to generate the instruction on.</param>
+            <param name="index">The index.</param>
+            <returns>An instruction.</returns>
+        </member>
+        <member name="M:Cortex.Net.Fody.OpcodeSelector.GetBestShortForm(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.Cil.OpCode,Mono.Cecil.Cil.OpCode,Mono.Cecil.Cil.OpCode,Mono.Cecil.Cil.OpCode,Mono.Cecil.Cil.OpCode,Mono.Cecil.Cil.OpCode,System.Int32)">
+            <summary>
+            Gets the best short form for an Instruction.
+            </summary>
+            <param name="processor">The IL Processor to create the instruction on.</param>
+            <param name="opCode0">The shortform opcode for 0.</param>
+            <param name="opCode1">The shortform opcode for 1.</param>
+            <param name="opCode2">The shortform opcode for 2.</param>
+            <param name="opCode3">The shortform opcode for 3.</param>
+            <param name="opCodeS">The shortform opcode for 4-255.</param>
+            <param name="opCode">The opcode for everything else..</param>
+            <param name="index">The index for the instruction.</param>
+            <returns>An instruction.</returns>
         </member>
         <member name="T:Cortex.Net.Fody.Properties.Resources">
             <summary>
@@ -225,7 +279,7 @@
             Extension methods for <see cref="T:Mono.Cecil.PropertyDefinition"/> instances.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.PropertyDefinitionExtensions.GetBackingField(Mono.Cecil.PropertyDefinition,Fody.BaseModuleWeaver)">
+        <member name="M:Cortex.Net.Fody.PropertyDefinitionExtensions.GetBackingField(Mono.Cecil.PropertyDefinition)">
             <summary>
             Gets the backing field of an Auto generated property.
             </summary>

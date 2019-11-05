@@ -137,21 +137,7 @@ namespace Cortex.Net.Fody
             // push all function arguments onto the evaluation stack.
             for (int i = 0; i < methodDefinition.Parameters.Count; i++)
             {
-                switch (i)
-                {
-                    case 0:
-                        prefix.Add(processor.Create(OpCodes.Ldarg_1));
-                        break;
-                    case 1:
-                        prefix.Add(processor.Create(OpCodes.Ldarg_2));
-                        break;
-                    case 2:
-                        prefix.Add(processor.Create(OpCodes.Ldarg_3));
-                        break;
-                    default:
-                        prefix.Add(processor.Create(OpCodes.Ldarg_S, i + 1));
-                        break;
-                }
+                prefix.Add(processor.Ldarg(i + 1));
             }
 
             // call the action delegate with the arguments on the evaluation stack.

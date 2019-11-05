@@ -235,13 +235,32 @@ namespace Cortex.Net.Fody
             FieldReference sharedStateBackingField,
             FieldDefinition observableObjectField)
         {
+            var typeVariable = new VariableDefinition(propertyType);
+            var getTypeFromHandlerMethod = this.cortexWeaver.ModuleDefinition.ImportReference(this.cortexWeaver.ModuleDefinition.ImportReference(typeof(Type)).Resolve().Methods.Single(x => x.Name == "GetTypeFromHandle"));
+            var getEnhancerMethod = this.cortexWeaver.ModuleDefinition.ImportReference(this.cortexWeaver.ModuleDefinition.ImportReference(typeof(Core.ActionExtensions)).Resolve().Methods.Single(x => x.Name == "GetEnhancer"));
+
+            var observableObjectType = this.cortexWeaver.ModuleDefinition.ImportReference(typeof(ObservableObject)).Resolve();
+            var observableObjectAddPropertyMethod = new GenericInstanceMethod(observableObjectType.Methods.FirstOrDefault(m => m.Name == "AddObservableProperty"));
+            observableObjectAddPropertyMethod.GenericArguments.Add(propertyType);
+
+            int index = processor.Body.Variables.Count;
+            processor.Body.Variables.Add(typeVariable);
+
             var instructions = new List<Instruction>
             {
-                // this.observableObject.AddObservableProperty<T>(propertyName, null, null);
+                // this.observableObject.AddObservableProperty<T>(propertyName, default(propertyType), Cortex.Net.Core.ActionExtensions.GetEnhancer((ISharedState)sharedState, typeof(enhancer)));
+                processor.Create(OpCodes.Ldarg_0),
+                processor.Create(OpCodes.Ldfld, observableObjectField),
+                processor.Create(OpCodes.Ldstr, propertyName),
+                processor.Create(OpCodes.Ldloca_S, typeVariable),
+                processor.Create(OpCodes.Initobj, propertyType),
+                processor.Ldloc(index),
                 processor.Create(OpCodes.Ldarg_0),
                 processor.Create(OpCodes.Ldfld, sharedStateBackingField),
-                processor.Create(OpCodes.Ldstr, propertyName),
-
+                processor.Create(OpCodes.Ldtoken, enhancerType),
+                processor.Create(OpCodes.Call, getTypeFromHandlerMethod),
+                processor.Create(OpCodes.Call, getEnhancerMethod),
+                processor.Create(OpCodes.Callvirt, this.cortexWeaver.ModuleDefinition.ImportReference(observableObjectAddPropertyMethod)),
             };
 
             foreach (var instruction in instructions)
