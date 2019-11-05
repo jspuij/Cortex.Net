@@ -79,7 +79,7 @@ namespace Cortex.Net.Fody
 
             foreach (var decoratedProperty in decoratedProperties.ToList())
             {
-                this.WeaveProperty(decoratedProperty);
+                this.WeaveProperty(decoratedProperty, typeof(DeepEnhancer));
             }
 
             var decoratedClasses = from t in this.cortexWeaver.ModuleDefinition.GetTypes()
@@ -103,13 +103,33 @@ namespace Cortex.Net.Fody
         /// <param name="decoratedClass">The class that was decorated with the attribute.</param>
         private void WeaveClass(TypeDefinition decoratedClass)
         {
+            var observableAttribute = decoratedClass.CustomAttributes.Single(x => x.AttributeType.FullName == typeof(ObservableAttribute).FullName);
+
+            var defaultEhancerType = typeof(DeepEnhancer);
+            var enhancerType = defaultEhancerType;
+            foreach (var constructorArgument in observableAttribute.ConstructorArguments)
+            {
+                if (constructorArgument.Type.FullName == typeof(Type).FullName)
+                {
+                    enhancerType = constructorArgument.Value as Type;
+                }
+            }
+
+            foreach (var property in decoratedClass.Properties.Where(x => x.GetMethod != null && x.GetMethod.IsPublic && x.SetMethod != null && x.SetMethod.IsPublic))
+            {
+                if (property.GetMethod.CustomAttributes.Any(x => x.AttributeType.FullName == typeof(CompilerGeneratedAttribute).FullName))
+                {
+                    this.WeaveProperty(property, enhancerType);
+                }
+            }
         }
 
         /// <summary>
         /// Weaves a property on an observable object.
         /// </summary>
         /// <param name="property">The property to make observable.</param>
-        private void WeaveProperty(PropertyDefinition property)
+        /// <param name="defaultEnhancer">The type of the default Enhancer.</param>
+        private void WeaveProperty(PropertyDefinition property, Type defaultEnhancer)
         {
             var module = property.Module;
             var getMethod = property.GetMethod;
@@ -122,23 +142,33 @@ namespace Cortex.Net.Fody
                 return;
             }
 
+            if (setMethod == null)
+            {
+                this.cortexWeaver.LogWarning(string.Format(CultureInfo.CurrentCulture, Resources.NoSetterForObservable, property.Name, declaringType.Name));
+                return;
+            }
+
             // property name
             var propertyName = property.Name;
-            var observableAttribute = property.CustomAttributes.Single(x => x.AttributeType.FullName == typeof(ObservableAttribute).FullName);
+            var observableAttribute = property.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == typeof(ObservableAttribute).FullName);
 
             // default enhancer
-            var defaultEhancerType = module.ImportReference(typeof(DeepEnhancer));
+            var defaultEhancerType = module.ImportReference(defaultEnhancer);
             var enhancerType = defaultEhancerType;
-            foreach (var constructorArgument in observableAttribute.ConstructorArguments)
-            {
-                if (constructorArgument.Type.FullName == typeof(string).FullName)
-                {
-                    propertyName = constructorArgument.Value as string;
-                }
 
-                if (constructorArgument.Type.FullName == typeof(Type).FullName)
+            if (observableAttribute != null)
+            {
+                foreach (var constructorArgument in observableAttribute.ConstructorArguments)
                 {
-                    enhancerType = module.ImportReference(constructorArgument.Value as Type);
+                    if (constructorArgument.Type.FullName == typeof(string).FullName)
+                    {
+                        propertyName = constructorArgument.Value as string;
+                    }
+
+                    if (constructorArgument.Type.FullName == typeof(Type).FullName)
+                    {
+                        enhancerType = module.ImportReference(constructorArgument.Value as Type);
+                    }
                 }
             }
 

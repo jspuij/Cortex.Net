@@ -246,12 +246,10 @@ namespace Cortex.Net.Fody
             var actionType = this.GetActionType(methodDefinition);
 
             // add the delegate as field to the class.
-            var actionFieldDefinition = new FieldDefinition($"{InnerActionFieldPrefix}{methodDefinition.Name}_Action", fieldAttributes, actionType);
-            declaringType.Fields.Add(actionFieldDefinition);
+            var actionFieldDefinition = declaringType.CreateField(actionType, $"{InnerActionFieldPrefix}{methodDefinition.Name}_Action", fieldAttributes);
 
             // add entrance counter field.
-            var entranceCounterDefinition = new FieldDefinition($"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", fieldAttributes, moduleDefinition.TypeSystem.Int32);
-            declaringType.Fields.Add(entranceCounterDefinition);
+            var entranceCounterDefinition = declaringType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", fieldAttributes);
 
             // push IL code for initialization of action members to the queue to emit in the ISharedState setter.
             this.processorQueue.SharedStateAssignmentQueue.Enqueue(

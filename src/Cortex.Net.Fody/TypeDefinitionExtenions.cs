@@ -44,8 +44,9 @@ namespace Cortex.Net.Fody
         /// <param name="classType">The type reference of the class.</param>
         /// <param name="fieldType">The type reference of the Field.</param>
         /// <param name="name">The name of the field.</param>
+        /// <param name="fieldAttributes">The field Atrributes.</param>
         /// <returns>The Field definition. It has already been added to the class type.</returns>
-        public static FieldDefinition CreateField(this TypeDefinition classType, TypeReference fieldType, string name)
+        public static FieldDefinition CreateField(this TypeDefinition classType, TypeReference fieldType, string name, FieldAttributes fieldAttributes = FieldAttributes.Private)
         {
             if (classType is null)
             {
@@ -62,7 +63,7 @@ namespace Cortex.Net.Fody
                 throw new ArgumentNullException(nameof(name));
             }
 
-            var field = new FieldDefinition(name, FieldAttributes.Private, fieldType);
+            var field = new FieldDefinition(name, fieldAttributes, fieldType);
 
             // Add compiler generated attribute.
             var compilerGeneratedAttributeType = classType.Module.ImportReference(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute));

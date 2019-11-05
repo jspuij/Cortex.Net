@@ -5,13 +5,14 @@ using System.Text;
 
 namespace Cortext.Next.Playground
 {
+    [Observable]
     public class PersonWeave
     {
-        [Observable]
         public string FirstName { get; set; }
 
-        [Observable]
         public string LastName { get; set; }
+
+        public int Counter { get; set; }
 
         [Action("PipoNames")]
         public void ChangeBothNames(string firstName, string lastName)
