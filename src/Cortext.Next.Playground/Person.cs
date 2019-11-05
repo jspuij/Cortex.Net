@@ -20,14 +20,19 @@ namespace Cortext.Next.Playground
             observableObject.AddObservableProperty<string>(nameof(FirstName));
             observableObject.AddObservableProperty<string>(nameof(LastName));
 
-            string getter() => this.FirstName + " " + this.LastName;
-
-            observableObject.AddComputedMember<string>(nameof(FullName), new ComputedValueOptions<string>(getter, nameof(FullName))
+            observableObject.AddComputedMember<string>(nameof(FullName), new ComputedValueOptions<string>(Getter, nameof(FullName))
             {
                 Context = this,
+                KeepAlive = false,
+                RequiresReaction = false,
             });
 
             testAction = sharedState.CreateAction("ChangeBothNames", this, new Action<string, string>(this.ChangeBothNames));
+        }
+
+        private string Getter()
+        {
+            return this.FirstName + " " + this.LastName;
         }
 
         public string FirstName

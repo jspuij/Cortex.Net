@@ -97,21 +97,37 @@
             Executes this observable weaver.
             </summary>
         </member>
+        <member name="M:Cortex.Net.Fody.ComputedWeaver.WeaveProperty(Mono.Cecil.PropertyDefinition)">
+            <summary>
+            Weaves a property that is decorated with a <see cref="T:Cortex.Net.Api.ComputedAttribute"/>.
+            </summary>
+            <param name="propertyDefinition">The definition of the property.</param>
+        </member>
         <member name="M:Cortex.Net.Fody.ComputedWeaver.WeaveMethod(Mono.Cecil.MethodDefinition)">
             <summary>
             Weaves a method that is decorated with a <see cref="T:Cortex.Net.Api.ComputedAttribute"/>.
             </summary>
             <param name="methodDefinition">The method definition of the decorated method.</param>
         </member>
+        <member name="M:Cortex.Net.Fody.ComputedWeaver.CreateObservableObjectField(Mono.Cecil.ModuleDefinition,Mono.Cecil.TypeDefinition,Mono.Cecil.TypeReference)">
+            <summary>
+            Creates an ObservableObject field on the declaring type.
+            </summary>
+            <param name="moduleDefinition">The module Definition to import into.</param>
+            <param name="declaringType">The declaring type.</param>
+            <param name="defaultEhancerType">The default enhancer type.</param>
+            <returns>A field definition for the Observable Object field.</returns>
+        </member>
         <member name="M:Cortex.Net.Fody.ComputedWeaver.ExtendMethodBody(Mono.Cecil.MethodDefinition,System.String,Mono.Cecil.FieldDefinition,Mono.Cecil.FieldDefinition)">
             <summary>
             Extends the method body of the Computed method.
             </summary>
             <param name="methodDefinition">The method Definition to extend.</param>
+            <param name="computedName">The name of the computed member.</param>
             <param name="counterFieldDefinition">The entrance counter to register recursive calls.</param>
             <param name="observableObjectField">The observable object field.</param>
         </member>
-        <member name="M:Cortex.Net.Fody.ComputedWeaver.EmitComputedMemberAdd(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,System.Boolean,System.Boolean,Mono.Cecil.FieldReference,Mono.Cecil.FieldDefinition)">
+        <member name="M:Cortex.Net.Fody.ComputedWeaver.EmitComputedMemberAdd(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,System.Boolean,System.Boolean,Mono.Cecil.FieldDefinition)">
             <summary>
             Emits IL code for adding a computed member on this observable object.
             </summary>
@@ -121,7 +137,6 @@
             <param name="equalityComparerType">The equality comparer type.</param>
             <param name="requiresReaction">Whether the computed value requires a reaction.</param>
             <param name="keepAlive">Whether to keep the computed value alive.</param>
-            <param name="sharedStateBackingField">The backing field for the shared state.</param>
             <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the <see cref="T:Cortex.Net.Types.ObservableObject"/> instance is kept.</param>
         </member>
         <member name="M:Cortex.Net.Fody.ComputedWeaver.GetFunctionType(Mono.Cecil.MethodDefinition)">

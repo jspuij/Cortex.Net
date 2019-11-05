@@ -68,7 +68,7 @@ namespace Cortex.Net.Fody
 
             foreach (var decoratedProperty in decoratedProperties.ToList())
             {
-                // this.WeaveProperty(decoratedProperty, typeof(DeepEnhancer));
+                this.WeaveProperty(decoratedProperty);
             }
 
             var decoratedMethods = from t in this.ParentWeaver.ModuleDefinition.GetTypes()
@@ -82,7 +82,6 @@ namespace Cortex.Net.Fody
                                       m.CustomAttributes.Any(x => x.AttributeType.FullName == typeof(ComputedAttribute).FullName)
                                    select m;
 
-
             foreach (var method in decoratedMethods.ToList())
             {
                 this.WeaveMethod(method);
@@ -90,34 +89,25 @@ namespace Cortex.Net.Fody
         }
 
         /// <summary>
-        /// Weaves a method that is decorated with a <see cref="ComputedAttribute"/>.
+        /// Weaves a property that is decorated with a <see cref="ComputedAttribute"/>.
         /// </summary>
-        /// <param name="methodDefinition">The method definition of the decorated method.</param>
-        private void WeaveMethod(MethodDefinition methodDefinition)
+        /// <param name="propertyDefinition">The definition of the property.</param>
+        private void WeaveProperty(PropertyDefinition propertyDefinition)
         {
             // property name
-            var computedName = methodDefinition.Name;
-            var methodReturnType = methodDefinition.ReturnType;
-            var moduleDefinition = methodDefinition.Module;
-            var declaringType = methodDefinition.DeclaringType;
+            var computedName = propertyDefinition.Name;
+            var propertyType = propertyDefinition.PropertyType;
+            var moduleDefinition = propertyDefinition.Module;
+            var declaringType = propertyDefinition.DeclaringType;
+
+            var computedAttribute = propertyDefinition.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == typeof(ComputedAttribute).FullName);
 
             // default enhancer
             var defaultEhancerType = moduleDefinition.ImportReference(typeof(DeepEnhancer));
             var iequalityComparerType = moduleDefinition.ImportReference(typeof(System.Collections.IEqualityComparer));
             var defaultMethodDefinition = moduleDefinition.ImportReference(typeof(EqualityComparer<>)).Resolve().Properties.Single(x => x.Name == "Default").GetMethod;
             TypeReference equalityComparerType = new GenericInstanceType(moduleDefinition.ImportReference(typeof(EqualityComparer<>)));
-            ((GenericInstanceType)equalityComparerType).GenericArguments.Add(methodDefinition.ReturnType);
-
-            var computedAttribute = methodDefinition.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == typeof(ComputedAttribute).FullName);
-
-            var fieldAttributes = FieldAttributes.Private;
-            if (methodDefinition.IsStatic)
-            {
-                fieldAttributes |= FieldAttributes.Static;
-            }
-
-            // add entrance counter field.
-            var entranceCounterDefinition = declaringType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", fieldAttributes);
+            ((GenericInstanceType)equalityComparerType).GenericArguments.Add(propertyType);
 
             var keepAlive = false;
             var requiresReaction = false;
@@ -151,6 +141,131 @@ namespace Cortex.Net.Fody
 
             var defaultMethodReference = moduleDefinition.ImportReference(defaultMethodDefinition.GetGenericMethodOnInstantance(equalityComparerType));
 
+            FieldDefinition observableObjectField = this.CreateObservableObjectField(moduleDefinition, declaringType, defaultEhancerType);
+
+            if (propertyDefinition.GetMethod != null)
+            {
+                var methodDefinition = propertyDefinition.GetMethod;
+
+                // push IL code for initialization of a computed member to the queue to emit in the ISharedState setter.
+                this.ProcessorQueue.SharedStateAssignmentQueue.Enqueue(
+                    (declaringType,
+                    (processor, sharedStateBackingField) => this.EmitComputedMemberAdd(
+                        processor,
+                        computedName,
+                        methodDefinition,
+                        equalityComparerType,
+                        requiresReaction,
+                        keepAlive,
+                        observableObjectField)));
+
+                var fieldAttributes = FieldAttributes.Private;
+                if (methodDefinition.IsStatic)
+                {
+                    fieldAttributes |= FieldAttributes.Static;
+                }
+
+                // add entrance counter field.
+                var entranceCounterDefinition = declaringType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", fieldAttributes);
+
+                // extend the method body.
+                this.ExtendMethodBody(methodDefinition, computedName, entranceCounterDefinition, observableObjectField);
+            }
+
+            // TODO: Set methods.
+        }
+
+        /// <summary>
+        /// Weaves a method that is decorated with a <see cref="ComputedAttribute"/>.
+        /// </summary>
+        /// <param name="methodDefinition">The method definition of the decorated method.</param>
+        private void WeaveMethod(MethodDefinition methodDefinition)
+        {
+            // TODO: Handle and test the equalityprovider.
+
+            // property name
+            var computedName = methodDefinition.Name;
+            var methodReturnType = methodDefinition.ReturnType;
+            var moduleDefinition = methodDefinition.Module;
+            var declaringType = methodDefinition.DeclaringType;
+
+            var computedAttribute = methodDefinition.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == typeof(ComputedAttribute).FullName);
+
+            // default enhancer
+            var defaultEhancerType = moduleDefinition.ImportReference(typeof(DeepEnhancer));
+            var iequalityComparerType = moduleDefinition.ImportReference(typeof(System.Collections.IEqualityComparer));
+            var defaultMethodDefinition = moduleDefinition.ImportReference(typeof(EqualityComparer<>)).Resolve().Properties.Single(x => x.Name == "Default").GetMethod;
+            TypeReference equalityComparerType = new GenericInstanceType(moduleDefinition.ImportReference(typeof(EqualityComparer<>)));
+            ((GenericInstanceType)equalityComparerType).GenericArguments.Add(methodDefinition.ReturnType);
+
+            var keepAlive = false;
+            var requiresReaction = false;
+
+            int boolIndex = 0;
+
+            foreach (var ca in computedAttribute.ConstructorArguments)
+            {
+                if (ca.Type == moduleDefinition.TypeSystem.String)
+                {
+                    computedName = ca.Value as string;
+                }
+
+                if (ca.Type == iequalityComparerType)
+                {
+                    equalityComparerType = moduleDefinition.ImportReference(ca.Value as System.Type);
+                }
+
+                if (ca.Type == moduleDefinition.TypeSystem.Boolean)
+                {
+                    if (boolIndex++ == 0)
+                    {
+                        requiresReaction = (bool)ca.Value;
+                    }
+                    else
+                    {
+                        keepAlive = (bool)ca.Value;
+                    }
+                }
+            }
+
+            var defaultMethodReference = moduleDefinition.ImportReference(defaultMethodDefinition.GetGenericMethodOnInstantance(equalityComparerType));
+
+            FieldDefinition observableObjectField = this.CreateObservableObjectField(moduleDefinition, declaringType, defaultEhancerType);
+
+            // push IL code for initialization of a computed member to the queue to emit in the ISharedState setter.
+            this.ProcessorQueue.SharedStateAssignmentQueue.Enqueue(
+                (declaringType,
+                (processor, sharedStateBackingField) => this.EmitComputedMemberAdd(
+                    processor,
+                    computedName,
+                    methodDefinition,
+                    equalityComparerType,
+                    requiresReaction,
+                    keepAlive,
+                    observableObjectField)));
+
+            var fieldAttributes = FieldAttributes.Private;
+            if (methodDefinition.IsStatic)
+            {
+                fieldAttributes |= FieldAttributes.Static;
+            }
+
+            // add entrance counter field.
+            var entranceCounterDefinition = declaringType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", fieldAttributes);
+
+            // extend the method body.
+            this.ExtendMethodBody(methodDefinition, computedName, entranceCounterDefinition, observableObjectField);
+        }
+
+        /// <summary>
+        /// Creates an ObservableObject field on the declaring type.
+        /// </summary>
+        /// <param name="moduleDefinition">The module Definition to import into.</param>
+        /// <param name="declaringType">The declaring type.</param>
+        /// <param name="defaultEhancerType">The default enhancer type.</param>
+        /// <returns>A field definition for the Observable Object field.</returns>
+        private FieldDefinition CreateObservableObjectField(ModuleDefinition moduleDefinition, TypeDefinition declaringType, TypeReference defaultEhancerType)
+        {
             // get or create the ObservableObjectField.
             FieldDefinition observableObjectField = declaringType.Fields.FirstOrDefault(x => x.FieldType.FullName == typeof(ObservableObject).FullName);
             if (observableObjectField is null)
@@ -169,27 +284,14 @@ namespace Cortex.Net.Fody
                         observableObjectField)));
             }
 
-            // push IL code for initialization of a computed member to the queue to emit in the ISharedState setter.
-            this.ProcessorQueue.SharedStateAssignmentQueue.Enqueue(
-                (declaringType,
-                (processor, sharedStateBackingField) => this.EmitComputedMemberAdd(
-                    processor,
-                    computedName,
-                    methodDefinition,
-                    equalityComparerType,
-                    requiresReaction,
-                    keepAlive,
-                    sharedStateBackingField,
-                    observableObjectField)));
-
-            // extend the method body.
-            this.ExtendMethodBody(methodDefinition, computedName, entranceCounterDefinition, observableObjectField);
+            return observableObjectField;
         }
 
         /// <summary>
         /// Extends the method body of the Computed method.
         /// </summary>
         /// <param name="methodDefinition">The method Definition to extend.</param>
+        /// <param name="computedName">The name of the computed member.</param>
         /// <param name="counterFieldDefinition">The entrance counter to register recursive calls.</param>
         /// <param name="observableObjectField">The observable object field.</param>
         private void ExtendMethodBody(MethodDefinition methodDefinition, string computedName, FieldDefinition counterFieldDefinition, FieldDefinition observableObjectField)
@@ -266,7 +368,6 @@ namespace Cortex.Net.Fody
         /// <param name="equalityComparerType">The equality comparer type.</param>
         /// <param name="requiresReaction">Whether the computed value requires a reaction.</param>
         /// <param name="keepAlive">Whether to keep the computed value alive.</param>
-        /// <param name="sharedStateBackingField">The backing field for the shared state.</param>
         /// <param name="observableObjectField">A <see cref="FieldDefinition"/> for the field where the <see cref="ObservableObject"/> instance is kept.</param>
         private void EmitComputedMemberAdd(
             ILProcessor processor,
@@ -275,7 +376,6 @@ namespace Cortex.Net.Fody
             TypeReference equalityComparerType,
             bool requiresReaction,
             bool keepAlive,
-            FieldReference sharedStateBackingField,
             FieldDefinition observableObjectField)
         {
             var module = methodDefinition.Module;

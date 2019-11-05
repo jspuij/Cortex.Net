@@ -24,23 +24,16 @@ namespace Cortext.Next.Playground
             person.FirstName = "Jan-Willem";
             person.LastName = "Spuij";
 
-            Console.WriteLine(person.FullName);
-
-//            d.Dispose();
-
             person.LastName = "Spuijtje";
-
             person.ChangeBothNames("Eddy", "Tick");
 
-            Console.WriteLine(person.FullName);
 
             var personWeaver = new PersonWeave();
             ((IObservableObject)personWeaver).SharedState = sharedState;
-            var d2 = sharedState.Reaction<string>(r => personWeaver.FullName2(), (s, r) => Console.WriteLine($"FullName2 Changed: {s}"));
+            var d2 = sharedState.Reaction<string>(r => personWeaver.FullName, (s, r) => Console.WriteLine($"Weaved: FullName Changed: {s}"));
 
             personWeaver.ChangeBothNames("Eddy", "Tick");
-            Console.WriteLine(personWeaver.FirstName);
-            Console.WriteLine(personWeaver.LastName);
+            personWeaver.ChangeBothNames("Eddy", "Tickie");
 
 
         }
