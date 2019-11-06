@@ -18,7 +18,10 @@ namespace Cortex.Net.Core
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
     using System.Text;
+    using Cortex.Net.Properties;
     using Cortex.Net.Spy;
 
     /// <summary>
@@ -51,6 +54,11 @@ namespace Cortex.Net.Core
         private readonly Action onInvalidate;
 
         /// <summary>
+        /// The error handler to use for this reaction.
+        /// </summary>
+        private readonly Action<Reaction, Exception> errorHandler;
+
+        /// <summary>
         /// Indicates whether this reaction is scheduled.
         /// </summary>
         private bool isScheduled;
@@ -76,10 +84,12 @@ namespace Cortex.Net.Core
         /// <param name="sharedState">The shared state to use.</param>
         /// <param name="name">The name to use.</param>
         /// <param name="onInvalidate">Handler to run when this reaction is invalidated. This handler should call <see cref="Track"/>.</param>
-        internal Reaction(ISharedState sharedState, string name, Action onInvalidate)
+        /// <param name="errorHandler">The error handler for this reaction.</param>
+        internal Reaction(ISharedState sharedState, string name, Action onInvalidate, Action<Reaction, Exception> errorHandler)
         {
             this.SharedState = sharedState ?? throw new ArgumentNullException(nameof(sharedState));
             this.onInvalidate = onInvalidate ?? throw new ArgumentNullException(nameof(onInvalidate));
+            this.errorHandler = errorHandler;
             this.Name = !string.IsNullOrEmpty(name) ? name : $"{this.SharedState.GetUniqueId()}";
         }
 
@@ -196,7 +206,7 @@ namespace Cortex.Net.Core
 
             if (exception != null)
             {
-                this.ReportExceptionInDerivation(exception);
+                this.ReportExceptionInReaction(exception);
             }
 
             this.SharedState.OnSpy(this, new ReactionEndSpyEventArgs()
@@ -240,7 +250,7 @@ namespace Cortex.Net.Core
                 catch (Exception exception)
 #pragma warning restore CA1031 // Do not catch general exception types
                 {
-                    this.ReportExceptionInDerivation(exception);
+                    this.ReportExceptionInReaction(exception);
                 }
             }
 
@@ -260,35 +270,45 @@ namespace Cortex.Net.Core
             }
         }
 
-        private void ReportExceptionInDerivation(Exception exception)
+        /// <summary>
+        /// Reports an Exception in the reaction.
+        /// </summary>
+        /// <param name="exception">The exception to report.</param>
+        private void ReportExceptionInReaction(Exception exception)
         {
-            throw exception;
-            // TODO: Create decent error handling because this will not work in .NET
-//            if (this.ErrorHandler)
-//            {
-//                this.ErrorHandler(this, exception);
-//                return;
-//            }
-//            if (this.SharedState.Configuration.DisableErrorBoundaries)
-//            {
-//                throw exception;
-//            }
-//        const message = `[mobx] Encountered an uncaught exception that was thrown by a reaction or observer component, in: '${this}'`
-//        if (globalState.suppressReactionErrors) {
-//            console.warn(`[mobx] (error in reaction '${this.name}' suppressed, fix error of causing action below)`) // prettier-ignore
-//        } else {
-//            console.error(message, error)
-//    /** If debugging brought you here, please, read the above message :-). Tnx! */
-//          }
-//        if (isSpyEnabled()) {
-//            spyReport({
-//               type: "error",
-//                name: this.name,
-//                message,
-//                error: "" + error
-//            })
-//        }
-//        globalState.globalReactionErrorHandlers.forEach(f => f(error, this))
+            if (this.errorHandler != null)
+            {
+                this.errorHandler(this, exception);
+                return;
+            }
+
+            if (this.SharedState.Configuration.DisableErrorBoundaries)
+            {
+                throw exception;
+            }
+
+            var message = string.Format(CultureInfo.CurrentCulture, Resources.UncaughtExceptionInsideReaction, this.Name);
+
+            if (this.SharedState.SuppressReactionErrors)
+            {
+                Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, Resources.UncaughtExceptionInsideReactionSuppressed, this.Name));
+            }
+            else
+            {
+                Trace.WriteLine(message);
+                Trace.WriteLine(exception.ToString());
+                Debugger.Break();
+                /* If debugging brought you here, please, read the above message :-). Tnx! */
+            }
+
+            this.SharedState.OnSpy(this, new ReactionExceptionSpyEventArgs()
+            {
+                Name = this.Name,
+                Message = message,
+                Exception = exception,
+            });
+
+            this.SharedState.OnUnhandledReactionException(this, new UnhandledExceptionEventArgs(exception, false));
         }
     }
 }

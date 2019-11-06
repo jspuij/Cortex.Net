@@ -293,5 +293,23 @@ namespace Cortex.Net.Properties {
                 return ResourceManager.GetString("ReadOutsideReactionRecompute", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [Cortex.Net] Encountered an uncaught exception that was thrown by a reaction or observer component, in: ({0}).
+        /// </summary>
+        internal static string UncaughtExceptionInsideReaction {
+            get {
+                return ResourceManager.GetString("UncaughtExceptionInsideReaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [Cortex.Net] Error in reaction ({0}) suppressed, fix error of causing action below:.
+        /// </summary>
+        internal static string UncaughtExceptionInsideReactionSuppressed {
+            get {
+                return ResourceManager.GetString("UncaughtExceptionInsideReactionSuppressed", resourceCulture);
+            }
+        }
     }
 }

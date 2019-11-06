@@ -275,7 +275,7 @@ namespace Cortex.Net.Core
             {
                 if (value is null)
                 {
-                    this.Value = default(T);
+                    this.Value = default;
                 }
                 else
                 {

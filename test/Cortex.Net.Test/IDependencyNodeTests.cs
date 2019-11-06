@@ -40,7 +40,7 @@ namespace Cortex.Net.Test
                 {
                     new object[] { new Atom(SharedState, "test") },
                     new object[] { new ComputedValue<int>(SharedState, new ComputedValueOptions<int>(() => 3, "test")) },
-                    new object[] { new Reaction(SharedState, "test", () => { }) },
+                    new object[] { new Reaction(SharedState, "test", () => { }, null) },
                 };
             }
         }

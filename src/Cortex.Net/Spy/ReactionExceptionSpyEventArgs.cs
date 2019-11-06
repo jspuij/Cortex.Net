@@ -1,4 +1,4 @@
-﻿// <copyright file="AutorunOptions.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ReactionExceptionSpyEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -14,48 +14,25 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Cortex.Net
+namespace Cortex.Net.Spy
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using System.Threading.Tasks;
-    using Cortex.Net.Core;
 
     /// <summary>
-    /// Specifies the options for an Autorun instance.
+    /// Event arguments for spy when a reaction has an exception.
     /// </summary>
-    public class AutorunOptions
+    public class ReactionExceptionSpyEventArgs : ReactionSpyEventArgs
     {
         /// <summary>
-        /// Gets or sets the delay.
+        /// Gets or sets the exception that ocurred.
         /// </summary>
-        public int Delay { get; set; }
+        public Exception Exception { get; set; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets or sets the error message.
         /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether observables are required in the view function.
-        /// </summary>
-        public bool RequiresObservable { get; set; }
-
-        /// <summary>
-        /// Gets or sets the scheduler function to use. The function is async
-        /// so that other code can be executed in the mean time.
-        /// </summary>
-        public Func<Task> Scheduler { get; set; }
-
-        /// <summary>
-        /// Gets or sets error handler function that is called in case of an error. Otherwise the error is propagated.
-        /// </summary>
-        public Action<Reaction, Exception> ErrorHandler { get; set; }
-
-        /// <summary>
-        /// Gets or sets the context.
-        /// </summary>
-        public object Context { get; set; }
+        public string Message { get; set; }
     }
 }

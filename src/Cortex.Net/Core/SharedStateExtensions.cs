@@ -208,7 +208,7 @@ namespace Cortex.Net.Core
                         isScheduled = true;
                         scheduler().GetAwaiter().GetResult();
                     }
-                });
+                }, options.ErrorHandler);
 #pragma warning restore IDE0067 // Dispose objects before losing scope
 #pragma warning restore CA2000 // Dispose objects before losing scope
 
@@ -257,7 +257,7 @@ namespace Cortex.Net.Core
         /// <param name="errorHandler">The errorhandler to use.</param>
         /// <param name="action">The action to wrap.</param>
         /// <returns>The wrapped action.</returns>
-        private static Action<T, Reaction> WrapErrorHandler<T>(Action<Exception> errorHandler, Action<T, Reaction> action)
+        private static Action<T, Reaction> WrapErrorHandler<T>(Action<Reaction, Exception> errorHandler, Action<T, Reaction> action)
         {
             return new Action<T, Reaction>((value, reaction) =>
             {
@@ -269,7 +269,7 @@ namespace Cortex.Net.Core
                 catch (Exception exception)
 #pragma warning restore CA1031 // Do not catch general exception types
                 {
-                    errorHandler(exception);
+                    errorHandler(reaction, exception);
                 }
             });
         }

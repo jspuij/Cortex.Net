@@ -1,4 +1,4 @@
-﻿// <copyright file="Tree.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="TreeNode.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation

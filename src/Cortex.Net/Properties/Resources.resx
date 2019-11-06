@@ -195,4 +195,10 @@
   <data name="ReadOutsideReactionRecompute" xml:space="preserve">
     <value>[Cortex.Net] ({0}) is read outside a reactive context. Doing full recompute.</value>
   </data>
+  <data name="UncaughtExceptionInsideReaction" xml:space="preserve">
+    <value>[Cortex.Net] Encountered an uncaught exception that was thrown by a reaction or observer component, in: ({0})</value>
+  </data>
+  <data name="UncaughtExceptionInsideReactionSuppressed" xml:space="preserve">
+    <value>[Cortex.Net] Error in reaction ({0}) suppressed, fix error of causing action below:</value>
+  </data>
 </root>

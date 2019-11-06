@@ -232,8 +232,6 @@ namespace Cortex.Net.Core
                 }
                 else if (derivation.DependenciesState == DerivationState.UpToDate)
                 {
-                    // TODO: JWS: this seems incorrect when multiple derivations reference this observable. Devise test!
-                    // this happens during computing of `derivation`, just keep lowestObserverState up to date.
                     observable.LowestObserverState = DerivationState.UpToDate;
                 }
             }

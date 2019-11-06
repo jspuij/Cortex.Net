@@ -16,14 +16,14 @@
 
 namespace Cortex.Net.Api
 {
-    using Cortex.Net.Core;
-    using Cortex.Net.Properties;
-    using Cortex.Net.Types;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq.Expressions;
     using System.Text;
+    using Cortex.Net.Core;
+    using Cortex.Net.Properties;
+    using Cortex.Net.Types;
 
     /// <summary>
     /// Extension methods for tracing.
@@ -63,12 +63,12 @@ namespace Cortex.Net.Api
         /// <summary>
         /// Traces the computed property given by the trace expression.
         /// </summary>
-        /// <param name="toTrace">The object to trace,</param>
+        /// <param name="toTrace">The object to trace.</param>
         /// <param name="expression">The member expression.</param>
         /// <param name="traceMode">The trace mode to use.</param>
         /// <typeparam name="TObject">The type of the object.</typeparam>
         /// <typeparam name="TMember">The property or method of the object.</typeparam>
-        public static void Trace<TObject, TMember>(this TObject toTrace, Expression<Func<TObject,TMember>> expression, TraceMode traceMode = TraceMode.Log)
+        public static void Trace<TObject, TMember>(this TObject toTrace, Expression<Func<TObject, TMember>> expression, TraceMode traceMode = TraceMode.Log)
         {
             if (expression is null)
             {

@@ -73,6 +73,11 @@ namespace Cortex.Net
         public event EventHandler<SpyEventArgs> SpyEvent;
 
         /// <summary>
+        /// Event that fires when a reaction produces an unhandled exception.
+        /// </summary>
+        public event EventHandler<UnhandledExceptionEventArgs> UnhandledReactionException;
+
+        /// <summary>
         /// Gets a queue of all pending Unobservations.
         /// </summary>
         public Queue<IObservable> PendingUnobservations { get; } = new Queue<IObservable>();
@@ -301,6 +306,16 @@ namespace Cortex.Net
         public void OnSpy(object sender, SpyEventArgs spyEventArgs)
         {
             this.SpyEvent?.Invoke(sender, spyEventArgs);
+        }
+
+        /// <summary>
+        /// Fires the <see cref="UnhandledReactionException"/> event.
+        /// </summary>
+        /// <param name="reaction">The reaction that caused the unhandled exception.</param>
+        /// <param name="unhandledExceptionEventArgs">The event arguments for the exception.</param>
+        public void OnUnhandledReactionException(Reaction reaction, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
+        {
+            this.UnhandledReactionException?.Invoke(reaction, unhandledExceptionEventArgs);
         }
 
         /// <summary>
