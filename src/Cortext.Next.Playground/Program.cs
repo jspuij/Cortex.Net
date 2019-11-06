@@ -37,7 +37,7 @@ namespace Cortext.Next.Playground
                 Console.WriteLine($"Weaved: FullName Changed: {s}");
             });
 
-            personWeaver.Trace(x => x.FullName);
+            personWeaver.Trace(x => x.FullName2());
 
             personWeaver.ChangeBothNames("Jan-Willem", "Spuij");
             personWeaver.ChangeBothNames("Jan-Willem", "Spuijtje");

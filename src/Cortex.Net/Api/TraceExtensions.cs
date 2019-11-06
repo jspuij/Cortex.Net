@@ -82,14 +82,23 @@ namespace Cortex.Net.Api
                 throw new InvalidOperationException(Resources.CannotTraceNotObservable);
             }
 
-            if (!(expression.Body is MemberExpression))
+            if (!(expression.Body is MemberExpression || expression.Body is MethodCallExpression))
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.ProvidedExpressionNoMemberExpression, expression));
             }
 
-            var memberExpression = expression.Body as MemberExpression;
+            string key = string.Empty;
 
-            var observableValue = observableObject[memberExpression.Member.Name];
+            if (expression.Body is MemberExpression memberExpression)
+            {
+                key = memberExpression.Member.Name;
+            }
+            else if (expression.Body is MethodCallExpression methodCallExpression)
+            {
+                key = methodCallExpression.Method.Name;
+            }
+
+            var observableValue = observableObject[key];
 
             if (observableValue is IDerivation derivation)
             {
@@ -97,7 +106,7 @@ namespace Cortex.Net.Api
                 return;
             }
 
-            throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.ProvidedMemberNoDerivation, memberExpression.Member.Name));
+            throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.ProvidedMemberNoDerivation, key));
         }
     }
 }
