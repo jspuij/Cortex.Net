@@ -47,5 +47,25 @@
               Looks up a localized string similar to {0} is not an Interface type..
             </summary>
         </member>
+        <member name="T:Cortex.Net.Test.Utils.DeepEqualityComparerTests">
+            <summary>
+            Unit tests for the <see cref="T:Cortex.Net.Utils.DeepEqualityComparer`1"/> class.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Utils.DeepEqualityComparerTests.ValueTypeTests">
+            <summary>
+            Tests value types for equality and inequality.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Utils.DeepEqualityComparerTests.StringTypeTests">
+            <summary>
+            Tests string types for equality and inequality.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Utils.DeepEqualityComparerTests.StructTypeTests">
+            <summary>
+            Tests struct types.
+            </summary>
+        </member>
     </members>
 </doc>

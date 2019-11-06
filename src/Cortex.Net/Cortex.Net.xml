@@ -3157,7 +3157,7 @@
             <summary>
             Returns a hash code for the specified object.
             </summary>
-            <param name="obj">The System.Object for which a hash code is to be returned</param>
+            <param name="obj">The System..Object for which a hash code is to be returned</param>
             <returns>A hash code for the specified object.</returns>
         </member>
         <member name="T:Cortex.Net.Utils.ReferenceEqualityComparer`1">

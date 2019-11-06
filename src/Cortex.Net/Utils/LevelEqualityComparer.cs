@@ -35,7 +35,7 @@ namespace Cortex.Net.Utils
         /// <summary>
         /// A dictionary of already completed Comparisons.
         /// </summary>
-        private IDictionary<object, object> visitedComparisons = new Dictionary<object, object>();
+        private readonly IDictionary<object, object> visitedComparisons = new Dictionary<object, object>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LevelEqualityComparer{T}"/> class.
@@ -87,7 +87,17 @@ namespace Cortex.Net.Utils
         bool IEqualityComparer.Equals(object x, object y)
         {
             int level = this.depth;
-            return InternalEquals(this.visitedComparisons ?? new Dictionary<object,object>(), x, y, level);
+            return InternalEquals(this.visitedComparisons ?? new Dictionary<object, object>(), x, y, level);
+        }
+
+        /// <summary>
+        /// Returns a hash code for the specified object.
+        /// </summary>
+        /// <param name="obj">The System..Object for which a hash code is to be returned.</param>
+        /// <returns>A hash code for the specified object.</returns>
+        int IEqualityComparer.GetHashCode(object obj)
+        {
+            throw new System.NotImplementedException();
         }
 
         private static bool InternalEquals(IDictionary<object, object> visitedComparisons, object x, object y, int level)
@@ -109,7 +119,7 @@ namespace Cortex.Net.Utils
                 return false;
             }
 
-            if (type.IsPrimitive || typeof(string).Equals(type))
+            if (type.IsPrimitive || typeof(string).Equals(type) || typeof(IEquatable<>).MakeGenericType(type).IsAssignableFrom(type))
             {
                 return Equals(x, y);
             }
@@ -165,16 +175,6 @@ namespace Cortex.Net.Utils
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Returns a hash code for the specified object.
-        /// </summary>
-        /// <param name="obj">The System.Object for which a hash code is to be returned</param>
-        /// <returns>A hash code for the specified object.</returns>
-        int IEqualityComparer.GetHashCode(object obj)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
