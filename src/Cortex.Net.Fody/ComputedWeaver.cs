@@ -154,6 +154,7 @@ namespace Cortex.Net.Fody
                         processor,
                         computedName,
                         methodDefinition,
+                        propertyDefinition.SetMethod,
                         equalityComparerType,
                         requiresReaction,
                         keepAlive,
@@ -169,10 +170,98 @@ namespace Cortex.Net.Fody
                 var entranceCounterDefinition = declaringType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", fieldAttributes);
 
                 // extend the method body.
-                this.ExtendMethodBody(methodDefinition, computedName, entranceCounterDefinition, observableObjectField);
+                this.ExtendGetMethodBody(methodDefinition, computedName, entranceCounterDefinition, observableObjectField);
             }
 
-            // TODO: Set methods.
+            if (propertyDefinition.SetMethod != null)
+            {
+                var methodDefinition = propertyDefinition.SetMethod;
+
+                var fieldAttributes = FieldAttributes.Private;
+                if (methodDefinition.IsStatic)
+                {
+                    fieldAttributes |= FieldAttributes.Static;
+                }
+
+                // add entrance counter field.
+                var entranceCounterDefinition = declaringType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", fieldAttributes);
+
+                // extend the method body.
+                this.ExtendSetMethodBody(methodDefinition, computedName, entranceCounterDefinition, observableObjectField);
+            }
+        }
+
+        /// <summary>
+        /// Extends the set method body of the Computed method.
+        /// </summary>
+        /// <param name="methodDefinition">The method Definition to extend.</param>
+        /// <param name="computedName">The name of the computed member.</param>
+        /// <param name="counterFieldDefinition">The entrance counter to register recursive calls.</param>
+        /// <param name="observableObjectField">The observable object field.</param>
+        private void ExtendSetMethodBody(MethodDefinition methodDefinition, string computedName, FieldDefinition counterFieldDefinition, FieldDefinition observableObjectField)
+        {
+            var processor = methodDefinition.Body.GetILProcessor();
+
+            var originalStart = methodDefinition.Body.Instructions.First();
+            var originalEnd = methodDefinition.Body.Instructions.Last();
+
+            var observableObjectType = this.ParentWeaver.ModuleDefinition.ImportReference(typeof(ObservableObject)).Resolve();
+            var observableObjectWritePropertyMethod = new GenericInstanceMethod(observableObjectType.Methods.FirstOrDefault(m => m.Name == "Write"));
+            observableObjectWritePropertyMethod.GenericArguments.Add(methodDefinition.Parameters[0].ParameterType);
+
+            var prefix = new List<Instruction>
+            {
+                // if fieldDefinition == null, jump to originalStart.
+                processor.Create(OpCodes.Ldarg_0),
+                processor.Create(OpCodes.Ldfld, observableObjectField),
+                processor.Create(OpCodes.Brfalse_S, originalStart),
+
+                // this pointers for later store and refetch. This bypasses local variable declarations that may not play nice with existing local variables.
+                processor.Create(OpCodes.Ldarg_0),
+                processor.Create(OpCodes.Ldarg_0),
+
+                // load counterfield definition and add 1
+                processor.Create(OpCodes.Ldarg_0),
+                processor.Create(OpCodes.Ldfld, counterFieldDefinition),
+                processor.Create(OpCodes.Ldc_I4_1),
+                processor.Create(OpCodes.Add),
+
+                // store and refetch. Divide by 2 and keep remainder.
+                processor.Create(OpCodes.Stfld, counterFieldDefinition),
+                processor.Create(OpCodes.Ldfld, counterFieldDefinition),
+                processor.Create(OpCodes.Ldc_I4_2),
+                processor.Create(OpCodes.Rem),
+
+                // if remainder is not 1, jump to original start of function.
+                processor.Create(OpCodes.Ldc_I4_1),
+                processor.Create(OpCodes.Bne_Un_S, originalStart),
+
+                // load the field where the action delegate is stored.
+                processor.Create(OpCodes.Ldarg_0),
+                processor.Create(OpCodes.Ldfld, observableObjectField),
+
+                // call the write method on the observable object.
+                processor.Create(OpCodes.Ldstr, computedName),
+                processor.Create(OpCodes.Ldarg_1),
+                processor.Create(OpCodes.Callvirt, this.ParentWeaver.ModuleDefinition.ImportReference(observableObjectWritePropertyMethod)),
+
+                // this pointers for fetch and store;
+                processor.Create(OpCodes.Ldarg_0),
+                processor.Create(OpCodes.Ldarg_0),
+
+                // this.counterFieldDefinition -= 2;
+                processor.Create(OpCodes.Ldfld, counterFieldDefinition),
+                processor.Create(OpCodes.Ldc_I4_2),
+                processor.Create(OpCodes.Sub),
+                processor.Create(OpCodes.Stfld, counterFieldDefinition),
+
+                processor.Create(OpCodes.Ret),
+            };
+
+            foreach (var instruction in prefix)
+            {
+                processor.InsertBefore(originalStart, instruction);
+            }
         }
 
         /// <summary>
@@ -239,6 +328,7 @@ namespace Cortex.Net.Fody
                     processor,
                     computedName,
                     methodDefinition,
+                    null,
                     equalityComparerType,
                     requiresReaction,
                     keepAlive,
@@ -254,7 +344,7 @@ namespace Cortex.Net.Fody
             var entranceCounterDefinition = declaringType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", fieldAttributes);
 
             // extend the method body.
-            this.ExtendMethodBody(methodDefinition, computedName, entranceCounterDefinition, observableObjectField);
+            this.ExtendGetMethodBody(methodDefinition, computedName, entranceCounterDefinition, observableObjectField);
         }
 
         /// <summary>
@@ -294,7 +384,7 @@ namespace Cortex.Net.Fody
         /// <param name="computedName">The name of the computed member.</param>
         /// <param name="counterFieldDefinition">The entrance counter to register recursive calls.</param>
         /// <param name="observableObjectField">The observable object field.</param>
-        private void ExtendMethodBody(MethodDefinition methodDefinition, string computedName, FieldDefinition counterFieldDefinition, FieldDefinition observableObjectField)
+        private void ExtendGetMethodBody(MethodDefinition methodDefinition, string computedName, FieldDefinition counterFieldDefinition, FieldDefinition observableObjectField)
         {
             var processor = methodDefinition.Body.GetILProcessor();
 
@@ -365,6 +455,7 @@ namespace Cortex.Net.Fody
         /// <param name="processor">The ILProcessor to use.</param>
         /// <param name="computedName">The name of the computed member.</param>
         /// <param name="methodDefinition">The methodDefinition of the member.</param>
+        /// <param name="setMethodDefinition">The methodDefinition of the setter.</param>
         /// <param name="equalityComparerType">The equality comparer type.</param>
         /// <param name="requiresReaction">Whether the computed value requires a reaction.</param>
         /// <param name="keepAlive">Whether to keep the computed value alive.</param>
@@ -373,13 +464,14 @@ namespace Cortex.Net.Fody
             ILProcessor processor,
             string computedName,
             MethodDefinition methodDefinition,
+            MethodDefinition setMethodDefinition,
             TypeReference equalityComparerType,
             bool requiresReaction,
             bool keepAlive,
             FieldDefinition observableObjectField)
         {
             var module = methodDefinition.Module;
-            var functionType = this.GetFunctionType(methodDefinition);
+            var functionType = methodDefinition.GetFunctionType();
 
             var observableObjectType = this.ParentWeaver.ModuleDefinition.ImportReference(typeof(ObservableObject)).Resolve();
             var observableObjectAddComputedMethod = new GenericInstanceMethod(observableObjectType.Methods.FirstOrDefault(m => m.Name == "AddComputedMember"));
@@ -419,87 +511,24 @@ namespace Cortex.Net.Fody
             processor.Emit(OpCodes.Dup);
             processor.Emit(keepAlive ? OpCodes.Ldc_I4_1 : OpCodes.Ldc_I4_0);
             processor.Emit(OpCodes.Callvirt, setKeepAliveReference);
+
+            if (setMethodDefinition != null)
+            {
+                var setSetterMethod = computedValueOptionsType.Methods.Single(x => x.Name == "set_Setter");
+                var setSetterReference = module.ImportReference(setSetterMethod.GetGenericMethodOnInstantance(computedValueOptionsInstanceType));
+                var actionType = setMethodDefinition.GetActionType();
+                MethodReference actionTypeConstructorReference = actionType.Resolve().Methods.Single(x => x.IsConstructor);
+
+                actionTypeConstructorReference = module.ImportReference(actionTypeConstructorReference.GetGenericMethodOnInstantance(actionType));
+
+                processor.Emit(OpCodes.Dup);
+                processor.Emit(OpCodes.Ldarg_0);
+                processor.Emit(OpCodes.Ldftn, setMethodDefinition);
+                processor.Emit(OpCodes.Newobj, functionTypeConstructorReference);
+                processor.Emit(OpCodes.Callvirt, setSetterReference);
+            }
+
             processor.Emit(OpCodes.Callvirt, module.ImportReference(observableObjectAddComputedMethod));
-        }
-
-        /// <summary>
-        /// Gets the Function type for the computed method that is passed.
-        /// </summary>
-        /// <param name="methodDefinition">The method definition for the function.</param>
-        /// <returns>A type reference.</returns>
-        private TypeReference GetFunctionType(MethodDefinition methodDefinition)
-        {
-            var moduleDefinition = this.ParentWeaver.ModuleDefinition;
-
-            TypeReference genericFunctionType;
-
-            switch (methodDefinition.Parameters.Count)
-            {
-                case 0:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<>));
-                    break;
-                case 1:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,>));
-                    break;
-                case 2:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,>));
-                    break;
-                case 3:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,>));
-                    break;
-                case 4:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,>));
-                    break;
-                case 5:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,>));
-                    break;
-                case 6:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,>));
-                    break;
-                case 7:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,>));
-                    break;
-                case 8:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,>));
-                    break;
-                case 9:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,>));
-                    break;
-                case 10:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,,>));
-                    break;
-                case 11:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,,,>));
-                    break;
-                case 12:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,,,,>));
-                    break;
-                case 13:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,,,,,>));
-                    break;
-                case 14:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,,,,,,>));
-                    break;
-                case 15:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,,,,,,,>));
-                    break;
-                case 16:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,,,,,,,,>));
-                    break;
-                default:
-                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.MoreThan16Parameters, methodDefinition.Name));
-            }
-
-            var instance = new GenericInstanceType(genericFunctionType);
-
-            foreach (var parameter in methodDefinition.Parameters)
-            {
-                instance.GenericArguments.Add(parameter.ParameterType);
-            }
-
-            instance.GenericArguments.Add(methodDefinition.ReturnType);
-
-            return instance;
         }
     }
 }

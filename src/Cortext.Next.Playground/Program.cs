@@ -41,6 +41,7 @@ namespace Cortext.Next.Playground
 
             personWeaver.ChangeBothNames("Jan-Willem", "Spuij");
             personWeaver.ChangeBothNames("Jan-Willem", "Spuijtje");
+            personWeaver.ChangeFullNameToBirdseyeview();
 
             d.Dispose();
             d2.Dispose();

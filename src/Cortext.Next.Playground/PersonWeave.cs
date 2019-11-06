@@ -13,12 +13,21 @@ namespace Cortext.Next.Playground
         public string LastName { get; set; }
 
         [Computed]
-        public string FullName => $"{this.FirstName} {this.LastName}";
+        public string FullName
+        {
+            get => $"{this.FirstName} {this.LastName}".Trim();
+
+            set
+            {
+                this.FirstName = string.Empty;
+                this.LastName = value;
+            }
+        }
 
         [Computed]
         public string FullName2()
         {
-            return $"{this.FirstName} {this.LastName}";
+            return $"{this.FirstName} {this.LastName}".Trim();
         }
 
         [Action("PipoNames")]
@@ -29,10 +38,9 @@ namespace Cortext.Next.Playground
         }
 
         [Action]
-        public void ChangeBothNamesToJohnDoe()
+        public void ChangeFullNameToBirdseyeview()
         {
-            FirstName = "John";
-            LastName = "Doe";
+            FullName = "Birdseyeview";
         }
     }
 }

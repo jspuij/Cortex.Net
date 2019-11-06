@@ -20,11 +20,12 @@ namespace Cortext.Next.Playground
             observableObject.AddObservableProperty<string>(nameof(FirstName));
             observableObject.AddObservableProperty<string>(nameof(LastName));
 
-            observableObject.AddComputedMember(nameof(FullName3), new ComputedValueOptions<string>(Getter, nameof(FullName3))
+            observableObject.AddComputedMember(nameof(FullName3), new ComputedValueOptions<string>(this.Getter, nameof(FullName3))
             {
                 Context = this,
                 KeepAlive = false,
                 RequiresReaction = false,
+                Setter = this.Setter
             });
 
             testAction = sharedState.CreateAction("ChangeBothNames", this, new Action<string, string>(this.ChangeBothNames));
@@ -33,6 +34,13 @@ namespace Cortext.Next.Playground
         private string Getter()
         {
             return $"{this.FirstName} {this.LastName}";
+        }
+
+
+        private void Setter(string value)
+        {
+            this.FirstName = string.Empty;
+            this.LastName = value;
         }
 
         public string FirstName
@@ -59,7 +67,11 @@ namespace Cortext.Next.Playground
             }
         }
 
-        public string FullName3 => this.observableObject.Read<string>(nameof(FullName3));
+        public string FullName3
+        {
+            get => this.observableObject.Read<string>(nameof(FullName3));
+            set => this.observableObject.Write<string>(nameof(FullName3), value);
+        }
 
         private ISharedState sharedState;
 

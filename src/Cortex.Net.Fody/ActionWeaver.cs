@@ -243,7 +243,7 @@ namespace Cortex.Net.Fody
             }
 
             // convert the method definition to a corresponding Action<> delegate.
-            var actionType = this.GetActionType(methodDefinition);
+            var actionType = methodDefinition.GetActionType();
 
             // add the delegate as field to the class.
             var actionFieldDefinition = declaringType.CreateField(actionType, $"{InnerActionFieldPrefix}{methodDefinition.Name}_Action", fieldAttributes);
@@ -263,86 +263,6 @@ namespace Cortex.Net.Fody
 
             // extend the action method body.
             ExtendActionMethodBody(methodDefinition, actionType, entranceCounterDefinition, actionFieldDefinition);
-        }
-
-        /// <summary>
-        /// Gets the Action type for the private field that is added to the class for the private method.
-        /// </summary>
-        /// <param name="methodDefinition">The method definition for the action.</param>
-        /// <returns>A type reference.</returns>
-        private TypeReference GetActionType(MethodDefinition methodDefinition)
-        {
-            var moduleDefinition = this.parentWeaver.ModuleDefinition;
-
-            if (methodDefinition.Parameters == null || !methodDefinition.Parameters.Any())
-            {
-                return moduleDefinition.ImportReference(typeof(Action));
-            }
-
-            TypeReference genericActionType;
-
-            switch (methodDefinition.Parameters.Count)
-            {
-                case 1:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<>));
-                    break;
-                case 2:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,>));
-                    break;
-                case 3:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,>));
-                    break;
-                case 4:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,>));
-                    break;
-                case 5:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,>));
-                    break;
-                case 6:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,>));
-                    break;
-                case 7:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,>));
-                    break;
-                case 8:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,>));
-                    break;
-                case 9:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,>));
-                    break;
-                case 10:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,,>));
-                    break;
-                case 11:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,,,>));
-                    break;
-                case 12:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,,,,>));
-                    break;
-                case 13:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,,,,,>));
-                    break;
-                case 14:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,,,,,,>));
-                    break;
-                case 15:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,,,,,,,>));
-                    break;
-                case 16:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,,,,,,,,>));
-                    break;
-                default:
-                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.MoreThan16Parameters, methodDefinition.Name));
-            }
-
-            var instance = new GenericInstanceType(genericActionType);
-
-            foreach (var parameter in methodDefinition.Parameters)
-            {
-                instance.GenericArguments.Add(parameter.ParameterType);
-            }
-
-            return instance;
         }
     }
 }

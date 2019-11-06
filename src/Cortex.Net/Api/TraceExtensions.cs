@@ -68,6 +68,7 @@ namespace Cortex.Net.Api
         /// <param name="traceMode">The trace mode to use.</param>
         /// <typeparam name="TObject">The type of the object.</typeparam>
         /// <typeparam name="TMember">The property or method of the object.</typeparam>
+        /// <exception cref="InvalidOperationException">When the provided expression is not a member expression.</exception>
         public static void Trace<TObject, TMember>(this TObject toTrace, Expression<Func<TObject, TMember>> expression, TraceMode traceMode = TraceMode.Log)
         {
             if (expression is null)
@@ -82,21 +83,7 @@ namespace Cortex.Net.Api
                 throw new InvalidOperationException(Resources.CannotTraceNotObservable);
             }
 
-            if (!(expression.Body is MemberExpression || expression.Body is MethodCallExpression))
-            {
-                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.ProvidedExpressionNoMemberExpression, expression));
-            }
-
-            string key = string.Empty;
-
-            if (expression.Body is MemberExpression memberExpression)
-            {
-                key = memberExpression.Member.Name;
-            }
-            else if (expression.Body is MethodCallExpression methodCallExpression)
-            {
-                key = methodCallExpression.Method.Name;
-            }
+            string key = expression.ExtractNameFromMemberExpression();
 
             var observableValue = observableObject[key];
 

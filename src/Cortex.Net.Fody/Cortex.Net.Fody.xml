@@ -67,13 +67,6 @@
             </summary>
             <param name="methodDefinition">The method definition.</param>
         </member>
-        <member name="M:Cortex.Net.Fody.ActionWeaver.GetActionType(Mono.Cecil.MethodDefinition)">
-            <summary>
-            Gets the Action type for the private field that is added to the class for the private method.
-            </summary>
-            <param name="methodDefinition">The method definition for the action.</param>
-            <returns>A type reference.</returns>
-        </member>
         <member name="T:Cortex.Net.Fody.ComputedWeaver">
             <summary>
             Weaves properties and methods decorated with an <see cref="T:Cortex.Net.Api.ComputedAttribute"/>.
@@ -103,6 +96,15 @@
             </summary>
             <param name="propertyDefinition">The definition of the property.</param>
         </member>
+        <member name="M:Cortex.Net.Fody.ComputedWeaver.ExtendSetMethodBody(Mono.Cecil.MethodDefinition,System.String,Mono.Cecil.FieldDefinition,Mono.Cecil.FieldDefinition)">
+            <summary>
+            Extends the set method body of the Computed method.
+            </summary>
+            <param name="methodDefinition">The method Definition to extend.</param>
+            <param name="computedName">The name of the computed member.</param>
+            <param name="counterFieldDefinition">The entrance counter to register recursive calls.</param>
+            <param name="observableObjectField">The observable object field.</param>
+        </member>
         <member name="M:Cortex.Net.Fody.ComputedWeaver.WeaveMethod(Mono.Cecil.MethodDefinition)">
             <summary>
             Weaves a method that is decorated with a <see cref="T:Cortex.Net.Api.ComputedAttribute"/>.
@@ -118,7 +120,7 @@
             <param name="defaultEhancerType">The default enhancer type.</param>
             <returns>A field definition for the Observable Object field.</returns>
         </member>
-        <member name="M:Cortex.Net.Fody.ComputedWeaver.ExtendMethodBody(Mono.Cecil.MethodDefinition,System.String,Mono.Cecil.FieldDefinition,Mono.Cecil.FieldDefinition)">
+        <member name="M:Cortex.Net.Fody.ComputedWeaver.ExtendGetMethodBody(Mono.Cecil.MethodDefinition,System.String,Mono.Cecil.FieldDefinition,Mono.Cecil.FieldDefinition)">
             <summary>
             Extends the method body of the Computed method.
             </summary>
@@ -127,24 +129,18 @@
             <param name="counterFieldDefinition">The entrance counter to register recursive calls.</param>
             <param name="observableObjectField">The observable object field.</param>
         </member>
-        <member name="M:Cortex.Net.Fody.ComputedWeaver.EmitComputedMemberAdd(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,System.Boolean,System.Boolean,Mono.Cecil.FieldDefinition)">
+        <member name="M:Cortex.Net.Fody.ComputedWeaver.EmitComputedMemberAdd(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.MethodDefinition,Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,System.Boolean,System.Boolean,Mono.Cecil.FieldDefinition)">
             <summary>
             Emits IL code for adding a computed member on this observable object.
             </summary>
             <param name="processor">The ILProcessor to use.</param>
             <param name="computedName">The name of the computed member.</param>
             <param name="methodDefinition">The methodDefinition of the member.</param>
+            <param name="setMethodDefinition">The methodDefinition of the setter.</param>
             <param name="equalityComparerType">The equality comparer type.</param>
             <param name="requiresReaction">Whether the computed value requires a reaction.</param>
             <param name="keepAlive">Whether to keep the computed value alive.</param>
             <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the <see cref="T:Cortex.Net.Types.ObservableObject"/> instance is kept.</param>
-        </member>
-        <member name="M:Cortex.Net.Fody.ComputedWeaver.GetFunctionType(Mono.Cecil.MethodDefinition)">
-            <summary>
-            Gets the Function type for the computed method that is passed.
-            </summary>
-            <param name="methodDefinition">The method definition for the function.</param>
-            <returns>A type reference.</returns>
         </member>
         <member name="T:Cortex.Net.Fody.CortexWeaver">
             <summary>
@@ -184,6 +180,20 @@
             <param name="genericMethod">A reference to the generic method.</param>
             <param name="instantiantedType">The instantiated type.</param>
             <returns>A new method reference.</returns>
+        </member>
+        <member name="M:Cortex.Net.Fody.MethodReferenceExtensions.GetActionType(Mono.Cecil.MethodDefinition)">
+            <summary>
+            Gets the Action type for the private field that is added to the class for the private method.
+            </summary>
+            <param name="methodDefinition">The method definition for the action.</param>
+            <returns>A type reference.</returns>
+        </member>
+        <member name="M:Cortex.Net.Fody.MethodReferenceExtensions.GetFunctionType(Mono.Cecil.MethodDefinition)">
+            <summary>
+            Gets the Function type for the computed method that is passed.
+            </summary>
+            <param name="methodDefinition">The method definition for the function.</param>
+            <returns>A type reference.</returns>
         </member>
         <member name="T:Cortex.Net.Fody.ObservableObjectInterfaceWeaver">
             <summary>
