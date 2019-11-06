@@ -23,7 +23,7 @@ namespace Cortex.Net.Api
     using System.Text;
 
     /// <summary>
-    /// Tree class.
+    /// Tree class to visualize either a dependency or observer tree from the Dependency graph.
     /// </summary>
     public class TreeNode
     {

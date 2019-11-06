@@ -203,20 +203,20 @@
             <param name="requiresReaction">Whether the computed has to be calculated inside a reactive context.</param>
             <param name="keepAlive">whether to keep the computed value alive when it's not observed.</param>
         </member>
-        <member name="M:Cortex.Net.Api.ComputedAttribute.#ctor(System.Collections.IEqualityComparer,System.Boolean,System.Boolean)">
+        <member name="M:Cortex.Net.Api.ComputedAttribute.#ctor(System.Type,System.Boolean,System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Api.ComputedAttribute"/> class.
             </summary>
-            <param name="equalityComparer">The comparer used to see whether the value has changed.</param>
+            <param name="equalityComparerType">The type of the comparer used to see whether the value has changed.</param>
             <param name="requiresReaction">Whether the computed has to be calculated inside a reactive context.</param>
             <param name="keepAlive">whether to keep the computed value alive when it's not observed.</param>
         </member>
-        <member name="M:Cortex.Net.Api.ComputedAttribute.#ctor(System.String,System.Collections.IEqualityComparer,System.Boolean,System.Boolean)">
+        <member name="M:Cortex.Net.Api.ComputedAttribute.#ctor(System.String,System.Type,System.Boolean,System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Api.ComputedAttribute"/> class.
             </summary>
             <param name="name">The name of the action.</param>
-            <param name="equalityComparer">The comparer used to see whether the value has changed.</param>
+            <param name="equalityComparerType">The type of the comparer used to see whether the value has changed.</param>
             <param name="requiresReaction">Whether the computed has to be calculated inside a reactive context.</param>
             <param name="keepAlive">whether to keep the computed value alive when it's not observed.</param>
         </member>
@@ -239,9 +239,9 @@
             Be aware, this can easily lead to memory leaks as it will result in every observable used by this computed value, keeping the computed value in memory.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Api.ComputedAttribute.EqualityComparer">
+        <member name="P:Cortex.Net.Api.ComputedAttribute.EqualityComparerType">
             <summary>
-            Gets the Comparer used for equality.
+            Gets the type of the comparer used for equality.
             </summary>
         </member>
         <member name="T:Cortex.Net.Api.ObservableAttribute">
@@ -315,7 +315,7 @@
         </member>
         <member name="T:Cortex.Net.Api.TreeNode">
             <summary>
-            Tree class.
+            Tree class to visualize either a dependency or observer tree from the Dependency graph.
             </summary>
         </member>
         <member name="P:Cortex.Net.Api.TreeNode.Name">
@@ -3088,6 +3088,108 @@
         <member name="P:Cortex.Net.Types.ValueEventArgs`1.Context">
             <summary>
             Gets or sets the context for the event.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Utils.DeepEqualityComparer`1">
+            <summary>
+            Deep equality comparer.
+            </summary>
+            <typeparam name="T">The type to compare.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Utils.DeepEqualityComparer`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Utils.DeepEqualityComparer`1"/> class.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Utils.LevelEqualityComparer`1">
+            <summary>
+            Compares two types based on their member values up to a certain depth.
+            </summary>
+            <typeparam name="T">The types to compare.</typeparam>
+        </member>
+        <member name="F:Cortex.Net.Utils.LevelEqualityComparer`1.depth">
+            <summary>
+            The depth to compare to.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Utils.LevelEqualityComparer`1.visitedComparisons">
+            <summary>
+            A dictionary of already completed Comparisons.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Utils.LevelEqualityComparer`1.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Utils.LevelEqualityComparer`1"/> class.
+            </summary>
+            <param name="depth">The depth up to where needs to be checked.</param>
+        </member>
+        <member name="M:Cortex.Net.Utils.LevelEqualityComparer`1.#ctor(System.Int32,System.Collections.Generic.IDictionary{System.Object,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Utils.LevelEqualityComparer`1"/> class.
+            </summary>
+            <param name="depth">The depth up to where needs to be checked.</param>
+            <param name="visitedComparisons">A dictionary of already visited comparisons.</param>
+        </member>
+        <member name="M:Cortex.Net.Utils.LevelEqualityComparer`1.Equals(`0,`0)">
+            <summary>
+            Determines whether the specified objects are equal.
+            </summary>
+            <param name="x">The first object of type T to compare.</param>
+            <param name="y">The second object of type T to compare.</param>
+            <returns>true if the specified objects are equal; otherwise, false.</returns>
+        </member>
+        <member name="M:Cortex.Net.Utils.LevelEqualityComparer`1.GetHashCode(`0)">
+            <summary>
+            Returns a hash code for the specified object.
+            </summary>
+            <param name="obj">The instance of type T for which a hash code is to be returned.</param>
+            <returns>A hash code for the specified object.</returns>
+        </member>
+        <member name="M:Cortex.Net.Utils.LevelEqualityComparer`1.System#Collections#IEqualityComparer#Equals(System.Object,System.Object)">
+            <summary>
+             Determines whether the specified objects are equal.
+            </summary>
+            <param name="x">The first object to compare.</param>
+            <param name="y">The second object to compare.</param>
+            <returns> true if the specified objects are equal; otherwise, false.</returns>
+        </member>
+        <member name="M:Cortex.Net.Utils.LevelEqualityComparer`1.System#Collections#IEqualityComparer#GetHashCode(System.Object)">
+            <summary>
+            Returns a hash code for the specified object.
+            </summary>
+            <param name="obj">The System.Object for which a hash code is to be returned</param>
+            <returns>A hash code for the specified object.</returns>
+        </member>
+        <member name="T:Cortex.Net.Utils.ReferenceEqualityComparer`1">
+            <summary>
+            ReferenceEqualityComparer.
+            </summary>
+            <typeparam name="T">The type to compare.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Utils.ReferenceEqualityComparer`1.Equals(`0,`0)">
+            <summary>
+            Determines whether the specified objects are equal.
+            </summary>
+            <param name="x">The first object of type T to compare.</param>
+            <param name="y">The second object of type T to compare.</param>
+            <returns>true if the specified objects are equal; otherwise, false.</returns>
+        </member>
+        <member name="M:Cortex.Net.Utils.ReferenceEqualityComparer`1.GetHashCode(`0)">
+            <summary>
+            Returns a hash code for the specified object.
+            </summary>
+            <param name="obj">The instance of type T for which a hash code is to be returned.</param>
+            <returns>A hash code for the specified object.</returns>
+        </member>
+        <member name="T:Cortex.Net.Utils.ShallowEqualityComparer`1">
+            <summary>
+            Deep equality comparer.
+            </summary>
+            <typeparam name="T">The type to compare.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Utils.ShallowEqualityComparer`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Utils.ShallowEqualityComparer`1"/> class.
             </summary>
         </member>
     </members>

@@ -52,27 +52,27 @@ namespace Cortex.Net.Api
         /// <summary>
         /// Initializes a new instance of the <see cref="ComputedAttribute"/> class.
         /// </summary>
-        /// <param name="equalityComparer">The comparer used to see whether the value has changed.</param>
+        /// <param name="equalityComparerType">The type of the comparer used to see whether the value has changed.</param>
         /// <param name="requiresReaction">Whether the computed has to be calculated inside a reactive context.</param>
         /// <param name="keepAlive">whether to keep the computed value alive when it's not observed.</param>
-        public ComputedAttribute(IEqualityComparer equalityComparer, bool requiresReaction = false, bool keepAlive = false)
+        public ComputedAttribute(Type equalityComparerType, bool requiresReaction = false, bool keepAlive = false)
             : this(requiresReaction, keepAlive)
         {
-            this.EqualityComparer = equalityComparer;
+            this.EqualityComparerType = equalityComparerType;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ComputedAttribute"/> class.
         /// </summary>
         /// <param name="name">The name of the action.</param>
-        /// <param name="equalityComparer">The comparer used to see whether the value has changed.</param>
+        /// <param name="equalityComparerType">The type of the comparer used to see whether the value has changed.</param>
         /// <param name="requiresReaction">Whether the computed has to be calculated inside a reactive context.</param>
         /// <param name="keepAlive">whether to keep the computed value alive when it's not observed.</param>
-        public ComputedAttribute(string name, IEqualityComparer equalityComparer, bool requiresReaction = false, bool keepAlive = false)
+        public ComputedAttribute(string name, Type equalityComparerType, bool requiresReaction = false, bool keepAlive = false)
             : this(requiresReaction, keepAlive)
         {
             this.Name = name;
-            this.EqualityComparer = equalityComparer;
+            this.EqualityComparerType = equalityComparerType;
         }
 
         /// <summary>
@@ -95,8 +95,8 @@ namespace Cortex.Net.Api
         public bool KeepAlive { get; }
 
         /// <summary>
-        /// Gets the Comparer used for equality.
+        /// Gets the type of the comparer used for equality.
         /// </summary>
-        public IEqualityComparer EqualityComparer { get; }
+        public Type EqualityComparerType { get; }
     }
 }

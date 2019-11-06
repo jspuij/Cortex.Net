@@ -1,4 +1,5 @@
 ﻿using Cortex.Net.Api;
+using Cortex.Net.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +13,7 @@ namespace Cortext.Next.Playground
 
         public string LastName { get; set; }
 
-        [Computed]
+        [Computed(typeof(ReferenceEqualityComparer<string>))]
         public string FullName
         {
             get => $"{this.FirstName} {this.LastName}".Trim();

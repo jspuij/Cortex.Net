@@ -2,6 +2,7 @@
 using Cortex.Net.Api;
 using Cortex.Net.Core;
 using Cortex.Net.Types;
+using Cortex.Net.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,8 @@ namespace Cortext.Next.Playground
                 Context = this,
                 KeepAlive = false,
                 RequiresReaction = false,
-                Setter = this.Setter
+                Setter = this.Setter,
+                EqualityComparer = new ReferenceEqualityComparer<string>(),
             });
 
             testAction = sharedState.CreateAction("ChangeBothNames", this, new Action<string, string>(this.ChangeBothNames));
