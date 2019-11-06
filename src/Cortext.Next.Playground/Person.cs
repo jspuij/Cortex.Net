@@ -20,7 +20,7 @@ namespace Cortext.Next.Playground
             observableObject.AddObservableProperty<string>(nameof(FirstName));
             observableObject.AddObservableProperty<string>(nameof(LastName));
 
-            observableObject.AddComputedMember<string>(nameof(FullName), new ComputedValueOptions<string>(Getter, nameof(FullName))
+            observableObject.AddComputedMember(nameof(FullName3), new ComputedValueOptions<string>(Getter, nameof(FullName3))
             {
                 Context = this,
                 KeepAlive = false,
@@ -32,7 +32,7 @@ namespace Cortext.Next.Playground
 
         private string Getter()
         {
-            return this.FirstName + " " + this.LastName;
+            return $"{this.FirstName} {this.LastName}";
         }
 
         public string FirstName
@@ -59,7 +59,7 @@ namespace Cortext.Next.Playground
             }
         }
 
-        public string FullName => this.observableObject.Read<string>(nameof(FullName));
+        public string FullName3 => this.observableObject.Read<string>(nameof(FullName3));
 
         private ISharedState sharedState;
 

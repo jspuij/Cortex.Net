@@ -161,11 +161,6 @@ namespace Cortex.Net.Core
                 throw new ArgumentNullException(nameof(derivation));
             }
 
-            if (!derivation.SharedState.InBatch)
-            {
-                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.OnlyInBatch, nameof(ClearObserving)));
-            }
-
             var toCallRemoveOn = derivation.Observing.ToList();
             derivation.Observing.Clear();
             foreach (var observable in toCallRemoveOn)
@@ -259,7 +254,7 @@ namespace Cortex.Net.Core
             }
 
             derivation.DependenciesState = DerivationState.UpToDate;
-            foreach (var observable in derivation.Observing)
+            foreach (var observable in derivation.Observing.Reverse())
             {
                 observable.LowestObserverState = DerivationState.UpToDate;
             }

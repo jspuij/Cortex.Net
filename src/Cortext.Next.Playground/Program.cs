@@ -15,50 +15,34 @@ namespace Cortext.Next.Playground
                 EnforceActions = EnforceAction.Never,
             });
 
-            sharedState.SpyEvent += SharedState_SpyEvent;
+            // sharedState.SpyEvent += SharedState_SpyEvent;
 
             var person = new Person(sharedState);
+            
+            var d = sharedState.Reaction<string>(r => person.FullName3, (s, r) => Console.WriteLine($"Fullname Changed: {s}"));
 
-            var d = sharedState.Reaction<string>(r => person.FullName, (s, r) => Console.WriteLine($"Fullname Changed: {s}"));
-
-            person.FirstName = "Jan-Willem";
-            person.LastName = "Spuij";
-
-            person.LastName = "Spuijtje";
             person.ChangeBothNames("Eddy", "Tick");
-
+            person.ChangeBothNames("Eddy", "Tickie");
 
             var personWeaver = new PersonWeave();
             ((IObservableObject)personWeaver).SharedState = sharedState;
             var d2 = sharedState.Reaction<string>(r => personWeaver.FullName, (s, r) => Console.WriteLine($"Weaved: FullName Changed: {s}"));
 
-            personWeaver.ChangeBothNames("Eddy", "Tick");
-            personWeaver.ChangeBothNames("Eddy", "Tickie");
+            personWeaver.ChangeBothNames("Jan-Willem", "Spuij");
+            personWeaver.ChangeBothNames("Jan-Willem", "Spuijtje");
 
-
+            d.Dispose();
+            d2.Dispose();
         }
 
         private static void SharedState_SpyEvent(object sender, Cortex.Net.Spy.SpyEventArgs e)
         {
-            if (e is ComputedSpyEventArgs)
+            var type = e.GetType();
+            Console.WriteLine("-------------");
+            Console.WriteLine($"[Spy] Event: {type.Name}");
+            foreach (var prop in type.GetProperties())
             {
-                Console.WriteLine($"[Spy] Computed: {(e as ComputedSpyEventArgs).Name}");
-            }
-            if (e is ReactionStartSpyEventArgs)
-            {
-                Console.WriteLine($"[Spy] Reaction started: {(e as ReactionSpyEventArgs).Name}");
-            }
-            if (e is ReactionEndSpyEventArgs)
-            {
-                Console.WriteLine($"[Spy] Reaction ended: {(e as ReactionSpyEventArgs).Name}");
-            }
-            if (e is ActionStartSpyEventArgs)
-            {
-                Console.WriteLine($"[Spy] Action started: {(e as ActionStartSpyEventArgs).Name}");
-            }
-            if (e is ActionEndSpyEventArgs)
-            {
-                Console.WriteLine($"[Spy] Action ended: {(e as ActionEndSpyEventArgs).Name}");
+                Console.WriteLine($"[Spy] {prop.Name}: {prop.GetValue(e)}");
             }
         }
     }

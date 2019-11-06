@@ -208,7 +208,7 @@ namespace Cortex.Net.Core
 
                 Exception caughtException = null;
 
-                if (this.SharedState.InBatch && this.HasObservers() && !this.keepAlive)
+                if (this.SharedState.InBatch && !this.HasObservers() && !this.keepAlive)
                 {
                     if (this.ShouldCompute())
                     {
@@ -316,9 +316,12 @@ namespace Cortex.Net.Core
         /// </summary>
         public void Suspend()
         {
-            this.ClearObserving();
-            this.value = default;
-            this.lastException = null;
+            if (!this.keepAlive)
+            {
+                this.ClearObserving();
+                this.value = default;
+                this.lastException = null;
+            }
         }
 
         /// <summary>

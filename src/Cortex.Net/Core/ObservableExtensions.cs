@@ -103,11 +103,6 @@ namespace Cortex.Net.Core
                 throw new ArgumentNullException(nameof(derivation));
             }
 
-            if (!observable.SharedState.InBatch)
-            {
-                throw new InvalidOperationException(Resources.OnlyInBatch);
-            }
-
             if (!observable.Observers.Contains(derivation))
             {
                 throw new InvalidOperationException(

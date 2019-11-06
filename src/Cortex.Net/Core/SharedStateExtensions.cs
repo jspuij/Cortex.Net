@@ -201,12 +201,12 @@ namespace Cortex.Net.Core
                 {
                     if (firstTime || runSync)
                     {
-                        ReactionRunner().RunSynchronously();
+                        ReactionRunner().GetAwaiter().GetResult();
                     }
                     else if (!isScheduled)
                     {
                         isScheduled = true;
-                        scheduler().RunSynchronously();
+                        scheduler().GetAwaiter().GetResult();
                     }
                 });
 #pragma warning restore IDE0067 // Dispose objects before losing scope

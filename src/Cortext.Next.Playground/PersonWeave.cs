@@ -12,8 +12,6 @@ namespace Cortext.Next.Playground
 
         public string LastName { get; set; }
 
-        public int Counter { get; set; }
-
         [Computed]
         public string FullName => $"{this.FirstName} {this.LastName}";
 

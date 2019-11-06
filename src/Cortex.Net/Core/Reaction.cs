@@ -138,7 +138,7 @@ namespace Cortex.Net.Core
             {
                 this.isDisposed = true;
                 if (!this.isRunning)
-                    {
+                {
                     // if disposed while running, clean up later. Maybe not optimal, but rare case
                     this.SharedState.StartBatch();
                     this.ClearObserving();
@@ -262,6 +262,7 @@ namespace Cortex.Net.Core
 
         private void ReportExceptionInDerivation(Exception exception)
         {
+            throw exception;
             // TODO: Create decent error handling because this will not work in .NET
 //            if (this.ErrorHandler)
 //            {

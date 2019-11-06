@@ -182,7 +182,7 @@ namespace Cortex.Net
                 this.RunReactions();
 
                 // the batch is actually about to finish, all unobserving should happen here.
-                foreach (var observable in this.PendingUnobservations)
+                foreach (var observable in this.PendingUnobservations.ToList())
                 {
                     observable.IsPendingUnobservation = false;
                     if (observable.HasObservers())
