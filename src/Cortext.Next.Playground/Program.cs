@@ -26,7 +26,9 @@ namespace Cortext.Next.Playground
             });
 
             person.ChangeBothNames("Eddy", "Tick");
+            Console.WriteLine(person.FullName3);
             person.ChangeBothNames("Eddy", "Tickie");
+            Console.WriteLine(person.FullName3);
 
             var personWeaver = new PersonWeave();
             ((IObservableObject)personWeaver).SharedState = sharedState;
@@ -36,6 +38,7 @@ namespace Cortext.Next.Playground
                 r.Trace(TraceMode.Log);
                 Console.WriteLine($"Weaved: FullName Changed: {s}");
             });
+
 
             personWeaver.Trace(x => x.FullName2());
 
