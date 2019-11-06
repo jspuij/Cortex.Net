@@ -97,6 +97,15 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot trace an object that is not an observable Object..
+        /// </summary>
+        internal static string CannotTraceNotObservable {
+            get {
+                return ResourceManager.GetString("CannotTraceNotObservable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only tracking IDerivation instances can be added with a DependenciesState != ({0}).
         /// </summary>
         internal static string CanOnlyAddTrackedDependencies {
@@ -169,6 +178,15 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [Cortex.Net] ({0}) is invalidated due to change in ({1}).
+        /// </summary>
+        internal static string InvalidatedDueToChange {
+            get {
+                return ResourceManager.GetString("InvalidatedDueToChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ({0}) is null..
         /// </summary>
         internal static string IsNull {
@@ -228,6 +246,24 @@ namespace Cortex.Net.Properties {
         internal static string PropertyOrMethodNotFoundOnObservableObject {
             get {
                 return ResourceManager.GetString("PropertyOrMethodNotFoundOnObservableObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provided expression ({0}) to trace is not a member expression..
+        /// </summary>
+        internal static string ProvidedExpressionNoMemberExpression {
+            get {
+                return ResourceManager.GetString("ProvidedExpressionNoMemberExpression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The provided member with name ({0}) is no derivation (like a reaction or a computed value).
+        /// </summary>
+        internal static string ProvidedMemberNoDerivation {
+            get {
+                return ResourceManager.GetString("ProvidedMemberNoDerivation", resourceCulture);
             }
         }
         

@@ -129,6 +129,9 @@
   <data name="CannotAssignComputedValue" xml:space="preserve">
     <value>It is not possible to assign a new value to this computed value ({0})</value>
   </data>
+  <data name="CannotTraceNotObservable" xml:space="preserve">
+    <value>Cannot trace an object that is not an observable Object.</value>
+  </data>
   <data name="CanOnlyAddTrackedDependencies" xml:space="preserve">
     <value>Only tracking IDerivation instances can be added with a DependenciesState != ({0})</value>
   </data>
@@ -153,6 +156,9 @@
   <data name="InvalidActionStack" xml:space="preserve">
     <value>Invalid action stack. did you forget to finish an action?</value>
   </data>
+  <data name="InvalidatedDueToChange" xml:space="preserve">
+    <value>[Cortex.Net] ({0}) is invalidated due to change in ({1})</value>
+  </data>
   <data name="IsNull" xml:space="preserve">
     <value>({0}) is null.</value>
   </data>
@@ -173,6 +179,12 @@
   </data>
   <data name="PropertyOrMethodNotFoundOnObservableObject" xml:space="preserve">
     <value>Property or method with name ({0}) not found on object with name ({1})</value>
+  </data>
+  <data name="ProvidedExpressionNoMemberExpression" xml:space="preserve">
+    <value>Provided expression ({0}) to trace is not a member expression.</value>
+  </data>
+  <data name="ProvidedMemberNoDerivation" xml:space="preserve">
+    <value>The provided member with name ({0}) is no derivation (like a reaction or a computed value)</value>
   </data>
   <data name="ReactionDoesNotConverge" xml:space="preserve">
     <value>Reaction doesn't converge to a stable state after ({0}) iterations. Probably there is a cycle in the reactive function: ({1})</value>

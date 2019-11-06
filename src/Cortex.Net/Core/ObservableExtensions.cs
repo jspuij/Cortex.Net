@@ -19,6 +19,7 @@ namespace Cortex.Net.Core
     using System;
     using System.Diagnostics;
     using System.Globalization;
+    using Cortex.Net.Api;
     using Cortex.Net.Properties;
 
     /// <summary>
@@ -193,8 +194,7 @@ namespace Cortex.Net.Core
                 {
                     if (derivation.IsTracing != TraceMode.None)
                     {
-                        // TODO: implement logging of trace info.
-                        // logTraceInfo(derivation, observable);
+                        LogTraceInfo(derivation, observable);
                     }
 
                     derivation.OnBecomeStale();
@@ -270,8 +270,7 @@ namespace Cortex.Net.Core
                     derivation.DependenciesState = DerivationState.PossiblyStale;
                     if (derivation.IsTracing != TraceMode.None)
                     {
-                        // TODO: implement logging of trace info.
-                        // logTraceInfo(derivation, observable);
+                        LogTraceInfo(derivation, observable);
                     }
 
                     derivation.OnBecomeStale();
@@ -330,6 +329,34 @@ namespace Cortex.Net.Core
             if (!sharedState.AllowStateReads && configuration.ObservableRequiresReaction)
             {
                 Trace.WriteLine($"[Cortex.Net] Observable {observable.Name} being read outside a reactive context.");
+            }
+        }
+
+        /// <summary>
+        /// Log trace info.
+        /// </summary>
+        /// <param name="derivation">The derivation to log.</param>
+        /// <param name="observable">The observable to log.</param>
+        private static void LogTraceInfo(IDerivation derivation, IObservable observable)
+        {
+            Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, Resources.InvalidatedDueToChange, derivation.Name, observable.Name));
+
+            if (derivation.IsTracing == TraceMode.Break)
+            {
+                var dependencytree = TreeNode.GetDependencyTree(derivation);
+
+                string traceMessage = $@"
+Tracing '{derivation.Name}'
+
+You are entering this break point because derivation '{derivation.Name}' is being traced and '{observable.Name}' is now forcing it to update.
+Just follow the stacktrace you should now see in the devtools to see precisely what piece of your code is causing this update
+The stackframe you are looking for is at least ~6-8 stack-frames up.
+
+The dependencies for this derivation are:
+
+{dependencytree}";
+                Trace.WriteLine(traceMessage);
+                Debugger.Break();
             }
         }
     }

@@ -103,7 +103,6 @@ namespace Cortex.Net.Core
         /// <returns>A tuple containing the return value of the function or an Exception.</returns>
         public static (T, Exception) TrackDerivedFunction<T>(this IDerivation derivation, Func<T> function)
         {
-            // TODO: check whether the exception passing is neccessary to keep state consistent or that we can replace it by try / finally.
             if (derivation is null)
             {
                 throw new ArgumentNullException(nameof(derivation));

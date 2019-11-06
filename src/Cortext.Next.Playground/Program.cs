@@ -13,20 +13,29 @@ namespace Cortext.Next.Playground
             var sharedState = new SharedState(new CortexConfiguration()
             {
                 EnforceActions = EnforceAction.Never,
+                
             });
-
             // sharedState.SpyEvent += SharedState_SpyEvent;
 
             var person = new Person(sharedState);
-            
-            var d = sharedState.Reaction<string>(r => person.FullName3, (s, r) => Console.WriteLine($"Fullname Changed: {s}"));
+
+            var d = sharedState.Reaction<string>(r => person.FullName3, (s, r) =>
+            {
+                r.Trace(TraceMode.Break);
+                Console.WriteLine($"Fullname Changed: {s}");
+            });
 
             person.ChangeBothNames("Eddy", "Tick");
             person.ChangeBothNames("Eddy", "Tickie");
 
             var personWeaver = new PersonWeave();
             ((IObservableObject)personWeaver).SharedState = sharedState;
-            var d2 = sharedState.Reaction<string>(r => personWeaver.FullName, (s, r) => Console.WriteLine($"Weaved: FullName Changed: {s}"));
+
+            var d2 = sharedState.Reaction<string>(r => personWeaver.FullName, (s, r) =>
+            {
+                r.Trace(TraceMode.Break);
+                Console.WriteLine($"Weaved: FullName Changed: {s}");
+            });
 
             personWeaver.ChangeBothNames("Jan-Willem", "Spuij");
             personWeaver.ChangeBothNames("Jan-Willem", "Spuijtje");

@@ -151,6 +151,13 @@ namespace Cortex.Net.Types
         }
 
         /// <summary>
+        /// Gets the IValue item at the specified key.
+        /// </summary>
+        /// <param name="key">The key to fetch.</param>
+        /// <returns>The <see cref="IValue"/> instance for the key.</returns>
+        internal IValue this[string key] => this.values[key];
+
+        /// <summary>
         /// Gets the value for property or method with specified key.
         /// </summary>
         /// <typeparam name="T">The type of the value.</typeparam>
@@ -411,6 +418,37 @@ namespace Cortex.Net.Types
             {
                 this.SharedState.EndBatch();
           }
+        }
+
+        /// <summary>
+        /// Tries to get an <see cref="ObservableObject"/> from the provided instance.
+        /// </summary>
+        /// <param name="instance">The instance to get the ObservableObject from.</param>
+        /// <returns>The observable object found on the object. Null otherwise.</returns>
+        internal static ObservableObject GetFromObject(object instance)
+        {
+            if (instance is ObservableObject result)
+            {
+                return result;
+            }
+
+            foreach (var field in instance.GetType().GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic))
+            {
+                if (typeof(ObservableObject).IsAssignableFrom(field.FieldType))
+                {
+                    return (ObservableObject)field.GetValue(instance);
+                }
+            }
+
+            foreach (var property in instance.GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic))
+            {
+                if (typeof(ObservableObject).IsAssignableFrom(property.PropertyType))
+                {
+                    return (ObservableObject)property.GetValue(instance);
+                }
+            }
+
+            return null;
         }
 
         /// <summary>

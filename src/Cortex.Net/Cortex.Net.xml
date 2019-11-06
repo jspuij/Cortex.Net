@@ -283,6 +283,70 @@
             Gets the Name of the action.
             </summary>
         </member>
+        <member name="T:Cortex.Net.Api.TraceExtensions">
+            <summary>
+            Extension methods for tracing.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.TraceExtensions.Trace(Cortex.Net.ISharedState,Cortex.Net.TraceMode)">
+            <summary>
+            Traces the tracking derivation on the Shared State.
+            </summary>
+            <param name="sharedState">The Shared State to trace.</param>
+            <param name="traceMode">The trace mode to use.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.TraceExtensions.Trace(Cortex.Net.IDerivation,Cortex.Net.TraceMode)">
+            <summary>
+            Traces the tracking derivation on the Shared State.
+            </summary>
+            <param name="derivation">The derivation to trace.</param>
+            <param name="traceMode">The trace mode to use.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.TraceExtensions.Trace``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},Cortex.Net.TraceMode)">
+            <summary>
+            Traces the computed property given by the trace expression.
+            </summary>
+            <param name="toTrace">The object to trace,</param>
+            <param name="expression">The member expression.</param>
+            <param name="traceMode">The trace mode to use.</param>
+            <typeparam name="TObject">The type of the object.</typeparam>
+            <typeparam name="TMember">The property or method of the object.</typeparam>
+        </member>
+        <member name="T:Cortex.Net.Api.TreeNode">
+            <summary>
+            Tree class.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Api.TreeNode.Name">
+            <summary>
+            Gets name of this item.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Api.TreeNode.Children">
+            <summary>
+            Gets children of this TreeNode.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.TreeNode.GetDependencyTree(Cortex.Net.IDependencyNode)">
+            <summary>
+            Creates the dependency tree from this node to all the children it is observing.
+            </summary>
+            <param name="startNode">The node to start with.</param>
+            <returns>A complete tree from the current node.</returns>
+        </member>
+        <member name="M:Cortex.Net.Api.TreeNode.GetObserverTree(Cortex.Net.IDependencyNode)">
+            <summary>
+            Creates an observer tree from this node to all the parents that observe it.
+            </summary>
+            <param name="startNode">The node to start with.</param>
+            <returns>A complete tree from the current node.</returns>
+        </member>
+        <member name="M:Cortex.Net.Api.TreeNode.ToString">
+            <summary>
+            Prints the current tree.
+            </summary>
+            <returns>A string with line breaks and indentation.</returns>
+        </member>
         <member name="T:Cortex.Net.AutorunOptions">
             <summary>
             Specifies the options for an Autorun instance.
@@ -1287,6 +1351,13 @@
             </summary>
             <param name="observable">The observable to report.</param>
         </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.LogTraceInfo(Cortex.Net.IDerivation,Cortex.Net.IObservable)">
+            <summary>
+            Log trace info.
+            </summary>
+            <param name="derivation">The derivation to log.</param>
+            <param name="observable">The observable to log.</param>
+        </member>
         <member name="T:Cortex.Net.Core.Reaction">
              <summary>
              A reaction is an <see cref="T:Cortex.Net.IDerivation"/> implementation that always run and does not have observers itself.
@@ -1927,6 +1998,11 @@
               Looks up a localized string similar to It is not possible to assign a new value to this computed value ({0}).
             </summary>
         </member>
+        <member name="P:Cortex.Net.Properties.Resources.CannotTraceNotObservable">
+            <summary>
+              Looks up a localized string similar to Cannot trace an object that is not an observable Object..
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Properties.Resources.CanOnlyAddTrackedDependencies">
             <summary>
               Looks up a localized string similar to Only tracking IDerivation instances can be added with a DependenciesState != ({0}).
@@ -1967,6 +2043,11 @@
               Looks up a localized string similar to Invalid action stack. did you forget to finish an action?.
             </summary>
         </member>
+        <member name="P:Cortex.Net.Properties.Resources.InvalidatedDueToChange">
+            <summary>
+              Looks up a localized string similar to [Cortex.Net] ({0}) is invalidated due to change in ({1}).
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Properties.Resources.IsNull">
             <summary>
               Looks up a localized string similar to ({0}) is null..
@@ -2000,6 +2081,16 @@
         <member name="P:Cortex.Net.Properties.Resources.PropertyOrMethodNotFoundOnObservableObject">
             <summary>
               Looks up a localized string similar to Property or method with name ({0}) not found on object with name ({1}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ProvidedExpressionNoMemberExpression">
+            <summary>
+              Looks up a localized string similar to Provided expression ({0}) to trace is not a member expression..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ProvidedMemberNoDerivation">
+            <summary>
+              Looks up a localized string similar to The provided member with name ({0}) is no derivation (like a reaction or a computed value).
             </summary>
         </member>
         <member name="P:Cortex.Net.Properties.Resources.ReactionDoesNotConverge">
@@ -2675,6 +2766,13 @@
             Gets or sets the Shared State on this object.
             </summary>
         </member>
+        <member name="P:Cortex.Net.Types.ObservableObject.Item(System.String)">
+            <summary>
+            Gets the IValue item at the specified key.
+            </summary>
+            <param name="key">The key to fetch.</param>
+            <returns>The <see cref="T:Cortex.Net.IValue"/> instance for the key.</returns>
+        </member>
         <member name="M:Cortex.Net.Types.ObservableObject.Read``1(System.String)">
             <summary>
             Gets the value for property or method with specified key.
@@ -2722,6 +2820,13 @@
             Removes a property or computed value.
             </summary>
             <param name="key">The key to remove.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.GetFromObject(System.Object)">
+            <summary>
+            Tries to get an <see cref="T:Cortex.Net.Types.ObservableObject"/> from the provided instance.
+            </summary>
+            <param name="instance">The instance to get the ObservableObject from.</param>
+            <returns>The observable object found on the object. Null otherwise.</returns>
         </member>
         <member name="M:Cortex.Net.Types.ObservableObject.NotifyPropertyAddition``1(System.String,``0)">
             <summary>
