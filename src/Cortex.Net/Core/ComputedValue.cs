@@ -412,7 +412,7 @@ namespace Cortex.Net.Core
 
             if (this.SharedState.Configuration.ComputedRequiresReaction || this.IsTracing != TraceMode.None)
             {
-                Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, Resources.ReadOutsideReaction, this.Name));
+                Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, Resources.ReadOutsideReactionRecompute, this.Name));
             }
 
             if (this.IsTracing == TraceMode.Break)

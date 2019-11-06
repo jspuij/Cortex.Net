@@ -1980,7 +1980,7 @@
         </member>
         <member name="P:Cortex.Net.Properties.Resources.ActionNameNull">
             <summary>
-              Looks up a localized string similar to Actions should have valid names, got nothing, autogenerating name..
+              Looks up a localized string similar to [Cortex.Net] Actions should have valid names, got nothing, autogenerating name..
             </summary>
         </member>
         <member name="P:Cortex.Net.Properties.Resources.AlreadyAddedObserverToObservable">
@@ -2100,7 +2100,12 @@
         </member>
         <member name="P:Cortex.Net.Properties.Resources.ReadOutsideReaction">
             <summary>
-              Looks up a localized string similar to ({0}) is read outside a reactive context..
+              Looks up a localized string similar to [Cortex.Net] ({0}) is read outside a reactive context..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ReadOutsideReactionRecompute">
+            <summary>
+              Looks up a localized string similar to [Cortex.Net] ({0}) is read outside a reactive context. Doing full recompute..
             </summary>
         </member>
         <member name="T:Cortex.Net.ReactionOptions`1">

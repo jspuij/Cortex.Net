@@ -61,7 +61,7 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Actions should have valid names, got nothing, autogenerating name..
+        ///   Looks up a localized string similar to [Cortex.Net] Actions should have valid names, got nothing, autogenerating name..
         /// </summary>
         internal static string ActionNameNull {
             get {
@@ -277,11 +277,20 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ({0}) is read outside a reactive context..
+        ///   Looks up a localized string similar to [Cortex.Net] ({0}) is read outside a reactive context..
         /// </summary>
         internal static string ReadOutsideReaction {
             get {
                 return ResourceManager.GetString("ReadOutsideReaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [Cortex.Net] ({0}) is read outside a reactive context. Doing full recompute..
+        /// </summary>
+        internal static string ReadOutsideReactionRecompute {
+            get {
+                return ResourceManager.GetString("ReadOutsideReactionRecompute", resourceCulture);
             }
         }
     }

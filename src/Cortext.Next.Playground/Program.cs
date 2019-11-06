@@ -21,7 +21,7 @@ namespace Cortext.Next.Playground
 
             var d = sharedState.Reaction<string>(r => person.FullName3, (s, r) =>
             {
-                r.Trace(TraceMode.Break);
+                r.Trace(TraceMode.Log);
                 Console.WriteLine($"Fullname Changed: {s}");
             });
 
@@ -33,9 +33,11 @@ namespace Cortext.Next.Playground
 
             var d2 = sharedState.Reaction<string>(r => personWeaver.FullName, (s, r) =>
             {
-                r.Trace(TraceMode.Break);
+                r.Trace(TraceMode.Log);
                 Console.WriteLine($"Weaved: FullName Changed: {s}");
             });
+
+            personWeaver.Trace(x => x.FullName);
 
             personWeaver.ChangeBothNames("Jan-Willem", "Spuij");
             personWeaver.ChangeBothNames("Jan-Willem", "Spuijtje");
