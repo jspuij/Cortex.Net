@@ -477,7 +477,7 @@ namespace Cortex.Net.Fody
             var computedValueOptionsInstanceType = new GenericInstanceType(computedValueOptionsType);
             computedValueOptionsInstanceType.GenericArguments.Add(methodDefinition.ReturnType);
 
-            var ctorReference = module.ImportReference(computedValueOptionsConstructor.GetGenericMethodOnInstantance(computedValueOptionsInstanceType));
+            var computedValueOptionsConstructorReference = module.ImportReference(computedValueOptionsConstructor.GetGenericMethodOnInstantance(computedValueOptionsInstanceType));
             var setContextMethod = computedValueOptionsType.Methods.Single(x => x.Name == "set_Context");
             var setContextReference = module.ImportReference(setContextMethod.GetGenericMethodOnInstantance(computedValueOptionsInstanceType));
             var setRequiresReactionMethod = computedValueOptionsType.Methods.Single(x => x.Name == "set_RequiresReaction");
@@ -485,24 +485,40 @@ namespace Cortex.Net.Fody
             var setKeepAliveMethod = computedValueOptionsType.Methods.Single(x => x.Name == "set_KeepAlive");
             var setKeepAliveReference = module.ImportReference(setKeepAliveMethod.GetGenericMethodOnInstantance(computedValueOptionsInstanceType));
 
+            // reference to this.
             processor.Emit(OpCodes.Ldarg_0);
+
+            // load observable object to call "AddComputedMember";
             processor.Emit(OpCodes.Ldfld, observableObjectField);
+
+            // first argument, name of computed.
             processor.Emit(OpCodes.Ldstr, computedName);
+
+            // first argument of ComputedValueOptions, getter definition.
             processor.Emit(OpCodes.Ldarg_0);
             processor.Emit(OpCodes.Ldftn, methodDefinition);
             processor.Emit(OpCodes.Newobj, functionTypeConstructorReference);
+
+            // second argument of ComputedValueOptions, name again (kind of double. Is the same in Mobx. Maybe fix this?)
             processor.Emit(OpCodes.Ldstr, computedName);
-            processor.Emit(OpCodes.Newobj, ctorReference);
+            processor.Emit(OpCodes.Newobj, computedValueOptionsConstructorReference);
+
+            // object initializers for computedvalueoptions. We dup the reference to call setters. First set context.
             processor.Emit(OpCodes.Dup);
             processor.Emit(OpCodes.Ldarg_0);
             processor.Emit(OpCodes.Callvirt, setContextReference);
+
+            // set requiresReaction.
             processor.Emit(OpCodes.Dup);
             processor.Emit(requiresReaction ? OpCodes.Ldc_I4_1 : OpCodes.Ldc_I4_0);
             processor.Emit(OpCodes.Callvirt, setRequiresReactionReference);
+
+            // set keepAlive.
             processor.Emit(OpCodes.Dup);
             processor.Emit(keepAlive ? OpCodes.Ldc_I4_1 : OpCodes.Ldc_I4_0);
             processor.Emit(OpCodes.Callvirt, setKeepAliveReference);
 
+            // custom equality comparer in the attribute.
             if (equalityComparerType != null)
             {
                 var setEqualityComparerMethod = computedValueOptionsType.Methods.Single(x => x.Name == "set_EqualityComparer");
@@ -511,6 +527,7 @@ namespace Cortex.Net.Fody
 
                 this.ParentWeaver.LogWarning($"{equalityComparerType.IsGenericInstance}");
 
+                // The equalitycomparer needs to have a parameterless constructor.
                 if (equalityComparerConstructorReference == null)
                 {
                     this.ParentWeaver.LogWarning(string.Format(
@@ -533,6 +550,7 @@ namespace Cortex.Net.Fody
                 }
             }
 
+            // Add setter to the computed value.
             if (setMethodDefinition != null)
             {
                 var setSetterMethod = computedValueOptionsType.Methods.Single(x => x.Name == "set_Setter");
@@ -549,6 +567,7 @@ namespace Cortex.Net.Fody
                 processor.Emit(OpCodes.Callvirt, setSetterReference);
             }
 
+            // call AddComputedMember.
             processor.Emit(OpCodes.Callvirt, module.ImportReference(observableObjectAddComputedMethod));
         }
     }

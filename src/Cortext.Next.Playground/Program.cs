@@ -3,6 +3,7 @@ using Cortex.Net.Spy;
 using Cortex.Net.Core;
 using System;
 using Cortex.Net.Api;
+using System.Diagnostics;
 
 namespace Cortext.Next.Playground
 {
@@ -12,10 +13,9 @@ namespace Cortext.Next.Playground
         {
             var sharedState = new SharedState(new CortexConfiguration()
             {
-                EnforceActions = EnforceAction.Never,
-                
+                EnforceActions = EnforceAction.Never,    
             });
-            // sharedState.SpyEvent += SharedState_SpyEvent;
+            sharedState.SpyEvent += SharedState_SpyEvent;
 
             var person = new Person(sharedState);
 
@@ -24,6 +24,8 @@ namespace Cortext.Next.Playground
                 r.Trace(TraceMode.Log);
                 Console.WriteLine($"Fullname Changed: {s}");
             });
+
+            var d3 = sharedState.Autorun(r => Console.WriteLine($"Autorun Fullname: {person.FullName3}"));
 
             person.ChangeBothNames("Eddy", "Tick");
             Console.WriteLine(person.FullName3);
@@ -39,6 +41,11 @@ namespace Cortext.Next.Playground
                 Console.WriteLine($"Weaved: FullName Changed: {s}");
             });
 
+            var d4 = sharedState.Autorun(r =>
+            {
+                Console.WriteLine($"Autorun Fullname weaved: {personWeaver.FullName}");
+                r.Trace(TraceMode.Log);
+            });
 
             personWeaver.Trace(x => x.FullName2());
 
@@ -53,11 +60,11 @@ namespace Cortext.Next.Playground
         private static void SharedState_SpyEvent(object sender, Cortex.Net.Spy.SpyEventArgs e)
         {
             var type = e.GetType();
-            Console.WriteLine("-------------");
-            Console.WriteLine($"[Spy] Event: {type.Name}");
+            Trace.WriteLine("-------------");
+            Trace.WriteLine($"[Spy] Event: {type.Name}");
             foreach (var prop in type.GetProperties())
             {
-                Console.WriteLine($"[Spy] {prop.Name}: {prop.GetValue(e)}");
+                Trace.WriteLine($"[Spy] {prop.Name}: {prop.GetValue(e)}");
             }
         }
     }

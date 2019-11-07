@@ -283,6 +283,31 @@
             Gets the Name of the action.
             </summary>
         </member>
+        <member name="T:Cortex.Net.Api.SharedStateReactionExtensions">
+            <summary>
+            Extension methods that deal with Reactions on an ISharedState instance.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.Reaction``1(Cortex.Net.ISharedState,System.Func{Cortex.Net.Core.Reaction,``0},System.Action{``0,Cortex.Net.Core.Reaction},Cortex.Net.ReactionOptions{``0})">
+            <summary>
+            Creates a reaction that operates on data of type T.
+            </summary>
+            <typeparam name="T">The type the reaction operates on.</typeparam>
+            <param name="sharedState">The shared state to use.</param>
+            <param name="expression">The expression that delivers a value.</param>
+            <param name="effect">The effect that is executed when the value changes.</param>
+            <param name="reactionOptions">The options to use for the reaction.</param>
+            <returns>An <see cref="T:System.IDisposable"/> instance that can be used to stop the reaction.</returns>
+        </member>
+        <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.WrapErrorHandler``1(System.Action{Cortex.Net.Core.Reaction,System.Exception},System.Action{``0,Cortex.Net.Core.Reaction})">
+            <summary>
+            Wraps the error handler function around an action.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+            <param name="errorHandler">The errorhandler to use.</param>
+            <param name="action">The action to wrap.</param>
+            <returns>The wrapped action.</returns>
+        </member>
         <member name="T:Cortex.Net.Api.TraceExtensions">
             <summary>
             Extension methods for tracing.
@@ -791,26 +816,6 @@
             <param name="allowStateChanges">The value for AllStateChanges to use while executing the function.</param>
             <param name="function">The function to execute.</param>
             <returns>The return value of the function.</returns>
-        </member>
-        <member name="M:Cortex.Net.Core.ActionExtensions.Reaction``1(Cortex.Net.ISharedState,System.Func{Cortex.Net.Core.Reaction,``0},System.Action{``0,Cortex.Net.Core.Reaction},Cortex.Net.ReactionOptions{``0})">
-            <summary>
-            Creates a reaction that operates on data of type T.
-            </summary>
-            <typeparam name="T">The type the reaction operates on.</typeparam>
-            <param name="sharedState">The shared state to use.</param>
-            <param name="expression">The expression that delivers a value.</param>
-            <param name="effect">The effect that is executed when the value changes.</param>
-            <param name="options">The options to use for the reaction.</param>
-            <returns>An <see cref="T:System.IDisposable"/> instance that can be used to stop the reaction.</returns>
-        </member>
-        <member name="M:Cortex.Net.Core.ActionExtensions.WrapErrorHandler``1(System.Action{Cortex.Net.Core.Reaction,System.Exception},System.Action{``0,Cortex.Net.Core.Reaction})">
-            <summary>
-            Wraps the error handler function around an action.
-            </summary>
-            <typeparam name="T">The type of the value.</typeparam>
-            <param name="errorHandler">The errorhandler to use.</param>
-            <param name="action">The action to wrap.</param>
-            <returns>The wrapped action.</returns>
         </member>
         <member name="T:Cortex.Net.Core.ActionRunInfo">
             <summary>

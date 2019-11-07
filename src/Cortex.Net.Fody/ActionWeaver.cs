@@ -231,6 +231,10 @@ namespace Cortex.Net.Fody
         /// Weaves a method that was Decorated with the <see cref="ActionAttribute"/>.
         /// </summary>
         /// <param name="methodDefinition">The method definition.</param>
+        /// <remarks>
+        /// The reason that methods are extended with a counter counting recursive entrance is that this
+        /// way debugging is kept intact.
+        /// </remarks>
         private void WeaveMethod(MethodDefinition methodDefinition)
         {
             var moduleDefinition = methodDefinition.Module;

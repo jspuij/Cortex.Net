@@ -66,6 +66,10 @@
             Weaves a method that was Decorated with the <see cref="T:Cortex.Net.Api.ActionAttribute"/>.
             </summary>
             <param name="methodDefinition">The method definition.</param>
+            <remarks>
+            The reason that methods are extended with a counter counting recursive entrance is that this
+            way debugging is kept intact.
+            </remarks>
         </member>
         <member name="T:Cortex.Net.Fody.ComputedWeaver">
             <summary>

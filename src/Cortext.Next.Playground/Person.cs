@@ -26,8 +26,8 @@ namespace Cortext.Next.Playground
                 Context = this,
                 KeepAlive = false,
                 RequiresReaction = false,
-                Setter = this.Setter,
                 EqualityComparer = new ReferenceEqualityComparer<string>(),
+                Setter = this.Setter,
             });
 
             testAction = sharedState.CreateAction("ChangeBothNames", this, new Action<string, string>(this.ChangeBothNames));
