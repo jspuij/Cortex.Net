@@ -70,6 +70,15 @@ namespace Cortex.Net.Fody.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EqualityComparer ({0}) on Property with name ({1}) on class ({2}) .
+        /// </summary>
+        internal static string NoParameterLessConstructorForEqualityComparer {
+            get {
+                return ResourceManager.GetString("NoParameterLessConstructorForEqualityComparer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Property with name ({0}) on class ({1}) has no setter. Did you mean to create a computed property? Use [Computed] instead..
         /// </summary>
         internal static string NoSetterForObservable {

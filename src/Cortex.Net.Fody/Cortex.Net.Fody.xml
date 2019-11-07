@@ -382,6 +382,11 @@
               Looks up a localized string similar to CannotHandle more than 16 parameters on Action Method: ({0}).
             </summary>
         </member>
+        <member name="P:Cortex.Net.Fody.Properties.Resources.NoParameterLessConstructorForEqualityComparer">
+            <summary>
+              Looks up a localized string similar to EqualityComparer ({0}) on Property with name ({1}) on class ({2}) .
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Fody.Properties.Resources.NoSetterForObservable">
             <summary>
               Looks up a localized string similar to Property with name ({0}) on class ({1}) has no setter. Did you mean to create a computed property? Use [Computed] instead..

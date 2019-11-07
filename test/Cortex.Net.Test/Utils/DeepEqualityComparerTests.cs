@@ -74,17 +74,81 @@ namespace Cortex.Net.Test.Utils
             Assert.False(intComparer.Equals(3, 2));
             Assert.False(intComparer.Equals(3, null));
 
-            var structComparer = new DeepEqualityComparer<Test>();
+            var structComparer = new DeepEqualityComparer<TestStruct>();
 
-            Assert.True(structComparer.Equals(new Test { }, new Test { }));
-            Assert.True(structComparer.Equals(new Test { X = "Test", Y = 1 }, new Test { X = "Test", Y = 1 }));
-            Assert.False(structComparer.Equals(new Test { X = "False", Y = 1 }, new Test { X = "Test", Y = 0 }));
+            Assert.True(structComparer.Equals(new TestStruct { }, new TestStruct { }));
+            Assert.True(structComparer.Equals(new TestStruct { X = "Test", Y = 1 }, new TestStruct { X = "Test", Y = 1 }));
+            Assert.False(structComparer.Equals(new TestStruct { X = "False", Y = 1 }, new TestStruct { X = "Test", Y = 0 }));
         }
 
-        private struct Test
+        /// <summary>
+        /// Tests struct types.
+        /// </summary>
+        [Fact]
+        public void ReferenceTypeTests()
+        {
+            var referenceComparer = new DeepEqualityComparer<TestClass>();
+
+            Assert.True(referenceComparer.Equals(new TestClass { }, new TestClass { }));
+            Assert.True(referenceComparer.Equals(new TestClass { X = "Test", Y = 1 }, new TestClass { X = "Test", Y = 1 }));
+            Assert.False(referenceComparer.Equals(new TestClass { X = "False", Y = 1 }, new TestClass { X = "Test", Y = 0 }));
+        }
+
+        /// <summary>
+        /// Cyclic tests.
+        /// </summary>
+        [Fact]
+        public void CyclicTypeTests()
+        {
+            var cyclicComparer = new DeepEqualityComparer<CyclicClass>();
+
+            var expected = new CyclicClass()
+            {
+                X = "Test",
+                Child = new CyclicClass()
+                {
+                    X = "AnotherTest",
+                },
+            };
+            expected.Child.Parent = expected;
+
+            var actual = new CyclicClass()
+            {
+                X = "Test",
+                Child = new CyclicClass()
+                {
+                    X = "AnotherTest",
+                },
+            };
+            actual.Child.Parent = actual;
+
+            Assert.True(cyclicComparer.Equals(actual, expected));
+
+            actual.Child.X = "AnotherTest2";
+
+            Assert.False(cyclicComparer.Equals(actual, expected));
+        }
+
+        private struct TestStruct
         {
             public string X;
             public int Y;
+        }
+
+        private class TestClass
+        {
+            public string X { get; set; }
+
+            public int Y { get; set; }
+        }
+
+        private class CyclicClass
+        {
+            public string X { get; set; }
+
+            public CyclicClass Parent { get; set; }
+
+            public CyclicClass Child { get; set; }
         }
     }
 }

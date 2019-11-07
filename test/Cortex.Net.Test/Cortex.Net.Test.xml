@@ -67,5 +67,15 @@
             Tests struct types.
             </summary>
         </member>
+        <member name="M:Cortex.Net.Test.Utils.DeepEqualityComparerTests.ReferenceTypeTests">
+            <summary>
+            Tests struct types.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Utils.DeepEqualityComparerTests.CyclicTypeTests">
+            <summary>
+            Cyclic tests.
+            </summary>
+        </member>
     </members>
 </doc>

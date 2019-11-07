@@ -104,10 +104,7 @@ namespace Cortex.Net.Fody
 
             // default enhancer
             var defaultEhancerType = moduleDefinition.ImportReference(typeof(DeepEnhancer));
-            var iequalityComparerType = moduleDefinition.ImportReference(typeof(System.Collections.IEqualityComparer));
-            var defaultMethodDefinition = moduleDefinition.ImportReference(typeof(EqualityComparer<>)).Resolve().Properties.Single(x => x.Name == "Default").GetMethod;
-            TypeReference equalityComparerType = new GenericInstanceType(moduleDefinition.ImportReference(typeof(EqualityComparer<>)));
-            ((GenericInstanceType)equalityComparerType).GenericArguments.Add(propertyType);
+            TypeReference equalityComparerType = null;
 
             var keepAlive = false;
             var requiresReaction = false;
@@ -121,9 +118,12 @@ namespace Cortex.Net.Fody
                     computedName = ca.Value as string;
                 }
 
-                if (ca.Type == iequalityComparerType)
+                if (ca.Type.FullName == typeof(Type).FullName)
                 {
-                    equalityComparerType = moduleDefinition.ImportReference(ca.Value as System.Type);
+                    if (ca.Value != null && ca.Value is TypeReference)
+                    {
+                        equalityComparerType = moduleDefinition.ImportReference(ca.Value as TypeReference);
+                    }
                 }
 
                 if (ca.Type == moduleDefinition.TypeSystem.Boolean)
@@ -138,8 +138,6 @@ namespace Cortex.Net.Fody
                     }
                 }
             }
-
-            var defaultMethodReference = moduleDefinition.ImportReference(defaultMethodDefinition.GetGenericMethodOnInstantance(equalityComparerType));
 
             FieldDefinition observableObjectField = this.CreateObservableObjectField(moduleDefinition, declaringType, defaultEhancerType);
 
@@ -270,8 +268,6 @@ namespace Cortex.Net.Fody
         /// <param name="methodDefinition">The method definition of the decorated method.</param>
         private void WeaveMethod(MethodDefinition methodDefinition)
         {
-            // TODO: Handle and test the equalityprovider.
-
             // property name
             var computedName = methodDefinition.Name;
             var methodReturnType = methodDefinition.ReturnType;
@@ -282,10 +278,7 @@ namespace Cortex.Net.Fody
 
             // default enhancer
             var defaultEhancerType = moduleDefinition.ImportReference(typeof(DeepEnhancer));
-            var iequalityComparerType = moduleDefinition.ImportReference(typeof(System.Collections.IEqualityComparer));
-            var defaultMethodDefinition = moduleDefinition.ImportReference(typeof(EqualityComparer<>)).Resolve().Properties.Single(x => x.Name == "Default").GetMethod;
-            TypeReference equalityComparerType = new GenericInstanceType(moduleDefinition.ImportReference(typeof(EqualityComparer<>)));
-            ((GenericInstanceType)equalityComparerType).GenericArguments.Add(methodDefinition.ReturnType);
+            TypeReference equalityComparerType = null;
 
             var keepAlive = false;
             var requiresReaction = false;
@@ -299,9 +292,9 @@ namespace Cortex.Net.Fody
                     computedName = ca.Value as string;
                 }
 
-                if (ca.Type == iequalityComparerType)
+                if (ca.Value != null && ca.Value is TypeReference)
                 {
-                    equalityComparerType = moduleDefinition.ImportReference(ca.Value as System.Type);
+                    equalityComparerType = moduleDefinition.ImportReference(ca.Value as TypeReference);
                 }
 
                 if (ca.Type == moduleDefinition.TypeSystem.Boolean)
@@ -316,8 +309,6 @@ namespace Cortex.Net.Fody
                     }
                 }
             }
-
-            var defaultMethodReference = moduleDefinition.ImportReference(defaultMethodDefinition.GetGenericMethodOnInstantance(equalityComparerType));
 
             FieldDefinition observableObjectField = this.CreateObservableObjectField(moduleDefinition, declaringType, defaultEhancerType);
 
@@ -511,6 +502,36 @@ namespace Cortex.Net.Fody
             processor.Emit(OpCodes.Dup);
             processor.Emit(keepAlive ? OpCodes.Ldc_I4_1 : OpCodes.Ldc_I4_0);
             processor.Emit(OpCodes.Callvirt, setKeepAliveReference);
+
+            if (equalityComparerType != null)
+            {
+                var setEqualityComparerMethod = computedValueOptionsType.Methods.Single(x => x.Name == "set_EqualityComparer");
+                var setEqualityComparerReference = module.ImportReference(setEqualityComparerMethod.GetGenericMethodOnInstantance(computedValueOptionsInstanceType));
+                MethodReference equalityComparerConstructorReference = equalityComparerType.Resolve().Methods.SingleOrDefault(x => x.IsConstructor && x.Parameters.Count == 0);
+
+                this.ParentWeaver.LogWarning($"{equalityComparerType.IsGenericInstance}");
+
+                if (equalityComparerConstructorReference == null)
+                {
+                    this.ParentWeaver.LogWarning(string.Format(
+                        CultureInfo.CurrentCulture,
+                        Resources.NoParameterLessConstructorForEqualityComparer,
+                        equalityComparerType.Name,
+                        computedName,
+                        methodDefinition.DeclaringType.Name));
+                }
+                else
+                {
+                    if (equalityComparerType.IsGenericInstance)
+                    {
+                        equalityComparerConstructorReference = equalityComparerConstructorReference.GetGenericMethodOnInstantance(equalityComparerType);
+                    }
+
+                    processor.Emit(OpCodes.Dup);
+                    processor.Emit(OpCodes.Newobj, module.ImportReference(equalityComparerConstructorReference));
+                    processor.Emit(OpCodes.Callvirt, setEqualityComparerReference);
+                }
+            }
 
             if (setMethodDefinition != null)
             {
