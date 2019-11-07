@@ -2784,6 +2784,38 @@
             Event arguments for a property on an object that will be removed.
             </summary>
         </member>
+        <member name="T:Cortex.Net.Types.ObservableCollection`1">
+            <summary>
+            Implements an Observable collection of Items.
+            </summary>
+            <typeparam name="T">The type parameter to work on.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.#ctor(Cortex.Net.ISharedState,Cortex.Net.IEnhancer,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> class.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance this observableCollection belongs to.</param>
+            <param name="enhancer">The <see cref="T:Cortex.Net.IEnhancer"/> implementation to use.</param>
+            <param name="name">The name of the ObservableCollection.</param>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.Item(System.Int32)">
+            <summary>
+            Gets or sets the element at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the element to get or set.</param>
+            <returns>The element at the specified index.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">index is not a valid index in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</exception>
+            <exception cref="T:System.NotSupportedException">The property is set and the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> is read-only.</exception>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.System#Collections#IList#Item(System.Int32)">
+            <summary>
+            Gets or sets the element at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the element to get or set.</param>
+            <returns>The element at the specified index.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">index is not a valid index in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</exception>
+            <exception cref="T:System.NotSupportedException">The property is set and the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> is read-only.</exception>
+        </member>
         <member name="T:Cortex.Net.Types.ObservableObject">
             <summary>
             Base or inner class for observable objects.
