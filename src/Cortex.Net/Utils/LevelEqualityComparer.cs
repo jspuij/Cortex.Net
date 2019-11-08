@@ -25,7 +25,8 @@ namespace Cortex.Net.Utils
     /// Compares two types based on their member values up to a certain depth.
     /// </summary>
     /// <typeparam name="T">The types to compare.</typeparam>
-    public class LevelEqualityComparer<T> : IEqualityComparer<T>, IEqualityComparer
+    public class LevelEqualityComparer<T> :
+        IEqualityComparer<T>, IEqualityComparer
     {
         /// <summary>
         /// The depth to compare to.

@@ -27,7 +27,13 @@ namespace Cortex.Net.Api
     /// </summary>
     public static class SharedStateReactionExtensions
     {
-
+        /// <summary>
+        /// Creates a new Autorun reaction.
+        /// </summary>
+        /// <param name="sharedState">The shared state to operate on.</param>
+        /// <param name="expression">The expression that should autorun.</param>
+        /// <param name="autorunOptions">An <see cref="AutorunOptions"/> instance with options.</param>
+        /// <returns>An <see cref="IDisposable"/> instance that can be used to tear down the Autorun reaction.</returns>
         public static IDisposable Autorun(this ISharedState sharedState, Action<Reaction> expression, AutorunOptions autorunOptions = null)
         {
             if (sharedState is null)

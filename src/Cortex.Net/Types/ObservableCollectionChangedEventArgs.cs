@@ -1,4 +1,4 @@
-﻿// <copyright file="ObservableObjectEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ObservableCollectionChangedEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -14,25 +14,26 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Cortex.Net.Spy
+namespace Cortex.Net.Types
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
     /// <summary>
-    /// Event arguments for an Observable Object spy event.
+    /// Base class for value event args.
     /// </summary>
-    public class ObservableObjectEventArgs : SpyEventArgs
+    /// <typeparam name="T">The type of the value.</typeparam>
+    public class ObservableCollectionChangedEventArgs<T> : ObservableCollectionCancellableEventArgs
     {
         /// <summary>
-        /// Gets or sets the context of the event.
+        /// Gets or sets old value.
         /// </summary>
-        public object Context { get; set; }
+        public T OldValue { get; set; }
 
         /// <summary>
-        /// Gets or sets the key of the property or method.
+        /// Gets or sets new value.
         /// </summary>
-        public string Key { get; set; }
+        public T NewValue { get; set; }
     }
 }

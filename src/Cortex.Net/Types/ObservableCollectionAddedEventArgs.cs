@@ -1,4 +1,4 @@
-﻿// <copyright file="ObservableValueEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ObservableCollectionAddedEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -14,16 +14,30 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Cortex.Net.Spy
+namespace Cortex.Net.Types
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
     /// <summary>
-    /// Event arguments for an Action spy event.
+    /// Event arguments for an element that was added to a collection.
     /// </summary>
-    public class ObservableValueEventArgs : SpyEventArgs
+    /// <typeparam name="T">The type of the value that will change.</typeparam>
+    public class ObservableCollectionAddedEventArgs<T> : ObservableCollectionEventArgs
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableCollectionAddedEventArgs{T}"/> class.
+        /// </summary>
+        /// <param name="addedValues">Added values.</param>
+        public ObservableCollectionAddedEventArgs(IEnumerable<T> addedValues)
+        {
+            this.AddedValues = addedValues ?? throw new ArgumentNullException(nameof(addedValues));
+        }
+
+        /// <summary>
+        /// Gets the added values.
+        /// </summary>
+        public IEnumerable<T> AddedValues { get; private set; }
     }
 }

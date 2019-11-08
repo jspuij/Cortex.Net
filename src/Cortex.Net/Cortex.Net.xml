@@ -288,6 +288,15 @@
             Extension methods that deal with Reactions on an ISharedState instance.
             </summary>
         </member>
+        <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.Autorun(Cortex.Net.ISharedState,System.Action{Cortex.Net.Core.Reaction},Cortex.Net.AutorunOptions)">
+            <summary>
+            Creates a new Autorun reaction.
+            </summary>
+            <param name="sharedState">The shared state to operate on.</param>
+            <param name="expression">The expression that should autorun.</param>
+            <param name="autorunOptions">An <see cref="T:Cortex.Net.AutorunOptions"/> instance with options.</param>
+            <returns>An <see cref="T:System.IDisposable"/> instance that can be used to tear down the Autorun reaction.</returns>
+        </member>
         <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.Reaction``1(Cortex.Net.ISharedState,System.Func{Cortex.Net.Core.Reaction,``0},System.Action{``0,Cortex.Net.Core.Reaction},Cortex.Net.ReactionOptions{``0})">
             <summary>
             Creates a reaction that operates on data of type T.
@@ -2450,142 +2459,249 @@
             Gets or sets the context of the spy event.
             </summary>
         </member>
-        <member name="T:Cortex.Net.Spy.ObservableObjectAddedEndEventArgs">
+        <member name="T:Cortex.Net.Spy.ObservableCollectionAddedEndSpyEventArgs">
             <summary>
             Event arguments for spy event when an observable update is started.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectAddedEndEventArgs.EndTime">
+        <member name="P:Cortex.Net.Spy.ObservableCollectionAddedEndSpyEventArgs.EndTime">
             <summary>
             Gets or sets the End time.
             </summary>
         </member>
-        <member name="T:Cortex.Net.Spy.ObservableObjectAddedStartEventArgs">
+        <member name="T:Cortex.Net.Spy.ObservableCollectionAddedStartSpyEventArgs">
             <summary>
             Event arguments for spy event when an observable update is started.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectAddedStartEventArgs.StartTime">
+        <member name="M:Cortex.Net.Spy.ObservableCollectionAddedStartSpyEventArgs.#ctor(System.Collections.IEnumerable)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Spy.ObservableCollectionAddedStartSpyEventArgs"/> class.
+            </summary>
+            <param name="addedValues">The added values.</param>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionAddedStartSpyEventArgs.StartTime">
             <summary>
             Gets or sets the Start time.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectAddedStartEventArgs.NewValue">
+        <member name="P:Cortex.Net.Spy.ObservableCollectionAddedStartSpyEventArgs.AddedValues">
             <summary>
-            Gets or sets the New value.
+            Gets the added values.
             </summary>
         </member>
-        <member name="T:Cortex.Net.Spy.ObservableObjectChangedEndEventArgs">
+        <member name="T:Cortex.Net.Spy.ObservableCollectionChangedEndSpyEventArgs">
             <summary>
             Event arguments for spy event when an observable update is started.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectChangedEndEventArgs.EndTime">
+        <member name="P:Cortex.Net.Spy.ObservableCollectionChangedEndSpyEventArgs.EndTime">
             <summary>
             Gets or sets the End time.
             </summary>
         </member>
-        <member name="T:Cortex.Net.Spy.ObservableObjectChangedStartEventArgs">
+        <member name="T:Cortex.Net.Spy.ObservableCollectionChangedStartSpyEventArgs">
             <summary>
             Event arguments for spy event when an observable update is started.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectChangedStartEventArgs.StartTime">
+        <member name="P:Cortex.Net.Spy.ObservableCollectionChangedStartSpyEventArgs.StartTime">
             <summary>
             Gets or sets the Start time.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectChangedStartEventArgs.OldValue">
+        <member name="P:Cortex.Net.Spy.ObservableCollectionChangedStartSpyEventArgs.OldValue">
             <summary>
             Gets or sets the New value.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectChangedStartEventArgs.NewValue">
+        <member name="P:Cortex.Net.Spy.ObservableCollectionChangedStartSpyEventArgs.NewValue">
             <summary>
             Gets or sets the New value.
             </summary>
         </member>
-        <member name="T:Cortex.Net.Spy.ObservableObjectEventArgs">
+        <member name="T:Cortex.Net.Spy.ObservableCollectionRemovedEndSpyEventArgs">
             <summary>
-            Event arguments for an Observable Object spy event.
+            Event arguments for spy event when an observable update is started.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectEventArgs.Context">
+        <member name="P:Cortex.Net.Spy.ObservableCollectionRemovedEndSpyEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableCollectionRemovedStartSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Spy.ObservableCollectionRemovedStartSpyEventArgs.#ctor(System.Collections.IEnumerable)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Spy.ObservableCollectionRemovedStartSpyEventArgs"/> class.
+            </summary>
+            <param name="removedValues">The removed values.</param>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionRemovedStartSpyEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionRemovedStartSpyEventArgs.RemovedValues">
+            <summary>
+            Gets the removed values.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableCollectionSpyEventArgs">
+            <summary>
+            Event arguments for an Observable Collection spy event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionSpyEventArgs.Context">
             <summary>
             Gets or sets the context of the event.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectEventArgs.Key">
+        <member name="P:Cortex.Net.Spy.ObservableCollectionSpyEventArgs.Index">
+            <summary>
+            Gets or sets the index of the item in the collection.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectAddedEndSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectAddedEndSpyEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectAddedStartSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectAddedStartSpyEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectAddedStartSpyEventArgs.NewValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectChangedEndSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectChangedEndSpyEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectChangedStartSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectChangedStartSpyEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectChangedStartSpyEventArgs.OldValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectChangedStartSpyEventArgs.NewValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectRemovedEndSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectRemovedEndSpyEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectRemovedStartSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectRemovedStartSpyEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectRemovedStartSpyEventArgs.OldValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectSpyEventArgs">
+            <summary>
+            Event arguments for an Observable Object spy event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectSpyEventArgs.Context">
+            <summary>
+            Gets or sets the context of the event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectSpyEventArgs.Key">
             <summary>
             Gets or sets the key of the property or method.
             </summary>
         </member>
-        <member name="T:Cortex.Net.Spy.ObservableObjectRemovedEndEventArgs">
-            <summary>
-            Event arguments for spy event when an observable update is started.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectRemovedEndEventArgs.EndTime">
-            <summary>
-            Gets or sets the End time.
-            </summary>
-        </member>
-        <member name="T:Cortex.Net.Spy.ObservableObjectRemovedStartEventArgs">
-            <summary>
-            Event arguments for spy event when an observable update is started.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectRemovedStartEventArgs.StartTime">
-            <summary>
-            Gets or sets the Start time.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Spy.ObservableObjectRemovedStartEventArgs.OldValue">
-            <summary>
-            Gets or sets the New value.
-            </summary>
-        </member>
-        <member name="T:Cortex.Net.Spy.ObservableValueCreateEventArgs">
+        <member name="T:Cortex.Net.Spy.ObservableValueCreateSpyEventArgs">
             <summary>
             Event arguments for spy event when an observable is created.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ObservableValueCreateEventArgs.NewValue">
+        <member name="P:Cortex.Net.Spy.ObservableValueCreateSpyEventArgs.NewValue">
             <summary>
             Gets or sets the New value.
             </summary>
         </member>
-        <member name="T:Cortex.Net.Spy.ObservableValueEndEventArgs">
+        <member name="T:Cortex.Net.Spy.ObservableValueEndSpyEventArgs">
             <summary>
             Event arguments for spy event when an observable update is started.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ObservableValueEndEventArgs.EndTime">
+        <member name="P:Cortex.Net.Spy.ObservableValueEndSpyEventArgs.EndTime">
             <summary>
             Gets or sets the End time.
             </summary>
         </member>
-        <member name="T:Cortex.Net.Spy.ObservableValueEventArgs">
+        <member name="T:Cortex.Net.Spy.ObservableValueSpyEventArgs">
             <summary>
             Event arguments for an Action spy event.
             </summary>
         </member>
-        <member name="T:Cortex.Net.Spy.ObservableValueStartEventArgs">
+        <member name="T:Cortex.Net.Spy.ObservableValueStartSpyEventArgs">
             <summary>
             Event arguments for spy event when an observable update is started.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ObservableValueStartEventArgs.StartTime">
+        <member name="P:Cortex.Net.Spy.ObservableValueStartSpyEventArgs.StartTime">
             <summary>
             Gets or sets the Start time.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ObservableValueStartEventArgs.OldValue">
+        <member name="P:Cortex.Net.Spy.ObservableValueStartSpyEventArgs.OldValue">
             <summary>
             Gets or sets the New value.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Spy.ObservableValueStartEventArgs.NewValue">
+        <member name="P:Cortex.Net.Spy.ObservableValueStartSpyEventArgs.NewValue">
             <summary>
             Gets or sets the New value.
             </summary>
@@ -2753,11 +2869,6 @@
             Gets or sets new value.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Types.ObjectKeyAddedEventArgs`1.Cancel">
-            <summary>
-            Gets or sets a value indicating whether the change should be canceled.
-            </summary>
-        </member>
         <member name="T:Cortex.Net.Types.ObjectKeyAddEventArgs`1">
             <summary>
             Event arguments for a value on an object that will change.
@@ -2790,6 +2901,16 @@
             </summary>
             <typeparam name="T">The type parameter to work on.</typeparam>
         </member>
+        <member name="F:Cortex.Net.Types.ObservableCollection`1.changeEventHandlers">
+            <summary>
+            A set of event handlers for the change event.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableCollection`1.changedEventHandlers">
+            <summary>
+            A set of event handlers for the changed event.
+            </summary>
+        </member>
         <member name="M:Cortex.Net.Types.ObservableCollection`1.#ctor(Cortex.Net.ISharedState,Cortex.Net.IEnhancer,System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> class.
@@ -2797,6 +2918,51 @@
             <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance this observableCollection belongs to.</param>
             <param name="enhancer">The <see cref="T:Cortex.Net.IEnhancer"/> implementation to use.</param>
             <param name="name">The name of the ObservableCollection.</param>
+        </member>
+        <member name="E:Cortex.Net.Types.ObservableCollection`1.Change">
+            <summary>
+            Event that fires before the value will change.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.Types.ObservableCollection`1.Changed">
+            <summary>
+            Event that fires after the value has changed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.SharedState">
+            <summary>
+            Gets the shared state this <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> operates on.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.Count">
+            <summary>
+            Gets the number of elements contained in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.IsReadOnly">
+            <summary>
+            Gets a value indicating whether the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> is read-only.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.IsSynchronized">
+            <summary>
+             Gets a value indicating whether access to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> is synchronized (thread safe).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.SyncRoot">
+            <summary>
+            Gets an object that can be used to synchronize access to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.IsFixedSize">
+            <summary>
+            Gets a value indicating whether the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> has a fixed size.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.Name">
+            <summary>
+            Gets the name of the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
         </member>
         <member name="P:Cortex.Net.Types.ObservableCollection`1.Item(System.Int32)">
             <summary>
@@ -2815,6 +2981,333 @@
             <returns>The element at the specified index.</returns>
             <exception cref="T:System.ArgumentOutOfRangeException">index is not a valid index in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</exception>
             <exception cref="T:System.NotSupportedException">The property is set and the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> is read-only.</exception>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.Add(`0)">
+            <summary>
+            Adds an item to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <param name="item">The object to add to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.Clear">
+            <summary>
+             Removes all elements from the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.Contains(`0)">
+            <summary>
+            Determines whether the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> contains a specific value.
+            </summary>
+            <param name="item">The object to locate in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</param>
+            <returns>true if item is found in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>; otherwise, false.</returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.CopyTo(`0[],System.Int32)">
+            <summary>
+            Copies the elements of the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> to an System.Array,
+            starting at a particular System.Array index.
+            </summary>
+            <param name="array">The one-dimensional System.Array that is the destination of the elements copied
+            from <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>. The System.Array must have zero-based indexing.
+            </param>
+            <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException">array is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">arrayIndex is less than 0.</exception>
+            <exception cref="T:System.ArgumentException">
+            The number of elements in the source System.Collections.Generic.ICollection`1
+            is greater than the available space from arrayIndex to the end of the destination array.
+            </exception>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <returns>An enumerator that can be used to iterate through the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.IndexOf(`0)">
+            <summary>
+            Searches for the specified object and returns the zero-based index of the first
+            occurrence within the entire <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <param name="item">The object to locate in the System.Collections.Generic.List`1. The value can
+            be null for reference types.
+            </param>
+            <returns>
+            The zero-based index of the first occurrence of item within the entire <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>, if found; otherwise, –1.
+            </returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.Insert(System.Int32,`0)">
+            <summary>
+             Inserts an item to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which item should be inserted.</param>
+            <param name="item">The object to insert into the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.Remove(`0)">
+            <summary>
+            Removes the first occurrence of a specific object from the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <param name="item">The object to remove from the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            The value can be null for reference types.
+            </param>
+            <returns>True if item is successfully removed; otherwise, false. This method also returns
+            false if item was not found in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.RemoveAt(System.Int32)">
+            <summary>
+            Removes the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> item at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the item to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Index is not a valid index in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</exception>
+            <exception cref="T:System.NotSupportedException">The <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> is read-only.</exception>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#IList#Add(System.Object)">
+            <summary>
+            Adds an item to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <param name="value">The object to add to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</param>
+            <returns>The index where the item was added.</returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#IList#Contains(System.Object)">
+            <summary>
+            Determines whether the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> contains a specific value.
+            </summary>
+            <param name="value">The object to locate in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</param>
+            <returns>true if item is found in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>; otherwise, false.</returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#ICollection#CopyTo(System.Array,System.Int32)">
+            <summary>
+            Copies the elements of the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> to an System.Array,
+            starting at a particular System.Array index.
+            </summary>
+            <param name="array">The one-dimensional System.Array that is the destination of the elements copied
+            from <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>. The System.Array must have zero-based indexing.
+            </param>
+            <param name="index">The zero-based index in array at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException">array is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">arrayIndex is less than 0.</exception>
+            <exception cref="T:System.ArgumentException">
+            The number of elements in the source System.Collections.Generic.ICollection`1
+            is greater than the available space from arrayIndex to the end of the destination array.
+            </exception>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <returns>An enumerator that can be used to iterate through the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#IList#IndexOf(System.Object)">
+            <summary>
+            Searches for the specified object and returns the zero-based index of the first
+            occurrence within the entire <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <param name="value">The object to locate in the System.Collections.Generic.List`1. The value can
+            be null for reference types.
+            </param>
+            <returns>
+            The zero-based index of the first occurrence of item within the entire <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>, if found; otherwise, –1.
+            </returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#IList#Insert(System.Int32,System.Object)">
+            <summary>
+             Inserts an item to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which item should be inserted.</param>
+            <param name="value">The object to insert into the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#IList#Remove(System.Object)">
+            <summary>
+            Removes the first occurrence of a specific object from the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <param name="value">The object to remove from the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            The value can be null for reference types.
+            </param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#IList#RemoveAt(System.Int32)">
+            <summary>
+            Removes the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> item at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the item to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Index is not a valid index in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</exception>
+            <exception cref="T:System.NotSupportedException">The <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> is read-only.</exception>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.InsertRange(System.Int32,System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Insert a range of items into the collection.
+            </summary>
+            <param name="index">The index to insert at.</param>
+            <param name="items">The items to remove.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.RemoveRange(System.Int32,System.Int32)">
+            <summary>
+            Removes a range of objects from the collection.
+            </summary>
+            <param name="index">The index to start from.</param>
+            <param name="count">The number of items to remove.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.InterceptChange(Cortex.Net.Types.ObservableCollectionCancellableEventArgs)">
+            <summary>
+            Fires a Change event that can be intercepted and or canceled.
+            </summary>
+            <param name="changeEventArgs">The change event args.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.NotifyArrayChildUpdate(System.Int32,`0,`0)">
+            <summary>
+            Notify spy and listeners of the update.
+            </summary>
+            <param name="index">The index of the item that got updated.</param>
+            <param name="newValue">The new value.</param>
+            <param name="oldValue">The old value.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.NotifyArrayChildAdd(System.Int32,System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+             Notify spy and listeners of the add.
+            </summary>
+            <param name="index">The index at which the items were added.</param>
+            <param name="newItems">The items that were added.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.NotifyArrayChildRemove(System.Int32,System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+             Notify spy and listeners of the remove.
+            </summary>
+            <param name="index">The index at which the items were removed.</param>
+            <param name="removedItems">The items that were removed.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.NotifyListeners(Cortex.Net.Types.ObservableCollectionEventArgs)">
+            <summary>
+            Notifies Listeners on the <see cref="E:Cortex.Net.Types.ObservableCollection`1.Changed"/> event.
+            </summary>
+            <param name="eventArgs">The event arguments.</param>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionAddedEventArgs`1">
+            <summary>
+            Event arguments for an element that was added to a collection.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollectionAddedEventArgs`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableCollectionAddedEventArgs`1"/> class.
+            </summary>
+            <param name="addedValues">Added values.</param>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionAddedEventArgs`1.AddedValues">
+            <summary>
+            Gets the added values.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionAddEventArgs`1">
+            <summary>
+            Event arguments for an element that was added to a collection.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollectionAddEventArgs`1.#ctor(System.Collections.Generic.ICollection{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableCollectionAddEventArgs`1"/> class.
+            </summary>
+            <param name="addedValues">Added values.</param>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionAddEventArgs`1.AddedValues">
+            <summary>
+            Gets the added values.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionCancellableEventArgs">
+            <summary>
+            Base class for value event args.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionCancellableEventArgs.Cancel">
+            <summary>
+            Gets or sets a value indicating whether the change should be canceled.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionChangedEventArgs`1">
+            <summary>
+            Base class for value event args.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionChangedEventArgs`1.OldValue">
+            <summary>
+            Gets or sets old value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionChangedEventArgs`1.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionChangeEventArgs`1">
+            <summary>
+            Base class for value event args.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionChangeEventArgs`1.OldValue">
+            <summary>
+            Gets or sets old value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionChangeEventArgs`1.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionChangeEventArgs`1.Changed">
+            <summary>
+            Gets a value indicating whether the value has been changed by an event handler.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionEventArgs">
+            <summary>
+            Base class for value event args.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionEventArgs.Context">
+            <summary>
+            Gets or sets the context for the event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionEventArgs.Index">
+            <summary>
+            Gets or sets the index.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionRemovedEventArgs`1">
+            <summary>
+            Event arguments for an element that was added to a collection.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollectionRemovedEventArgs`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableCollectionRemovedEventArgs`1"/> class.
+            </summary>
+            <param name="removedValues">Added values.</param>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionRemovedEventArgs`1.RemovedValues">
+            <summary>
+            Gets the removed values.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionRemoveEventArgs`1">
+            <summary>
+            Event arguments for an element that was removed from a collection.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollectionRemoveEventArgs`1.#ctor(System.Collections.Generic.ICollection{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableCollectionRemoveEventArgs`1"/> class.
+            </summary>
+            <param name="removedValues">Removed values.</param>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionRemoveEventArgs`1.RemovedValues">
+            <summary>
+            Gets the removed values.
+            </summary>
         </member>
         <member name="T:Cortex.Net.Types.ObservableObject">
             <summary>
@@ -3116,13 +3609,12 @@
             Gets a value indicating whether the value has been changed by an event handler.
             </summary>
         </member>
-        <member name="T:Cortex.Net.Types.ValueEventArgs`1">
+        <member name="T:Cortex.Net.Types.ValueEventArgs">
             <summary>
             Base class for value event args.
             </summary>
-            <typeparam name="T">The type of the value.</typeparam>
         </member>
-        <member name="P:Cortex.Net.Types.ValueEventArgs`1.Context">
+        <member name="P:Cortex.Net.Types.ValueEventArgs.Context">
             <summary>
             Gets or sets the context for the event.
             </summary>

@@ -1,4 +1,4 @@
-﻿// <copyright file="ValueChangedEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ObservableCollectionEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -21,19 +21,18 @@ namespace Cortex.Net.Types
     using System.Text;
 
     /// <summary>
-    /// Event arguments for a value that has changed.
+    /// Base class for value event args.
     /// </summary>
-    /// <typeparam name="T">The type of the value that has changed.</typeparam>
-    public class ValueChangedEventArgs<T> : ValueEventArgs
+    public class ObservableCollectionEventArgs : EventArgs
     {
         /// <summary>
-        /// Gets or sets old value.
+        /// Gets or sets the context for the event.
         /// </summary>
-        public T OldValue { get; set; }
+        public object Context { get; set; }
 
         /// <summary>
-        /// Gets or sets new value.
+        /// Gets or sets the index.
         /// </summary>
-        public T NewValue { get; set; }
+        public int Index { get; set; }
     }
 }

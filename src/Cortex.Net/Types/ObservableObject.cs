@@ -219,7 +219,7 @@ namespace Cortex.Net.Types
 
             if (changed)
             {
-                this.SharedState.OnSpy(this, new ObservableObjectChangedStartEventArgs()
+                this.SharedState.OnSpy(this, new ObservableObjectChangedStartSpyEventArgs()
                 {
                     Name = this.Name,
                     Context = this,
@@ -241,7 +241,7 @@ namespace Cortex.Net.Types
 
                 this.NotifyListeners(eventArgs);
 
-                this.SharedState.OnSpy(this, new ObservableObjectChangedEndEventArgs()
+                this.SharedState.OnSpy(this, new ObservableObjectChangedEndSpyEventArgs()
                 {
                     Name = this.Name,
                     Context = this,
@@ -388,7 +388,7 @@ namespace Cortex.Net.Types
                     observablePendingKey.Value = false;
                 }
 
-                this.SharedState.OnSpy(this, new ObservableObjectRemovedStartEventArgs()
+                this.SharedState.OnSpy(this, new ObservableObjectRemovedStartSpyEventArgs()
                 {
                     Name = this.Name,
                     Context = this,
@@ -406,7 +406,7 @@ namespace Cortex.Net.Types
 
                 this.NotifyListeners(eventArgs);
 
-                this.SharedState.OnSpy(this, new ObservableObjectRemovedEndEventArgs()
+                this.SharedState.OnSpy(this, new ObservableObjectRemovedEndSpyEventArgs()
                 {
                     Name = this.Name,
                     Context = this,
@@ -459,7 +459,7 @@ namespace Cortex.Net.Types
         /// <param name="newValue">The new value.</param>
         private void NotifyPropertyAddition<T>(string key, T newValue)
         {
-            this.SharedState.OnSpy(this, new ObservableObjectAddedStartEventArgs()
+            this.SharedState.OnSpy(this, new ObservableObjectAddedStartSpyEventArgs()
             {
                 Name = this.Name,
                 Context = this,
@@ -477,7 +477,7 @@ namespace Cortex.Net.Types
 
             this.NotifyListeners(eventArgs);
 
-            this.SharedState.OnSpy(this, new ObservableObjectAddedEndEventArgs()
+            this.SharedState.OnSpy(this, new ObservableObjectAddedEndSpyEventArgs()
             {
                 Name = this.Name,
                 Context = this,

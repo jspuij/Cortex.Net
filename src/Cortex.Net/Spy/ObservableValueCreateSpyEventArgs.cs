@@ -1,4 +1,4 @@
-﻿// <copyright file="ObservableObjectRemovedEndEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ObservableValueCreateSpyEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -21,13 +21,13 @@ namespace Cortex.Net.Spy
     using System.Text;
 
     /// <summary>
-    /// Event arguments for spy event when an observable update is started.
+    /// Event arguments for spy event when an observable is created.
     /// </summary>
-    public class ObservableObjectRemovedEndEventArgs : ObservableObjectEventArgs
+    public class ObservableValueCreateSpyEventArgs : ObservableValueSpyEventArgs
     {
         /// <summary>
-        /// Gets or sets the End time.
+        /// Gets or sets the New value.
         /// </summary>
-        public DateTime EndTime { get; set; }
+        public object NewValue { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace Cortex.Net.Types
     /// Event arguments for a value that will change.
     /// </summary>
     /// <typeparam name="T">The type of the value that will change.</typeparam>
-    public class ValueChangeEventArgs<T> : ValueEventArgs<T>
+    public class ValueChangeEventArgs<T> : ValueEventArgs
     {
         /// <summary>
         /// Gets or sets old value.

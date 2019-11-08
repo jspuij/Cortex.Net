@@ -1,4 +1,4 @@
-﻿// <copyright file="ValueChangedEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ObservableCollectionAddEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -21,19 +21,23 @@ namespace Cortex.Net.Types
     using System.Text;
 
     /// <summary>
-    /// Event arguments for a value that has changed.
+    /// Event arguments for an element that was added to a collection.
     /// </summary>
-    /// <typeparam name="T">The type of the value that has changed.</typeparam>
-    public class ValueChangedEventArgs<T> : ValueEventArgs
+    /// <typeparam name="T">The type of the value that will change.</typeparam>
+    public class ObservableCollectionAddEventArgs<T> : ObservableCollectionCancellableEventArgs
     {
         /// <summary>
-        /// Gets or sets old value.
+        /// Initializes a new instance of the <see cref="ObservableCollectionAddEventArgs{T}"/> class.
         /// </summary>
-        public T OldValue { get; set; }
+        /// <param name="addedValues">Added values.</param>
+        public ObservableCollectionAddEventArgs(ICollection<T> addedValues)
+        {
+            this.AddedValues = addedValues ?? throw new ArgumentNullException(nameof(addedValues));
+        }
 
         /// <summary>
-        /// Gets or sets new value.
+        /// Gets the added values.
         /// </summary>
-        public T NewValue { get; set; }
+        public ICollection<T> AddedValues { get; private set; }
     }
 }

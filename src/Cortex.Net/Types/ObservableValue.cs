@@ -63,7 +63,7 @@ namespace Cortex.Net.Types
         {
             this.enhancer = enhancer ?? throw new ArgumentNullException(nameof(enhancer));
             this.value = this.enhancer.Enhance(value, default, this.Name);
-            sharedState.OnSpy(this, new ObservableValueCreateEventArgs() { Name = this.Name, NewValue = value });
+            sharedState.OnSpy(this, new ObservableValueCreateSpyEventArgs() { Name = this.Name, NewValue = value });
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Cortex.Net.Types
 
                 if (changed)
                 {
-                    this.SharedState.OnSpy(this, new ObservableValueStartEventArgs()
+                    this.SharedState.OnSpy(this, new ObservableValueStartSpyEventArgs()
                     {
                         Name = this.Name,
                         OldValue = oldValue,
@@ -127,7 +127,7 @@ namespace Cortex.Net.Types
 
                     this.SetNewValue(newValue);
 
-                    this.SharedState.OnSpy(this, new ObservableValueEndEventArgs()
+                    this.SharedState.OnSpy(this, new ObservableValueEndSpyEventArgs()
                     {
                         Name = this.Name,
                         EndTime = DateTime.UtcNow,

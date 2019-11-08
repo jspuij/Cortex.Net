@@ -23,8 +23,7 @@ namespace Cortex.Net.Types
     /// <summary>
     /// Base class for value event args.
     /// </summary>
-    /// <typeparam name="T">The type of the value.</typeparam>
-    public class ValueEventArgs<T> : EventArgs
+    public class ValueEventArgs : EventArgs
     {
         /// <summary>
         /// Gets or sets the context for the event.

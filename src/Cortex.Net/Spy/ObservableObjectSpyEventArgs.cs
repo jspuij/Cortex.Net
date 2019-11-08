@@ -1,4 +1,4 @@
-﻿// <copyright file="ObservableObjectAddedStartEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ObservableObjectSpyEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -21,18 +21,18 @@ namespace Cortex.Net.Spy
     using System.Text;
 
     /// <summary>
-    /// Event arguments for spy event when an observable update is started.
+    /// Event arguments for an Observable Object spy event.
     /// </summary>
-    public class ObservableObjectAddedStartEventArgs : ObservableObjectEventArgs
+    public class ObservableObjectSpyEventArgs : SpyEventArgs
     {
         /// <summary>
-        /// Gets or sets the Start time.
+        /// Gets or sets the context of the event.
         /// </summary>
-        public DateTime StartTime { get; set; }
+        public object Context { get; set; }
 
         /// <summary>
-        /// Gets or sets the New value.
+        /// Gets or sets the key of the property or method.
         /// </summary>
-        public object NewValue { get; set; }
+        public string Key { get; set; }
     }
 }

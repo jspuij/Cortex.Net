@@ -30,10 +30,5 @@ namespace Cortex.Net.Types
         /// Gets or sets new value.
         /// </summary>
         public T NewValue { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the change should be canceled.
-        /// </summary>
-        public bool Cancel { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="ValueChangedEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ObservableCollectionRemoveEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -21,19 +21,23 @@ namespace Cortex.Net.Types
     using System.Text;
 
     /// <summary>
-    /// Event arguments for a value that has changed.
+    /// Event arguments for an element that was removed from a collection.
     /// </summary>
-    /// <typeparam name="T">The type of the value that has changed.</typeparam>
-    public class ValueChangedEventArgs<T> : ValueEventArgs
+    /// <typeparam name="T">The type of the value that will change.</typeparam>
+    public class ObservableCollectionRemoveEventArgs<T> : ObservableCollectionCancellableEventArgs
     {
         /// <summary>
-        /// Gets or sets old value.
+        /// Initializes a new instance of the <see cref="ObservableCollectionRemoveEventArgs{T}"/> class.
         /// </summary>
-        public T OldValue { get; set; }
+        /// <param name="removedValues">Removed values.</param>
+        public ObservableCollectionRemoveEventArgs(ICollection<T> removedValues)
+        {
+            this.RemovedValues = removedValues ?? throw new ArgumentNullException(nameof(removedValues));
+        }
 
         /// <summary>
-        /// Gets or sets new value.
+        /// Gets the removed values.
         /// </summary>
-        public T NewValue { get; set; }
+        public ICollection<T> RemovedValues { get; private set; }
     }
 }

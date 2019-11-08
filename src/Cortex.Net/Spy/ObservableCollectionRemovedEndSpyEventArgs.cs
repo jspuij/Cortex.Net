@@ -1,4 +1,4 @@
-﻿// <copyright file="ObservableValueStartEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ObservableCollectionRemovedEndSpyEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -23,21 +23,11 @@ namespace Cortex.Net.Spy
     /// <summary>
     /// Event arguments for spy event when an observable update is started.
     /// </summary>
-    public class ObservableValueStartEventArgs : ObservableValueEventArgs
+    public class ObservableCollectionRemovedEndSpyEventArgs : ObservableCollectionSpyEventArgs
     {
         /// <summary>
-        /// Gets or sets the Start time.
+        /// Gets or sets the End time.
         /// </summary>
-        public DateTime StartTime { get; set; }
-
-        /// <summary>
-        /// Gets or sets the New value.
-        /// </summary>
-        public object OldValue { get; set; }
-
-        /// <summary>
-        /// Gets or sets the New value.
-        /// </summary>
-        public object NewValue { get; set; }
+        public DateTime EndTime { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="ValueChangedEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="ObservableValueSpyEventArgs.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -14,26 +14,16 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Cortex.Net.Types
+namespace Cortex.Net.Spy
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
     /// <summary>
-    /// Event arguments for a value that has changed.
+    /// Event arguments for an Action spy event.
     /// </summary>
-    /// <typeparam name="T">The type of the value that has changed.</typeparam>
-    public class ValueChangedEventArgs<T> : ValueEventArgs
+    public class ObservableValueSpyEventArgs : SpyEventArgs
     {
-        /// <summary>
-        /// Gets or sets old value.
-        /// </summary>
-        public T OldValue { get; set; }
-
-        /// <summary>
-        /// Gets or sets new value.
-        /// </summary>
-        public T NewValue { get; set; }
     }
 }

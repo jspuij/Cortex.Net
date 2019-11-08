@@ -525,8 +525,6 @@ namespace Cortex.Net.Fody
                 var setEqualityComparerReference = module.ImportReference(setEqualityComparerMethod.GetGenericMethodOnInstantance(computedValueOptionsInstanceType));
                 MethodReference equalityComparerConstructorReference = equalityComparerType.Resolve().Methods.SingleOrDefault(x => x.IsConstructor && x.Parameters.Count == 0);
 
-                this.ParentWeaver.LogWarning($"{equalityComparerType.IsGenericInstance}");
-
                 // The equalitycomparer needs to have a parameterless constructor.
                 if (equalityComparerConstructorReference == null)
                 {
