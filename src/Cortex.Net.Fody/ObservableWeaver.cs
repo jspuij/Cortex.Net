@@ -51,19 +51,26 @@ namespace Cortex.Net.Fody
         internal void Execute()
         {
             var decoratedProperties = from t in this.ParentWeaver.ModuleDefinition.GetTypes()
-                                   from m in t.Properties
+                                   from p in t.Properties
                                    where
                                       t != null &&
                                       t.IsClass &&
                                       t.BaseType != null &&
-                                      m != null &&
-                                      m.CustomAttributes != null &&
-                                      m.CustomAttributes.Any(x => x.AttributeType.FullName == typeof(ObservableAttribute).FullName)
-                                   select m;
+                                      p != null &&
+                                      p.CustomAttributes != null &&
+                                      p.CustomAttributes.Any(x => x.AttributeType.FullName == typeof(ObservableAttribute).FullName)
+                                   select p;
 
             foreach (var decoratedProperty in decoratedProperties.ToList())
             {
-                this.WeaveProperty(decoratedProperty, typeof(DeepEnhancer));
+                if (decoratedProperty.PropertyType.IsReplacableCollection())
+                {
+
+                }
+                else
+                {
+                    this.WeaveProperty(decoratedProperty, typeof(DeepEnhancer));
+                }
             }
 
             var decoratedClasses = from t in this.ParentWeaver.ModuleDefinition.GetTypes()
@@ -99,11 +106,18 @@ namespace Cortex.Net.Fody
                 }
             }
 
-            foreach (var property in decoratedClass.Properties.Where(x => x.GetMethod != null && x.GetMethod.IsPublic && x.SetMethod != null && x.SetMethod.IsPublic))
+            foreach (var property in decoratedClass.Properties.Where(x => x.GetMethod != null && x.GetMethod.IsPublic))
             {
-                if (property.GetMethod.CustomAttributes.Any(x => x.AttributeType.FullName == typeof(CompilerGeneratedAttribute).FullName))
+                if (property.PropertyType.IsReplacableCollection())
                 {
-                    this.WeaveProperty(property, enhancerType);
+
+                }
+                else
+                {
+                    if (property.SetMethod != null && property.SetMethod.IsPublic && property.GetMethod.CustomAttributes.Any(x => x.AttributeType.FullName == typeof(CompilerGeneratedAttribute).FullName))
+                    {
+                        this.WeaveProperty(property, enhancerType);
+                    }
                 }
             }
         }

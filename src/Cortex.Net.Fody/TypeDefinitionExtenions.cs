@@ -18,6 +18,7 @@ namespace Cortex.Net.Fody
 {
     using System;
     using System.Linq;
+    using Cortex.Net.Types;
     using Mono.Cecil;
     using Mono.Cecil.Cil;
 
@@ -252,6 +253,44 @@ namespace Cortex.Net.Fody
             // add to classtype.
             classType.Properties.Add(property);
             return property;
+        }
+
+        /// <summary>
+        /// Returns whether the type reference is of a type that can be replaced by <see cref="ObservableCollection{T}" />.
+        /// </summary>
+        /// <param name="typeReference">The typeReference to check.</param>
+        /// <returns>True when the type is a type that can be replaced by one of the interfaces of <see cref="ObservableCollection{T}"/>, false otherwise.</returns>
+        public static bool IsReplacableCollection(this TypeReference typeReference)
+        {
+            if (typeReference is null)
+            {
+                throw new ArgumentNullException(nameof(typeReference));
+            }
+
+            var module = typeReference.Module;
+
+            var observableCollectionType = module.ImportReference(typeof(ObservableCollection<>)).Resolve();
+            var typeToCheck = typeReference.Resolve();
+            var interfacesToCheck = typeToCheck.Interfaces.OrderBy(x => x.InterfaceType.FullName).ToList();
+
+            foreach (var interfaceImplementation in observableCollectionType.Interfaces.OrderBy(x => x.InterfaceType.FullName))
+            {
+                foreach (var interfaceImplementationToCheck in interfacesToCheck)
+                {
+                    var compare = string.Compare(interfaceImplementation.InterfaceType.FullName, interfaceImplementationToCheck.InterfaceType.FullName, StringComparison.InvariantCulture);
+
+                    if (compare == 0)
+                    {
+                        return true;
+                    }
+                    else if (compare > 0)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

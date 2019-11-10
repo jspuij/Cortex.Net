@@ -468,5 +468,12 @@
             <param name="setter">The setter for the property. Can be null.</param>
             <returns>The created property definitition.</returns>
         </member>
+        <member name="M:Cortex.Net.Fody.TypeDefinitionExtenions.IsReplacableCollection(Mono.Cecil.TypeReference)">
+            <summary>
+            Returns whether the type reference is of a type that can be replaced by <see cref="T:Cortex.Net.Types.ObservableCollection`1" />.
+            </summary>
+            <param name="typeReference">The typeReference to check.</param>
+            <returns>True when the type is a type that can be replaced by one of the interfaces of <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>, false otherwise.</returns>
+        </member>
     </members>
 </doc>

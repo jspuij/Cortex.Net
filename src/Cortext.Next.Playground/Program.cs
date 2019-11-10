@@ -34,7 +34,7 @@ namespace Cortext.Next.Playground
 
             var personWeave = new PersonWeave();
             ((IObservableObject)personWeave).SharedState = sharedState;
-            personWeave.Age = 10;
+            personWeave.Age = 30;
 
             var d2 = sharedState.Reaction<string>(r => personWeave.FullName, (s, r) =>
             {
