@@ -32,10 +32,11 @@ namespace Cortext.Next.Playground
             person.ChangeBothNames("Eddy", "Tickie");
             Console.WriteLine(person.FullName3);
 
-            var personWeaver = new PersonWeave();
-            ((IObservableObject)personWeaver).SharedState = sharedState;
+            var personWeave = new PersonWeave();
+            ((IObservableObject)personWeave).SharedState = sharedState;
+            personWeave.Age = 10;
 
-            var d2 = sharedState.Reaction<string>(r => personWeaver.FullName, (s, r) =>
+            var d2 = sharedState.Reaction<string>(r => personWeave.FullName, (s, r) =>
             {
                 r.Trace(TraceMode.Log);
                 Console.WriteLine($"Weaved: FullName Changed: {s}");
@@ -43,15 +44,30 @@ namespace Cortext.Next.Playground
 
             var d4 = sharedState.Autorun(r =>
             {
-                Console.WriteLine($"Autorun Fullname weaved: {personWeaver.FullName}");
+                Console.WriteLine($"Autorun Fullname weaved: {personWeave.FullName}");
                 r.Trace(TraceMode.Log);
             });
 
-            personWeaver.Trace(x => x.FullName2());
+            personWeave.Trace(x => x.FullName2());
 
-            personWeaver.ChangeBothNames("Jan-Willem", "Spuij");
-            personWeaver.ChangeBothNames("Jan-Willem", "Spuijtje");
-            personWeaver.ChangeFullNameToBirdseyeview();
+            personWeave.ChangeBothNames("Jan-Willem", "Spuij");
+            personWeave.ChangeBothNames("Jan-Willem", "Spuijtje");
+            personWeave.ChangeFullNameToBirdseyeview();
+
+            var group = new Group(sharedState);
+            var d5 = sharedState.Autorun(r =>
+            {
+                Console.WriteLine($"Autorun Average: {group.Average}");
+                r.Trace(TraceMode.Log);
+            });
+
+            var person2 = new PersonWeave();
+            ((IObservableObject)person2).SharedState = sharedState;
+            person2.ChangeBothNames("Claudia", "Pietryga");
+            person2.Age = 20;
+
+            group.People.Add(personWeave);
+            group.People.Add(person2);
 
             d.Dispose();
             d2.Dispose();

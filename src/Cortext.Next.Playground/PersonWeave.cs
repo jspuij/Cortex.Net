@@ -13,6 +13,8 @@ namespace Cortext.Next.Playground
 
         public string LastName { get; set; }
 
+        public int Age { get; set; }
+
         [Computed(typeof(ReferenceEqualityComparer<string>))]
         public string FullName
         {
