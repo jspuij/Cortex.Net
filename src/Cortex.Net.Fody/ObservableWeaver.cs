@@ -63,7 +63,7 @@ namespace Cortex.Net.Fody
 
             foreach (var decoratedProperty in decoratedProperties.ToList())
             {
-                if (decoratedProperty.PropertyType.IsReplacableCollection())
+                if (decoratedProperty.PropertyType.IsReplaceableCollection())
                 {
 
                 }
@@ -108,7 +108,7 @@ namespace Cortex.Net.Fody
 
             foreach (var property in decoratedClass.Properties.Where(x => x.GetMethod != null && x.GetMethod.IsPublic))
             {
-                if (property.PropertyType.IsReplacableCollection())
+                if (property.PropertyType.IsReplaceableCollection())
                 {
 
                 }

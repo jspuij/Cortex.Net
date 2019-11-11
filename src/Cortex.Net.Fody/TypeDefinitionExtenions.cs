@@ -260,7 +260,7 @@ namespace Cortex.Net.Fody
         /// </summary>
         /// <param name="typeReference">The typeReference to check.</param>
         /// <returns>True when the type is a type that can be replaced by one of the interfaces of <see cref="ObservableCollection{T}"/>, false otherwise.</returns>
-        public static bool IsReplacableCollection(this TypeReference typeReference)
+        public static bool IsReplaceableCollection(this TypeReference typeReference)
         {
             if (typeReference is null)
             {
