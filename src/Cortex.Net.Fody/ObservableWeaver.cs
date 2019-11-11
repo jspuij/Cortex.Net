@@ -35,14 +35,21 @@ namespace Cortex.Net.Fody
     internal class ObservableWeaver : ObservableObjectWeaverBase
     {
         /// <summary>
+        /// The weaver to use to pass enumerable implementations to.
+        /// </summary>
+        private readonly IEnumerableInterfaceWeaver enumerableInterfaceWeaver;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ObservableWeaver"/> class.
         /// </summary>
         /// <param name="parentWeaver">A reference to the Parent Cortex.Net weaver.</param>
+        /// <param name="enumerableInterfaceWeaver">An implementation of <see cref="IEnumerableInterfaceWeaver" />.</param>
         /// <param name="processorQueue">The queue to add ILProcessor actions to.</param>
         /// <exception cref="ArgumentNullException">When any of the arguments is null.</exception>
-        public ObservableWeaver(BaseModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue)
+        public ObservableWeaver(BaseModuleWeaver parentWeaver, IEnumerableInterfaceWeaver enumerableInterfaceWeaver,  ISharedStateAssignmentILProcessorQueue processorQueue)
             : base(parentWeaver, processorQueue)
         {
+            this.enumerableInterfaceWeaver = enumerableInterfaceWeaver ?? throw new ArgumentNullException(nameof(enumerableInterfaceWeaver));
         }
 
         /// <summary>
@@ -65,7 +72,7 @@ namespace Cortex.Net.Fody
             {
                 if (decoratedProperty.PropertyType.IsReplaceableCollection())
                 {
-
+                    this.enumerableInterfaceWeaver.WeaveEnumerableProperty(decoratedProperty, typeof(DeepEnhancer));
                 }
                 else
                 {
@@ -110,7 +117,7 @@ namespace Cortex.Net.Fody
             {
                 if (property.PropertyType.IsReplaceableCollection())
                 {
-
+                    this.enumerableInterfaceWeaver.WeaveEnumerableProperty(property, enhancerType);
                 }
                 else
                 {

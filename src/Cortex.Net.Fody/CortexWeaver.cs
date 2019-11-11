@@ -31,8 +31,9 @@ namespace Cortex.Net.Fody
         public override void Execute()
         {
             var observableObjectWeaver = new ObservableObjectInterfaceWeaver(this);
+            var enumerableWeaver = new EnumerableInterfaceWeaver(this, observableObjectWeaver);
             var actionWeaver = new ActionWeaver(this, observableObjectWeaver);
-            var observableWeaver = new ObservableWeaver(this, observableObjectWeaver);
+            var observableWeaver = new ObservableWeaver(this, enumerableWeaver, observableObjectWeaver);
             var computedWeaver = new ComputedWeaver(this, observableObjectWeaver);
             actionWeaver.Execute();
             observableWeaver.Execute();

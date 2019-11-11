@@ -48,6 +48,7 @@ namespace Cortex.Net.Fody
             }
 
             var parameters = genericMethod.Parameters;
+            var module = instantiantedType.Module;
             var hasThis = genericMethod.HasThis;
             var explicitThis = genericMethod.ExplicitThis;
 
@@ -59,7 +60,19 @@ namespace Cortex.Net.Fody
 
             foreach (var parameter in parameters)
             {
-                result.Parameters.Add(parameter);
+                var pt = parameter.ParameterType;
+                if (!pt.ContainsGenericParameter)
+                {
+                    pt = module.ImportReference(parameter.ParameterType);
+                }
+
+                var newParameter = new ParameterDefinition(parameter.Name, parameter.Attributes, pt);
+                newParameter.IsIn = parameter.IsIn;
+                newParameter.IsLcid = parameter.IsLcid;
+                newParameter.IsOptional = parameter.IsOptional;
+                newParameter.IsOut = parameter.IsOut;
+                newParameter.IsReturnValue = parameter.IsReturnValue;
+                result.Parameters.Add(newParameter);
             }
 
             return result;

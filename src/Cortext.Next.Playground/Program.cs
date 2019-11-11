@@ -54,7 +54,9 @@ namespace Cortext.Next.Playground
             personWeave.ChangeBothNames("Jan-Willem", "Spuijtje");
             personWeave.ChangeFullNameToBirdseyeview();
 
-            var group = new Group(sharedState);
+            var group = new Group();
+            ((IObservableObject)group).SharedState = sharedState;
+
             var d5 = sharedState.Autorun(r =>
             {
                 Console.WriteLine($"Autorun Average: {group.Average}");

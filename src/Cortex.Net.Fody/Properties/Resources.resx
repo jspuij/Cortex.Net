@@ -120,6 +120,9 @@
   <data name="MoreThan16Parameters" xml:space="preserve">
     <value>CannotHandle more than 16 parameters on Action Method: ({0})</value>
   </data>
+  <data name="NonReplaceableCollection" xml:space="preserve">
+    <value>Property with name ({0}) has an unknown collection type ({1}). Skipping.</value>
+  </data>
   <data name="NoParameterLessConstructorForEqualityComparer" xml:space="preserve">
     <value>EqualityComparer ({0}) on Property with name ({1}) on class ({2}) </value>
   </data>

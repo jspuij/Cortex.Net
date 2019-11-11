@@ -70,6 +70,15 @@ namespace Cortex.Net.Fody.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Property with name ({0}) has an unknown collection type ({1}). Skipping..
+        /// </summary>
+        internal static string NonReplaceableCollection {
+            get {
+                return ResourceManager.GetString("NonReplaceableCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EqualityComparer ({0}) on Property with name ({1}) on class ({2}) .
         /// </summary>
         internal static string NoParameterLessConstructorForEqualityComparer {
