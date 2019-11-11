@@ -25,6 +25,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{0E4B8F86-E
 		docs\README.md = docs\README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortex.Net.Blazor", "src\Cortex.Net.Blazor\Cortex.Net.Blazor.csproj", "{2F1F7856-1D48-4087-B368-31A2CE1206EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{79D4183C-B3B6-4ACE-82EF-3D103EB90049}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,10 @@ Global
 		{6A213F26-6769-432E-A157-DCEBA92F9E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A213F26-6769-432E-A157-DCEBA92F9E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A213F26-6769-432E-A157-DCEBA92F9E3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F1F7856-1D48-4087-B368-31A2CE1206EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F1F7856-1D48-4087-B368-31A2CE1206EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F1F7856-1D48-4087-B368-31A2CE1206EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F1F7856-1D48-4087-B368-31A2CE1206EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +69,7 @@ Global
 		{2AD58751-9AD4-4AC3-9597-460AE1222CEC} = {222F158B-3299-40FA-B8FA-ADF8E611EE54}
 		{062DC911-53C6-4CB0-B4A9-AD6AB98D52BE} = {222F158B-3299-40FA-B8FA-ADF8E611EE54}
 		{6A213F26-6769-432E-A157-DCEBA92F9E3D} = {3FEECB8E-0064-4CA1-B796-B62EDB6387D5}
+		{2F1F7856-1D48-4087-B368-31A2CE1206EA} = {222F158B-3299-40FA-B8FA-ADF8E611EE54}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {101D3B0F-E9EE-48BA-BEA0-18A9904B157A}
