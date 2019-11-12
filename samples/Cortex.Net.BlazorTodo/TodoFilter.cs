@@ -1,4 +1,4 @@
-﻿// <copyright file="Program.cs" company="Jan-Willem Spuij">
+﻿// <copyright file="TodoFilter.cs" company="Jan-Willem Spuij">
 // Copyright 2019 Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -16,30 +16,29 @@
 
 namespace Cortex.Net.BlazorTodo
 {
-    using Microsoft.AspNetCore.Blazor.Hosting;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
-    /// Entry point for the Web Assembly application.
+    /// Enumeration for Todo filters.
     /// </summary>
-    public sealed class Program
+    public enum TodoFilter
     {
         /// <summary>
-        /// Main entry point for the Web assembly application.
+        /// All todo items are displayed.
         /// </summary>
-        /// <param name="args">Command line arguments.</param>
-#pragma warning disable CA1801 // parameter args never used.
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder().Build().Run();
-        }
-#pragma warning restore CA1801 // parameter args never used.
+        All,
 
         /// <summary>
-        /// Creates a Web Assemby host using the specified Startup class.
+        /// Only active todo items are displayed.
         /// </summary>
-        /// <returns>An instance that implements the <see cref="IWebAssemblyHostBuilder"/> interface.</returns>
-        public static IWebAssemblyHostBuilder CreateHostBuilder() =>
-            BlazorWebAssemblyHost.CreateDefaultBuilder()
-                .UseBlazorStartup<Startup>();
+        Active,
+
+        /// <summary>
+        /// Only completed Todo items are displayed.
+        /// </summary>
+        Completed,
     }
 }

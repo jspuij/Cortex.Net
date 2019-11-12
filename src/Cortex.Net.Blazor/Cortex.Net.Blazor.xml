@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cortex.Net.Blazor</name>
+    </assembly>
+    <members>
+        <member name="T:Cortex.Net.Blazor.ObserverAttribute">
+            <summary>
+            Attribute that indicates that the Blazor component should react on observable state in this component.
+            </summary>
+        </member>
+    </members>
+</doc>

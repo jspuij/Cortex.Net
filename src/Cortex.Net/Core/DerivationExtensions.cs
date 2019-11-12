@@ -49,6 +49,8 @@ namespace Cortex.Net.Core
                 case DerivationState.Stale:
                     return true;
                 case DerivationState.PossiblyStale:
+                    var previousAllowStateReads = derivation.SharedState.StartAllowStateReads(true);
+
                         // no need for those computeds to be reported, they will be picked up in trackDerivedFunction.
                     var previousDerivation = derivation.SharedState.StartUntracked();
 
@@ -72,6 +74,7 @@ namespace Cortex.Net.Core
                                 {
                                     // we are not interested in the value *or* exception at this moment, but if there is one, notify all
                                     derivation.SharedState.EndTracking(previousDerivation);
+                                    derivation.SharedState.EndAllowStateReads(previousAllowStateReads);
                                     return true;
                                 }
                             }
@@ -79,6 +82,7 @@ namespace Cortex.Net.Core
                             if (derivation.DependenciesState == DerivationState.Stale)
                             {
                                 derivation.SharedState.EndTracking(previousDerivation);
+                                derivation.SharedState.EndAllowStateReads(previousAllowStateReads);
                                 return true;
                             }
                         }
@@ -86,6 +90,7 @@ namespace Cortex.Net.Core
 
                     derivation.ChangeLowestObserverStateOnObservablesToUpToDate();
                     derivation.SharedState.EndTracking(previousDerivation);
+                    derivation.SharedState.EndAllowStateReads(previousAllowStateReads);
                     return false;
                 default:
                     throw new NotImplementedException();

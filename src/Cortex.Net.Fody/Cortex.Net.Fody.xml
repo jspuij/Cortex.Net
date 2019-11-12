@@ -192,7 +192,7 @@
             </summary>
             <param name="propertyDefinition">The property definition to use to replace.</param>
             <param name="observableEnumerableType">The observable enumerable type.</param>
-            <param name="defaultEnhancer"></param>
+            <param name="defaultEnhancer">The default enhancer to use.</param>
         </member>
         <member name="M:Cortex.Net.Fody.EnumerableInterfaceWeaver.EmitObservableEnumerableCreation(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.MethodReference,Mono.Cecil.TypeReference,Mono.Cecil.FieldReference,Mono.Cecil.FieldDefinition)">
             <summary>

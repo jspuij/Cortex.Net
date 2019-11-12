@@ -288,6 +288,7 @@ namespace Cortex.Net.Fody
             observableObjectAddPropertyMethod.GenericArguments.Add(propertyType);
 
             int index = processor.Body.Variables.Count;
+            processor.Body.InitLocals = true;
             processor.Body.Variables.Add(typeVariable);
 
             var instructions = new List<Instruction>

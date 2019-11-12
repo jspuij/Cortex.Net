@@ -117,7 +117,7 @@ namespace Cortex.Net.Fody
         /// </summary>
         /// <param name="propertyDefinition">The property definition to use to replace.</param>
         /// <param name="observableEnumerableType">The observable enumerable type.</param>
-        /// <param name="defaultEnhancer"></param>
+        /// <param name="defaultEnhancer">The default enhancer to use.</param>
         private void ReassignEnumerable(PropertyDefinition propertyDefinition, Type observableEnumerableType, Type defaultEnhancer)
         {
             var module = propertyDefinition.Module;

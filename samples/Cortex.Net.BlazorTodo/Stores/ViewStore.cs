@@ -1,4 +1,4 @@
-﻿// <copyright file="Program.cs" company="Jan-Willem Spuij">
+﻿// <copyright file="ViewStore.cs" company="Jan-Willem Spuij">
 // Copyright 2019 Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -14,32 +14,29 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Cortex.Net.BlazorTodo
+namespace Cortex.Net.BlazorTodo.Stores
 {
-    using Microsoft.AspNetCore.Blazor.Hosting;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Cortex.Net.Api;
+    using Cortex.Net.BlazorTodo.Models;
 
     /// <summary>
-    /// Entry point for the Web Assembly application.
+    /// Stores main todo view state.
     /// </summary>
-    public sealed class Program
+    [Observable]
+    public class ViewStore
     {
         /// <summary>
-        /// Main entry point for the Web assembly application.
+        /// Gets or sets the Todo being edited.
         /// </summary>
-        /// <param name="args">Command line arguments.</param>
-#pragma warning disable CA1801 // parameter args never used.
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder().Build().Run();
-        }
-#pragma warning restore CA1801 // parameter args never used.
+        public Todo TodoBeingEdited { get; set; }
 
         /// <summary>
-        /// Creates a Web Assemby host using the specified Startup class.
+        /// Gets or sets the Todo filter.
         /// </summary>
-        /// <returns>An instance that implements the <see cref="IWebAssemblyHostBuilder"/> interface.</returns>
-        public static IWebAssemblyHostBuilder CreateHostBuilder() =>
-            BlazorWebAssemblyHost.CreateDefaultBuilder()
-                .UseBlazorStartup<Startup>();
+        public TodoFilter TodoFilter { get; set; }
     }
 }
