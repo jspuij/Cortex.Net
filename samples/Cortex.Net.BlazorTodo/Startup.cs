@@ -32,12 +32,23 @@ namespace Cortex.Net.BlazorTodo
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Startup convention.")]
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add the Shared state to the DI container.
             services.AddSingleton<ISharedState>(x => new SharedState());
+
+            // Add a singleton ViewStore to the DI container.
             services.AddSingleton(x =>
             {
                 var vs = new ViewStore();
                 ((IObservableObject)vs).SharedState = x.GetRequiredService<ISharedState>();
                 return vs;
+            });
+
+            // Add a singleton TodoStore to the DI container.
+            services.AddSingleton(x =>
+            {
+                var ts = new TodoStore();
+                ((IObservableObject)ts).SharedState = x.GetRequiredService<ISharedState>();
+                return ts;
             });
         }
 
