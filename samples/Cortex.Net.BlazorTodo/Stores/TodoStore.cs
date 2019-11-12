@@ -54,6 +54,7 @@ namespace Cortex.Net.BlazorTodo.Stores
         public void AddTodo(string title)
         {
             var newTodo = new Todo(this, Guid.NewGuid());
+
             // Todo: auto assign shared state in collections.
             ((IObservableObject)newTodo).SharedState = ((IObservableObject)this).SharedState;
             newTodo.Title = title;
