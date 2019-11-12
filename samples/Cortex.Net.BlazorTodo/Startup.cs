@@ -19,6 +19,7 @@ namespace Cortex.Net.BlazorTodo
     using Cortex.Net.BlazorTodo.Stores;
     using Microsoft.AspNetCore.Components.Builder;
     using Microsoft.Extensions.DependencyInjection;
+    using System;
 
     /// <summary>
     /// Startup class that configures services.
@@ -60,6 +61,7 @@ namespace Cortex.Net.BlazorTodo
         public void Configure(IComponentsApplicationBuilder app)
         {
             app.AddComponent<App>("app");
+            Console.WriteLine(this.GetType().FullName);
         }
     }
 }

@@ -71,6 +71,28 @@
             way debugging is kept intact.
             </remarks>
         </member>
+        <member name="T:Cortex.Net.Fody.BlazorObserverWeaver">
+            <summary>
+            Weaver for Blazor components decorated with the <see cref="T:Cortex.Net.Blazor.ObserverAttribute" /> class.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.#ctor(Fody.BaseModuleWeaver)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Fody.BlazorObserverWeaver"/> class.
+            </summary>
+            <param name="parentWeaver">The parent weaver of this weaver.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.Execute">
+            <summary>
+            Executes this weaver.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.WeaveClass(Mono.Cecil.TypeDefinition)">
+            <summary>
+            Weave the <see cref="T:Microsoft.AspNetCore.Components.ComponentBase" /> derived class.
+            </summary>
+            <param name="decoratedClass">The derived class to weave.</param>
+        </member>
         <member name="T:Cortex.Net.Fody.ComputedWeaver">
             <summary>
             Weaves properties and methods decorated with an <see cref="T:Cortex.Net.Api.ComputedAttribute"/>.

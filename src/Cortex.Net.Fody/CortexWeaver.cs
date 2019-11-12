@@ -35,10 +35,12 @@ namespace Cortex.Net.Fody
             var actionWeaver = new ActionWeaver(this, observableObjectWeaver);
             var observableWeaver = new ObservableWeaver(this, enumerableWeaver, observableObjectWeaver);
             var computedWeaver = new ComputedWeaver(this, observableObjectWeaver);
+            var blazorBbserverWeaver = new BlazorObserverWeaver(this);
             actionWeaver.Execute();
             observableWeaver.Execute();
             computedWeaver.Execute();
             observableObjectWeaver.Execute();
+            blazorBbserverWeaver.Execute();
         }
 
         /// <summary>
