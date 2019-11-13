@@ -8,19 +8,3 @@
         </LayoutView>
     </NotFound>
 </Router>
-
-@code
-{ 
-    static App GetApp { get; set; }
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        GetApp = this;
-    }
-
-    public static void Changed()
-    {
-        GetApp.StateHasChanged();
-    }
-}

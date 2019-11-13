@@ -258,6 +258,7 @@ namespace Cortex.Net.Fody
             // push IL code for initialization of action members to the queue to emit in the ISharedState setter.
             this.processorQueue.SharedStateAssignmentQueue.Enqueue(
                 (declaringType,
+                false,
                 (processor, sharedStateBackingField) => EmitSharedStateSetter(
                     processor,
                     sharedStateBackingField,

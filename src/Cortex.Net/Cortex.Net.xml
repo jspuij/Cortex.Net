@@ -1786,17 +1786,6 @@
             Method that at least must be implented to trigger event <see cref="E:Cortex.Net.IObservable.BecomeUnobserved"/>.
             </summary>
         </member>
-        <member name="T:Cortex.Net.IObservableObject">
-            <summary>
-            Interface implemented by observable objects. This interface can either be manually
-            implemented, or weaved or proxied into an object.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.IObservableObject.SharedState">
-            <summary>
-            Gets or sets the Shared State on this object.
-            </summary>
-        </member>
         <member name="T:Cortex.Net.IObservableValue`1">
             <summary>
             Interface for Observable values.
@@ -1820,13 +1809,13 @@
             <param name="changedEventHandler">The event handler to register.</param>
             <param name="fireImmediately">Whether to fire the event handler immediately.</param>
         </member>
-        <member name="T:Cortex.Net.IObserverObject">
+        <member name="T:Cortex.Net.IReactiveObject">
             <summary>
-            Interface implemented by observer objects. This interface can either be manually
+            Interface implemented by observable / observer objects. This interface can either be manually
             implemented, or weaved or proxied into an object.
             </summary>
         </member>
-        <member name="P:Cortex.Net.IObserverObject.SharedState">
+        <member name="P:Cortex.Net.IReactiveObject.SharedState">
             <summary>
             Gets or sets the Shared State on this object.
             </summary>

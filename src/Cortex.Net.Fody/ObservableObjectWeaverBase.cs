@@ -57,7 +57,7 @@ namespace Cortex.Net.Fody
         protected ISharedStateAssignmentILProcessorQueue ProcessorQueue { get; private set; }
 
         /// <summary>
-        /// Emits the IL code to initialize the observable object. for the <see cref="IObservableObject.SharedState"/> setter.
+        /// Emits the IL code to initialize the observable object. for the <see cref="IReactiveObject.SharedState"/> setter.
         /// </summary>
         /// <param name="processor">The <see cref="ILProcessor"/> instance that will generate the setter body.</param>
         /// <param name="objectName">The name of the object.</param>

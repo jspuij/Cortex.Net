@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Cortext.Next.Playground
 {
-    public class Person : IObservableObject
+    public class Person : IReactiveObject
     {
         private readonly ObservableObject observableObject;
         private Action<string, string> testAction;
@@ -77,7 +77,7 @@ namespace Cortext.Next.Playground
 
         private ISharedState sharedState;
 
-        ISharedState IObservableObject.SharedState
+        ISharedState IReactiveObject.SharedState
         {
             get => sharedState;
             set

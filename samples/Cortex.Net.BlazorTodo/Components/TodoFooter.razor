@@ -1,23 +1,41 @@
-﻿<!-- This footer should hidden by default and shown when there are todos -->
-<footer class="footer">
-    <!-- This should be `0 items left` by default -->
-    <span class="todo-count"><strong>0</strong> item left</span>
-    <!-- Remove this if you don't implement routing -->
-    <ul class="filters">
-        <li>
-            <a class="selected" href="#/">All</a>
-        </li>
-        <li>
-            <a href="#/active">Active</a>
-        </li>
-        <li>
-            <a href="#/completed">Completed</a>
-        </li>
-    </ul>
-    <!-- Hidden if no completed items are left ↓ -->
-    <button class="clear-completed">Clear completed</button>
-</footer>
+﻿@using  Cortex.Net.Blazor
+@using Cortex.Net.BlazorTodo.Stores
+@using Cortex.Net.BlazorTodo.Models
+
+@attribute [Observer]
+@inject TodoStore TodoStore
+@inject ViewStore ViewStore
+
+<!-- This footer should hidden by default and shown when there are todos -->
+@if (TodoStore.Todos.Count > 0)
+{
+    <footer class="footer">
+        <!-- This should be `0 items left` by default -->
+        <span class="todo-count"><strong>@this.TodoStore.ActiveCount</strong> @(this.TodoStore.ActiveCount == 1 ? "item":"items") left</span>
+        <!-- Remove this if you don't implement routing -->
+        <ul class="filters">
+            <li>
+                <a class="selected" href="#/">All</a>
+            </li>
+            <li>
+                <a href="#/active">Active</a>
+            </li>
+            <li>
+                <a href="#/completed">Completed</a>
+            </li>
+        </ul>
+        @if (this.TodoStore.CompletedCount > 0)
+        {
+        <!-- Hidden if no completed items are left ↓ -->
+        <button class="clear-completed" @onclick="Click">Clear completed</button>
+        }
+    </footer>
+}
 
 @code {
 
+    void Click(MouseEventArgs args)
+    {
+        this.TodoStore.ClearCompleted();
+    }
 }

@@ -329,40 +329,6 @@
             <param name="methodDefinition">The method definition for the function.</param>
             <returns>A type reference.</returns>
         </member>
-        <member name="T:Cortex.Net.Fody.ObservableObjectInterfaceWeaver">
-            <summary>
-            Weaves the implementation for <see cref="T:Cortex.Net.IObservableObject"/> on an object.
-            </summary>
-        </member>
-        <member name="F:Cortex.Net.Fody.ObservableObjectInterfaceWeaver.cortexWeaver">
-            <summary>
-            A reference to the parent Cortex.Net weaver.
-            </summary>
-        </member>
-        <member name="M:Cortex.Net.Fody.ObservableObjectInterfaceWeaver.#ctor(Cortex.Net.Fody.CortexWeaver)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ObservableObjectInterfaceWeaver"/> class.
-            </summary>
-            <param name="cortexWeaver">The cortex weaver.</param>
-        </member>
-        <member name="P:Cortex.Net.Fody.ObservableObjectInterfaceWeaver.SharedStateAssignmentQueue">
-            <summary>
-            Gets a Queue with delegates to be executed to emit the IL code on sharedStateAssignment.
-            </summary>
-        </member>
-        <member name="M:Cortex.Net.Fody.ObservableObjectInterfaceWeaver.Execute">
-            <summary>
-            Executes this weaver.
-            </summary>
-        </member>
-        <member name="M:Cortex.Net.Fody.ObservableObjectInterfaceWeaver.ExecuteProcessorActions(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldDefinition,System.Collections.Generic.IEnumerable{System.Action{Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldReference}})">
-            <summary>
-            Executes the processoractions agains the processor.
-            </summary>
-            <param name="processor">The processor to use.</param>
-            <param name="backingField">The backing field for the <see cref="T:Cortex.Net.ISharedState"/> instance.</param>
-            <param name="processorActions">The processor actions to execute.</param>
-        </member>
         <member name="T:Cortex.Net.Fody.ObservableObjectWeaverBase">
             <summary>
             Base class for Weavers that operate on an <see cref="T:Cortex.Net.Types.ObservableObject"/>.
@@ -392,7 +358,7 @@
         </member>
         <member name="M:Cortex.Net.Fody.ObservableObjectWeaverBase.EmitObservableObjectInit(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.TypeReference,Mono.Cecil.FieldReference,Mono.Cecil.FieldDefinition)">
             <summary>
-            Emits the IL code to initialize the observable object. for the <see cref="P:Cortex.Net.IObservableObject.SharedState"/> setter.
+            Emits the IL code to initialize the observable object. for the <see cref="P:Cortex.Net.IReactiveObject.SharedState"/> setter.
             </summary>
             <param name="processor">The <see cref="T:Mono.Cecil.Cil.ILProcessor"/> instance that will generate the setter body.</param>
             <param name="objectName">The name of the object.</param>
@@ -457,7 +423,7 @@
         </member>
         <member name="M:Cortex.Net.Fody.ObservableWeaver.EmitObservablePropertyAdd(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.TypeReference,Mono.Cecil.TypeReference,Mono.Cecil.FieldReference,Mono.Cecil.FieldDefinition)">
             <summary>
-            Emits the IL code to add an Observable property to the observable object. for the <see cref="P:Cortex.Net.IObservableObject.SharedState"/> setter.
+            Emits the IL code to add an Observable property to the observable object. for the <see cref="P:Cortex.Net.IReactiveObject.SharedState"/> setter.
             </summary>
             <param name="processor">The <see cref="T:Mono.Cecil.Cil.ILProcessor"/> instance that will generate the setter body.</param>
             <param name="propertyName">The name of the object.</param>
@@ -465,47 +431,6 @@
             <param name="enhancerType">The type reference of the enhancer to use.</param>
             <param name="sharedStateBackingField">A <see cref="T:Mono.Cecil.FieldReference"/> to the backing field of the Shared STate.</param>
             <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the <see cref="T:Cortex.Net.Types.ObservableObject"/> instance is kept.</param>
-        </member>
-        <member name="T:Cortex.Net.Fody.ObserverObjectInterfaceWeaver">
-            <summary>
-            Weaves the implementation for <see cref="T:Cortex.Net.IObserverObject"/> on an object.
-            </summary>
-        </member>
-        <member name="F:Cortex.Net.Fody.ObserverObjectInterfaceWeaver.cortexWeaver">
-            <summary>
-            A reference to the parent Cortex.Net weaver.
-            </summary>
-        </member>
-        <member name="M:Cortex.Net.Fody.ObserverObjectInterfaceWeaver.#ctor(Cortex.Net.Fody.CortexWeaver)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ObserverObjectInterfaceWeaver"/> class.
-            </summary>
-            <param name="cortexWeaver">The cortex weaver.</param>
-        </member>
-        <member name="P:Cortex.Net.Fody.ObserverObjectInterfaceWeaver.SharedStateAssignmentQueue">
-            <summary>
-            Gets a Queue with delegates to be executed to emit the IL code on sharedStateAssignment.
-            </summary>
-        </member>
-        <member name="M:Cortex.Net.Fody.ObserverObjectInterfaceWeaver.Execute">
-            <summary>
-            Executes this weaver.
-            </summary>
-        </member>
-        <member name="M:Cortex.Net.Fody.ObserverObjectInterfaceWeaver.AddInjectAttribute(Mono.Cecil.ModuleDefinition,Mono.Cecil.PropertyDefinition)">
-            <summary>
-            Adds an inject attribute to a property.
-            </summary>
-            <param name="moduleDefinition">The moduleDefinition to use.</param>
-            <param name="propertyDefinition">The property Definition to use.</param>
-        </member>
-        <member name="M:Cortex.Net.Fody.ObserverObjectInterfaceWeaver.ExecuteProcessorActions(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldDefinition,System.Collections.Generic.IEnumerable{System.Action{Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldReference}})">
-            <summary>
-            Executes the processoractions agains the processor.
-            </summary>
-            <param name="processor">The processor to use.</param>
-            <param name="backingField">The backing field for the <see cref="T:Cortex.Net.ISharedState"/> instance.</param>
-            <param name="processorActions">The processor actions to execute.</param>
         </member>
         <member name="T:Cortex.Net.Fody.OpcodeSelector">
             <summary>
@@ -594,6 +519,47 @@
             </summary>
             <param name="propertyDefinition">The property definition to get the backing field from.</param>
             <returns>The field definition of the Backing field.</returns>
+        </member>
+        <member name="T:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver">
+            <summary>
+            Weaves the implementation for <see cref="T:Cortex.Net.IReactiveObject"/> on an object.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.cortexWeaver">
+            <summary>
+            A reference to the parent Cortex.Net weaver.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.#ctor(Cortex.Net.Fody.CortexWeaver)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver"/> class.
+            </summary>
+            <param name="cortexWeaver">The cortex weaver.</param>
+        </member>
+        <member name="P:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.SharedStateAssignmentQueue">
+            <summary>
+            Gets a Queue with delegates to be executed to emit the IL code on sharedStateAssignment.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.Execute">
+            <summary>
+            Executes this weaver.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.AddInjectAttribute(Mono.Cecil.ModuleDefinition,Mono.Cecil.PropertyDefinition)">
+            <summary>
+            Adds an inject attribute to a property.
+            </summary>
+            <param name="moduleDefinition">The moduleDefinition to use.</param>
+            <param name="propertyDefinition">The property Definition to use.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.ExecuteProcessorActions(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldDefinition,System.Collections.Generic.IEnumerable{System.Action{Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldReference}})">
+            <summary>
+            Executes the processoractions agains the processor.
+            </summary>
+            <param name="processor">The processor to use.</param>
+            <param name="backingField">The backing field for the <see cref="T:Cortex.Net.ISharedState"/> instance.</param>
+            <param name="processorActions">The processor actions to execute.</param>
         </member>
         <member name="T:Cortex.Net.Fody.TypeDefinitionExtenions">
             <summary>

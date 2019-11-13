@@ -148,6 +148,7 @@ namespace Cortex.Net.Fody
                 // push IL code for initialization of a computed member to the queue to emit in the ISharedState setter.
                 this.ProcessorQueue.SharedStateAssignmentQueue.Enqueue(
                     (declaringType,
+                    false,
                     (processor, sharedStateBackingField) => this.EmitComputedMemberAdd(
                         processor,
                         computedName,
@@ -315,6 +316,7 @@ namespace Cortex.Net.Fody
             // push IL code for initialization of a computed member to the queue to emit in the ISharedState setter.
             this.ProcessorQueue.SharedStateAssignmentQueue.Enqueue(
                 (declaringType,
+                false,
                 (processor, sharedStateBackingField) => this.EmitComputedMemberAdd(
                     processor,
                     computedName,
@@ -357,6 +359,7 @@ namespace Cortex.Net.Fody
                 // push IL code for initialization of observableObject to the queue to emit in the ISharedState setter.
                 this.ProcessorQueue.SharedStateAssignmentQueue.Enqueue(
                     (declaringType,
+                    false,
                     (processor, sharedStateBackingField) => this.EmitObservableObjectInit(
                         processor,
                         declaringType.Name,

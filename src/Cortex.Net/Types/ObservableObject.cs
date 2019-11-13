@@ -27,7 +27,7 @@ namespace Cortex.Net.Types
     /// <summary>
     /// Base or inner class for observable objects.
     /// </summary>
-    public class ObservableObject : IObservableObject
+    public class ObservableObject : IReactiveObject
     {
         /// <summary>
         /// A set of event handlers for the change event.

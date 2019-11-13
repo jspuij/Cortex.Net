@@ -1,4 +1,4 @@
-﻿// <copyright file="ObserverObjectInterfaceWeaver.cs" company="Jan-Willem Spuij">
+﻿// <copyright file="ReactiveObjectInterfaceWeaver.cs" company="Jan-Willem Spuij">
 // Copyright 2019 Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -23,9 +23,9 @@ namespace Cortex.Net.Fody
     using Mono.Cecil.Cil;
 
     /// <summary>
-    /// Weaves the implementation for <see cref="IObserverObject"/> on an object.
+    /// Weaves the implementation for <see cref="IReactiveObject"/> on an object.
     /// </summary>
-    public class ObserverObjectInterfaceWeaver : ISharedStateAssignmentILProcessorQueue
+    public class ReactiveObjectInterfaceWeaver : ISharedStateAssignmentILProcessorQueue
     {
         /// <summary>
         /// A reference to the parent Cortex.Net weaver.
@@ -33,10 +33,10 @@ namespace Cortex.Net.Fody
         private readonly CortexWeaver cortexWeaver;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObserverObjectInterfaceWeaver"/> class.
+        /// Initializes a new instance of the <see cref="ReactiveObjectInterfaceWeaver"/> class.
         /// </summary>
         /// <param name="cortexWeaver">The cortex weaver.</param>
-        public ObserverObjectInterfaceWeaver(CortexWeaver cortexWeaver)
+        public ReactiveObjectInterfaceWeaver(CortexWeaver cortexWeaver)
         {
             this.cortexWeaver = cortexWeaver ?? throw new ArgumentNullException(nameof(cortexWeaver));
         }
@@ -44,7 +44,7 @@ namespace Cortex.Net.Fody
         /// <summary>
         /// Gets a Queue with delegates to be executed to emit the IL code on sharedStateAssignment.
         /// </summary>
-        public Queue<(TypeDefinition, Action<ILProcessor, FieldReference>)> SharedStateAssignmentQueue { get; } = new Queue<(TypeDefinition, Action<ILProcessor, FieldReference>)>();
+        public Queue<(TypeDefinition, bool, Action<ILProcessor, FieldReference>)> SharedStateAssignmentQueue { get; } = new Queue<(TypeDefinition, bool, Action<ILProcessor, FieldReference>)>();
 
         /// <summary>
         /// Executes this weaver.
@@ -56,22 +56,22 @@ namespace Cortex.Net.Fody
             // sort queue contents by object, and group by type.
             var queueContent = from q in this.SharedStateAssignmentQueue.ToList()
                                group q by q.Item1 into g
-                               select (g.Key, g.Select(x => x.Item2));
+                               select (g.Key, g.Any(x => x.Item2), g.Select(x => x.Item3));
 
             this.SharedStateAssignmentQueue.Clear();
 
-            foreach ((TypeDefinition observableObjectTypeDefinition, IEnumerable<Action<ILProcessor, FieldReference>> processorActions) in queueContent)
+            foreach ((TypeDefinition reactiveObjectTypeDefinition, bool addInjectAttribute, IEnumerable<Action<ILProcessor, FieldReference>> processorActions) in queueContent)
             {
-                var iObserverObjectInterfaceType = moduleDefinition.ImportReference(typeof(IObserverObject));
-                var iObserverObjectinterfaceDefinition = new InterfaceImplementation(iObserverObjectInterfaceType);
+                var iReactiveObjectInterfaceType = moduleDefinition.ImportReference(typeof(IReactiveObject));
+                var iReactiveObjectinterfaceDefinition = new InterfaceImplementation(iReactiveObjectInterfaceType);
 
-                // If this object does not implement IObserverObject, add it, plus a default implementation.
-                if (!observableObjectTypeDefinition.Interfaces.Contains(iObserverObjectinterfaceDefinition))
+                // If this object does not implement IReactiveObject, add it, plus a default implementation.
+                if (!reactiveObjectTypeDefinition.Interfaces.Contains(iReactiveObjectinterfaceDefinition))
                 {
-                    var getOverride = iObserverObjectInterfaceType.Resolve().Methods.Single(x => x.Name.Contains($"get_SharedState"));
-                    var setOverride = iObserverObjectInterfaceType.Resolve().Methods.Single(x => x.Name.Contains($"set_SharedState"));
+                    var getOverride = iReactiveObjectInterfaceType.Resolve().Methods.Single(x => x.Name.Contains($"get_SharedState"));
+                    var setOverride = iReactiveObjectInterfaceType.Resolve().Methods.Single(x => x.Name.Contains($"set_SharedState"));
 
-                    observableObjectTypeDefinition.Interfaces.Add(iObserverObjectinterfaceDefinition);
+                    reactiveObjectTypeDefinition.Interfaces.Add(iReactiveObjectinterfaceDefinition);
 
                     var methodAttributes = MethodAttributes.Private
                                               | MethodAttributes.Final
@@ -83,21 +83,23 @@ namespace Cortex.Net.Fody
                     var fieldTypeReference = moduleDefinition.ImportReference(typeof(ISharedState));
 
                     // add backing field for shared state to the class
-                    var backingField = observableObjectTypeDefinition.CreateBackingField(fieldTypeReference, "Cortex.Net.Api.IObserverObject.SharedState");
+                    var backingField = reactiveObjectTypeDefinition.CreateBackingField(fieldTypeReference, "Cortex.Net.Api.IReactiveObject.SharedState");
 
                     // add getter
-                    var getter = observableObjectTypeDefinition.CreateDefaultGetter(backingField, "Cortex.Net.Api.IObserverObject.SharedState", methodAttributes);
+                    var getter = reactiveObjectTypeDefinition.CreateDefaultGetter(backingField, "Cortex.Net.Api.IReactiveObject.SharedState", methodAttributes);
                     getter.Overrides.Add(moduleDefinition.ImportReference(getOverride));
 
                     // add setter
-                    var setter = observableObjectTypeDefinition.CreateDefaultSetter(backingField, "Cortex.Net.Api.IObserverObject.SharedState", methodAttributes, p => ExecuteProcessorActions(p, backingField, processorActions));
+                    var setter = reactiveObjectTypeDefinition.CreateDefaultSetter(backingField, "Cortex.Net.Api.IReactiveObject.SharedState", methodAttributes, p => ExecuteProcessorActions(p, backingField, processorActions));
                     setter.Overrides.Add(moduleDefinition.ImportReference(setOverride));
 
                     // add property
-                    var propertyDefinition = observableObjectTypeDefinition.CreateProperty("Cortex.Net.Api.IObserverObject.SharedState", getter, setter);
-
-                    // add Inject attribute.
-                    AddInjectAttribute(moduleDefinition, propertyDefinition);
+                    var propertyDefinition = reactiveObjectTypeDefinition.CreateProperty("Cortex.Net.Api.IReactiveObject.SharedState", getter, setter);
+                    if (addInjectAttribute)
+                    {
+                        // add Inject attribute.
+                        AddInjectAttribute(moduleDefinition, propertyDefinition);
+                    }
                 }
                 else
                 {

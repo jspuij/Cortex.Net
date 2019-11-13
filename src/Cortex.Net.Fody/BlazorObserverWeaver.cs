@@ -143,7 +143,7 @@ namespace Cortex.Net.Fody
                 }
             }
 
-            this.processorQueue.SharedStateAssignmentQueue.Enqueue((decoratedClass, (processor, sharedStateBackingField) => this.EmitObserverObjectInit(
+            this.processorQueue.SharedStateAssignmentQueue.Enqueue((decoratedClass, true, (processor, sharedStateBackingField) => this.EmitObserverObjectInit(
                 processor,
                 observerName,
                 innerObserverObjectField,
@@ -283,12 +283,6 @@ namespace Cortex.Net.Fody
                 processor.Create(OpCodes.Ldfld, observerObjectDefinition),
                 processor.Create(OpCodes.Brfalse_S, originalStart),
 
-                // write the name of the function to the console.
-                processor.Create(OpCodes.Ldarg_0),
-                processor.Create(OpCodes.Call, module.ImportReference(getTypeReference)),
-                processor.Create(OpCodes.Callvirt, module.ImportReference(getFullNameReference)),
-                processor.Create(OpCodes.Call, module.ImportReference(writeLineReference)),
-
                 // this pointers for later store and refetch. This bypasses local variable declarations that may not play nice with existing local variables.
                 processor.Create(OpCodes.Ldarg_0),
                 processor.Create(OpCodes.Ldarg_0),
@@ -308,6 +302,12 @@ namespace Cortex.Net.Fody
                 // if remainder is not 1, jump to original start of function.
                 processor.Create(OpCodes.Ldc_I4_1),
                 processor.Create(OpCodes.Bne_Un_S, originalStart),
+
+                // write the name of the function to the console.
+                processor.Create(OpCodes.Ldarg_0),
+                processor.Create(OpCodes.Call, module.ImportReference(getTypeReference)),
+                processor.Create(OpCodes.Callvirt, module.ImportReference(getFullNameReference)),
+                processor.Create(OpCodes.Call, module.ImportReference(writeLineReference)),
 
                 // load the field where the action delegate is stored.
                 processor.Create(OpCodes.Ldarg_0),

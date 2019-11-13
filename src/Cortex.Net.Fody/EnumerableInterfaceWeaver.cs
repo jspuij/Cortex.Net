@@ -172,6 +172,7 @@ namespace Cortex.Net.Fody
             // push IL code for initialization of a property to the queue to emit in the ISharedState setter.
             this.processorQueue.SharedStateAssignmentQueue.Enqueue(
                 (declaringType,
+                false,
                 (processor, sharedStateBackingField) => this.EmitObservableEnumerableCreation(
                     processor,
                     propertyName,

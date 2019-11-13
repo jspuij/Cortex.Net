@@ -19,7 +19,6 @@ namespace Cortex.Net.BlazorTodo.Stores
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
     using Cortex.Net.Api;
     using Cortex.Net.BlazorTodo.Models;
 
@@ -56,7 +55,7 @@ namespace Cortex.Net.BlazorTodo.Stores
             var newTodo = new Todo(this, Guid.NewGuid());
 
             // Todo: auto assign shared state in collections.
-            ((IObservableObject)newTodo).SharedState = ((IObservableObject)this).SharedState;
+            ((IReactiveObject)newTodo).SharedState = ((IReactiveObject)this).SharedState;
             newTodo.Title = title;
             newTodo.Completed = false;
             this.Todos.Add(newTodo);
@@ -72,6 +71,18 @@ namespace Cortex.Net.BlazorTodo.Stores
             foreach (var todo in this.Todos)
             {
                 todo.Completed = completed;
+            }
+        }
+
+        /// <summary>
+        /// Clears the store of the completed items.
+        /// </summary>
+        [Action]
+        public void ClearCompleted()
+        {
+            foreach (var completedItem in this.Todos.Where(x => x.Completed).ToList())
+            {
+                this.Todos.Remove(completedItem);
             }
         }
     }

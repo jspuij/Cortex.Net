@@ -49,8 +49,8 @@ namespace Cortex.Net.Fody.Test
             var sharedState = new SharedState();
 
             var testClass = new ActionTestClass();
-            Assert.True(testClass is IObservableObject);
-            ((IObservableObject)testClass).SharedState = sharedState;
+            Assert.True(testClass is IReactiveObject);
+            ((IReactiveObject)testClass).SharedState = sharedState;
             string expected = "Lisa";
             testClass.SetName(expected);
             Assert.Equal(expected, testClass.Name);
@@ -65,7 +65,7 @@ namespace Cortex.Net.Fody.Test
         public void NoSharedStateDoesNotThrow()
         {
             var testClass = new ActionTestClass();
-            Assert.True(testClass is IObservableObject);
+            Assert.True(testClass is IReactiveObject);
             string expected = "Lisa";
             testClass.SetName(expected);
             Assert.Equal(expected, testClass.Name);

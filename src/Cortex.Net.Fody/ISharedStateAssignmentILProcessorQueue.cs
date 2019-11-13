@@ -30,6 +30,6 @@ namespace Cortex.Net.Fody
         /// <summary>
         /// Gets a <see cref="Queue{T}"/> with actions to be executed to emit the IL code on <see cref="ISharedState"/> Assignment.
         /// </summary>
-        Queue<(TypeDefinition, Action<ILProcessor, FieldReference>)> SharedStateAssignmentQueue { get; }
+        Queue<(TypeDefinition, bool, Action<ILProcessor, FieldReference>)> SharedStateAssignmentQueue { get; }
     }
 }

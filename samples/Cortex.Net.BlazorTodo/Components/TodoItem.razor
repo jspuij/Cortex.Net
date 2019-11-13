@@ -1,0 +1,101 @@
+﻿@using  Cortex.Net.Blazor
+@using  Cortex.Net.Api
+@using Cortex.Net.BlazorTodo.Stores
+@using Cortex.Net.BlazorTodo.Models
+
+@attribute [Observer]
+@inject ViewStore ViewStore
+
+<li class="@(this.Todo.Completed?"completed":"") @(this.Todo == ViewStore.TodoBeingEdited?"editing":"")">
+    <div class="view">
+        <input class="toggle" type="checkbox" checked="@this.Todo.Completed" @onchange="Toggle">
+        <label @ondblclick="DoubleClick">@this.Todo.Title</label>
+        <button class="destroy" @onclick="Destroy"></button>
+    </div>
+    <input class="edit" @bind-value="editText" @onblur="Submit" @onkeydown="KeyDown">
+</li>
+
+@code {
+
+    bool canceled = false;
+    string editText = string.Empty;
+
+    /// <summary>
+    /// Gets or set the Todo parameter.
+    /// </summary>
+    [Parameter]
+    public Todo Todo { get; set; }
+
+    /// <summary>
+    /// Handles the Toggle event.
+    /// </summary>
+    /// <param name="changeEventArgs">The change event args.</param>
+    void Toggle(ChangeEventArgs changeEventArgs)
+    {
+        this.Todo.Toggle();
+    }
+
+    /// <summary>
+    /// Destroys the todo item.
+    /// </summary>
+    /// <param name="mouseEventArgs">The mouse event args.</param>
+    void Destroy(MouseEventArgs mouseEventArgs)
+    {
+        this.Todo.Destroy();
+        this.ViewStore.TodoBeingEdited = this.Todo;
+    }
+
+    /// <summary>
+    /// Handles double click on the label.
+    /// </summary>
+    /// <param name="mouseEventArgs">The mouse event args.</param>
+    [Action]
+    void DoubleClick(MouseEventArgs mouseEventArgs)
+    {
+        this.ViewStore.TodoBeingEdited = this.Todo;
+        this.editText = this.Todo.Title;
+    }
+
+    /// <summary>
+    /// Handles the blur event which equals a submit of the value.
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    [Action]
+    void Submit(FocusEventArgs eventArgs)
+    {
+        if (!canceled)
+        {
+            var value = this.editText?.Trim();
+            if (!string.IsNullOrEmpty(value))
+            {
+                this.Todo.Title = value;
+                this.editText = value;
+            }
+            else
+            {
+                this.Todo.Destroy();
+            }
+            this.ViewStore.TodoBeingEdited = null;
+        }
+        canceled = false;
+    }
+
+    /// <summary>
+    /// Handles a keydown event on the submit box.
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    [Action]
+    void KeyDown(KeyboardEventArgs eventArgs)
+    {
+        if (eventArgs.Key == "Escape")
+        {
+            // prevent submit from running.
+            canceled = true;
+            this.ViewStore.TodoBeingEdited = null;
+        }
+        else if (eventArgs.Key == "Enter")
+        {
+            this.Submit(null);
+        }
+    }
+}

@@ -192,6 +192,7 @@ namespace Cortex.Net.Fody
                 // push IL code for initialization of observableObject to the queue to emit in the ISharedState setter.
                 this.ProcessorQueue.SharedStateAssignmentQueue.Enqueue(
                     (declaringType,
+                    false,
                     (processor, sharedStateBackingField) => this.EmitObservableObjectInit(
                         processor,
                         declaringType.Name,
@@ -203,6 +204,7 @@ namespace Cortex.Net.Fody
             // push IL code for initialization of a property to the queue to emit in the ISharedState setter.
             this.ProcessorQueue.SharedStateAssignmentQueue.Enqueue(
                 (declaringType,
+                false,
                 (processor, sharedStateBackingField) => this.EmitObservablePropertyAdd(
                     processor,
                     propertyName,
@@ -263,7 +265,7 @@ namespace Cortex.Net.Fody
         }
 
         /// <summary>
-        /// Emits the IL code to add an Observable property to the observable object. for the <see cref="IObservableObject.SharedState"/> setter.
+        /// Emits the IL code to add an Observable property to the observable object. for the <see cref="IReactiveObject.SharedState"/> setter.
         /// </summary>
         /// <param name="processor">The <see cref="ILProcessor"/> instance that will generate the setter body.</param>
         /// <param name="propertyName">The name of the object.</param>

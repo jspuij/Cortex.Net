@@ -1,4 +1,4 @@
-﻿// <copyright file="IObservableObject.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="IReactiveObject.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -17,10 +17,10 @@
 namespace Cortex.Net
 {
     /// <summary>
-    /// Interface implemented by observable objects. This interface can either be manually
+    /// Interface implemented by observable / observer objects. This interface can either be manually
     /// implemented, or weaved or proxied into an object.
     /// </summary>
-    public interface IObservableObject
+    public interface IReactiveObject
     {
         /// <summary>
         /// Gets or sets the Shared State on this object.

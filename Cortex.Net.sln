@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortex.Net.Blazor", "src\Co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{79D4183C-B3B6-4ACE-82EF-3D103EB90049}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cortex.Net.BlazorTodo", "samples\Cortex.Net.BlazorTodo\Cortex.Net.BlazorTodo.csproj", "{A9CA7C47-8A56-4BBC-B943-6BE37D1BAE3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortex.Net.BlazorTodo", "samples\Cortex.Net.BlazorTodo\Cortex.Net.BlazorTodo.csproj", "{A9CA7C47-8A56-4BBC-B943-6BE37D1BAE3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

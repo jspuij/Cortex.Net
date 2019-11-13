@@ -30,20 +30,18 @@ namespace Cortex.Net.Fody
         /// </summary>
         public override void Execute()
         {
-            var observableObjectWeaver = new ObservableObjectInterfaceWeaver(this);
-            var observerObjectWeaver = new ObserverObjectInterfaceWeaver(this);
+            var reactiveObjectInterfaceWeaver = new ReactiveObjectInterfaceWeaver(this);
 
-            var enumerableWeaver = new EnumerableInterfaceWeaver(this, observableObjectWeaver);
-            var actionWeaver = new ActionWeaver(this, observableObjectWeaver);
-            var observableWeaver = new ObservableWeaver(this, enumerableWeaver, observableObjectWeaver);
-            var computedWeaver = new ComputedWeaver(this, observableObjectWeaver);
-            var blazorObserverWeaver = new BlazorObserverWeaver(this, observerObjectWeaver);
+            var enumerableWeaver = new EnumerableInterfaceWeaver(this, reactiveObjectInterfaceWeaver);
+            var actionWeaver = new ActionWeaver(this, reactiveObjectInterfaceWeaver);
+            var observableWeaver = new ObservableWeaver(this, enumerableWeaver, reactiveObjectInterfaceWeaver);
+            var computedWeaver = new ComputedWeaver(this, reactiveObjectInterfaceWeaver);
+            var blazorObserverWeaver = new BlazorObserverWeaver(this, reactiveObjectInterfaceWeaver);
             actionWeaver.Execute();
             observableWeaver.Execute();
             computedWeaver.Execute();
-            observableObjectWeaver.Execute();
             blazorObserverWeaver.Execute();
-            observerObjectWeaver.Execute();
+            reactiveObjectInterfaceWeaver.Execute();
         }
 
         /// <summary>

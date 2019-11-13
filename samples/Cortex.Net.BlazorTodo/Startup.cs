@@ -19,7 +19,6 @@ namespace Cortex.Net.BlazorTodo
     using Cortex.Net.BlazorTodo.Stores;
     using Microsoft.AspNetCore.Components.Builder;
     using Microsoft.Extensions.DependencyInjection;
-    using System;
 
     /// <summary>
     /// Startup class that configures services.
@@ -40,7 +39,7 @@ namespace Cortex.Net.BlazorTodo
             services.AddSingleton(x =>
             {
                 var vs = new ViewStore();
-                ((IObservableObject)vs).SharedState = x.GetRequiredService<ISharedState>();
+                ((IReactiveObject)vs).SharedState = x.GetRequiredService<ISharedState>();
                 return vs;
             });
 
@@ -48,7 +47,7 @@ namespace Cortex.Net.BlazorTodo
             services.AddSingleton(x =>
             {
                 var ts = new TodoStore();
-                ((IObservableObject)ts).SharedState = x.GetRequiredService<ISharedState>();
+                ((IReactiveObject)ts).SharedState = x.GetRequiredService<ISharedState>();
                 return ts;
             });
         }
@@ -61,7 +60,6 @@ namespace Cortex.Net.BlazorTodo
         public void Configure(IComponentsApplicationBuilder app)
         {
             app.AddComponent<App>("app");
-            Console.WriteLine(this.GetType().FullName);
         }
     }
 }

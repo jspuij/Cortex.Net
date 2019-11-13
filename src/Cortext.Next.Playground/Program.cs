@@ -33,7 +33,7 @@ namespace Cortext.Next.Playground
             Console.WriteLine(person.FullName3);
 
             var personWeave = new PersonWeave();
-            ((IObservableObject)personWeave).SharedState = sharedState;
+            ((IReactiveObject)personWeave).SharedState = sharedState;
             personWeave.Age = 30;
 
             var d2 = sharedState.Reaction<string>(r => personWeave.FullName, (s, r) =>
@@ -55,7 +55,7 @@ namespace Cortext.Next.Playground
             personWeave.ChangeFullNameToBirdseyeview();
 
             var group = new Group();
-            ((IObservableObject)group).SharedState = sharedState;
+            ((IReactiveObject)group).SharedState = sharedState;
 
             var d5 = sharedState.Autorun(r =>
             {
@@ -64,7 +64,7 @@ namespace Cortext.Next.Playground
             });
 
             var person2 = new PersonWeave();
-            ((IObservableObject)person2).SharedState = sharedState;
+            ((IReactiveObject)person2).SharedState = sharedState;
             person2.ChangeBothNames("Claudia", "Pietryga");
             person2.Age = 20;
 
