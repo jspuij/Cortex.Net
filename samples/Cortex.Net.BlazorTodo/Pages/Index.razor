@@ -1,3 +1,55 @@
-﻿@page "/"
+﻿@using Cortex.Net.Api
+@using Cortex.Net.Blazor
+@using Cortex.Net.BlazorTodo.Stores
+@implements IDisposable
+
+@page "/"
+
+@attribute [Observer]
+
+@inject ViewStore ViewStore
+@inject NavigationManager NavigationManager
 
 <TodoOverview />
+
+@code
+{
+    /// <summary>
+    /// Bind to the Navigation changed event. This is necessary because of the Anchor Urls in the TodoMVC sample.
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("Initialized");
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    /// <summary>
+    /// Handle the OnLocationChanged event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="eventArgs"></param>
+    [Action]
+    void OnLocationChanged(object sender, LocationChangedEventArgs eventArgs)
+    {
+        switch (NavigationManager.ToBaseRelativePath(eventArgs.Location))
+        {
+            case "#/active":
+                this.ViewStore.TodoFilter = TodoFilter.Active;
+                break;
+            case "#/completed":
+                this.ViewStore.TodoFilter = TodoFilter.Completed;
+                break;
+            case "#/":
+                this.ViewStore.TodoFilter = TodoFilter.All;
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Release the eventhandler from the Navigation manager.
+    /// </summary>
+    public virtual void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}

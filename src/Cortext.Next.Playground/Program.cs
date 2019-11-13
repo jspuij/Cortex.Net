@@ -7,9 +7,10 @@ using System.Diagnostics;
 
 namespace Cortext.Next.Playground
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Program start.")]
+        public static void Main(string[] args)
         {
             var sharedState = new SharedState(new CortexConfiguration()
             {

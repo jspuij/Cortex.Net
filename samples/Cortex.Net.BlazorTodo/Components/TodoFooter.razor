@@ -15,13 +15,13 @@
         <!-- Remove this if you don't implement routing -->
         <ul class="filters">
             <li>
-                <a class="selected" href="#/">All</a>
+                <NavLink href="#/" ActiveClass="selected" Match="NavLinkMatch.All">All</NavLink>
             </li>
             <li>
-                <a href="#/active">Active</a>
+                <NavLink href="#/active" ActiveClass="selected" Match="NavLinkMatch.All">Active</NavLink>
             </li>
             <li>
-                <a href="#/completed">Completed</a>
+                <NavLink href="#/completed" ActiveClass="selected" Match="NavLinkMatch.All">Completed</NavLink>
             </li>
         </ul>
         @if (this.TodoStore.CompletedCount > 0)
