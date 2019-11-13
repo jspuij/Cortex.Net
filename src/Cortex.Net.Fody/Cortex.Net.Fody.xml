@@ -76,11 +76,37 @@
             Weaver for Blazor components decorated with the <see cref="T:Cortex.Net.Blazor.ObserverAttribute" /> class.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.#ctor(Fody.BaseModuleWeaver)">
+        <member name="F:Cortex.Net.Fody.BlazorObserverWeaver.InnerCounterFieldPrefix">
+            <summary>
+            The prefix for an inner method that is the target of an action.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.BlazorObserverWeaver.ComponentBaseTypeName">
+            <summary>
+            The full name of the ComponentBasetype.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.BlazorObserverWeaver.InnerObserverObjectFieldName">
+            <summary>
+            The name of an Inner ObserverObject field.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.BlazorObserverWeaver.processorQueue">
+            <summary>
+            The processor queue.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.BlazorObserverWeaver.parentWeaver">
+            <summary>
+            The parent weaver.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.BlazorObserverWeaver"/> class.
             </summary>
             <param name="parentWeaver">The parent weaver of this weaver.</param>
+            <param name="processorQueue">The processor queue to add delegates to, to be executed on ISharedState property assignment.</param>
         </member>
         <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.Execute">
             <summary>
@@ -92,6 +118,33 @@
             Weave the <see cref="T:Microsoft.AspNetCore.Components.ComponentBase" /> derived class.
             </summary>
             <param name="decoratedClass">The derived class to weave.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.AddDispose(Mono.Cecil.TypeDefinition,Mono.Cecil.TypeReference,Mono.Cecil.FieldDefinition)">
+            <summary>
+            Adds a Dispose method to the Component.
+            </summary>
+            <param name="decoratedType">The type of the observer decorated component.</param>
+            <param name="observerObjectType">The type of the internal observer object.</param>
+            <param name="innerObserverObjectField">The field of the internal observer object.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.EmitObserverObjectInit(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.FieldDefinition,Mono.Cecil.MethodDefinition,Mono.Cecil.MethodDefinition)">
+            <summary>
+            Emits IL code for assignment of the inner observer object field.
+            </summary>
+            <param name="processor">The processor to use.</param>
+            <param name="observerName">The name of the observer.</param>
+            <param name="innerObserverObjectField">The inner observer object field to assign.</param>
+            <param name="buildRenderTreeMethod">The buildRenderTreeMethod on the compoent.</param>
+            <param name="stateChangedMethod">The method to call to set the state to changed.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.WeaveBuildRenderTreeMethod(Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,Mono.Cecil.FieldDefinition,Mono.Cecil.FieldDefinition)">
+            <summary>
+            Weaves the <see cref="M:Microsoft.AspNetCore.Components.ComponentBase.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)" /> Method.
+            </summary>
+            <param name="buildRenderTreeMethod">The method definition of the method to weave.</param>
+            <param name="observerObjectType">The type of the inner observer object.</param>
+            <param name="observerObjectDefinition">The field definition of the observer object.</param>
+            <param name="counterFieldDefinition">The field definition of the entrance counter field.</param>
         </member>
         <member name="T:Cortex.Net.Fody.ComputedWeaver">
             <summary>
@@ -412,6 +465,47 @@
             <param name="enhancerType">The type reference of the enhancer to use.</param>
             <param name="sharedStateBackingField">A <see cref="T:Mono.Cecil.FieldReference"/> to the backing field of the Shared STate.</param>
             <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the <see cref="T:Cortex.Net.Types.ObservableObject"/> instance is kept.</param>
+        </member>
+        <member name="T:Cortex.Net.Fody.ObserverObjectInterfaceWeaver">
+            <summary>
+            Weaves the implementation for <see cref="T:Cortex.Net.IObserverObject"/> on an object.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ObserverObjectInterfaceWeaver.cortexWeaver">
+            <summary>
+            A reference to the parent Cortex.Net weaver.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ObserverObjectInterfaceWeaver.#ctor(Cortex.Net.Fody.CortexWeaver)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ObserverObjectInterfaceWeaver"/> class.
+            </summary>
+            <param name="cortexWeaver">The cortex weaver.</param>
+        </member>
+        <member name="P:Cortex.Net.Fody.ObserverObjectInterfaceWeaver.SharedStateAssignmentQueue">
+            <summary>
+            Gets a Queue with delegates to be executed to emit the IL code on sharedStateAssignment.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ObserverObjectInterfaceWeaver.Execute">
+            <summary>
+            Executes this weaver.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ObserverObjectInterfaceWeaver.AddInjectAttribute(Mono.Cecil.ModuleDefinition,Mono.Cecil.PropertyDefinition)">
+            <summary>
+            Adds an inject attribute to a property.
+            </summary>
+            <param name="moduleDefinition">The moduleDefinition to use.</param>
+            <param name="propertyDefinition">The property Definition to use.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.ObserverObjectInterfaceWeaver.ExecuteProcessorActions(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldDefinition,System.Collections.Generic.IEnumerable{System.Action{Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldReference}})">
+            <summary>
+            Executes the processoractions agains the processor.
+            </summary>
+            <param name="processor">The processor to use.</param>
+            <param name="backingField">The backing field for the <see cref="T:Cortex.Net.ISharedState"/> instance.</param>
+            <param name="processorActions">The processor actions to execute.</param>
         </member>
         <member name="T:Cortex.Net.Fody.OpcodeSelector">
             <summary>

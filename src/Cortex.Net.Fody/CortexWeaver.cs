@@ -31,16 +31,19 @@ namespace Cortex.Net.Fody
         public override void Execute()
         {
             var observableObjectWeaver = new ObservableObjectInterfaceWeaver(this);
+            var observerObjectWeaver = new ObserverObjectInterfaceWeaver(this);
+
             var enumerableWeaver = new EnumerableInterfaceWeaver(this, observableObjectWeaver);
             var actionWeaver = new ActionWeaver(this, observableObjectWeaver);
             var observableWeaver = new ObservableWeaver(this, enumerableWeaver, observableObjectWeaver);
             var computedWeaver = new ComputedWeaver(this, observableObjectWeaver);
-            var blazorBbserverWeaver = new BlazorObserverWeaver(this);
+            var blazorObserverWeaver = new BlazorObserverWeaver(this, observerObjectWeaver);
             actionWeaver.Execute();
             observableWeaver.Execute();
             computedWeaver.Execute();
             observableObjectWeaver.Execute();
-            blazorBbserverWeaver.Execute();
+            blazorObserverWeaver.Execute();
+            observerObjectWeaver.Execute();
         }
 
         /// <summary>
@@ -49,7 +52,7 @@ namespace Cortex.Net.Fody
         /// <returns>All types in the references assembly.</returns>
         public override IEnumerable<string> GetAssembliesForScanning()
         {
-            return new string[] { "System.Runtime" };
+            return new string[] { "System.Runtime", "Microsoft.AspnetCore.Components" };
         }
     }
 }

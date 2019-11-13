@@ -66,12 +66,15 @@ namespace Cortex.Net.Fody
                     pt = module.ImportReference(parameter.ParameterType);
                 }
 
-                var newParameter = new ParameterDefinition(parameter.Name, parameter.Attributes, pt);
-                newParameter.IsIn = parameter.IsIn;
-                newParameter.IsLcid = parameter.IsLcid;
-                newParameter.IsOptional = parameter.IsOptional;
-                newParameter.IsOut = parameter.IsOut;
-                newParameter.IsReturnValue = parameter.IsReturnValue;
+                var newParameter = new ParameterDefinition(parameter.Name, parameter.Attributes, pt)
+                {
+                    IsIn = parameter.IsIn,
+                    IsLcid = parameter.IsLcid,
+                    IsOptional = parameter.IsOptional,
+                    IsOut = parameter.IsOut,
+                    IsReturnValue = parameter.IsReturnValue,
+                };
+
                 result.Parameters.Add(newParameter);
             }
 

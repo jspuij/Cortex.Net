@@ -26,5 +26,25 @@ namespace Cortex.Net.Blazor
     [AttributeUsage(AttributeTargets.Class)]
     public class ObserverAttribute : Attribute
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObserverAttribute"/> class.
+        /// </summary>
+        public ObserverAttribute()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObserverAttribute"/> class.
+        /// </summary>
+        /// <param name="name">The name of the observer.</param>
+        public ObserverAttribute(string name)
+        {
+            this.Name = name;
+        }
+
+        /// <summary>
+        /// Gets the Name of the action.
+        /// </summary>
+        public string Name { get; }
     }
 }

@@ -1820,6 +1820,17 @@
             <param name="changedEventHandler">The event handler to register.</param>
             <param name="fireImmediately">Whether to fire the event handler immediately.</param>
         </member>
+        <member name="T:Cortex.Net.IObserverObject">
+            <summary>
+            Interface implemented by observer objects. This interface can either be manually
+            implemented, or weaved or proxied into an object.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IObserverObject.SharedState">
+            <summary>
+            Gets or sets the Shared State on this object.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.ISharedState">
             <summary>
             Interface that defines the Shared state that all nodes of the Dependency Graph share.

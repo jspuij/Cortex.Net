@@ -1,4 +1,4 @@
-﻿// <copyright file="AssemblyAttributes.cs" company="Michel Weststrate, Jan-Willem Spuij">
+﻿// <copyright file="IObserverObject.cs" company="Michel Weststrate, Jan-Willem Spuij">
 // Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -14,7 +14,19 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Runtime.CompilerServices;
+namespace Cortex.Net
+{
+    using System;
 
-[assembly: InternalsVisibleTo("Cortex.Net.Test")]
-[assembly: InternalsVisibleTo("Cortex.Net.Blazor")]
+    /// <summary>
+    /// Interface implemented by observer objects. This interface can either be manually
+    /// implemented, or weaved or proxied into an object.
+    /// </summary>
+    public interface IObserverObject : IDisposable
+    {
+        /// <summary>
+        /// Gets or sets the Shared State on this object.
+        /// </summary>
+        ISharedState SharedState { get; set; }
+    }
+}
