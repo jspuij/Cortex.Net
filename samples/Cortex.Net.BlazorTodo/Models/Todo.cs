@@ -73,7 +73,6 @@ namespace Cortex.Net.BlazorTodo.Models
         /// <summary>
         /// Destroys this todo by removing it from the Store.
         /// </summary>
-        [Action]
         public void Destroy()
         {
             this.Store.Todos.Remove(this);
