@@ -1,0 +1,3725 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cortex.Net</name>
+    </assembly>
+    <members>
+        <member name="T:Cortex.Net.Api.ActionAttribute">
+            <summary>
+            Attribute that signals that the method it is applied to, should be interpreted as an action.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ActionAttribute"/> class.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ActionAttribute"/> class.
+            </summary>
+            <param name="name">The name of the action.</param>
+        </member>
+        <member name="P:Cortex.Net.Api.ActionAttribute.Name">
+            <summary>
+            Gets the Name of the action.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Api.ActionExtensions">
+            <summary>
+            Extensions class for <see cref="T:Cortex.Net.ISharedState"/> instances.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction(Cortex.Net.ISharedState,System.String,System.Object,System.Action)">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``1(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``2(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``3(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``4(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``5(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``6(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``7(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``8(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``9(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``10(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``11(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``12(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``13(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``14(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``15(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``16(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="T:Cortex.Net.Api.ComputedAttribute">
+            <summary>
+            Attribute that signals that the property or method it is applied to, should be interpreted as a computed value.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.ComputedAttribute.#ctor(System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ComputedAttribute"/> class.
+            </summary>
+            <param name="requiresReaction">Whether the computed has to be calculated inside a reactive context.</param>
+            <param name="keepAlive">whether to keep the computed value alive when it's not observed.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ComputedAttribute.#ctor(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ComputedAttribute"/> class.
+            </summary>
+            <param name="name">The name of the action.</param>
+            <param name="requiresReaction">Whether the computed has to be calculated inside a reactive context.</param>
+            <param name="keepAlive">whether to keep the computed value alive when it's not observed.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ComputedAttribute.#ctor(System.Type,System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ComputedAttribute"/> class.
+            </summary>
+            <param name="equalityComparerType">The type of the comparer used to see whether the value has changed.</param>
+            <param name="requiresReaction">Whether the computed has to be calculated inside a reactive context.</param>
+            <param name="keepAlive">whether to keep the computed value alive when it's not observed.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ComputedAttribute.#ctor(System.String,System.Type,System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ComputedAttribute"/> class.
+            </summary>
+            <param name="name">The name of the action.</param>
+            <param name="equalityComparerType">The type of the comparer used to see whether the value has changed.</param>
+            <param name="requiresReaction">Whether the computed has to be calculated inside a reactive context.</param>
+            <param name="keepAlive">whether to keep the computed value alive when it's not observed.</param>
+        </member>
+        <member name="P:Cortex.Net.Api.ComputedAttribute.Name">
+            <summary>
+            Gets the Name of the action.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Api.ComputedAttribute.RequiresReaction">
+            <summary>
+             Gets a value indicating whether a reactive context is required.
+             it is recommended to set this one to true on very expensive computed values.
+             If you try to read it's value, but the value is not being tracked by some observe, it will cause the computed to throw,
+             instead of doing an expensive re-evalution.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Api.ComputedAttribute.KeepAlive">
+            <summary>
+            Gets a value indicating whether to keep this computed value alive if it is not observed by anybody.
+            Be aware, this can easily lead to memory leaks as it will result in every observable used by this computed value, keeping the computed value in memory.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Api.ComputedAttribute.EqualityComparerType">
+            <summary>
+            Gets the type of the comparer used for equality.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Api.ObservableAttribute">
+            <summary>
+            Attribute that signals that the property or class. it is applied to, should be interpreted as an observable.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.ObservableAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ObservableAttribute"/> class.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.ObservableAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ObservableAttribute"/> class.
+            </summary>
+            <param name="name">The name of the action.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ObservableAttribute.#ctor(System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ObservableAttribute"/> class.
+            </summary>
+            <param name="enhancerType">The type of the enhancer.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ObservableAttribute.#ctor(System.String,System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Api.ObservableAttribute"/> class.
+            </summary>
+            <param name="name">The name of the action.</param>
+            <param name="enhancerType">The type of the enhancer.</param>
+        </member>
+        <member name="P:Cortex.Net.Api.ObservableAttribute.Name">
+            <summary>
+            Gets the Name of the action.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Api.ObservableAttribute.EnhancerType">
+            <summary>
+            Gets the Name of the action.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Api.SharedStateReactionExtensions">
+            <summary>
+            Extension methods that deal with Reactions on an ISharedState instance.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.Autorun(Cortex.Net.ISharedState,System.Action{Cortex.Net.Core.Reaction},Cortex.Net.AutorunOptions)">
+            <summary>
+            Creates a new Autorun reaction.
+            </summary>
+            <param name="sharedState">The shared state to operate on.</param>
+            <param name="expression">The expression that should autorun.</param>
+            <param name="autorunOptions">An <see cref="T:Cortex.Net.AutorunOptions"/> instance with options.</param>
+            <returns>An <see cref="T:System.IDisposable"/> instance that can be used to tear down the Autorun reaction.</returns>
+        </member>
+        <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.Reaction``1(Cortex.Net.ISharedState,System.Func{Cortex.Net.Core.Reaction,``0},System.Action{``0,Cortex.Net.Core.Reaction},Cortex.Net.ReactionOptions{``0})">
+            <summary>
+            Creates a reaction that operates on data of type T.
+            </summary>
+            <typeparam name="T">The type the reaction operates on.</typeparam>
+            <param name="sharedState">The shared state to use.</param>
+            <param name="expression">The expression that delivers a value.</param>
+            <param name="effect">The effect that is executed when the value changes.</param>
+            <param name="reactionOptions">The options to use for the reaction.</param>
+            <returns>An <see cref="T:System.IDisposable"/> instance that can be used to stop the reaction.</returns>
+        </member>
+        <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.WrapErrorHandler``1(System.Action{Cortex.Net.Core.Reaction,System.Exception},System.Action{``0,Cortex.Net.Core.Reaction})">
+            <summary>
+            Wraps the error handler function around an action.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+            <param name="errorHandler">The errorhandler to use.</param>
+            <param name="action">The action to wrap.</param>
+            <returns>The wrapped action.</returns>
+        </member>
+        <member name="T:Cortex.Net.Api.TraceExtensions">
+            <summary>
+            Extension methods for tracing.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.TraceExtensions.Trace(Cortex.Net.ISharedState,Cortex.Net.TraceMode)">
+            <summary>
+            Traces the tracking derivation on the Shared State.
+            </summary>
+            <param name="sharedState">The Shared State to trace.</param>
+            <param name="traceMode">The trace mode to use.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.TraceExtensions.Trace(Cortex.Net.IDerivation,Cortex.Net.TraceMode)">
+            <summary>
+            Traces the tracking derivation on the Shared State.
+            </summary>
+            <param name="derivation">The derivation to trace.</param>
+            <param name="traceMode">The trace mode to use.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.TraceExtensions.Trace``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},Cortex.Net.TraceMode)">
+            <summary>
+            Traces the computed property given by the trace expression.
+            </summary>
+            <param name="toTrace">The object to trace.</param>
+            <param name="expression">The member expression.</param>
+            <param name="traceMode">The trace mode to use.</param>
+            <typeparam name="TObject">The type of the object.</typeparam>
+            <typeparam name="TMember">The property or method of the object.</typeparam>
+            <exception cref="T:System.InvalidOperationException">When the provided expression is not a member expression.</exception>
+        </member>
+        <member name="T:Cortex.Net.Api.TreeNode">
+            <summary>
+            Tree class to visualize either a dependency or observer tree from the Dependency graph.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Api.TreeNode.Name">
+            <summary>
+            Gets name of this item.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Api.TreeNode.Children">
+            <summary>
+            Gets children of this TreeNode.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.TreeNode.GetDependencyTree(Cortex.Net.IDependencyNode)">
+            <summary>
+            Creates the dependency tree from this node to all the children it is observing.
+            </summary>
+            <param name="startNode">The node to start with.</param>
+            <returns>A complete tree from the current node.</returns>
+        </member>
+        <member name="M:Cortex.Net.Api.TreeNode.GetObserverTree(Cortex.Net.IDependencyNode)">
+            <summary>
+            Creates an observer tree from this node to all the parents that observe it.
+            </summary>
+            <param name="startNode">The node to start with.</param>
+            <returns>A complete tree from the current node.</returns>
+        </member>
+        <member name="M:Cortex.Net.Api.TreeNode.ToString">
+            <summary>
+            Prints the current tree.
+            </summary>
+            <returns>A string with line breaks and indentation.</returns>
+        </member>
+        <member name="T:Cortex.Net.AutorunOptions">
+            <summary>
+            Specifies the options for an Autorun instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.AutorunOptions.Delay">
+            <summary>
+            Gets or sets the delay.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.AutorunOptions.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.AutorunOptions.RequiresObservable">
+            <summary>
+            Gets or sets a value indicating whether observables are required in the view function.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.AutorunOptions.Scheduler">
+            <summary>
+            Gets or sets the scheduler function to use. The function is async
+            so that other code can be executed in the mean time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.AutorunOptions.ErrorHandler">
+            <summary>
+            Gets or sets error handler function that is called in case of an error. Otherwise the error is propagated.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.AutorunOptions.Context">
+            <summary>
+            Gets or sets the context.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.ComputedValueOptions`1">
+            <summary>
+            Options class for the Constructor of <see cref="T:Cortex.Net.Core.ComputedValue`1"/> class.
+            </summary>
+            <typeparam name="T">The type of the getter / setter.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.ComputedValueOptions`1.#ctor(System.Func{`0},System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.ComputedValueOptions`1"/> class.
+            </summary>
+            <param name="getter">The getter for the computed value.</param>
+            <param name="name">The name of the computed value.</param>
+        </member>
+        <member name="P:Cortex.Net.ComputedValueOptions`1.Getter">
+            <summary>
+            Gets the getter function.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ComputedValueOptions`1.Setter">
+            <summary>
+            Gets or sets setter function.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ComputedValueOptions`1.Name">
+            <summary>
+            Gets or sets the name of the computed value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ComputedValueOptions`1.EqualityComparer">
+            <summary>
+            Gets or sets an optional equality comparer for type <typeparamref name="T"/>.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ComputedValueOptions`1.Context">
+            <summary>
+            Gets or sets the context where the computed value operates on (If Any).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ComputedValueOptions`1.RequiresReaction">
+            <summary>
+            Gets or sets a value indicating whether the <see cref="T:Cortex.Net.Core.ComputedValue`1"/> requires a reactive context.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ComputedValueOptions`1.KeepAlive">
+            <summary>
+            Gets or sets a value indicating whether the computed value keeps calculating, even when it is not observed.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Core.ActionExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Action"/> delegates.
+            </summary>
+            <summary>
+            Extension methods for <see cref="T:System.Action"/> delegates.
+            </summary>
+            <summary>
+            Extensions class for <see cref="T:Cortex.Net.ISharedState"/> instances.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.StartAction(Cortex.Net.ISharedState,System.String,System.Object,System.Object[])">
+            <summary>
+            Starts an action that changes state and recomputes the state tree.
+            </summary>
+            <param name="sharedState">The shared state instance to use.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="scope">The scope of the action.</param>
+            <param name="arguments">The arguments to the action.</param>
+            <returns>An <see cref="T:Cortex.Net.Core.ActionRunInfo"/> instance containing the information on the currently running action.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.EndAction(Cortex.Net.Core.ActionRunInfo)">
+            <summary>
+            Ends an action using the specified <see cref="T:Cortex.Net.Core.ActionRunInfo"/> instance.
+            </summary>
+            <param name="actionRunInfo">The run info about the action.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction(Cortex.Net.ISharedState,System.String,System.Object,System.Action)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``1(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0},``0)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``2(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1},``0,``1)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``3(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2},``0,``1,``2)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``4(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3},``0,``1,``2,``3)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``5(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4},``0,``1,``2,``3,``4)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``6(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5},``0,``1,``2,``3,``4,``5)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``7(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6},``0,``1,``2,``3,``4,``5,``6)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``8(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7},``0,``1,``2,``3,``4,``5,``6,``7)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``9(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8},``0,``1,``2,``3,``4,``5,``6,``7,``8)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``10(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``11(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``12(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``13(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``14(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+            <param name="arg14">Argument nr. 14.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``15(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+            <param name="arg14">Argument nr. 14.</param>
+            <param name="arg15">Argument nr. 15.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ExecuteAction``16(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15)">
+            <summary>
+            Executes an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+            <param name="arg14">Argument nr. 14.</param>
+            <param name="arg15">Argument nr. 15.</param>
+            <param name="arg16">Argument nr. 16.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.Untracked``1(Cortex.Net.ISharedState,System.Func{``0})">
+            <summary>
+            Executes a function without tracking derivations.
+            </summary>
+            <typeparam name="T">The type of the return value of the function.</typeparam>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance to use to temporarily stop tracking derivations.</param>
+            <param name="function">The function to execute.</param>
+            <returns>The return value.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.GetEnhancer(Cortex.Net.ISharedState,System.Type)">
+            <summary>
+            Gets the enhancer specified by the type from the Shared State.
+            </summary>
+            <param name="sharedState">The shared state that should provide the reference enhancer.</param>
+            <param name="enhancerType">The type of the enhancer.</param>
+            <returns>The IEnhancer instance.</returns>
+            <exception cref="T:System.ArgumentNullException"> When either of the arguments is null.</exception>
+            <exception cref="T:System.InvalidOperationException"> When the type was not found in the list of enhancers.</exception>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.ReferenceEnhancer(Cortex.Net.ISharedState)">
+            <summary>
+            Gets the reference enhancer from the Shared State.
+            </summary>
+            <param name="sharedState">The shared state that should provide the reference enhancer.</param>
+            <returns>The IEnhancer instance.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.DeepEnhancer(Cortex.Net.ISharedState)">
+            <summary>
+            Gets the deep enhancer from the Shared State.
+            </summary>
+            <param name="sharedState">The shared state that should provide the deep enhancer.</param>
+            <returns>The IEnhancer instance.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.AllowStateChanges``1(Cortex.Net.ISharedState,System.Boolean,System.Func{``0})">
+            <summary>
+            Executes a function while specifying <see cref="P:Cortex.Net.ISharedState.AllowStateChanges"/>. The previous value of
+            <see cref="P:Cortex.Net.ISharedState.AllowStateChanges"/> is automatically restored.
+            </summary>
+            <typeparam name="T">The result type of the function.</typeparam>
+            <param name="sharedState">The shared state to operate on.</param>
+            <param name="allowStateChanges">The value for AllStateChanges to use while executing the function.</param>
+            <param name="function">The function to execute.</param>
+            <returns>The return value of the function.</returns>
+        </member>
+        <member name="T:Cortex.Net.Core.ActionRunInfo">
+            <summary>
+            Data class with run info about an action.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ActionRunInfo.SharedState">
+            <summary>
+            Gets or sets the shared state that this <see cref="T:Cortex.Net.Core.ActionRunInfo"/> references.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ActionRunInfo.PreviousDerivation">
+            <summary>
+            Gets or sets previous derivation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ActionRunInfo.Name">
+            <summary>
+            Gets or sets the Action Name.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ActionRunInfo.PreviousAllowStateChanges">
+            <summary>
+            Gets or sets a value indicating whether previous value of <see cref="P:Cortex.Net.ISharedState.AllowStateChanges"/>.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ActionRunInfo.PreviousAllowStateReads">
+            <summary>
+            Gets or sets a value indicating whether previous value of <see cref="P:Cortex.Net.ISharedState.AllowStateReads"/>.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ActionRunInfo.NotifySpy">
+            <summary>
+            Gets or sets a value indicating whether to notify spy.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ActionRunInfo.StartDateTime">
+            <summary>
+            Gets or sets start date / time of the action.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ActionRunInfo.Exception">
+            <summary>
+            Gets or sets exception received from the action.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ActionRunInfo.ParentActionId">
+            <summary>
+            Gets or sets iD of the parent action.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ActionRunInfo.ActionId">
+            <summary>
+            Gets or sets iD of the action.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Core.Atom">
+            <summary>
+            Implements an Atom.
+            Atoms can be used to signal Cortex.Net that some observable data source has been observed or changed.
+            And Cortex.Net will signal the atom whenever it is used or no longer in use.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Atom.#ctor(Cortex.Net.ISharedState,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Core.Atom"/> class.
+            </summary>
+            <param name="sharedState">The shared state where this atom is created on.</param>
+            <param name="name">The name for this Atom.</param>
+        </member>
+        <member name="E:Cortex.Net.Core.Atom.BecomeObserved">
+            <summary>
+            Event that will fire after the <see cref="T:Cortex.Net.Core.Atom"/> has become observed.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.Core.Atom.BecomeUnobserved">
+            <summary>
+            Event that will fire after the observable has become unobserved.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Atom.Observers">
+            <summary>
+            Gets the Observers.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Atom.IsPendingUnobservation">
+            <summary>
+            Gets or sets a value indicating whether this atom is pending Unobservation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Atom.LastAccessedBy">
+            <summary>
+            Gets or sets the Id of the derivation run that last accessed this observable.
+            If this Id equals the <see cref="P:Cortex.Net.IDerivation.RunId"/> of the current derivation
+            the dependency is already established.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Atom.IsBeingObserved">
+            <summary>
+            Gets or sets a value indicating whether the observable is being observed.
+            An observable is being observed when at least one derivation actually accesses its
+            value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Atom.LowestObserverState">
+            <summary>
+            Gets or sets the lowest <see cref="T:Cortex.Net.DerivationState"/> on any of it's observers.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Atom.Name">
+            <summary>
+            Gets the Name of the <see cref="T:Cortex.Net.Core.Atom"/> instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Atom.SharedState">
+            <summary>
+            Gets the Shared State of all the nodes in the dependency graph.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Atom.OnBecomeObserved">
+            <summary>
+            Method that triggers event <see cref="E:Cortex.Net.Core.Atom.BecomeObserved"/>.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Atom.OnBecomeUnobserved">
+            <summary>
+            Method that triggers event <see cref="E:Cortex.Net.Core.Atom.BecomeUnobserved"/>.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Atom.ReportChanged">
+            <summary>
+            Invoke this method after this atom has changed to signal Cortex.Net that all its observers should invalidate.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Atom.ReportObserved">
+            <summary>
+            Invoke this method to notify Cortex.Net that your atom has been used somehow.
+            </summary>
+            <returns>Returns true if there is currently a reactive context.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.Atom.ToString">
+            <summary>
+            Returns the name of this <see cref="T:Cortex.Net.Core.Atom"/>.
+            </summary>
+            <returns>The name of the Atom.</returns>
+        </member>
+        <member name="T:Cortex.Net.Core.AtomExtensions">
+            <summary>
+            Extension methods for the <see cref="T:Cortex.Net.IAtom"/> interface.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.AtomExtensions.CheckIfStateModificationsAreAllowed(Cortex.Net.IAtom)">
+            <summary>
+            Checks if State modifications are allowed and writes a warning to the Trace log.
+            </summary>
+            <param name="atom">The observable to report.</param>
+        </member>
+        <member name="T:Cortex.Net.Core.ComputedValue`1">
+            <summary>
+            A node in the state dependency root that observes other nodes, and can be observed itself.
+            </summary>
+            <typeparam name="T">The type of the computed value.</typeparam>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.derivation">
+            <summary>
+            The derivation function to execute to get the value.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.setter">
+            <summary>
+            The optional setter function which can serve as the inverse function of the computed value.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.scope">
+            <summary>
+            The subject of the getter / setter.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.equalityComparer">
+            <summary>
+            The equality comparer that is used.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.keepAlive">
+            <summary>
+            A value indicating whether the computed value keeps calculating, even when it is not observed.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.requiresReaction">
+            <summary>
+            Indicates whether this computedValue requires a reactive context.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.isComputing">
+            <summary>
+            To check for evaluation cycles.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.isRunningSetter">
+            <summary>
+            To check for setter cycles.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.value">
+            <summary>
+            The computed value.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.lastException">
+            <summary>
+            The last exception after accessing Value.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue`1.#ctor(Cortex.Net.ISharedState,Cortex.Net.ComputedValueOptions{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Core.ComputedValue`1"/> class.
+            </summary>
+            <param name="sharedState">The shared state this computedValue is connected to.</param>
+            <param name="options">An <see cref="T:Cortex.Net.ComputedValueOptions`1"/> instance that define the options for this computed value.</param>
+        </member>
+        <member name="E:Cortex.Net.Core.ComputedValue`1.BecomeObserved">
+            <summary>
+            Event that will fire after the <see cref="T:Cortex.Net.Core.Atom"/> has become observed.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.Core.ComputedValue`1.BecomeUnobserved">
+            <summary>
+            Event that will fire after the observable has become unobserved.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.Observers">
+            <summary>
+            Gets the Observers.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.IsPendingUnobservation">
+            <summary>
+            Gets or sets a value indicating whether this atom is pending Unobservation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.LastAccessedBy">
+            <summary>
+            Gets or sets the Id of the derivation run that last accessed this observable.
+            If this Id equals the <see cref="P:Cortex.Net.IDerivation.RunId"/> of the current derivation
+            the dependency is already established.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.IsBeingObserved">
+            <summary>
+            Gets or sets a value indicating whether the observable is being observed.
+            An observable is being observed when at least one derivation actually accesses its
+            value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.LowestObserverState">
+            <summary>
+            Gets or sets the lowest <see cref="T:Cortex.Net.DerivationState"/> on any of it's observers.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.Name">
+            <summary>
+            Gets the Name of the <see cref="T:Cortex.Net.Core.Atom"/> instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.SharedState">
+            <summary>
+            Gets the Shared State of all the nodes in the dependency graph.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.DependenciesState">
+            <summary>
+            Gets or sets the state of the dependencies of this <see cref="T:Cortex.Net.IDerivation"/> instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.RunId">
+            <summary>
+            Gets or sets the id of the current run of a derivation. Each time the derivation is tracked
+            this number is increased by one. This number is unique within the current shared state.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.Observing">
+            <summary>
+            Gets a set of <see cref="T:Cortex.Net.IObservable"/> instances that are currently observed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.NewObserving">
+            <summary>
+            Gets a set of <see cref="T:Cortex.Net.IObservable"/> instances that have been hit during a new derivation run.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.IsTracing">
+            <summary>
+            Gets or sets the trace mode of this Derivation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.RequiresObservable">
+            <summary>
+            Gets a value indicating whether to warn if this derivation is required to visit at least one observable.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.Value">
+            <summary>
+            Gets or sets the underlying value.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Thrown when a cycle in computation is detected or when an inner exception is thrown by one of the referenced observables.</exception>
+        </member>
+        <member name="P:Cortex.Net.Core.ComputedValue`1.Cortex#Net#IValue#Value">
+            <summary>
+            Gets or sets the value.
+            Explicit implementation of <see cref="P:Cortex.Net.IValue.Value"/>.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue`1.OnBecomeObserved">
+            <summary>
+            Method that triggers event <see cref="E:Cortex.Net.Core.ComputedValue`1.BecomeObserved"/>.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue`1.OnBecomeUnobserved">
+            <summary>
+            Method that triggers event <see cref="E:Cortex.Net.Core.ComputedValue`1.BecomeUnobserved"/>.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue`1.OnBecomeStale">
+            <summary>
+            Propagates confirmation of a possible change to all observers of
+            this <see cref="T:Cortex.Net.Core.ComputedValue`1"/> for delayed computation.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue`1.Suspend">
+            <summary>
+            Suspends computation of this computed value when the last observer leaves.
+            Computed values are automatically teared down when the last observer leaves.
+            This process happens recursively, this computed might be the last observabe of another, etc.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue`1.TrackAndCompute">
+            <summary>
+            Track computed value by calling the getter.
+            </summary>
+            <returns>Whether the value has changed.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue`1.ComputeValue(System.Boolean)">
+            <summary>
+            Computes a value.
+            </summary>
+            <param name="track">Track this derived function.</param>
+            <returns>The value or an exception.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue`1.WarnAboutUntrackedRead">
+            <summary>
+            Warn about an untracked read of this computed value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Core.DelegateDisposable">
+            <summary>
+            Implements <see cref="T:System.IDisposable"/> by executing a deletgate.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.DelegateDisposable.disposeDelegate">
+            <summary>
+            The delegate that is executed on disposal.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.DelegateDisposable.#ctor(System.Action)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Core.DelegateDisposable"/> class.
+            </summary>
+            <param name="disposeDelegate">Action to execute when this instance is disposed.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.DelegateDisposable.Dispose">
+            <summary>
+            Disposes this instance by executing the delegate.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Core.DerivationExtensions">
+            <summary>
+            Extension methods for <see cref="T:Cortex.Net.IDerivation"/> interface implementations.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.DerivationExtensions.ShouldCompute(Cortex.Net.IDerivation)">
+            <summary>
+            Checks whether the <see cref="T:Cortex.Net.IDerivation"/>instance should recompute itself.
+            </summary>
+            <param name="derivation">The derivation.</param>
+            <returns>True when it needs to recompute, false otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <remarks>Might throw any other exception that a getter for <see cref="T:Cortex.Net.IObservable"/> will thow.</remarks>
+        </member>
+        <member name="M:Cortex.Net.Core.DerivationExtensions.TrackDerivedFunction``1(Cortex.Net.IDerivation,System.Func{``0})">
+            <summary>
+            Executes the provided function and tracks which observables are being accessed.
+            The tracking information is stored on the <see cref="T:Cortex.Net.IDerivation"/> instance and the derivation is registered
+            as observer of any of the accessed observables.
+            </summary>
+            <typeparam name="T">The return type of the function.</typeparam>
+            <param name="derivation">The derivation to use.</param>
+            <param name="function">The function to execute.</param>
+            <returns>A tuple containing the return value of the function or an Exception.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.DerivationExtensions.ClearObserving(Cortex.Net.IDerivation)">
+            <summary>
+            Cleans the Observing collection with notification of the observables.
+            </summary>
+            <param name="derivation">The derivation to clean.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.DerivationExtensions.BindDependencies(Cortex.Net.IDerivation)">
+            <summary>
+            Binds the new tracked Dependencies on the <see cref="T:Cortex.Net.IDerivation"/> instance.
+            </summary>
+            <param name="derivation">The derivation to use.</param>
+            <exception cref="T:System.InvalidOperationException">When the state of the derivation's dependencies is Not tracking.</exception>
+            <exception cref="T:System.NullReferenceException">When the newObserving set is null.</exception>
+        </member>
+        <member name="M:Cortex.Net.Core.DerivationExtensions.WarnWithoutDependencies(Cortex.Net.IDerivation)">
+            <summary>
+            Warn about dependencies without derivations.
+            </summary>
+            <param name="derivation">The derivation to check.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.DerivationExtensions.ChangeLowestObserverStateOnObservablesToUpToDate(Cortex.Net.IDerivation)">
+            <summary>
+            Changes the <see cref="P:Cortex.Net.IObservable.LowestObserverState"/> ona ll <see cref="P:Cortex.Net.IDerivation.Observing"/> to <see cref="F:Cortex.Net.DerivationState.UpToDate"/>
+            when this derivation changes to <see cref="F:Cortex.Net.DerivationState.UpToDate"/>.
+            </summary>
+            <param name="derivation">The derivation to use.</param>
+        </member>
+        <member name="T:Cortex.Net.Core.DisposableDelegate">
+            <summary>
+            Class that executes a delegate on disposal.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.DisposableDelegate.#ctor(System.Action)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Core.DisposableDelegate"/> class.
+            </summary>
+            <param name="action">The delegate to execute on disposal.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.DisposableDelegate.Dispose">
+            <summary>
+            Executes the delegate that was encapsulated by this <see cref="T:Cortex.Net.Core.DisposableDelegate"/>.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Core.ExpressionExtensions">
+            <summary>
+            Extension methods for a range of different Expressions.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ExpressionExtensions.ExtractNameFromMemberExpression``2(System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            Extracts the property or method name from a Property or member access expression.
+            </summary>
+            <typeparam name="TObject">The type of the object to get the members from.</typeparam>
+            <typeparam name="TMember">The member of the object.</typeparam>
+            <param name="expression">The expression.</param>
+            <returns>The name of the method or property.</returns>
+            <exception cref="T:System.ArgumentNullException">When expression is null.</exception>
+        </member>
+        <member name="T:Cortex.Net.Core.ObservableExtensions">
+            <summary>
+            Extension methods for the <see cref="T:Cortex.Net.IObservable"/> interface.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.HasObservers(Cortex.Net.IObservable)">
+            <summary>
+            Indicates whether the observable has Observers or not.
+            </summary>
+            <param name="observable">The observable to check for observers.</param>
+            <returns>A boolean indicating whether the observable has observers or not.</returns>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.AddObserver(Cortex.Net.IObservable,Cortex.Net.IDerivation)">
+            <summary>
+            Adds an observer that implements <see cref="T:Cortex.Net.IDerivation"/> into the set of observers.
+            for this <see cref="T:Cortex.Net.IObservable"/> instance.
+            </summary>
+            <param name="observable">The observable to use.</param>
+            <param name="derivation">The observer to add.</param>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">When the derivation is in the not tracking state.</exception>
+            <exception cref="T:System.InvalidOperationException">When the derivation was already added.</exception>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.RemoveObserver(Cortex.Net.IObservable,Cortex.Net.IDerivation)">
+            <summary>
+            Removes an Observer <see cref="T:Cortex.Net.IDerivation"/> from the set of observers.
+            </summary>
+            <param name="observable">The observable to use.</param>
+            <param name="derivation">The observer to add.</param>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown when shared state is not in batch mode.</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown when the derivation is not in the set of observers.</exception>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.ReportObserved(Cortex.Net.IObservable)">
+            <summary>
+            Report an observable as being observed to the current tracking
+            derivation (observer).
+            </summary>
+            <param name="observable">The observable.</param>
+            <returns>True when this observable is added to the "new observing" set of the derivation.</returns>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <remarks>This method will write to the debug log when state reads are currently not allowed.</remarks>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.PropagateChanged(Cortex.Net.IObservable)">
+            <summary>
+            Propagates a change to all observers of this observable.
+            </summary>
+            <param name="observable">The observable.</param>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <remarks>Called by Atom when its value has changed.</remarks>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.PropagateChangeConfirmed(Cortex.Net.IObservable)">
+            <summary>
+            Propagates confirmation of a change to all observers of this observable.
+            </summary>
+            <param name="observable">The observable.</param>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <remarks>Called by ComputedValue when it recalculate and its value changed.</remarks>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.PropagateMaybeChanged(Cortex.Net.IObservable)">
+            <summary>
+            Propagates confirmation of a possible change to all observers of
+            this observable for delayed computation.
+            </summary>
+            <param name="observable">The observable.</param>
+            <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <remarks>
+            Called by ComputedValue when its dependency changed,
+            but we don't wan't to immediately recompute.
+            </remarks>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.IsDerivation(Cortex.Net.IObservable)">
+            <summary>
+            Checks whether the observable is a derivation as well.
+            </summary>
+            <param name="observable">The observable to check.</param>
+            <returns>True if the observable is a derivation, false otherwise.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.IsComputedValue(Cortex.Net.IObservable)">
+            <summary>
+            Checks whether the observable is a derivation as well.
+            </summary>
+            <param name="observable">The observable to check.</param>
+            <returns>True if the observable is a derivation, false otherwise.</returns>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.QueueForUnobservation(Cortex.Net.IObservable)">
+            <summary>
+            Queues an observable for global unobservation.
+            </summary>
+            <param name="observable">The observable to queue.</param>
+            <exception cref="T:System.InvalidOperationException">Thrown when the observable still has observers.</exception>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.CheckIfStateReadsAreAllowed(Cortex.Net.IObservable)">
+            <summary>
+            Checks if State reads are allowed and writes a warning to the Trace log.
+            </summary>
+            <param name="observable">The observable to report.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.ObservableExtensions.LogTraceInfo(Cortex.Net.IDerivation,Cortex.Net.IObservable)">
+            <summary>
+            Log trace info.
+            </summary>
+            <param name="derivation">The derivation to log.</param>
+            <param name="observable">The observable to log.</param>
+        </member>
+        <member name="T:Cortex.Net.Core.Reaction">
+             <summary>
+             A reaction is an <see cref="T:Cortex.Net.IDerivation"/> implementation that always run and does not have observers itself.
+             </summary>
+             <remarks>
+             Reactions are a special kind of derivations. Several things distinguishes them from normal reactive computations:
+            
+             1) They will always run, not like derivations that only run when unobserved. This means that they are very suitable
+                 for triggering side effects like logging, updating the DOM and making network requests.
+             2) They are not observable themselves
+             3) They will always run after any 'normal' derivations
+             4) They are allowed to change the state and thereby triggering themselves again, as long as they make sure the state
+                propagates to a stable state in a reasonable amount of iterations.
+            
+             The state machine of a Reaction is as follows:
+            
+             1) after creating, the reaction should be started by calling `runReaction` or by scheduling it(see also `autorun`)
+             2) the `onInvalidate` handler should somehow result in a call to `this.track(someFunction)`
+             3) all observables accessed in `someFunction` will be observed by this reaction.
+             4) as soon as some of the dependencies has changed the Reaction will be rescheduled for another run (after the
+                current mutation or transaction). `isScheduled` will yield true once a dependency is stale and during this period.
+             5) `onInvalidate` will be called, and we are back at step 1.
+             </remarks>
+        </member>
+        <member name="F:Cortex.Net.Core.Reaction.onInvalidate">
+            <summary>
+            Handler that is executed when this reaction is invalidated.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.Reaction.errorHandler">
+            <summary>
+            The error handler to use for this reaction.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.Reaction.isScheduled">
+            <summary>
+            Indicates whether this reaction is scheduled.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.Reaction.isDisposed">
+            <summary>
+            Indicates whether this reaction is disposed.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.Reaction.isTrackPending">
+            <summary>
+            Indicates whether tracking is pending.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.Reaction.isRunning">
+            <summary>
+            Indicaes whether tracking is running.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Reaction.#ctor(Cortex.Net.ISharedState,System.String,System.Action,System.Action{Cortex.Net.Core.Reaction,System.Exception})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Core.Reaction"/> class.
+            </summary>
+            <param name="sharedState">The shared state to use.</param>
+            <param name="name">The name to use.</param>
+            <param name="onInvalidate">Handler to run when this reaction is invalidated. This handler should call <see cref="M:Cortex.Net.Core.Reaction.Track(System.Action)"/>.</param>
+            <param name="errorHandler">The error handler for this reaction.</param>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.Name">
+            <summary>
+            Gets the Name of the <see cref="T:Cortex.Net.Core.Atom"/> instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.SharedState">
+            <summary>
+            Gets the Shared State of all the nodes in the dependency graph.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.DependenciesState">
+            <summary>
+            Gets or sets the state of the dependencies of this <see cref="T:Cortex.Net.IDerivation"/> instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.RunId">
+            <summary>
+            Gets or sets the id of the current run of a derivation. Each time the derivation is tracked
+            this number is increased by one. This number is unique within the current shared state.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.Observing">
+            <summary>
+            Gets a set of <see cref="T:Cortex.Net.IObservable"/> instances that are currently observed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.NewObserving">
+            <summary>
+            Gets a set of <see cref="T:Cortex.Net.IObservable"/> instances that have been hit during a new derivation run.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.IsTracing">
+            <summary>
+            Gets or sets the trace mode of this Derivation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.RequiresObservable">
+            <summary>
+            Gets a value indicating whether to warn if this derivation is required to visit at least one observable.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Core.Reaction.IsDisposed">
+            <summary>
+            Gets a value indicating whether this reaction is disposed.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Reaction.Dispose">
+            <summary>
+            Disposes the reaction by clearing the observables it is observing.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Reaction.OnBecomeStale">
+            <summary>
+            Propagates confirmation of a possible change to all observers of
+            this <see cref="T:Cortex.Net.Core.Reaction"/> for delayed computation.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Reaction.Track(System.Action)">
+            <summary>
+            Tracks this reaction using the specified action.
+            </summary>
+            <param name="action">The action to use to track.</param>
+        </member>
+        <member name="M:Cortex.Net.Core.Reaction.RunReaction">
+            <summary>
+            Runs this single reaction.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Reaction.Schedule">
+            <summary>
+            Schedules the reaction for execution.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.Reaction.ReportExceptionInReaction(System.Exception)">
+            <summary>
+            Reports an Exception in the reaction.
+            </summary>
+            <param name="exception">The exception to report.</param>
+        </member>
+        <member name="T:Cortex.Net.CortexConfiguration">
+            <summary>
+            Configuration parameters for an <see cref="T:Cortex.Net.ISharedState"/> instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.CortexConfiguration.DisableErrorBoundaries">
+            <summary>
+            Gets or sets a value indicating whether to catch and rethrow exceptions.
+            This is useful for inspecting the state of the stack when an exception occurs while debugging.
+            </summary>
+            <remarks>
+            Enabling this setting makes it possible for the graph to be left in
+            an inconsistent state. Do not enable this in production.
+            </remarks>
+        </member>
+        <member name="P:Cortex.Net.CortexConfiguration.ObservableRequiresReaction">
+            <summary>
+            Gets or sets a value indicating whether to warn if observables are accessed outside a reactive context.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.CortexConfiguration.ReactionRequiresObservable">
+            <summary>
+            Gets or sets a value indicating whether to warn if reactions are required to visit at least one observable.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.CortexConfiguration.ComputedRequiresReaction">
+            <summary>
+            Gets or sets a value indicating whether a <see cref="T:Cortex.Net.Core.ComputedValue`1"/> instance requires a reactive context.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.CortexConfiguration.MaxReactionIteractions">
+            <summary>
+            Gets or sets the Maximum number of reaction iterations that is allowed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.CortexConfiguration.EnforceActions">
+            <summary>
+            Gets or sets a value that defines how strict modification of state should be enforced.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.DerivationState">
+            <summary>
+            The state of the <see cref="T:Cortex.Net.IDerivation"/> instance.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.DerivationState.NotTracking">
+            <summary>
+            Before being run or (outside batch and not being observed).
+            at this point derivation is not holding any data about dependency tree
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.DerivationState.UpToDate">
+            <summary>
+             No shallow dependency changed since last computation.
+             We won't recalculate the derivation.
+             This is what makes Cortex.Net fast.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.DerivationState.PossiblyStale">
+             <summary>
+             Some deep dependency has changed, but we don't know if a shallow dependency has changed.
+             This will require to check first if this derivation is UpToDate or PossiblyStale.
+             Currently only ComputedValue will propagate PossiblyStale.
+            
+             Having this state is the second big optimization:
+             We don't have to recompute on every dependency change, but only when it's necessary.
+             </summary>
+        </member>
+        <member name="F:Cortex.Net.DerivationState.Stale">
+            <summary>
+            A shallow dependency has changed since last computation and the derivation
+            will need to recompute when it's necessary next.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.EnforceAction">
+            <summary>
+            An enumeration that defines how strict modification of state should be enforced.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.EnforceAction.Observed">
+            <summary>
+            All state that is observed somewhere needs to be changed through actions.
+            This is the recommended strictness mode in non-trivial applications.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.EnforceAction.Never">
+            <summary>
+            State can be modified from anywhere
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.EnforceAction.Always">
+            <summary>
+            State always needs be updated (which in practice also includes creation) in actions.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.IAtom">
+            <summary>
+            Interface that defines an Atom.
+            Atoms can be used to signal Cortex.Net that some observable data source has been observed or changed.
+            And Cortex.Net will signal the atom whenever it is used or no longer in use.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.IAtom.ReportObserved">
+            <summary>
+            Invoke this method to notify Cortex.Net that your atom has been used somehow.
+            </summary>
+            <returns>Returns true if there is currently a reactive context.</returns>
+        </member>
+        <member name="M:Cortex.Net.IAtom.ReportChanged">
+            <summary>
+            Invoke this method after this atom has changed to signal Cortex.Net that all its observers should invalidate.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.IComputedValue`1">
+            <summary>
+            Interface for Computed values.
+            </summary>
+            <typeparam name="T">The type of the computed value.</typeparam>
+        </member>
+        <member name="T:Cortex.Net.IComputedValue">
+            <summary>
+            Interface for Computed values.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.IComputedValue.Suspend">
+            <summary>
+            Suspends computation of this computed value when the last observer leaves.
+            Computed values are automatically teared down when the last observer leaves.
+            This process happens recursively, this computed might be the last observabe of another, etc.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.IDependencyNode">
+            <summary>
+            Represents a Node in the dependency tree.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IDependencyNode.Name">
+            <summary>
+            Gets the Name of the <see cref="T:Cortex.Net.IDependencyNode"/> instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IDependencyNode.SharedState">
+            <summary>
+            Gets the Shared State of all the nodes in the dependency graph.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.IDerivation">
+            <summary>
+            A derivation is a (computed) value that is derived from other (observable) values.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IDerivation.DependenciesState">
+            <summary>
+            Gets or sets the state of the dependencies of this <see cref="T:Cortex.Net.IDerivation"/> instance.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IDerivation.RunId">
+            <summary>
+            Gets or sets the id of the current run of a derivation. Each time the derivation is tracked
+            this number is increased by one. This number is unique within the current shared state.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IDerivation.Observing">
+            <summary>
+            Gets a set of <see cref="T:Cortex.Net.IObservable"/> instances that are currently observed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IDerivation.NewObserving">
+            <summary>
+            Gets a set of <see cref="T:Cortex.Net.IObservable"/> instances that have been hit during a new derivation run.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IDerivation.IsTracing">
+            <summary>
+            Gets or sets the trace mode of this Derivation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IDerivation.RequiresObservable">
+            <summary>
+            Gets a value indicating whether to warn if this derivation is required to visit at least one observable.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.IDerivation.OnBecomeStale">
+            <summary>
+            Method that is called when the <see cref="T:Cortex.Net.IDerivation"/> instance has become stale.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.IEnhancer">
+            <summary>
+            Enhances the specified type by some kind of technique.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.IEnhancer.Enhance``1(``0,``0,System.String)">
+            <summary>
+            Enhances the newvalue.
+            </summary>
+            <param name="newValue">The new value.</param>
+            <param name="originalValue">The original value.</param>
+            <param name="name">The name of this object.</param>
+            <typeparam name="T">The type to enhance.</typeparam>
+            <returns>A new value, but enhanced.</returns>
+        </member>
+        <member name="T:Cortex.Net.IObservable">
+            <summary>
+            Represents something that is Observable.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.IObservable.BecomeObserved">
+            <summary>
+            Event that will fire after the observable has become observed.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.IObservable.BecomeUnobserved">
+            <summary>
+            Event that will fire after the observable has become unobserved.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IObservable.Observers">
+            <summary>
+            Gets the Observers.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IObservable.IsPendingUnobservation">
+            <summary>
+            Gets or sets a value indicating whether this IObservable is pending Unobservation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IObservable.LastAccessedBy">
+            <summary>
+            Gets or sets the Id of the derivation run that last accessed this observable.
+            If this Id equals the <see cref="P:Cortex.Net.IDerivation.RunId"/> of the current derivation
+            the dependency is already established.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IObservable.IsBeingObserved">
+            <summary>
+            Gets or sets a value indicating whether the observable is being observed.
+            An observable is being observed when at least one derivation actually accesses its
+            value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IObservable.LowestObserverState">
+            <summary>
+            Gets or sets the lowest <see cref="T:Cortex.Net.DerivationState"/> on any of it's observers.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.IObservable.OnBecomeObserved">
+            <summary>
+            Method that at least must be implented to trigger event <see cref="E:Cortex.Net.IObservable.BecomeObserved"/>.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.IObservable.OnBecomeUnobserved">
+            <summary>
+            Method that at least must be implented to trigger event <see cref="E:Cortex.Net.IObservable.BecomeUnobserved"/>.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.IObservableValue`1">
+            <summary>
+            Interface for Observable values.
+            </summary>
+            <typeparam name="T">The type of the computed value.</typeparam>
+        </member>
+        <member name="E:Cortex.Net.IObservableValue`1.Change">
+            <summary>
+            Event that fires before the value will change.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.IObservableValue`1.Changed">
+            <summary>
+            Event that fires after the value has changed.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.IObservableValue`1.Observe(System.EventHandler{Cortex.Net.Types.ValueChangedEventArgs{`0}},System.Boolean)">
+            <summary>
+            Registers the secified event handler, and optionally fires it first.
+            </summary>
+            <param name="changedEventHandler">The event handler to register.</param>
+            <param name="fireImmediately">Whether to fire the event handler immediately.</param>
+        </member>
+        <member name="T:Cortex.Net.IReactiveObject">
+            <summary>
+            Interface implemented by observable / observer objects. This interface can either be manually
+            implemented, or weaved or proxied into an object.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IReactiveObject.SharedState">
+            <summary>
+            Gets or sets the Shared State on this object.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.ISharedState">
+            <summary>
+            Interface that defines the Shared state that all nodes of the Dependency Graph share.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.ISharedState.SpyEvent">
+            <summary>
+            Spy event that fires when any observable attached to this Shared State reports a significant change.
+            Can be used to implement a state inspection tool or something like react-dev-tools.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.ISharedState.UnhandledReactionException">
+            <summary>
+            Event that fires when a reaction produces an unhandled exception.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.PendingUnobservations">
+            <summary>
+            Gets a queue of all pending Unobservations.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.InBatch">
+            <summary>
+            Gets a value indicating whether the Dependency Graph is in Batch mode.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.Configuration">
+            <summary>
+            Gets the Configuration for the Shared State.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.AllowStateChanges">
+            <summary>
+            Gets a value indicating whether it is allowed to change observables at this point.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.AllowStateReads">
+            <summary>
+            Gets a value indicating whether it is allowed to read observables at this point.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.TrackingDerivation">
+            <summary>
+            Gets the <see cref="T:Cortex.Net.IDerivation"/> instance that the shared state is currently tracking.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.RunId">
+            <summary>
+            Gets the shared derivation RunId counter.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.ComputationDepth">
+            <summary>
+            Gets or sets the computation depth.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.SuppressReactionErrors">
+            <summary>
+            Gets or sets a value indicating whether to suppress reaction errors.
+            Suppressing happens when an action is the root cause of reactions to fail further because of the incorrect state.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.CurrentActionId">
+            <summary>
+            Gets or sets the Id of the Current Action.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.NextActionId">
+            <summary>
+            Gets or sets the Id of the Next Action.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.PendingReactions">
+            <summary>
+            Gets a queue of pending reactions.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.Enhancers">
+            <summary>
+            Gets a list of enhancers.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.GetUniqueId">
+            <summary>
+            Gets a unique Id that is incremented every time.
+            </summary>
+            <returns>The new unique Id.</returns>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.StartBatch">
+            <summary>
+            Starts a Batch.
+            </summary>
+            <remarks>
+            This method can be called multiple times but should always be balanced with an equal amount of <see cref="M:Cortex.Net.ISharedState.EndBatch"/> calls.
+            </remarks>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.EndBatch">
+            <summary>
+            Ends a Batch.
+            </summary>
+            <remarks>
+            This method can be called multiple times but should always be balanced with an equal amount of <see cref="M:Cortex.Net.ISharedState.StartBatch"/> calls.
+            </remarks>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.StartUntracked">
+            <summary>
+            Starts an untracked part of a derviation.
+            </summary>
+            <returns>The current derivation to restore later.</returns>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.StartAllowStateChanges(System.Boolean)">
+            <summary>
+            Start of a section where <see cref="P:Cortex.Net.ISharedState.AllowStateChanges"/> is modified.
+            </summary>
+            <param name="allowStateChanges">Whether to allow State changes.</param>
+            <returns>The previous value.</returns>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.StartAllowStateReads(System.Boolean)">
+            <summary>
+            Start of a section where <see cref="P:Cortex.Net.ISharedState.AllowStateReads"/> is modified.
+            </summary>
+            <param name="allowStateReads">Whether to allow State reads.</param>
+            <returns>The previous value.</returns>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.IncrementRunId">
+            <summary>
+            Increments the RunId and returns the new value.
+            </summary>
+            <returns>The new RunId.</returns>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.StartTracking(Cortex.Net.IDerivation)">
+            <summary>
+            Starts tracking the <see cref="T:Cortex.Net.IDerivation"/> instance given as paramteter.
+            </summary>
+            <param name="derivation">The derivation to track.</param>
+            <returns>The prevous derivation.</returns>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.EndTracking(Cortex.Net.IDerivation)">
+            <summary>
+            Ends tracking the current <see cref="T:Cortex.Net.IDerivation"/> instance and restores the previous derivation.
+            </summary>
+            <param name="previousDerivation">The previous derivation.</param>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.EndAllowStateReads(System.Boolean)">
+            <summary>
+            End of a section where <see cref="P:Cortex.Net.ISharedState.AllowStateReads"/> is modified.
+            </summary>
+            <param name="previousAllowStateReads">The previous value to restore.</param>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.EndAllowStateChanges(System.Boolean)">
+            <summary>
+            End of a section where <see cref="P:Cortex.Net.ISharedState.AllowStateChanges"/> is modified.
+            </summary>
+            <param name="previousAllowStateChanges">The previous value to restore.</param>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.OnSpy(System.Object,Cortex.Net.Spy.SpyEventArgs)">
+            <summary>
+            Triggers the Spy event handler with the specified event args.
+            </summary>
+            <param name="sender">The sender of the event.</param>
+            <param name="spyEventArgs">The event arguments for the spy event.</param>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.RunReactions">
+            <summary>
+            Runs reactions.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.ISharedState.OnUnhandledReactionException(Cortex.Net.Core.Reaction,System.UnhandledExceptionEventArgs)">
+            <summary>
+            Fires the <see cref="E:Cortex.Net.ISharedState.UnhandledReactionException"/> event.
+            </summary>
+            <param name="reaction">The reaction that caused the unhandled exception.</param>
+            <param name="unhandledExceptionEventArgs">The event arguments for the exception.</param>
+        </member>
+        <member name="T:Cortex.Net.IValue`1">
+            <summary>
+            Typed value interface.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.IValue`1.Value">
+            <summary>
+            Gets or sets the underlying value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.IValue">
+            <summary>
+            Value interface.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IValue.Value">
+            <summary>
+            Gets or sets the underlying value.
+            Best to be implemented specifically.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ActionNameNull">
+            <summary>
+              Looks up a localized string similar to [Cortex.Net] Actions should have valid names, got nothing, autogenerating name..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.AlreadyAddedObserverToObservable">
+            <summary>
+              Looks up a localized string similar to The derivation ({0}) was already added to the set of observers of observable ({1}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.BindDependenciesExpectsStateNonEqual">
+            <summary>
+              Looks up a localized string similar to BindDependencies expects a DependenciesState != ({0}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.CannotAssignComputedValue">
+            <summary>
+              Looks up a localized string similar to It is not possible to assign a new value to this computed value ({0}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.CannotTraceNotObservable">
+            <summary>
+              Looks up a localized string similar to Cannot trace an object that is not an observable Object..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.CanOnlyAddTrackedDependencies">
+            <summary>
+              Looks up a localized string similar to Only tracking IDerivation instances can be added with a DependenciesState != ({0}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.CaughtExceptionDuringGet">
+            <summary>
+              Looks up a localized string similar to Caught an exception during a get operation. Inspect the inner exception for details..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ComputedValuesAreNotAllowedToCauseSideEffects">
+            <summary>
+              Looks up a localized string similar to Computed values are not allowed to cause side effects by changing observables that are already being observed. Tried to modify: ({0}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.CycleDetectedInComputation">
+            <summary>
+              Looks up a localized string similar to Cycle detected in computation ({0}): {1}.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.CycleDetectedInSetter">
+            <summary>
+              Looks up a localized string similar to The setter of computed value ({0}) is trying to update itself. Did you intend to update an observable value instead of a computed value?.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.GetExpressionNull">
+            <summary>
+              Looks up a localized string similar to Get expression is null for ({0}) of type ({1}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.GlobalUnobservationOnlyWithoutObservers">
+            <summary>
+              Looks up a localized string similar to Global unobservation should only be queued without observers..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.InvalidActionStack">
+            <summary>
+              Looks up a localized string similar to Invalid action stack. did you forget to finish an action?.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.InvalidatedDueToChange">
+            <summary>
+              Looks up a localized string similar to [Cortex.Net] ({0}) is invalidated due to change in ({1}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.IsNull">
+            <summary>
+              Looks up a localized string similar to ({0}) is null..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ModifiedOutsideAction">
+            <summary>
+              Looks up a localized string similar to Side effects like changing state are not allowed at this point. Are you trying to modify state from, for example, the render function of a React component? Tried to modify: ({0}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ModifiedOutsideActionEnforceAlways">
+            <summary>
+              Looks up a localized string similar to &quot;Since strict-mode is enabled, changing observed observable values outside actions is not allowed. Please wrap the code in an `action` if this change is intended. Tried to modify: ({0}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ObserverNotInObservable">
+            <summary>
+              Looks up a localized string similar to The derivation ({0}) does not exist in the set of observers of observable ({1}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.OnlyInBatch">
+            <summary>
+              Looks up a localized string similar to ({0}) should only be called when the shared state is in batch mode..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.PropertyOrMethodAlreadyExistOnObservableObject">
+            <summary>
+              Looks up a localized string similar to Property or method with name ({0}) allready exists on object with name ({1}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.PropertyOrMethodNotFoundOnObservableObject">
+            <summary>
+              Looks up a localized string similar to Property or method with name ({0}) not found on object with name ({1}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ProvidedExpressionNoMemberExpression">
+            <summary>
+              Looks up a localized string similar to Provided expression ({0}) to trace is not a member expression..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ProvidedMemberNoDerivation">
+            <summary>
+              Looks up a localized string similar to The provided member with name ({0}) is no derivation (like a reaction or a computed value).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ReactionDoesNotConverge">
+            <summary>
+              Looks up a localized string similar to Reaction doesn&apos;t converge to a stable state after ({0}) iterations. Probably there is a cycle in the reactive function: ({1}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ReadOutsideReaction">
+            <summary>
+              Looks up a localized string similar to [Cortex.Net] ({0}) is read outside a reactive context..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.ReadOutsideReactionRecompute">
+            <summary>
+              Looks up a localized string similar to [Cortex.Net] ({0}) is read outside a reactive context. Doing full recompute..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.UncaughtExceptionInsideReaction">
+            <summary>
+              Looks up a localized string similar to [Cortex.Net] Encountered an uncaught exception that was thrown by a reaction or observer component, in: ({0}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.UncaughtExceptionInsideReactionSuppressed">
+            <summary>
+              Looks up a localized string similar to [Cortex.Net] Error in reaction ({0}) suppressed, fix error of causing action below:.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.ReactionOptions`1">
+            <summary>
+            Specifies the options for an <see cref="T:Cortex.Net.Core.Reaction"/> instance.
+            </summary>
+            <typeparam name="T">The type of the value that is monitored by the reaction for changes.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.ReactionOptions`1.FireImmediately">
+            <summary>
+            Gets or sets a value indicating whether to fire the effect immediately.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ReactionOptions`1.EqualityComparer">
+            <summary>
+            Gets or sets the Equality comparer to use to compare the value type.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.SharedState">
+            <summary>
+            Holds the Shared state that all nodes of the Dependency Graph share.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.SharedState.batchCount">
+            <summary>
+            Batch counter to support reentrance of Start and EndBatch.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.SharedState.uniqueId">
+            <summary>
+            A unique Id that is incremented and used to identify instances.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.SharedState.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.SharedState"/> class.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.SharedState.#ctor(Cortex.Net.CortexConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.SharedState"/> class.
+            </summary>
+            <param name="configuration">The configuration to initialize <see cref="T:Cortex.Net.SharedState"/> instance with.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when any of the arguments is null.</exception>
+        </member>
+        <member name="E:Cortex.Net.SharedState.SpyEvent">
+            <summary>
+            Spy event that fires when any observable attached to this Shared State reports a significant change.
+            Can be used to implement a state inspection tool or something like react-dev-tools.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.SharedState.UnhandledReactionException">
+            <summary>
+            Event that fires when a reaction produces an unhandled exception.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.PendingUnobservations">
+            <summary>
+            Gets a queue of all pending Unobservations.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.InBatch">
+            <summary>
+            Gets a value indicating whether the Dependency Graph is in Batch mode.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.Configuration">
+            <summary>
+            Gets the configuration.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.AllowStateChanges">
+            <summary>
+            Gets a value indicating whether it is allowed to change observables at this point.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.AllowStateReads">
+            <summary>
+            Gets a value indicating whether it is allowed to read observables at this point.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.TrackingDerivation">
+            <summary>
+            Gets the <see cref="T:Cortex.Net.IDerivation"/> instance that the shared state is currently tracking.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.RunId">
+            <summary>
+            Gets the shared derivation RunId counter.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.ComputationDepth">
+            <summary>
+            Gets or sets the computation depth.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.SuppressReactionErrors">
+            <summary>
+            Gets or sets a value indicating whether to suppress reaction errors.
+            Suppressing happens when an action is the root cause of reactions to fail further because of the incorrect state.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.CurrentActionId">
+            <summary>
+            Gets or sets the Id of the Current Action.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.NextActionId">
+            <summary>
+            Gets or sets the Id of the Next Action.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.PendingReactions">
+            <summary>
+            Gets a queue of pending reactions.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.IsRunningReactions">
+            <summary>
+            Gets a value indicating whether this shared state is running reactions.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.ReactionScheduler">
+            <summary>
+            Gets or sets the Scheduler function. The Scheduler function can call
+            it's inner action to run the default reaction algorithm in Cortex.NET.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.Enhancers">
+            <summary>
+            Gets a list of enhancers on this SharedState.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.SharedState.GetUniqueId">
+            <summary>
+            Gets a unique Id that is incremented every time and identifies unique instances.
+            </summary>
+            <returns>The new unique Id.</returns>
+        </member>
+        <member name="M:Cortex.Net.SharedState.StartBatch">
+            <summary>
+            Starts a Batch.
+            </summary>
+            <remarks>
+            This method can be called multiple times but should always be balanced with an equal amount of <see cref="M:Cortex.Net.SharedState.EndBatch"/> calls.
+            </remarks>
+        </member>
+        <member name="M:Cortex.Net.SharedState.EndBatch">
+            <summary>
+            Ends a Batch.
+            </summary>
+            <remarks>
+            This method can be called multiple times but should always be balanced with an equal amount of <see cref="M:Cortex.Net.SharedState.StartBatch"/> calls.
+            </remarks>
+        </member>
+        <member name="M:Cortex.Net.SharedState.StartUntracked">
+            <summary>
+            Starts an untracked part of a derviation.
+            </summary>
+            <returns>The current derivation to restore later.</returns>
+        </member>
+        <member name="M:Cortex.Net.SharedState.StartAllowStateReads(System.Boolean)">
+            <summary>
+            Start of a section where allowedStateReads is modified.
+            </summary>
+            <param name="allowStateReads">Whether to allow State reads.</param>
+            <returns>The previous value.</returns>
+        </member>
+        <member name="M:Cortex.Net.SharedState.IncrementRunId">
+            <summary>
+            Increments the RunId and returns the new value.
+            </summary>
+            <returns>The new RunId.</returns>
+        </member>
+        <member name="M:Cortex.Net.SharedState.StartTracking(Cortex.Net.IDerivation)">
+            <summary>
+            Starts tracking the <see cref="T:Cortex.Net.IDerivation"/> instance given as paramteter.
+            </summary>
+            <param name="derivation">The derivation to track.</param>
+            <returns>The prevous derivation.</returns>
+        </member>
+        <member name="M:Cortex.Net.SharedState.EndTracking(Cortex.Net.IDerivation)">
+            <summary>
+            Ends tracking the current <see cref="T:Cortex.Net.IDerivation"/> instance and restores the previous derivation.
+            </summary>
+            <param name="previousDerivation">The previous derivation.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.EndAllowStateReads(System.Boolean)">
+            <summary>
+            End of a section where allowedStateReads is modified.
+            </summary>
+            <param name="previousAllowStateReads">The previous value to restore.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.CreateAtom(System.String,System.Action,System.Action)">
+            <summary>
+            Creates a new Atom that references this shared Storage.
+            </summary>
+            <param name="name">The name for this Atom. A unique name will be generated in case a name is not provided.</param>
+            <param name="onBecomeObserved">An <see cref="T:System.Action"/> that will be executed when the Atom changes from unobserved to observed.</param>
+            <param name="onBecomeUnobserved">An <see cref="T:System.Action"/> that will be executed when the Atom changes from observed to unobserved.</param>
+            <returns>A new instance that implements <see cref="T:Cortex.Net.IAtom"/>.</returns>
+        </member>
+        <member name="M:Cortex.Net.SharedState.OnSpy(System.Object,Cortex.Net.Spy.SpyEventArgs)">
+            <summary>
+            Triggers the Spy event handler with the specified event args.
+            </summary>
+            <param name="sender">The sender of the event.</param>
+            <param name="spyEventArgs">The event arguments for the spy event.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.OnUnhandledReactionException(Cortex.Net.Core.Reaction,System.UnhandledExceptionEventArgs)">
+            <summary>
+            Fires the <see cref="E:Cortex.Net.SharedState.UnhandledReactionException"/> event.
+            </summary>
+            <param name="reaction">The reaction that caused the unhandled exception.</param>
+            <param name="unhandledExceptionEventArgs">The event arguments for the exception.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.StartAllowStateChanges(System.Boolean)">
+            <summary>
+            Start of a section where <see cref="P:Cortex.Net.SharedState.AllowStateChanges"/> is modified.
+            </summary>
+            <param name="allowStateChanges">Whether to allow State changes.</param>
+            <returns>The previous value.</returns>
+        </member>
+        <member name="M:Cortex.Net.SharedState.EndAllowStateChanges(System.Boolean)">
+            <summary>
+            End of a section where <see cref="P:Cortex.Net.SharedState.AllowStateChanges"/> is modified.
+            </summary>
+            <param name="previousAllowStateChanges">The previous value to restore.</param>
+        </member>
+        <member name="M:Cortex.Net.SharedState.RunReactions">
+            <summary>
+            Runs reactions. This implementation will run the default Reaction Scheduler function.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.SharedState.RunReactionsDefaultAction">
+            <summary>
+            Default action that is ran when a new iteration of reactions is scheduled.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ActionEndSpyEventArgs">
+            <summary>
+            Event arguments for an end Action spy event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ActionEndSpyEventArgs.EndTime">
+            <summary>
+            Gets or sets the end Time of the action.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ActionSpyEventArgs">
+            <summary>
+            Event arguments for an Action spy event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ActionSpyEventArgs.ActionId">
+            <summary>
+            Gets or sets the Id of the Action.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ActionStartSpyEventArgs">
+            <summary>
+            Event arguments for a start Action spy event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ActionStartSpyEventArgs.Arguments">
+            <summary>
+            Gets or sets the arguments of the invocation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ActionStartSpyEventArgs.Context">
+            <summary>
+            Gets or sets the context of the invocation.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ActionStartSpyEventArgs.StartTime">
+            <summary>
+            Gets or sets the start Time of the action.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ComputedSpyEventArgs">
+            <summary>
+            Event argument class for a spy event of a Computed Value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ComputedSpyEventArgs.Context">
+            <summary>
+            Gets or sets the context of the spy event.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableCollectionAddedEndSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionAddedEndSpyEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableCollectionAddedStartSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Spy.ObservableCollectionAddedStartSpyEventArgs.#ctor(System.Collections.IEnumerable)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Spy.ObservableCollectionAddedStartSpyEventArgs"/> class.
+            </summary>
+            <param name="addedValues">The added values.</param>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionAddedStartSpyEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionAddedStartSpyEventArgs.AddedValues">
+            <summary>
+            Gets the added values.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableCollectionChangedEndSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionChangedEndSpyEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableCollectionChangedStartSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionChangedStartSpyEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionChangedStartSpyEventArgs.OldValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionChangedStartSpyEventArgs.NewValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableCollectionRemovedEndSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionRemovedEndSpyEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableCollectionRemovedStartSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Spy.ObservableCollectionRemovedStartSpyEventArgs.#ctor(System.Collections.IEnumerable)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Spy.ObservableCollectionRemovedStartSpyEventArgs"/> class.
+            </summary>
+            <param name="removedValues">The removed values.</param>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionRemovedStartSpyEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionRemovedStartSpyEventArgs.RemovedValues">
+            <summary>
+            Gets the removed values.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableCollectionSpyEventArgs">
+            <summary>
+            Event arguments for an Observable Collection spy event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionSpyEventArgs.Context">
+            <summary>
+            Gets or sets the context of the event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableCollectionSpyEventArgs.Index">
+            <summary>
+            Gets or sets the index of the item in the collection.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectAddedEndSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectAddedEndSpyEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectAddedStartSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectAddedStartSpyEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectAddedStartSpyEventArgs.NewValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectChangedEndSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectChangedEndSpyEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectChangedStartSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectChangedStartSpyEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectChangedStartSpyEventArgs.OldValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectChangedStartSpyEventArgs.NewValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectRemovedEndSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectRemovedEndSpyEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectRemovedStartSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectRemovedStartSpyEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectRemovedStartSpyEventArgs.OldValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableObjectSpyEventArgs">
+            <summary>
+            Event arguments for an Observable Object spy event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectSpyEventArgs.Context">
+            <summary>
+            Gets or sets the context of the event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableObjectSpyEventArgs.Key">
+            <summary>
+            Gets or sets the key of the property or method.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableValueCreateSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable is created.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableValueCreateSpyEventArgs.NewValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableValueEndSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableValueEndSpyEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableValueSpyEventArgs">
+            <summary>
+            Event arguments for an Action spy event.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ObservableValueStartSpyEventArgs">
+            <summary>
+            Event arguments for spy event when an observable update is started.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableValueStartSpyEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableValueStartSpyEventArgs.OldValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ObservableValueStartSpyEventArgs.NewValue">
+            <summary>
+            Gets or sets the New value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ReactionEndSpyEventArgs">
+            <summary>
+            Event arguments for the start of tracking of a <see cref="T:Cortex.Net.Core.Reaction"/>.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ReactionEndSpyEventArgs.EndTime">
+            <summary>
+            Gets or sets the End time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ReactionExceptionSpyEventArgs">
+            <summary>
+            Event arguments for spy when a reaction has an exception.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ReactionExceptionSpyEventArgs.Exception">
+            <summary>
+            Gets or sets the exception that ocurred.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ReactionExceptionSpyEventArgs.Message">
+            <summary>
+            Gets or sets the error message.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ReactionScheduledSpyEventArgs">
+            <summary>
+            Event arguments for spy when a reaction is scheduled.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ReactionSpyEventArgs">
+            <summary>
+            Event arguments for spy when something inside a Reaction happens.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.ReactionStartSpyEventArgs">
+            <summary>
+            Event arguments for the start of tracking of a <see cref="T:Cortex.Net.Core.Reaction"/>.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.ReactionStartSpyEventArgs.StartTime">
+            <summary>
+            Gets or sets the Start time.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Spy.SpyEventArgs">
+            <summary>
+            Base class for Spy Events.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Spy.SpyEventArgs.Name">
+            <summary>
+            Gets or sets the name of the object.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.TraceMode">
+            <summary>
+            Mode for tracing.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.TraceMode.None">
+            <summary>
+            Do not trace dependency graph.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.TraceMode.Log">
+            <summary>
+            Log relevant info to trace listeners.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.TraceMode.Break">
+            <summary>
+            Log relevant info and trigger a breakpoint to an attached debugger.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.DeepEnhancer">
+            <summary>
+            DeepEnhancer enhancer. Tries to enhance child objects as well.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Types.DeepEnhancer.Enhance``1(``0,``0,System.String)">
+            <summary>
+            Enhances the newvalue.
+            </summary>
+            <param name="newValue">The new value.</param>
+            <param name="originalValue">The original value.</param>
+            <param name="name">The name of this object.</param>
+            <typeparam name="T">The type to enhance.</typeparam>
+            <returns>A new value, but enhanced.</returns>
+        </member>
+        <member name="T:Cortex.Net.Types.ObjectCancellableEventArgs">
+            <summary>
+            Base class for object event args.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectCancellableEventArgs.Cancel">
+            <summary>
+            Gets or sets a value indicating whether the change should be canceled.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObjectChangedEventArgs`1">
+            <summary>
+            Event arguments for a value that has changed.
+            </summary>
+            <typeparam name="T">The type of the value that has changed.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectChangedEventArgs`1.OldValue">
+            <summary>
+            Gets or sets old value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectChangedEventArgs`1.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObjectChangeEventArgs`1">
+            <summary>
+            Event arguments for a value on an object that will change.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs`1.OldValue">
+            <summary>
+            Gets or sets old value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs`1.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectChangeEventArgs`1.Changed">
+            <summary>
+            Gets a value indicating whether the value has been changed by an event handler.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObjectEventArgs">
+            <summary>
+            Base class for object event args.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectEventArgs.Context">
+            <summary>
+            Gets or sets the context for the event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectEventArgs.Key">
+            <summary>
+            Gets or sets the key of the property or method.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObjectKeyAddedEventArgs`1">
+            <summary>
+            Event arguments for a value on an object that will change.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectKeyAddedEventArgs`1.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObjectKeyAddEventArgs`1">
+            <summary>
+            Event arguments for a value on an object that will change.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectKeyAddEventArgs`1.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObjectKeyRemovedEventArgs">
+            <summary>
+            Event arguments for a property on an object that will be removed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObjectKeyRemovedEventArgs.OldValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObjectKeyRemoveEventArgs">
+            <summary>
+            Event arguments for a property on an object that will be removed.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollection`1">
+            <summary>
+            Implements an Observable collection of Items.
+            </summary>
+            <typeparam name="T">The type parameter to work on.</typeparam>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableCollection`1.changeEventHandlers">
+            <summary>
+            A set of event handlers for the change event.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableCollection`1.changedEventHandlers">
+            <summary>
+            A set of event handlers for the changed event.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.#ctor(Cortex.Net.ISharedState,Cortex.Net.IEnhancer,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> class.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance this observableCollection belongs to.</param>
+            <param name="enhancer">The <see cref="T:Cortex.Net.IEnhancer"/> implementation to use.</param>
+            <param name="name">The name of the ObservableCollection.</param>
+        </member>
+        <member name="E:Cortex.Net.Types.ObservableCollection`1.Change">
+            <summary>
+            Event that fires before the value will change.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.Types.ObservableCollection`1.Changed">
+            <summary>
+            Event that fires after the value has changed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.SharedState">
+            <summary>
+            Gets the shared state this <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> operates on.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.Count">
+            <summary>
+            Gets the number of elements contained in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.IsReadOnly">
+            <summary>
+            Gets a value indicating whether the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> is read-only.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.IsSynchronized">
+            <summary>
+             Gets a value indicating whether access to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> is synchronized (thread safe).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.SyncRoot">
+            <summary>
+            Gets an object that can be used to synchronize access to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.IsFixedSize">
+            <summary>
+            Gets a value indicating whether the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> has a fixed size.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.Name">
+            <summary>
+            Gets the name of the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.Item(System.Int32)">
+            <summary>
+            Gets or sets the element at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the element to get or set.</param>
+            <returns>The element at the specified index.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">index is not a valid index in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</exception>
+            <exception cref="T:System.NotSupportedException">The property is set and the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> is read-only.</exception>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.System#Collections#IList#Item(System.Int32)">
+            <summary>
+            Gets or sets the element at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the element to get or set.</param>
+            <returns>The element at the specified index.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">index is not a valid index in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</exception>
+            <exception cref="T:System.NotSupportedException">The property is set and the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> is read-only.</exception>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.Add(`0)">
+            <summary>
+            Adds an item to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <param name="item">The object to add to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.Clear">
+            <summary>
+             Removes all elements from the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.Contains(`0)">
+            <summary>
+            Determines whether the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> contains a specific value.
+            </summary>
+            <param name="item">The object to locate in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</param>
+            <returns>true if item is found in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>; otherwise, false.</returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.CopyTo(`0[],System.Int32)">
+            <summary>
+            Copies the elements of the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> to an System.Array,
+            starting at a particular System.Array index.
+            </summary>
+            <param name="array">The one-dimensional System.Array that is the destination of the elements copied
+            from <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>. The System.Array must have zero-based indexing.
+            </param>
+            <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException">array is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">arrayIndex is less than 0.</exception>
+            <exception cref="T:System.ArgumentException">
+            The number of elements in the source System.Collections.Generic.ICollection`1
+            is greater than the available space from arrayIndex to the end of the destination array.
+            </exception>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <returns>An enumerator that can be used to iterate through the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.IndexOf(`0)">
+            <summary>
+            Searches for the specified object and returns the zero-based index of the first
+            occurrence within the entire <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <param name="item">The object to locate in the System.Collections.Generic.List`1. The value can
+            be null for reference types.
+            </param>
+            <returns>
+            The zero-based index of the first occurrence of item within the entire <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>, if found; otherwise, –1.
+            </returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.Insert(System.Int32,`0)">
+            <summary>
+             Inserts an item to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which item should be inserted.</param>
+            <param name="item">The object to insert into the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.Remove(`0)">
+            <summary>
+            Removes the first occurrence of a specific object from the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <param name="item">The object to remove from the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            The value can be null for reference types.
+            </param>
+            <returns>True if item is successfully removed; otherwise, false. This method also returns
+            false if item was not found in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.RemoveAt(System.Int32)">
+            <summary>
+            Removes the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> item at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the item to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Index is not a valid index in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</exception>
+            <exception cref="T:System.NotSupportedException">The <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> is read-only.</exception>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#IList#Add(System.Object)">
+            <summary>
+            Adds an item to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <param name="value">The object to add to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</param>
+            <returns>The index where the item was added.</returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#IList#Contains(System.Object)">
+            <summary>
+            Determines whether the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> contains a specific value.
+            </summary>
+            <param name="value">The object to locate in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</param>
+            <returns>true if item is found in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>; otherwise, false.</returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#ICollection#CopyTo(System.Array,System.Int32)">
+            <summary>
+            Copies the elements of the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> to an System.Array,
+            starting at a particular System.Array index.
+            </summary>
+            <param name="array">The one-dimensional System.Array that is the destination of the elements copied
+            from <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>. The System.Array must have zero-based indexing.
+            </param>
+            <param name="index">The zero-based index in array at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException">array is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">arrayIndex is less than 0.</exception>
+            <exception cref="T:System.ArgumentException">
+            The number of elements in the source System.Collections.Generic.ICollection`1
+            is greater than the available space from arrayIndex to the end of the destination array.
+            </exception>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <returns>An enumerator that can be used to iterate through the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#IList#IndexOf(System.Object)">
+            <summary>
+            Searches for the specified object and returns the zero-based index of the first
+            occurrence within the entire <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <param name="value">The object to locate in the System.Collections.Generic.List`1. The value can
+            be null for reference types.
+            </param>
+            <returns>
+            The zero-based index of the first occurrence of item within the entire <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>, if found; otherwise, –1.
+            </returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#IList#Insert(System.Int32,System.Object)">
+            <summary>
+             Inserts an item to the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which item should be inserted.</param>
+            <param name="value">The object to insert into the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#IList#Remove(System.Object)">
+            <summary>
+            Removes the first occurrence of a specific object from the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            </summary>
+            <param name="value">The object to remove from the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
+            The value can be null for reference types.
+            </param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.System#Collections#IList#RemoveAt(System.Int32)">
+            <summary>
+            Removes the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> item at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the item to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Index is not a valid index in the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.</exception>
+            <exception cref="T:System.NotSupportedException">The <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> is read-only.</exception>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.InsertRange(System.Int32,System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Insert a range of items into the collection.
+            </summary>
+            <param name="index">The index to insert at.</param>
+            <param name="items">The items to remove.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.RemoveRange(System.Int32,System.Int32)">
+            <summary>
+            Removes a range of objects from the collection.
+            </summary>
+            <param name="index">The index to start from.</param>
+            <param name="count">The number of items to remove.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.InterceptChange(Cortex.Net.Types.ObservableCollectionCancellableEventArgs)">
+            <summary>
+            Fires a Change event that can be intercepted and or canceled.
+            </summary>
+            <param name="changeEventArgs">The change event args.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.NotifyArrayChildUpdate(System.Int32,`0,`0)">
+            <summary>
+            Notify spy and listeners of the update.
+            </summary>
+            <param name="index">The index of the item that got updated.</param>
+            <param name="newValue">The new value.</param>
+            <param name="oldValue">The old value.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.NotifyArrayChildAdd(System.Int32,System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+             Notify spy and listeners of the add.
+            </summary>
+            <param name="index">The index at which the items were added.</param>
+            <param name="newItems">The items that were added.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.NotifyArrayChildRemove(System.Int32,System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+             Notify spy and listeners of the remove.
+            </summary>
+            <param name="index">The index at which the items were removed.</param>
+            <param name="removedItems">The items that were removed.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.NotifyListeners(Cortex.Net.Types.ObservableCollectionEventArgs)">
+            <summary>
+            Notifies Listeners on the <see cref="E:Cortex.Net.Types.ObservableCollection`1.Changed"/> event.
+            </summary>
+            <param name="eventArgs">The event arguments.</param>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionAddedEventArgs`1">
+            <summary>
+            Event arguments for an element that was added to a collection.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollectionAddedEventArgs`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableCollectionAddedEventArgs`1"/> class.
+            </summary>
+            <param name="addedValues">Added values.</param>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionAddedEventArgs`1.AddedValues">
+            <summary>
+            Gets the added values.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionAddEventArgs`1">
+            <summary>
+            Event arguments for an element that was added to a collection.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollectionAddEventArgs`1.#ctor(System.Collections.Generic.ICollection{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableCollectionAddEventArgs`1"/> class.
+            </summary>
+            <param name="addedValues">Added values.</param>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionAddEventArgs`1.AddedValues">
+            <summary>
+            Gets the added values.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionCancellableEventArgs">
+            <summary>
+            Base class for value event args.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionCancellableEventArgs.Cancel">
+            <summary>
+            Gets or sets a value indicating whether the change should be canceled.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionChangedEventArgs`1">
+            <summary>
+            Base class for value event args.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionChangedEventArgs`1.OldValue">
+            <summary>
+            Gets or sets old value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionChangedEventArgs`1.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionChangeEventArgs`1">
+            <summary>
+            Base class for value event args.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionChangeEventArgs`1.OldValue">
+            <summary>
+            Gets or sets old value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionChangeEventArgs`1.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionChangeEventArgs`1.Changed">
+            <summary>
+            Gets a value indicating whether the value has been changed by an event handler.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionEventArgs">
+            <summary>
+            Base class for value event args.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionEventArgs.Context">
+            <summary>
+            Gets or sets the context for the event.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionEventArgs.Index">
+            <summary>
+            Gets or sets the index.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionRemovedEventArgs`1">
+            <summary>
+            Event arguments for an element that was added to a collection.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollectionRemovedEventArgs`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableCollectionRemovedEventArgs`1"/> class.
+            </summary>
+            <param name="removedValues">Added values.</param>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionRemovedEventArgs`1.RemovedValues">
+            <summary>
+            Gets the removed values.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableCollectionRemoveEventArgs`1">
+            <summary>
+            Event arguments for an element that was removed from a collection.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableCollectionRemoveEventArgs`1.#ctor(System.Collections.Generic.ICollection{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableCollectionRemoveEventArgs`1"/> class.
+            </summary>
+            <param name="removedValues">Removed values.</param>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableCollectionRemoveEventArgs`1.RemovedValues">
+            <summary>
+            Gets the removed values.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableObject">
+            <summary>
+            Base or inner class for observable objects.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableObject.changeEventHandlers">
+            <summary>
+            A set of event handlers for the change event.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableObject.changedEventHandlers">
+            <summary>
+            A set of event handlers for the changed event.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableObject.values">
+            <summary>
+            The dictionary of <see cref="T:Cortex.Net.Core.ComputedValue`1"/> and <see cref="T:Cortex.Net.Types.ObservableValue`1"/> instances.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableObject.pendingKeys">
+            <summary>
+            A dictionary of keys that are probably pending for addition.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableObject.defaultEnhancer">
+            <summary>
+            The default enhancer that possibly makes new values observable as well.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableObject.keys">
+            <summary>
+            An atom for managing addition or removal of property / method keys.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableObject.sharedState">
+            <summary>
+            A reference to the shared state.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.#ctor(System.String,Cortex.Net.IEnhancer,Cortex.Net.ISharedState,System.Collections.Generic.IDictionary{System.String,Cortex.Net.IValue})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableObject"/> class.
+            </summary>
+            <param name="sharedState">The shared state for this ObservableObject.</param>
+            <param name="name">The name of the objservable ovject.</param>
+            <param name="defaultEnhancer">The default enhancer to use for newly created values.</param>
+            <param name="values">A dictionary with values.</param>
+        </member>
+        <member name="E:Cortex.Net.Types.ObservableObject.Change">
+            <summary>
+            Event that fires before a value on the object will change.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.Types.ObservableObject.Changed">
+            <summary>
+            Event that fires after a value on the object has changed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableObject.Name">
+            <summary>
+            Gets the name of this ObservableObject.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableObject.SharedState">
+            <summary>
+            Gets or sets the Shared State on this object.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableObject.Item(System.String)">
+            <summary>
+            Gets the IValue item at the specified key.
+            </summary>
+            <param name="key">The key to fetch.</param>
+            <returns>The <see cref="T:Cortex.Net.IValue"/> instance for the key.</returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.Read``1(System.String)">
+            <summary>
+            Gets the value for property or method with specified key.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+            <param name="key">The key.</param>
+            <returns>The value.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when the key does not exist in the values.</exception>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.Write``1(System.String,``0)">
+            <summary>
+            Sets the value for property or method with the specified value.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when the key does not exist in the values.</exception>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.Has(System.String)">
+            <summary>
+            Returns whether this <see cref="T:Cortex.Net.Types.ObservableObject"/> instance has a property of method with the name <paramref name="key"/>.
+            </summary>
+            <param name="key">The key to check.</param>
+            <returns>True when this object contains the key, false otherwise.</returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.AddObservableProperty``1(System.String,``0,Cortex.Net.IEnhancer)">
+            <summary>
+            Adds an Observable property to this <see cref="T:Cortex.Net.Types.ObservableObject"/> instnace.
+            </summary>
+            <typeparam name="T">The type of the property.</typeparam>
+            <param name="propertyName">The name of the property.</param>
+            <param name="initialValue">The initial value.</param>
+            <param name="enhancer">The enhancer to use.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.AddComputedMember``1(System.String,Cortex.Net.ComputedValueOptions{``0})">
+            <summary>
+            Adds a Computed Value.
+            </summary>
+            <typeparam name="T">The return type of the member.</typeparam>
+            <param name="key">The key of the member.</param>
+            <param name="computedValueOptions">The computed value options.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.Remove(System.String)">
+            <summary>
+            Removes a property or computed value.
+            </summary>
+            <param name="key">The key to remove.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.GetFromObject(System.Object)">
+            <summary>
+            Tries to get an <see cref="T:Cortex.Net.Types.ObservableObject"/> from the provided instance.
+            </summary>
+            <param name="instance">The instance to get the ObservableObject from.</param>
+            <returns>The observable object found on the object. Null otherwise.</returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.NotifyPropertyAddition``1(System.String,``0)">
+            <summary>
+            Notifies listeners of property addition.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+            <param name="key">The name of the property.</param>
+            <param name="newValue">The new value.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.InterceptChange(Cortex.Net.Types.ObjectCancellableEventArgs)">
+            <summary>
+            Fires a Change event that can be intercepted and or canceled.
+            </summary>
+            <param name="changeEventArgs">The change event args.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableObject.NotifyListeners(Cortex.Net.Types.ObjectEventArgs)">
+            <summary>
+            Notifies Listeners on the <see cref="E:Cortex.Net.Types.ObservableObject.Changed"/> event.
+            </summary>
+            <param name="eventArgs">The event arguments.</param>
+        </member>
+        <member name="T:Cortex.Net.Types.ObservableValue`1">
+            <summary>
+            Observable value. Can be changed and can be observed.
+            </summary>
+            <typeparam name="T">The type of the Observable value.</typeparam>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableValue`1.changeEventHandlers">
+            <summary>
+            A set of event handlers for the change event.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableValue`1.changedEventHandlers">
+            <summary>
+            A set of event handlers for the changed event.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableValue`1.enhancer">
+            <summary>
+            An enhancer that possibly makes new values observable as well.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Types.ObservableValue`1.value">
+            <summary>
+            The value of the observable.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableValue`1.#ctor(Cortex.Net.ISharedState,System.String,Cortex.Net.IEnhancer,`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableValue`1"/> class.
+            </summary>
+            <param name="sharedState">The shared state this Observable will be attached to.</param>
+            <param name="name">The name of this observable value.</param>
+            <param name="enhancer">The enhancer to use on the type.</param>
+            <param name="value">The initial value of the Observable.</param>
+        </member>
+        <member name="E:Cortex.Net.Types.ObservableValue`1.Change">
+            <summary>
+            Event that fires before the value will change.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.Types.ObservableValue`1.Changed">
+            <summary>
+            Event that fires after the value has changed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableValue`1.Value">
+            <summary>
+            Gets or sets the underlying value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableValue`1.Cortex#Net#IValue#Value">
+            <summary>
+            Gets or sets the underlying value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableValue`1.UntrackedValue">
+            <summary>
+            Gets the untracked value of this observable.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableValue`1.Observe(System.EventHandler{Cortex.Net.Types.ValueChangedEventArgs{`0}},System.Boolean)">
+            <summary>
+            Registers the secified event handler, and optionally fires it first.
+            </summary>
+            <param name="changedEventHandler">The event handler to register.</param>
+            <param name="fireImmediately">Whether to fire the event handler immediately.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableValue`1.PrepareNewValue(`0)">
+            <summary>
+            Prepares setting of a new Value.
+            </summary>
+            <param name="newValue">The new value.</param>
+            <returns>The value plus a boolean indicating whether the observable value has changed.</returns>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableValue`1.SetNewValue(`0)">
+            <summary>
+            Sets a new value.
+            </summary>
+            <param name="newValue">The new value to set.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableValue`1.InterceptChange(Cortex.Net.Types.ValueChangeEventArgs{`0})">
+            <summary>
+            Fires a Change event that can be intercepted and or canceled.
+            </summary>
+            <param name="changeEventArgs">The change event args.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableValue`1.NotifyListeners(Cortex.Net.Types.ValueChangedEventArgs{`0})">
+            <summary>
+            Notifies Listeners on the <see cref="E:Cortex.Net.Types.ObservableValue`1.Changed"/> event.
+            </summary>
+            <param name="eventArgs">The event arguments.</param>
+        </member>
+        <member name="T:Cortex.Net.Types.ReferenceEnhancer">
+            <summary>
+            Reference enhancer. Does nothing but return the same value.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Types.ReferenceEnhancer.Enhance``1(``0,``0,System.String)">
+            <summary>
+            Enhances the newvalue.
+            </summary>
+            <param name="newValue">The new value.</param>
+            <param name="originalValue">The original value.</param>
+            <param name="name">The name of this object.</param>
+            <typeparam name="T">The type to enhance.</typeparam>
+            <returns>A new value, but enhanced.</returns>
+        </member>
+        <member name="T:Cortex.Net.Types.ValueChangedEventArgs`1">
+            <summary>
+            Event arguments for a value that has changed.
+            </summary>
+            <typeparam name="T">The type of the value that has changed.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ValueChangedEventArgs`1.OldValue">
+            <summary>
+            Gets or sets old value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ValueChangedEventArgs`1.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ValueChangeEventArgs`1">
+            <summary>
+            Event arguments for a value that will change.
+            </summary>
+            <typeparam name="T">The type of the value that will change.</typeparam>
+        </member>
+        <member name="P:Cortex.Net.Types.ValueChangeEventArgs`1.OldValue">
+            <summary>
+            Gets or sets old value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ValueChangeEventArgs`1.NewValue">
+            <summary>
+            Gets or sets new value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ValueChangeEventArgs`1.Cancel">
+            <summary>
+            Gets or sets a value indicating whether the change should be canceled.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ValueChangeEventArgs`1.Changed">
+            <summary>
+            Gets a value indicating whether the value has been changed by an event handler.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Types.ValueEventArgs">
+            <summary>
+            Base class for value event args.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ValueEventArgs.Context">
+            <summary>
+            Gets or sets the context for the event.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Utils.DeepEqualityComparer`1">
+            <summary>
+            Deep equality comparer.
+            </summary>
+            <typeparam name="T">The type to compare.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Utils.DeepEqualityComparer`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Utils.DeepEqualityComparer`1"/> class.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.Utils.LevelEqualityComparer`1">
+            <summary>
+            Compares two types based on their member values up to a certain depth.
+            </summary>
+            <typeparam name="T">The types to compare.</typeparam>
+        </member>
+        <member name="F:Cortex.Net.Utils.LevelEqualityComparer`1.depth">
+            <summary>
+            The depth to compare to.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Utils.LevelEqualityComparer`1.visitedComparisons">
+            <summary>
+            A dictionary of already completed Comparisons.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Utils.LevelEqualityComparer`1.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Utils.LevelEqualityComparer`1"/> class.
+            </summary>
+            <param name="depth">The depth up to where needs to be checked.</param>
+        </member>
+        <member name="M:Cortex.Net.Utils.LevelEqualityComparer`1.#ctor(System.Int32,System.Collections.Generic.IDictionary{System.Object,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Utils.LevelEqualityComparer`1"/> class.
+            </summary>
+            <param name="depth">The depth up to where needs to be checked.</param>
+            <param name="visitedComparisons">A dictionary of already visited comparisons.</param>
+        </member>
+        <member name="M:Cortex.Net.Utils.LevelEqualityComparer`1.Equals(`0,`0)">
+            <summary>
+            Determines whether the specified objects are equal.
+            </summary>
+            <param name="x">The first object of type T to compare.</param>
+            <param name="y">The second object of type T to compare.</param>
+            <returns>true if the specified objects are equal; otherwise, false.</returns>
+        </member>
+        <member name="M:Cortex.Net.Utils.LevelEqualityComparer`1.GetHashCode(`0)">
+            <summary>
+            Returns a hash code for the specified object.
+            </summary>
+            <param name="obj">The instance of type T for which a hash code is to be returned.</param>
+            <returns>A hash code for the specified object.</returns>
+        </member>
+        <member name="M:Cortex.Net.Utils.LevelEqualityComparer`1.System#Collections#IEqualityComparer#Equals(System.Object,System.Object)">
+            <summary>
+             Determines whether the specified objects are equal.
+            </summary>
+            <param name="x">The first object to compare.</param>
+            <param name="y">The second object to compare.</param>
+            <returns> true if the specified objects are equal; otherwise, false.</returns>
+        </member>
+        <member name="M:Cortex.Net.Utils.LevelEqualityComparer`1.System#Collections#IEqualityComparer#GetHashCode(System.Object)">
+            <summary>
+            Returns a hash code for the specified object.
+            </summary>
+            <param name="obj">The System..Object for which a hash code is to be returned.</param>
+            <returns>A hash code for the specified object.</returns>
+        </member>
+        <member name="T:Cortex.Net.Utils.ReferenceEqualityComparer`1">
+            <summary>
+            ReferenceEqualityComparer.
+            </summary>
+            <typeparam name="T">The type to compare.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Utils.ReferenceEqualityComparer`1.Equals(`0,`0)">
+            <summary>
+            Determines whether the specified objects are equal.
+            </summary>
+            <param name="x">The first object of type T to compare.</param>
+            <param name="y">The second object of type T to compare.</param>
+            <returns>true if the specified objects are equal; otherwise, false.</returns>
+        </member>
+        <member name="M:Cortex.Net.Utils.ReferenceEqualityComparer`1.GetHashCode(`0)">
+            <summary>
+            Returns a hash code for the specified object.
+            </summary>
+            <param name="obj">The instance of type T for which a hash code is to be returned.</param>
+            <returns>A hash code for the specified object.</returns>
+        </member>
+        <member name="T:Cortex.Net.Utils.ShallowEqualityComparer`1">
+            <summary>
+            Deep equality comparer.
+            </summary>
+            <typeparam name="T">The type to compare.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Utils.ShallowEqualityComparer`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Utils.ShallowEqualityComparer`1"/> class.
+            </summary>
+        </member>
+    </members>
+</doc>

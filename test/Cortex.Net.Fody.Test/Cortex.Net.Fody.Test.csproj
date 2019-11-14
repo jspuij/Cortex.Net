@@ -6,8 +6,8 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Source\git\Cortex.Net\test\Cortex.Net.Fody.Test\Cortex.Net.Fody.Test.xml</DocumentationFile>
+  <PropertyGroup>
+    <DocumentationFile>$(TargetDir)$(TargetName).xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cortex.Net.Fody.Test</name>
+    </assembly>
+    <members>
+        <member name="T:Cortex.Net.Fody.Test.ActionWeaverTests">
+            <summary>
+            Unit tests for the <see cref="T:Cortex.Net.Fody.ActionWeaver"/> class.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.Test.ActionWeaverTests.ConstructorArguments">
+            <summary>
+            Tests that the constructor arguments throw an <see cref="T:System.ArgumentNullException"/>.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.Test.ActionWeaverTests.ExecuteTests">
+            <summary>
+            Tests execution of the <see cref="T:Cortex.Net.Fody.ActionWeaver"/> class.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.Test.ActionWeaverTests.NoSharedStateDoesNotThrow">
+            <summary>
+            Tests that executing operations on an object that is not attached to shared state does not throw exceptions.
+            </summary>
+        </member>
+    </members>
+</doc>

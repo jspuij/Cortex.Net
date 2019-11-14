@@ -7,8 +7,8 @@
     <NeutralLanguage>English</NeutralLanguage>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Source\git\Cortex.Net\test\Cortex.Net.Test\Cortex.Net.Test.xml</DocumentationFile>
+  <PropertyGroup>
+    <DocumentationFile>$(TargetDir)$(TargetName).xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

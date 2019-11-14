@@ -4,9 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Source\git\Cortex.Net\samples\Cortex.Net.BlazorTodo\bin\Debug\netstandard2.0\Cortex.Net.BlazorTodo.xml</DocumentationFile>
+  
+  <PropertyGroup>
+    <DocumentationFile>$(TargetDir)$(TargetName).xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

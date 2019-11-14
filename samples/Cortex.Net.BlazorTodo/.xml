@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cortex.Net.BlazorTodo</name>
+    </assembly>
+    <members>
+        <member name="T:Cortex.Net.BlazorTodo.Models.Todo">
+            <summary>
+            Represents a model of a Todo.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Models.Todo.#ctor(Cortex.Net.BlazorTodo.Stores.TodoStore,System.Guid)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.BlazorTodo.Models.Todo"/> class.
+            </summary>
+            <param name="store">The store this todo is connected to.</param>
+            <param name="id">The Id of the Todo item.</param>
+        </member>
+        <member name="P:Cortex.Net.BlazorTodo.Models.Todo.Store">
+            <summary>
+            Gets the store.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BlazorTodo.Models.Todo.Id">
+            <summary>
+            Gets the Id.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BlazorTodo.Models.Todo.Title">
+            <summary>
+            Gets or sets the Title.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BlazorTodo.Models.Todo.Completed">
+            <summary>
+            Gets or sets a value indicating whether the Todo item is completed.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Models.Todo.Toggle">
+            <summary>
+            Toggles this item for completion.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Models.Todo.Destroy">
+            <summary>
+            Destroys this todo by removing it from the Store.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.BlazorTodo.Program">
+            <summary>
+            Entry point for the Web Assembly application.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Program.Main(System.String[])">
+            <summary>
+            Main entry point for the Web assembly application.
+            </summary>
+            <param name="args">Command line arguments.</param>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Program.CreateHostBuilder">
+            <summary>
+            Creates a Web Assemby host using the specified Startup class.
+            </summary>
+            <returns>An instance that implements the <see cref="T:Microsoft.AspNetCore.Blazor.Hosting.IWebAssemblyHostBuilder"/> interface.</returns>
+        </member>
+        <member name="T:Cortex.Net.BlazorTodo.Startup">
+            <summary>
+            Startup class that configures services.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configures services for dependency injection.
+            </summary>
+            <param name="services">A collection of services.</param>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Startup.Configure(Microsoft.AspNetCore.Components.Builder.IComponentsApplicationBuilder)">
+            <summary>
+            Configures the application and defines the root component.
+            </summary>
+            <param name="app">The application builder to use.</param>
+        </member>
+        <member name="T:Cortex.Net.BlazorTodo.Stores.TodoStore">
+            <summary>
+            Store of Todo items.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BlazorTodo.Stores.TodoStore.Todos">
+            <summary>
+            Gets the Todo items.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BlazorTodo.Stores.TodoStore.ActiveCount">
+            <summary>
+            Gets the number of active Todos.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BlazorTodo.Stores.TodoStore.CompletedCount">
+            <summary>
+            Gets the number of active Todos.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Stores.TodoStore.AddTodo(System.String)">
+            <summary>
+            Adds a todo item to the Store.
+            </summary>
+            <param name="title">The title of the new Todo item.</param>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Stores.TodoStore.ToggleAll(System.Boolean)">
+            <summary>
+            Toggles all items to the new completed state.
+            </summary>
+            <param name="completed">Whether the todo item is completed.</param>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Stores.TodoStore.ClearCompleted">
+            <summary>
+            Clears the store of the completed items.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.BlazorTodo.Stores.ViewStore">
+            <summary>
+            Stores main todo view state.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BlazorTodo.Stores.ViewStore.TodoBeingEdited">
+            <summary>
+            Gets or sets the Todo being edited.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BlazorTodo.Stores.ViewStore.TodoFilter">
+            <summary>
+            Gets or sets the Todo filter.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.BlazorTodo.TodoFilter">
+            <summary>
+            Enumeration for Todo filters.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.BlazorTodo.TodoFilter.All">
+            <summary>
+            All todo items are displayed.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.BlazorTodo.TodoFilter.Active">
+            <summary>
+            Only active todo items are displayed.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.BlazorTodo.TodoFilter.Completed">
+            <summary>
+            Only completed Todo items are displayed.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.App.OnInitialized">
+            <summary>
+            Navigates to the default hash.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BlazorTodo.Components.TodoEntry.Title">
+            <summary>
+            Gets or sets the Title.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Components.TodoEntry.HandleKeyDown(Microsoft.AspNetCore.Components.Web.KeyboardEventArgs)">
+            <summary>
+            Handles the key down event.
+            </summary>
+            <param name="args">The keyboard event arguments.</param>
+        </member>
+        <member name="P:Cortex.Net.BlazorTodo.Components.TodoItem.Todo">
+            <summary>
+            Gets or set the Todo parameter.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Components.TodoItem.Toggle(Microsoft.AspNetCore.Components.ChangeEventArgs)">
+            <summary>
+            Handles the Toggle event.
+            </summary>
+            <param name="changeEventArgs">The change event args.</param>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Components.TodoItem.Destroy(Microsoft.AspNetCore.Components.Web.MouseEventArgs)">
+            <summary>
+            Destroys the todo item.
+            </summary>
+            <param name="mouseEventArgs">The mouse event args.</param>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Components.TodoItem.DoubleClick(Microsoft.AspNetCore.Components.Web.MouseEventArgs)">
+            <summary>
+            Handles double click on the label.
+            </summary>
+            <param name="mouseEventArgs">The mouse event args.</param>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Components.TodoItem.Submit(Microsoft.AspNetCore.Components.Web.FocusEventArgs)">
+            <summary>
+            Handles the blur event which equals a submit of the value.
+            </summary>
+            <param name="eventArgs"></param>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Components.TodoItem.KeyDown(Microsoft.AspNetCore.Components.Web.KeyboardEventArgs)">
+            <summary>
+            Handles a keydown event on the submit box.
+            </summary>
+            <param name="eventArgs"></param>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Components.TodoOverview.GetVisibleTodos">
+            <summary>
+            Gets the visible Todos.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Components.TodoOverview.ToggleAll(Microsoft.AspNetCore.Components.ChangeEventArgs)">
+            <summary>
+            Event handler for the toggle-all checkbox.
+            </summary>
+            <param name="args">The change event args.</param>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Pages.Index.OnInitialized">
+            <summary>
+            Bind to the Navigation changed event. This is necessary because of the Anchor Urls in the TodoMVC sample.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Pages.Index.OnLocationChanged(System.Object,Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs)">
+            <summary>
+            Handle the OnLocationChanged event.
+            </summary>
+            <param name="sender"></param>
+            <param name="eventArgs"></param>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.Pages.Index.Dispose">
+            <summary>
+            Release the eventhandler from the Navigation manager.
+            </summary>
+        </member>
+    </members>
+</doc>

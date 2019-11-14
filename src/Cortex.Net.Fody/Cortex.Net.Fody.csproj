@@ -5,8 +5,8 @@
     <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Source\git\Cortex.Net\src\Cortex.Net.Fody\Cortex.Net.Fody.xml</DocumentationFile>
+  <PropertyGroup>
+    <DocumentationFile>$(TargetDir)$(TargetName).xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FodyHelpers" Version="6.0.0" />
+    <PackageReference Include="FodyHelpers" Version="6.0.5" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
