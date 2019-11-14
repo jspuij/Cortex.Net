@@ -61,6 +61,15 @@ namespace Cortex.Net.Fody.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ({0}) assembly not found of one of the types inside not found..
+        /// </summary>
+        internal static string AssemblyOrTypeNotFound {
+            get {
+                return ResourceManager.GetString("AssemblyOrTypeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CannotHandle more than 16 parameters on Action Method: ({0}).
         /// </summary>
         internal static string MoreThan16Parameters {

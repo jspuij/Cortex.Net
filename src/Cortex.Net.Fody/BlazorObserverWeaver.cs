@@ -20,14 +20,12 @@ namespace Cortex.Net.Fody
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Cortex.Net.Blazor;
     using global::Fody;
-    using Microsoft.AspNetCore.Components;
     using Mono.Cecil;
     using Mono.Cecil.Cil;
 
     /// <summary>
-    /// Weaver for Blazor components decorated with the <see cref="ObserverAttribute" /> class.
+    /// Weaver for Blazor components decorated with the ObserverAttribute class.
     /// </summary>
     public class BlazorObserverWeaver
     {
@@ -52,6 +50,16 @@ namespace Cortex.Net.Fody
         private readonly ISharedStateAssignmentILProcessorQueue processorQueue;
 
         /// <summary>
+        /// Type reference to ObserverAttribute.
+        /// </summary>
+        private readonly TypeReference observerAttributeReference;
+
+        /// <summary>
+        /// Type reference to ObserverObject.
+        /// </summary>
+        private readonly TypeReference observerObjectReference;
+
+        /// <summary>
         /// The parent weaver.
         /// </summary>
         private readonly BaseModuleWeaver parentWeaver;
@@ -61,10 +69,18 @@ namespace Cortex.Net.Fody
         /// </summary>
         /// <param name="parentWeaver">The parent weaver of this weaver.</param>
         /// <param name="processorQueue">The processor queue to add delegates to, to be executed on ISharedState property assignment.</param>
-        public BlazorObserverWeaver(BaseModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue)
+        /// <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
+        public BlazorObserverWeaver(BaseModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, IDictionary<string, TypeReference> resolvedTypes)
         {
+            if (resolvedTypes is null)
+            {
+                throw new ArgumentNullException(nameof(resolvedTypes));
+            }
+
             this.parentWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
             this.processorQueue = processorQueue ?? throw new ArgumentNullException(nameof(processorQueue));
+            this.observerAttributeReference = resolvedTypes["Cortex.Net.Blazor.ObserverAttribute"];
+            this.observerObjectReference = resolvedTypes["Cortex.Net.Blazor.ObserverObject"];
         }
 
         /// <summary>
@@ -78,7 +94,7 @@ namespace Cortex.Net.Fody
                                       t.IsClass &&
                                       t.BaseType != null &&
                                       t.CustomAttributes != null &&
-                                      t.CustomAttributes.Any(x => x.AttributeType.FullName == typeof(ObserverAttribute).FullName)
+                                      t.CustomAttributes.Any(x => x.AttributeType.FullName == this.observerAttributeReference.FullName)
                                    select t;
 
             foreach (var decoratedClass in decoratedClasses.ToList())
@@ -98,7 +114,7 @@ namespace Cortex.Net.Fody
         }
 
         /// <summary>
-        /// Weave the <see cref="ComponentBase" /> derived class.
+        /// Weave the ComponentBase derived class.
         /// </summary>
         /// <param name="decoratedClass">The derived class to weave.</param>
         private void WeaveClass(TypeDefinition decoratedClass)
@@ -125,12 +141,12 @@ namespace Cortex.Net.Fody
                 }
             }
 
-            var observerObjectType = module.ImportReference(typeof(ObserverObject));
+            var observerObjectType = this.observerObjectReference;
             var innerObserverObjectField = decoratedType.CreateField(observerObjectType, InnerObserverObjectFieldName);
 
             // observerName name
             var observerName = decoratedClass.Name;
-            var observerAttribute = decoratedClass.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == typeof(ObserverAttribute).FullName);
+            var observerAttribute = decoratedClass.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == this.observerAttributeReference.FullName);
 
             if (observerAttribute != null)
             {
@@ -221,7 +237,7 @@ namespace Cortex.Net.Fody
         {
             var module = this.parentWeaver.ModuleDefinition;
 
-            var observableObjectConstructor = module.ImportReference(this.parentWeaver.ModuleDefinition.ImportReference(typeof(ObserverObject)).Resolve().Methods.Single(x => x.IsConstructor));
+            var observableObjectConstructor = module.ImportReference(this.parentWeaver.ModuleDefinition.ImportReference(this.observerObjectReference).Resolve().Methods.Single(x => x.IsConstructor));
             var buildRenderTreeReference = module.ImportReference(buildRenderTreeMethod);
             var stateChangedReference = module.ImportReference(stateChangedMethod);
 
@@ -257,7 +273,7 @@ namespace Cortex.Net.Fody
         }
 
         /// <summary>
-        /// Weaves the <see cref="ComponentBase.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)" /> Method.
+        /// Weaves the BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder) Method.
         /// </summary>
         /// <param name="buildRenderTreeMethod">The method definition of the method to weave.</param>
         /// <param name="observerObjectType">The type of the inner observer object.</param>

@@ -21,9 +21,7 @@ namespace Cortex.Net.Fody
     using System.Globalization;
     using System.Linq;
     using System.Text;
-    using Cortex.Net.Api;
     using Cortex.Net.Fody.Properties;
-    using Cortex.Net.Types;
     using global::Fody;
     using Mono.Cecil;
     using Mono.Cecil.Cil;
@@ -53,17 +51,52 @@ namespace Cortex.Net.Fody
         /// The parent weaver of this weaver.
         /// </summary>
         private readonly BaseModuleWeaver parentWeaver;
+
+        /// <summary>
+        /// The processor queue that contains delegates to be processed when the shared state is assigned.
+        /// </summary>
         private readonly ISharedStateAssignmentILProcessorQueue processorQueue;
+
+        /// <summary>
+        /// A type reference to the Cortex.Net.Types.ObservableCollection`1 type.
+        /// </summary>
+        private readonly TypeReference observableCollectionReference;
+
+        /// <summary>
+        /// A type reference to the Cortex.Net.Api.ObservableAttribute type.
+        /// </summary>
+        private readonly TypeReference observableAttributeReference;
+
+        /// <summary>
+        /// A type reference to the Cortex.Net.ISharedState type.
+        /// </summary>
+        private readonly TypeReference iSharedStateReference;
+
+        /// <summary>
+        /// A type reference to the Cortex.Net.Core.ActionExtensions type.
+        /// </summary>
+        private readonly TypeReference actionExtensionsReference;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumerableInterfaceWeaver"/> class.
         /// </summary>
         /// <param name="parentWeaver">The parent weaver of this CollectionWeaver.</param>
         /// <param name="processorQueue">The queue to add ILProcessor actions to.</param>
-        public EnumerableInterfaceWeaver(BaseModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue)
+        /// <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
+        public EnumerableInterfaceWeaver(BaseModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, IDictionary<string, TypeReference> resolvedTypes)
         {
+            if (resolvedTypes is null)
+            {
+                throw new ArgumentNullException(nameof(resolvedTypes));
+            }
+
             this.parentWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
             this.processorQueue = processorQueue ?? throw new ArgumentNullException(nameof(processorQueue));
+
+            this.observableCollectionReference = resolvedTypes["Cortex.Net.Types.ObservableCollection`1"];
+            this.observableAttributeReference = resolvedTypes["Cortex.Net.Api.ObservableAttribute"];
+            this.iSharedStateReference = resolvedTypes["Cortex.Net.ISharedState"];
+            this.actionExtensionsReference = resolvedTypes["Cortex.Net.Core.ActionExtensions"];
         }
 
         /// <summary>
@@ -71,7 +104,7 @@ namespace Cortex.Net.Fody
         /// </summary>
         /// <param name="propertyDefinition">The property to weave.</param>
         /// <param name="defaultEnhancer">The default enhancer type for the observable.</param>
-        public void WeaveEnumerableProperty(PropertyDefinition propertyDefinition, Type defaultEnhancer)
+        public void WeaveEnumerableProperty(PropertyDefinition propertyDefinition, TypeReference defaultEnhancer)
         {
             if (propertyDefinition is null)
             {
@@ -104,7 +137,7 @@ namespace Cortex.Net.Fody
                      propertyTypeName == ICollectionName ||
                      propertyTypeName == IEnumerableName)
             {
-                this.ReassignEnumerable(propertyDefinition, typeof(ObservableCollection<>), defaultEnhancer);
+                this.ReassignEnumerable(propertyDefinition, this.observableCollectionReference, defaultEnhancer);
             }
             else
             {
@@ -118,17 +151,17 @@ namespace Cortex.Net.Fody
         /// <param name="propertyDefinition">The property definition to use to replace.</param>
         /// <param name="observableEnumerableType">The observable enumerable type.</param>
         /// <param name="defaultEnhancer">The default enhancer to use.</param>
-        private void ReassignEnumerable(PropertyDefinition propertyDefinition, Type observableEnumerableType, Type defaultEnhancer)
+        private void ReassignEnumerable(PropertyDefinition propertyDefinition, TypeReference observableEnumerableType, TypeReference defaultEnhancer)
         {
             var module = propertyDefinition.Module;
             var declaringType = propertyDefinition.DeclaringType;
-            var importedType = module.ImportReference(observableEnumerableType);
+            var importedType = observableEnumerableType;
             var genricConstructor = importedType.Resolve().Methods.Single(x => x.IsConstructor);
             MethodReference constructorReference;
 
             // property name
             var propertyName = propertyDefinition.Name;
-            var observableAttribute = propertyDefinition.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == typeof(ObservableAttribute).FullName);
+            var observableAttribute = propertyDefinition.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == this.observableAttributeReference.FullName);
 
             // default enhancer
             var defaultEhancerType = module.ImportReference(defaultEnhancer);
@@ -200,9 +233,9 @@ namespace Cortex.Net.Fody
             FieldDefinition propertyBackingField)
         {
             var getTypeFromHandlerMethod = this.parentWeaver.ModuleDefinition.ImportReference(this.parentWeaver.ModuleDefinition.ImportReference(typeof(Type)).Resolve().Methods.Single(x => x.Name == "GetTypeFromHandle"));
-            var getEnhancerMethod = this.parentWeaver.ModuleDefinition.ImportReference(this.parentWeaver.ModuleDefinition.ImportReference(typeof(Core.ActionExtensions)).Resolve().Methods.Single(x => x.Name == "GetEnhancer"));
+            var getEnhancerMethod = this.parentWeaver.ModuleDefinition.ImportReference(this.actionExtensionsReference.Resolve().Methods.Single(x => x.Name == "GetEnhancer"));
 
-            var sharedStateInterfaceImport = this.parentWeaver.ModuleDefinition.ImportReference(typeof(ISharedState));
+            var sharedStateInterfaceImport = this.iSharedStateReference;
             processor.Emit(OpCodes.Ldarg_0);
             processor.Emit(OpCodes.Ldarg_0);
             processor.Emit(OpCodes.Ldfld, sharedStateBackingField);

@@ -23,12 +23,12 @@ namespace Cortex.Net.Fody
     using Mono.Cecil.Cil;
 
     /// <summary>
-    /// Interface that holds a Queue with <see cref="ILProcessor"/> actions to be executed when <see cref="ISharedState"/> is assigned on an observable oject.
+    /// Interface that holds a Queue with <see cref="ILProcessor"/> actions to be executed when ISharedState is assigned on an observable oject.
     /// </summary>
     public interface ISharedStateAssignmentILProcessorQueue
     {
         /// <summary>
-        /// Gets a <see cref="Queue{T}"/> with actions to be executed to emit the IL code on <see cref="ISharedState"/> Assignment.
+        /// Gets a <see cref="Queue{T}"/> with actions to be executed to emit the IL code on ISharedState Assignment.
         /// </summary>
         Queue<(TypeDefinition, bool, Action<ILProcessor, FieldReference>)> SharedStateAssignmentQueue { get; }
     }

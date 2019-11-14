@@ -20,13 +20,12 @@ namespace Cortex.Net.Fody
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Cortex.Net.Types;
     using global::Fody;
     using Mono.Cecil;
     using Mono.Cecil.Cil;
 
     /// <summary>
-    /// Base class for Weavers that operate on an <see cref="ObservableObject"/>.
+    /// Base class for Weavers that operate on an ObservableObject.
     /// </summary>
     internal abstract class ObservableObjectWeaverBase
     {
@@ -36,14 +35,33 @@ namespace Cortex.Net.Fody
         protected const string InnerObservableObjectFieldName = "cortex_Net_Dogf73jc08asiy_ObservableObject";
 
         /// <summary>
+        /// Type reference for an ObservableObject.
+        /// </summary>
+        private readonly TypeReference observableObjectReference;
+
+        /// <summary>
+        /// A type reference to the Cortex.Net.Core.ActionExtensions type.
+        /// </summary>
+        private readonly TypeReference actionExtensionsReference;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ObservableObjectWeaverBase"/> class.
         /// </summary>
         /// <param name="parentWeaver">The parent weaver.</param>
         /// <param name="processorQueue">The processor queue to add delegates to.</param>
-        protected ObservableObjectWeaverBase(BaseModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue)
+        /// <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
+        protected ObservableObjectWeaverBase(BaseModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, IDictionary<string, TypeReference> resolvedTypes)
         {
+            if (resolvedTypes is null)
+            {
+                throw new ArgumentNullException(nameof(resolvedTypes));
+            }
+
             this.ParentWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
             this.ProcessorQueue = processorQueue ?? throw new ArgumentNullException(nameof(processorQueue));
+
+            this.observableObjectReference = resolvedTypes["Cortex.Net.Types.ObservableObject"];
+            this.actionExtensionsReference = resolvedTypes["Cortex.Net.Core.ActionExtensions"];
         }
 
         /// <summary>
@@ -57,13 +75,13 @@ namespace Cortex.Net.Fody
         protected ISharedStateAssignmentILProcessorQueue ProcessorQueue { get; private set; }
 
         /// <summary>
-        /// Emits the IL code to initialize the observable object. for the <see cref="IReactiveObject.SharedState"/> setter.
+        /// Emits the IL code to initialize the observable object. for the IReactiveObject.SharedState setter.
         /// </summary>
         /// <param name="processor">The <see cref="ILProcessor"/> instance that will generate the setter body.</param>
         /// <param name="objectName">The name of the object.</param>
         /// <param name="enhancerType">The type reference of the enhancer to use.</param>
         /// <param name="sharedStateBackingField">A <see cref="FieldReference"/> to the backing field of the Shared STate.</param>
-        /// <param name="observableObjectField">A <see cref="FieldDefinition"/> for the field where the <see cref="ObservableObject"/> instance is kept.</param>
+        /// <param name="observableObjectField">A <see cref="FieldDefinition"/> for the field where the ObservableObject instance is kept.</param>
         protected void EmitObservableObjectInit(
             ILProcessor processor,
             string objectName,
@@ -72,8 +90,8 @@ namespace Cortex.Net.Fody
             FieldDefinition observableObjectField)
         {
             var getTypeFromHandlerMethod = this.ParentWeaver.ModuleDefinition.ImportReference(this.ParentWeaver.ModuleDefinition.ImportReference(typeof(Type)).Resolve().Methods.Single(x => x.Name == "GetTypeFromHandle"));
-            var getEnhancerMethod = this.ParentWeaver.ModuleDefinition.ImportReference(this.ParentWeaver.ModuleDefinition.ImportReference(typeof(Core.ActionExtensions)).Resolve().Methods.Single(x => x.Name == "GetEnhancer"));
-            var observableObjectConstructor = this.ParentWeaver.ModuleDefinition.ImportReference(this.ParentWeaver.ModuleDefinition.ImportReference(typeof(ObservableObject)).Resolve().Methods.Single(x => x.IsConstructor));
+            var getEnhancerMethod = this.ParentWeaver.ModuleDefinition.ImportReference(this.actionExtensionsReference.Resolve().Methods.Single(x => x.Name == "GetEnhancer"));
+            var observableObjectConstructor = this.ParentWeaver.ModuleDefinition.ImportReference(this.observableObjectReference.Resolve().Methods.Single(x => x.IsConstructor));
 
             var instructions = new List<Instruction>
             {

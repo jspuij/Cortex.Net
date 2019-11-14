@@ -18,7 +18,6 @@ namespace Cortex.Net.Fody
 {
     using System;
     using System.Linq;
-    using Cortex.Net.Types;
     using Mono.Cecil;
     using Mono.Cecil.Cil;
 
@@ -256,20 +255,26 @@ namespace Cortex.Net.Fody
         }
 
         /// <summary>
-        /// Returns whether the type reference is of a type that can be replaced by <see cref="ObservableCollection{T}" />.
+        /// Returns whether the type reference is of a type that can be replaced by ObservableCollection{T}.
         /// </summary>
         /// <param name="typeReference">The typeReference to check.</param>
-        /// <returns>True when the type is a type that can be replaced by one of the interfaces of <see cref="ObservableCollection{T}"/>, false otherwise.</returns>
-        public static bool IsReplaceableCollection(this TypeReference typeReference)
+        /// <param name="observableCollectionTypeReference">The type reference to ObservableCollection{T}.</param>
+        /// <returns>True when the type is a type that can be replaced by one of the interfaces of ObservableCollection{T}", false otherwise.</returns>
+        public static bool IsReplaceableCollection(this TypeReference typeReference, TypeReference observableCollectionTypeReference)
         {
             if (typeReference is null)
             {
                 throw new ArgumentNullException(nameof(typeReference));
             }
 
+            if (observableCollectionTypeReference is null)
+            {
+                throw new ArgumentNullException(nameof(observableCollectionTypeReference));
+            }
+
             var module = typeReference.Module;
 
-            var observableCollectionType = module.ImportReference(typeof(ObservableCollection<>)).Resolve();
+            var observableCollectionType = observableCollectionTypeReference.Resolve();
             var typeToCheck = typeReference.Resolve();
             var interfacesToCheck = typeToCheck.Interfaces.OrderBy(x => x.InterfaceType.FullName).ToList();
 

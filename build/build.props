@@ -1,0 +1,9 @@
+<Project>
+    <PropertyGroup>
+        <Description>IL-instrumentation based observables</Description>
+        <Authors>Jan-Willem Spuij</Authors>
+        <PackageLicenseUrl>https://github.com/jspuij/Cortex.Net/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageProjectUrl>https://github.com/jspuij/Cortex.Net</PackageProjectUrl>
+        <DisableFody>true</DisableFody>
+       </PropertyGroup>
+</Project>

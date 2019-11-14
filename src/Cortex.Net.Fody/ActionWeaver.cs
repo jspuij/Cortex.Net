@@ -20,14 +20,13 @@ namespace Cortex.Net.Fody
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using Cortex.Net.Api;
     using Cortex.Net.Fody.Properties;
     using global::Fody;
     using Mono.Cecil;
     using Mono.Cecil.Cil;
 
     /// <summary>
-    /// Weaves methods decorated with an <see cref="ActionAttribute"/>.
+    /// Weaves methods decorated with an ActionAttribute.
     /// </summary>
     internal class ActionWeaver
     {
@@ -52,15 +51,33 @@ namespace Cortex.Net.Fody
         private readonly ISharedStateAssignmentILProcessorQueue processorQueue;
 
         /// <summary>
+        /// A type reference to the ActionAttribute type.
+        /// </summary>
+        private readonly TypeReference actionAttributeReference;
+
+        /// <summary>
+        /// A type reference to the ActionExtensions type.
+        /// </summary>
+        private readonly TypeReference actionExtensionsReference;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ActionWeaver"/> class.
         /// </summary>
         /// <param name="parentWeaver">A reference to the Parent Cortex.Net weaver.</param>
         /// <param name="processorQueue">The queue to add ILProcessor actions to.</param>
+        /// <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
         /// <exception cref="ArgumentNullException">When any of the arguments is null.</exception>
-        public ActionWeaver(BaseModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue)
+        public ActionWeaver(BaseModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, IDictionary<string, TypeReference> resolvedTypes)
         {
+            if (resolvedTypes is null)
+            {
+                throw new ArgumentNullException(nameof(resolvedTypes));
+            }
+
             this.parentWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
             this.processorQueue = processorQueue ?? throw new ArgumentNullException(nameof(processorQueue));
+            this.actionAttributeReference = resolvedTypes["Cortex.Net.Api.ActionAttribute"];
+            this.actionExtensionsReference = resolvedTypes["Cortex.Net.Api.ActionExtensions"];
         }
 
         /// <summary>
@@ -76,7 +93,7 @@ namespace Cortex.Net.Fody
                                       t.BaseType != null &&
                                       m != null &&
                                       m.CustomAttributes != null &&
-                                      m.CustomAttributes.Any(x => x.AttributeType.FullName == typeof(ActionAttribute).FullName)
+                                      m.CustomAttributes.Any(x => x.AttributeType.FullName == this.actionAttributeReference.FullName)
                                    select m;
 
             foreach (var method in decoratedMethods.ToList())
@@ -169,7 +186,7 @@ namespace Cortex.Net.Fody
         /// <param name="methodDefinition">The inner definition of the action method.</param>
         /// <param name="actionType">The action type.</param>
         /// <param name="actionFieldDefinition">The field definition.</param>
-        private static void EmitSharedStateSetter(
+        private void EmitSharedStateSetter(
         ILProcessor processor,
         FieldReference sharedStateBackingField,
         MethodDefinition methodDefinition,
@@ -179,7 +196,7 @@ namespace Cortex.Net.Fody
             var moduleDefinition = sharedStateBackingField.Module;
 
             // determine the name of the action.
-            var attribute = methodDefinition.CustomAttributes.Single(x => x.AttributeType.FullName == typeof(ActionAttribute).FullName);
+            var attribute = methodDefinition.CustomAttributes.Single(x => x.AttributeType.FullName == this.actionAttributeReference.FullName);
             var actionName = methodDefinition.Name;
             var attributeArgument = attribute.ConstructorArguments.FirstOrDefault();
             if (!string.IsNullOrEmpty(attributeArgument.Value as string))
@@ -187,7 +204,7 @@ namespace Cortex.Net.Fody
                 actionName = attributeArgument.Value as string;
             }
 
-            var actionExtensions = moduleDefinition.ImportReference(typeof(ActionExtensions));
+            var actionExtensions = this.actionExtensionsReference;
             var voidType = moduleDefinition.ImportReference(typeof(void));
 
             MethodReference createActionMethod;
@@ -228,7 +245,7 @@ namespace Cortex.Net.Fody
         }
 
         /// <summary>
-        /// Weaves a method that was Decorated with the <see cref="ActionAttribute"/>.
+        /// Weaves a method that was Decorated with the Action attribute.
         /// </summary>
         /// <param name="methodDefinition">The method definition.</param>
         /// <remarks>
@@ -259,7 +276,7 @@ namespace Cortex.Net.Fody
             this.processorQueue.SharedStateAssignmentQueue.Enqueue(
                 (declaringType,
                 false,
-                (processor, sharedStateBackingField) => EmitSharedStateSetter(
+                (processor, sharedStateBackingField) => this.EmitSharedStateSetter(
                     processor,
                     sharedStateBackingField,
                     methodDefinition,

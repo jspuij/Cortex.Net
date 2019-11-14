@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Fody" Version="6.0.5" PrivateAssets="None" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.1.0-preview2.19528.8" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7">
       <PrivateAssets>all</PrivateAssets>
@@ -31,5 +32,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Cortex.Net\Cortex.Net.csproj" />
   </ItemGroup>
-
+  <Import Project="..\..\build\build.props"/>
 </Project>

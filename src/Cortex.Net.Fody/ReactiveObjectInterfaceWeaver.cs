@@ -23,22 +23,40 @@ namespace Cortex.Net.Fody
     using Mono.Cecil.Cil;
 
     /// <summary>
-    /// Weaves the implementation for <see cref="IReactiveObject"/> on an object.
+    /// Weaves the implementation for IReactiveObject on an object.
     /// </summary>
     public class ReactiveObjectInterfaceWeaver : ISharedStateAssignmentILProcessorQueue
     {
         /// <summary>
         /// A reference to the parent Cortex.Net weaver.
         /// </summary>
-        private readonly CortexWeaver cortexWeaver;
+        private readonly CortexWeaver parentWeaver;
+
+        /// <summary>
+        /// A type reference to the Cortex.Net.ISharedState type.
+        /// </summary>
+        private readonly TypeReference iSharedStateReference;
+
+        /// <summary>
+        /// A type reference to the Cortex.Net.IReactiveObject type.
+        /// </summary>
+        private readonly TypeReference iReactiveObjectReference;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReactiveObjectInterfaceWeaver"/> class.
         /// </summary>
-        /// <param name="cortexWeaver">The cortex weaver.</param>
-        public ReactiveObjectInterfaceWeaver(CortexWeaver cortexWeaver)
+        /// <param name="parentWeaver">The parent weaver.</param>
+        /// <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
+        public ReactiveObjectInterfaceWeaver(CortexWeaver parentWeaver, IDictionary<string, TypeReference> resolvedTypes)
         {
-            this.cortexWeaver = cortexWeaver ?? throw new ArgumentNullException(nameof(cortexWeaver));
+            if (resolvedTypes is null)
+            {
+                throw new ArgumentNullException(nameof(resolvedTypes));
+            }
+
+            this.parentWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
+            this.iSharedStateReference = resolvedTypes["Cortex.Net.ISharedState"];
+            this.iReactiveObjectReference = resolvedTypes["Cortex.Net.IReactiveObject"];
         }
 
         /// <summary>
@@ -51,7 +69,7 @@ namespace Cortex.Net.Fody
         /// </summary>
         internal void Execute()
         {
-            var moduleDefinition = this.cortexWeaver.ModuleDefinition;
+            var moduleDefinition = this.parentWeaver.ModuleDefinition;
 
             // sort queue contents by object, and group by type.
             var queueContent = from q in this.SharedStateAssignmentQueue.ToList()
@@ -62,7 +80,7 @@ namespace Cortex.Net.Fody
 
             foreach ((TypeDefinition reactiveObjectTypeDefinition, bool addInjectAttribute, IEnumerable<Action<ILProcessor, FieldReference>> processorActions) in queueContent)
             {
-                var iReactiveObjectInterfaceType = moduleDefinition.ImportReference(typeof(IReactiveObject));
+                var iReactiveObjectInterfaceType = this.iReactiveObjectReference;
                 var iReactiveObjectinterfaceDefinition = new InterfaceImplementation(iReactiveObjectInterfaceType);
 
                 // If this object does not implement IReactiveObject, add it, plus a default implementation.
@@ -80,7 +98,7 @@ namespace Cortex.Net.Fody
                                               | MethodAttributes.NewSlot
                                               | MethodAttributes.Virtual;
 
-                    var fieldTypeReference = moduleDefinition.ImportReference(typeof(ISharedState));
+                    var fieldTypeReference = this.iSharedStateReference;
 
                     // add backing field for shared state to the class
                     var backingField = reactiveObjectTypeDefinition.CreateBackingField(fieldTypeReference, "Cortex.Net.Api.IReactiveObject.SharedState");
@@ -129,7 +147,7 @@ namespace Cortex.Net.Fody
         /// Executes the processoractions agains the processor.
         /// </summary>
         /// <param name="processor">The processor to use.</param>
-        /// <param name="backingField">The backing field for the <see cref="ISharedState"/> instance.</param>
+        /// <param name="backingField">The backing field for the ISharedState" instance.</param>
         /// <param name="processorActions">The processor actions to execute.</param>
         private static void ExecuteProcessorActions(ILProcessor processor, FieldDefinition backingField, IEnumerable<Action<ILProcessor, FieldReference>> processorActions)
         {

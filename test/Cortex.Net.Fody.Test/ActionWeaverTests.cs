@@ -17,8 +17,10 @@
 namespace Cortex.Net.Fody.Test
 {
     using System;
+    using System.Collections.Generic;
     using Cortex.Net.Api;
     using global::Fody;
+    using Mono.Cecil;
     using Moq;
     using Xunit;
 
@@ -36,8 +38,9 @@ namespace Cortex.Net.Fody.Test
             var parentWeaver = new Mock<BaseModuleWeaver>();
             var processorQueue = new Mock<ISharedStateAssignmentILProcessorQueue>();
 
-            Assert.Throws<ArgumentNullException>(() => new ActionWeaver(null, processorQueue.Object));
-            Assert.Throws<ArgumentNullException>(() => new ActionWeaver(parentWeaver.Object, null));
+            Assert.Throws<ArgumentNullException>(() => new ActionWeaver(null, processorQueue.Object, new Dictionary<string, TypeReference>()));
+            Assert.Throws<ArgumentNullException>(() => new ActionWeaver(parentWeaver.Object, null, new Dictionary<string, TypeReference>()));
+            Assert.Throws<ArgumentNullException>(() => new ActionWeaver(parentWeaver.Object, processorQueue.Object, null));
         }
 
         /// <summary>

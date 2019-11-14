@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Fody" Version="6.0.5" PrivateAssets="None" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -58,9 +59,11 @@
       <LastGenOutput>ActionExtensions.generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
-
+  <ItemGroup Condition="'$(BuildMode)' == 'nuget'">
+    <ProjectReference Include="..\Cortex.Net.Fody\Cortex.Net.Fody.csproj" />
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
-
+  <Import Project="..\..\build\build.props"/>
 </Project>

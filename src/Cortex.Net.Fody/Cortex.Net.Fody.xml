@@ -6,7 +6,7 @@
     <members>
         <member name="T:Cortex.Net.Fody.ActionWeaver">
             <summary>
-            Weaves methods decorated with an <see cref="T:Cortex.Net.Api.ActionAttribute"/>.
+            Weaves methods decorated with an ActionAttribute.
             </summary>
         </member>
         <member name="F:Cortex.Net.Fody.ActionWeaver.InnerCounterFieldPrefix">
@@ -29,12 +29,23 @@
             The queue to add ILProcessor actions to.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.ActionWeaver.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue)">
+        <member name="F:Cortex.Net.Fody.ActionWeaver.actionAttributeReference">
+            <summary>
+            A type reference to the ActionAttribute type.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ActionWeaver.actionExtensionsReference">
+            <summary>
+            A type reference to the ActionExtensions type.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ActionWeaver.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,System.Collections.Generic.IDictionary{System.String,Mono.Cecil.TypeReference})">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ActionWeaver"/> class.
             </summary>
             <param name="parentWeaver">A reference to the Parent Cortex.Net weaver.</param>
             <param name="processorQueue">The queue to add ILProcessor actions to.</param>
+            <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
             <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
         </member>
         <member name="M:Cortex.Net.Fody.ActionWeaver.Execute">
@@ -63,7 +74,7 @@
         </member>
         <member name="M:Cortex.Net.Fody.ActionWeaver.WeaveMethod(Mono.Cecil.MethodDefinition)">
             <summary>
-            Weaves a method that was Decorated with the <see cref="T:Cortex.Net.Api.ActionAttribute"/>.
+            Weaves a method that was Decorated with the Action attribute.
             </summary>
             <param name="methodDefinition">The method definition.</param>
             <remarks>
@@ -73,7 +84,7 @@
         </member>
         <member name="T:Cortex.Net.Fody.BlazorObserverWeaver">
             <summary>
-            Weaver for Blazor components decorated with the <see cref="T:Cortex.Net.Blazor.ObserverAttribute" /> class.
+            Weaver for Blazor components decorated with the ObserverAttribute class.
             </summary>
         </member>
         <member name="F:Cortex.Net.Fody.BlazorObserverWeaver.InnerCounterFieldPrefix">
@@ -96,17 +107,28 @@
             The processor queue.
             </summary>
         </member>
+        <member name="F:Cortex.Net.Fody.BlazorObserverWeaver.observerAttributeReference">
+            <summary>
+            Type reference to ObserverAttribute.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.BlazorObserverWeaver.observerObjectReference">
+            <summary>
+            Type reference to ObserverObject.
+            </summary>
+        </member>
         <member name="F:Cortex.Net.Fody.BlazorObserverWeaver.parentWeaver">
             <summary>
             The parent weaver.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue)">
+        <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,System.Collections.Generic.IDictionary{System.String,Mono.Cecil.TypeReference})">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.BlazorObserverWeaver"/> class.
             </summary>
             <param name="parentWeaver">The parent weaver of this weaver.</param>
             <param name="processorQueue">The processor queue to add delegates to, to be executed on ISharedState property assignment.</param>
+            <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
         </member>
         <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.Execute">
             <summary>
@@ -115,7 +137,7 @@
         </member>
         <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.WeaveClass(Mono.Cecil.TypeDefinition)">
             <summary>
-            Weave the <see cref="T:Microsoft.AspNetCore.Components.ComponentBase" /> derived class.
+            Weave the ComponentBase derived class.
             </summary>
             <param name="decoratedClass">The derived class to weave.</param>
         </member>
@@ -139,7 +161,7 @@
         </member>
         <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.WeaveBuildRenderTreeMethod(Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,Mono.Cecil.FieldDefinition,Mono.Cecil.FieldDefinition)">
             <summary>
-            Weaves the <see cref="M:Microsoft.AspNetCore.Components.ComponentBase.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)" /> Method.
+            Weaves the BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder) Method.
             </summary>
             <param name="buildRenderTreeMethod">The method definition of the method to weave.</param>
             <param name="observerObjectType">The type of the inner observer object.</param>
@@ -148,7 +170,7 @@
         </member>
         <member name="T:Cortex.Net.Fody.ComputedWeaver">
             <summary>
-            Weaves properties and methods decorated with an <see cref="T:Cortex.Net.Api.ComputedAttribute"/>.
+            Weaves properties and methods decorated with an ComputedAttribute.
             </summary>
         </member>
         <member name="F:Cortex.Net.Fody.ComputedWeaver.InnerCounterFieldPrefix">
@@ -156,13 +178,34 @@
             The prefix for an inner method that is the target of an action.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.ComputedWeaver.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue)">
+        <member name="F:Cortex.Net.Fody.ComputedWeaver.computedAttributeReference">
+            <summary>
+            Type reference for the computed attribute.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ComputedWeaver.deepEnhancerReference">
+            <summary>
+            Type reference for the DeepEnhancer Type.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ComputedWeaver.observableObjectReference">
+            <summary>
+            Type reference for an ObservableObject.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ComputedWeaver.computedValueOptionsReference">
+            <summary>
+            Type reference for computedValueOptions.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ComputedWeaver.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,System.Collections.Generic.IDictionary{System.String,Mono.Cecil.TypeReference})">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ComputedWeaver"/> class.
             </summary>
             <param name="parentWeaver">A reference to the Parent Cortex.Net weaver.</param>
             <param name="processorQueue">The queue to add ILProcessor actions to.</param>
             <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
+            <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
         </member>
         <member name="M:Cortex.Net.Fody.ComputedWeaver.Execute">
             <summary>
@@ -171,7 +214,7 @@
         </member>
         <member name="M:Cortex.Net.Fody.ComputedWeaver.WeaveProperty(Mono.Cecil.PropertyDefinition)">
             <summary>
-            Weaves a property that is decorated with a <see cref="T:Cortex.Net.Api.ComputedAttribute"/>.
+            Weaves a property that is decorated with a ComputedAttribute.
             </summary>
             <param name="propertyDefinition">The definition of the property.</param>
         </member>
@@ -186,15 +229,14 @@
         </member>
         <member name="M:Cortex.Net.Fody.ComputedWeaver.WeaveMethod(Mono.Cecil.MethodDefinition)">
             <summary>
-            Weaves a method that is decorated with a <see cref="T:Cortex.Net.Api.ComputedAttribute"/>.
+            Weaves a method that is decorated with a ComputedAttribute.
             </summary>
             <param name="methodDefinition">The method definition of the decorated method.</param>
         </member>
-        <member name="M:Cortex.Net.Fody.ComputedWeaver.CreateObservableObjectField(Mono.Cecil.ModuleDefinition,Mono.Cecil.TypeDefinition,Mono.Cecil.TypeReference)">
+        <member name="M:Cortex.Net.Fody.ComputedWeaver.CreateObservableObjectField(Mono.Cecil.TypeDefinition,Mono.Cecil.TypeReference)">
             <summary>
             Creates an ObservableObject field on the declaring type.
             </summary>
-            <param name="moduleDefinition">The module Definition to import into.</param>
             <param name="declaringType">The declaring type.</param>
             <param name="defaultEhancerType">The default enhancer type.</param>
             <returns>A field definition for the Observable Object field.</returns>
@@ -219,7 +261,7 @@
             <param name="equalityComparerType">The equality comparer type.</param>
             <param name="requiresReaction">Whether the computed value requires a reaction.</param>
             <param name="keepAlive">Whether to keep the computed value alive.</param>
-            <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the <see cref="T:Cortex.Net.Types.ObservableObject"/> instance is kept.</param>
+            <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the ObservableObject instance is kept.</param>
         </member>
         <member name="T:Cortex.Net.Fody.CortexWeaver">
             <summary>
@@ -247,21 +289,47 @@
             The parent weaver of this weaver.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.EnumerableInterfaceWeaver.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue)">
+        <member name="F:Cortex.Net.Fody.EnumerableInterfaceWeaver.processorQueue">
+            <summary>
+            The processor queue that contains delegates to be processed when the shared state is assigned.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.EnumerableInterfaceWeaver.observableCollectionReference">
+            <summary>
+            A type reference to the Cortex.Net.Types.ObservableCollection`1 type.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.EnumerableInterfaceWeaver.observableAttributeReference">
+            <summary>
+            A type reference to the Cortex.Net.Api.ObservableAttribute type.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.EnumerableInterfaceWeaver.iSharedStateReference">
+            <summary>
+            A type reference to the Cortex.Net.ISharedState type.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.EnumerableInterfaceWeaver.actionExtensionsReference">
+            <summary>
+            A type reference to the Cortex.Net.Core.ActionExtensions type.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.EnumerableInterfaceWeaver.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,System.Collections.Generic.IDictionary{System.String,Mono.Cecil.TypeReference})">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.EnumerableInterfaceWeaver"/> class.
             </summary>
             <param name="parentWeaver">The parent weaver of this CollectionWeaver.</param>
             <param name="processorQueue">The queue to add ILProcessor actions to.</param>
+            <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
         </member>
-        <member name="M:Cortex.Net.Fody.EnumerableInterfaceWeaver.WeaveEnumerableProperty(Mono.Cecil.PropertyDefinition,System.Type)">
+        <member name="M:Cortex.Net.Fody.EnumerableInterfaceWeaver.WeaveEnumerableProperty(Mono.Cecil.PropertyDefinition,Mono.Cecil.TypeReference)">
             <summary>
             Weaves an enumerable property.
             </summary>
             <param name="propertyDefinition">The property to weave.</param>
             <param name="defaultEnhancer">The default enhancer type for the observable.</param>
         </member>
-        <member name="M:Cortex.Net.Fody.EnumerableInterfaceWeaver.ReassignEnumerable(Mono.Cecil.PropertyDefinition,System.Type,System.Type)">
+        <member name="M:Cortex.Net.Fody.EnumerableInterfaceWeaver.ReassignEnumerable(Mono.Cecil.PropertyDefinition,Mono.Cecil.TypeReference,Mono.Cecil.TypeReference)">
             <summary>
             Reassign an Enumerable property by calling a constructor of an observable enumerable type.
             </summary>
@@ -285,7 +353,7 @@
             Interface for a weaver that weaves IEnumerable Properties.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.IEnumerableInterfaceWeaver.WeaveEnumerableProperty(Mono.Cecil.PropertyDefinition,System.Type)">
+        <member name="M:Cortex.Net.Fody.IEnumerableInterfaceWeaver.WeaveEnumerableProperty(Mono.Cecil.PropertyDefinition,Mono.Cecil.TypeReference)">
             <summary>
             Weaves an enumerable property.
             </summary>
@@ -294,12 +362,12 @@
         </member>
         <member name="T:Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue">
             <summary>
-            Interface that holds a Queue with <see cref="T:Mono.Cecil.Cil.ILProcessor"/> actions to be executed when <see cref="T:Cortex.Net.ISharedState"/> is assigned on an observable oject.
+            Interface that holds a Queue with <see cref="T:Mono.Cecil.Cil.ILProcessor"/> actions to be executed when ISharedState is assigned on an observable oject.
             </summary>
         </member>
         <member name="P:Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue.SharedStateAssignmentQueue">
             <summary>
-            Gets a <see cref="T:System.Collections.Generic.Queue`1"/> with actions to be executed to emit the IL code on <see cref="T:Cortex.Net.ISharedState"/> Assignment.
+            Gets a <see cref="T:System.Collections.Generic.Queue`1"/> with actions to be executed to emit the IL code on ISharedState Assignment.
             </summary>
         </member>
         <member name="T:Cortex.Net.Fody.MethodReferenceExtensions">
@@ -331,7 +399,7 @@
         </member>
         <member name="T:Cortex.Net.Fody.ObservableObjectWeaverBase">
             <summary>
-            Base class for Weavers that operate on an <see cref="T:Cortex.Net.Types.ObservableObject"/>.
+            Base class for Weavers that operate on an ObservableObject.
             </summary>
         </member>
         <member name="F:Cortex.Net.Fody.ObservableObjectWeaverBase.InnerObservableObjectFieldName">
@@ -339,12 +407,23 @@
             The name of an Inner ObservableObjectField.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.ObservableObjectWeaverBase.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue)">
+        <member name="F:Cortex.Net.Fody.ObservableObjectWeaverBase.observableObjectReference">
+            <summary>
+            Type reference for an ObservableObject.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ObservableObjectWeaverBase.actionExtensionsReference">
+            <summary>
+            A type reference to the Cortex.Net.Core.ActionExtensions type.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ObservableObjectWeaverBase.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,System.Collections.Generic.IDictionary{System.String,Mono.Cecil.TypeReference})">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ObservableObjectWeaverBase"/> class.
             </summary>
             <param name="parentWeaver">The parent weaver.</param>
             <param name="processorQueue">The processor queue to add delegates to.</param>
+            <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
         </member>
         <member name="P:Cortex.Net.Fody.ObservableObjectWeaverBase.ParentWeaver">
             <summary>
@@ -358,17 +437,17 @@
         </member>
         <member name="M:Cortex.Net.Fody.ObservableObjectWeaverBase.EmitObservableObjectInit(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.TypeReference,Mono.Cecil.FieldReference,Mono.Cecil.FieldDefinition)">
             <summary>
-            Emits the IL code to initialize the observable object. for the <see cref="P:Cortex.Net.IReactiveObject.SharedState"/> setter.
+            Emits the IL code to initialize the observable object. for the IReactiveObject.SharedState setter.
             </summary>
             <param name="processor">The <see cref="T:Mono.Cecil.Cil.ILProcessor"/> instance that will generate the setter body.</param>
             <param name="objectName">The name of the object.</param>
             <param name="enhancerType">The type reference of the enhancer to use.</param>
             <param name="sharedStateBackingField">A <see cref="T:Mono.Cecil.FieldReference"/> to the backing field of the Shared STate.</param>
-            <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the <see cref="T:Cortex.Net.Types.ObservableObject"/> instance is kept.</param>
+            <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the ObservableObject instance is kept.</param>
         </member>
         <member name="T:Cortex.Net.Fody.ObservableWeaver">
             <summary>
-            Weaves properties and classes decorated with an <see cref="T:Cortex.Net.Api.ObservableAttribute"/>.
+            Weaves properties and classes decorated with an ObservableAttribute />.
             </summary>
         </member>
         <member name="F:Cortex.Net.Fody.ObservableWeaver.enumerableInterfaceWeaver">
@@ -376,13 +455,39 @@
             The weaver to use to pass enumerable implementations to.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.ObservableWeaver.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.IEnumerableInterfaceWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue)">
+        <member name="F:Cortex.Net.Fody.ObservableWeaver.observableAttributeReference">
+            <summary>
+            Type reference for the observable attribute.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ObservableWeaver.deepEnhancerReference">
+            <summary>
+            Type reference for the DeepEnhancer Type.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ObservableWeaver.observableObjectReference">
+            <summary>
+            Type reference for an ObservableObject.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ObservableWeaver.observableCollectionReference">
+            <summary>
+            Type reference for an ObservableCollection.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ObservableWeaver.actionExtensionsReference">
+            <summary>
+            A type reference to the Cortex.Net.Core.ActionExtensions type.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ObservableWeaver.#ctor(Fody.BaseModuleWeaver,Cortex.Net.Fody.IEnumerableInterfaceWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,System.Collections.Generic.IDictionary{System.String,Mono.Cecil.TypeReference})">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ObservableWeaver"/> class.
             </summary>
             <param name="parentWeaver">A reference to the Parent Cortex.Net weaver.</param>
             <param name="enumerableInterfaceWeaver">An implementation of <see cref="T:Cortex.Net.Fody.IEnumerableInterfaceWeaver" />.</param>
             <param name="processorQueue">The queue to add ILProcessor actions to.</param>
+            <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
             <exception cref="T:System.ArgumentNullException">When any of the arguments is null.</exception>
         </member>
         <member name="M:Cortex.Net.Fody.ObservableWeaver.Execute">
@@ -396,7 +501,7 @@
             </summary>
             <param name="decoratedClass">The class that was decorated with the attribute.</param>
         </member>
-        <member name="M:Cortex.Net.Fody.ObservableWeaver.WeaveProperty(Mono.Cecil.PropertyDefinition,System.Type)">
+        <member name="M:Cortex.Net.Fody.ObservableWeaver.WeaveProperty(Mono.Cecil.PropertyDefinition,Mono.Cecil.TypeReference)">
             <summary>
             Weaves a property on an observable object.
             </summary>
@@ -423,14 +528,14 @@
         </member>
         <member name="M:Cortex.Net.Fody.ObservableWeaver.EmitObservablePropertyAdd(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.TypeReference,Mono.Cecil.TypeReference,Mono.Cecil.FieldReference,Mono.Cecil.FieldDefinition)">
             <summary>
-            Emits the IL code to add an Observable property to the observable object. for the <see cref="P:Cortex.Net.IReactiveObject.SharedState"/> setter.
+            Emits the IL code to add an Observable property to the observable object. for the IReactiveObject.SharedState" setter.
             </summary>
             <param name="processor">The <see cref="T:Mono.Cecil.Cil.ILProcessor"/> instance that will generate the setter body.</param>
             <param name="propertyName">The name of the object.</param>
             <param name="propertyType">The type reference of Property.</param>
             <param name="enhancerType">The type reference of the enhancer to use.</param>
             <param name="sharedStateBackingField">A <see cref="T:Mono.Cecil.FieldReference"/> to the backing field of the Shared STate.</param>
-            <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the <see cref="T:Cortex.Net.Types.ObservableObject"/> instance is kept.</param>
+            <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the ObservableObject instance is kept.</param>
         </member>
         <member name="T:Cortex.Net.Fody.OpcodeSelector">
             <summary>
@@ -483,6 +588,11 @@
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
+        <member name="P:Cortex.Net.Fody.Properties.Resources.AssemblyOrTypeNotFound">
+            <summary>
+              Looks up a localized string similar to ({0}) assembly not found of one of the types inside not found..
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Fody.Properties.Resources.MoreThan16Parameters">
             <summary>
               Looks up a localized string similar to CannotHandle more than 16 parameters on Action Method: ({0}).
@@ -522,19 +632,30 @@
         </member>
         <member name="T:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver">
             <summary>
-            Weaves the implementation for <see cref="T:Cortex.Net.IReactiveObject"/> on an object.
+            Weaves the implementation for IReactiveObject on an object.
             </summary>
         </member>
-        <member name="F:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.cortexWeaver">
+        <member name="F:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.parentWeaver">
             <summary>
             A reference to the parent Cortex.Net weaver.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.#ctor(Cortex.Net.Fody.CortexWeaver)">
+        <member name="F:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.iSharedStateReference">
+            <summary>
+            A type reference to the Cortex.Net.ISharedState type.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.iReactiveObjectReference">
+            <summary>
+            A type reference to the Cortex.Net.IReactiveObject type.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.#ctor(Cortex.Net.Fody.CortexWeaver,System.Collections.Generic.IDictionary{System.String,Mono.Cecil.TypeReference})">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver"/> class.
             </summary>
-            <param name="cortexWeaver">The cortex weaver.</param>
+            <param name="parentWeaver">The parent weaver.</param>
+            <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
         </member>
         <member name="P:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.SharedStateAssignmentQueue">
             <summary>
@@ -558,7 +679,7 @@
             Executes the processoractions agains the processor.
             </summary>
             <param name="processor">The processor to use.</param>
-            <param name="backingField">The backing field for the <see cref="T:Cortex.Net.ISharedState"/> instance.</param>
+            <param name="backingField">The backing field for the ISharedState" instance.</param>
             <param name="processorActions">The processor actions to execute.</param>
         </member>
         <member name="T:Cortex.Net.Fody.TypeDefinitionExtenions">
@@ -616,12 +737,73 @@
             <param name="setter">The setter for the property. Can be null.</param>
             <returns>The created property definitition.</returns>
         </member>
-        <member name="M:Cortex.Net.Fody.TypeDefinitionExtenions.IsReplaceableCollection(Mono.Cecil.TypeReference)">
+        <member name="M:Cortex.Net.Fody.TypeDefinitionExtenions.IsReplaceableCollection(Mono.Cecil.TypeReference,Mono.Cecil.TypeReference)">
             <summary>
-            Returns whether the type reference is of a type that can be replaced by <see cref="T:Cortex.Net.Types.ObservableCollection`1" />.
+            Returns whether the type reference is of a type that can be replaced by ObservableCollection{T}.
             </summary>
             <param name="typeReference">The typeReference to check.</param>
-            <returns>True when the type is a type that can be replaced by one of the interfaces of <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>, false otherwise.</returns>
+            <param name="observableCollectionTypeReference">The type reference to ObservableCollection{T}.</param>
+            <returns>True when the type is a type that can be replaced by one of the interfaces of ObservableCollection{T}", false otherwise.</returns>
+        </member>
+        <member name="T:Cortex.Net.Fody.TypeResolverDictionary">
+            <summary>
+            Type resolver class. Resolves types from referenced assemblies.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeResolverDictionary.#ctor(Mono.Cecil.ModuleDefinition,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Fody.TypeResolverDictionary"/> class.
+            </summary>
+            <param name="moduleDefinition">The module definition to use.</param>
+            <param name="typeAssemblyPairs">The type / assembly pairs to use.</param>
+        </member>
+        <member name="P:Cortex.Net.Fody.TypeResolverDictionary.Keys">
+            <inheritdoc />
+        </member>
+        <member name="P:Cortex.Net.Fody.TypeResolverDictionary.Values">
+            <inheritdoc />
+        </member>
+        <member name="P:Cortex.Net.Fody.TypeResolverDictionary.Count">
+            <inheritdoc />
+        </member>
+        <member name="P:Cortex.Net.Fody.TypeResolverDictionary.IsReadOnly">
+            <inheritdoc />
+        </member>
+        <member name="P:Cortex.Net.Fody.TypeResolverDictionary.Item(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeResolverDictionary.Add(System.String,Mono.Cecil.TypeReference)">
+            <inheritdoc />
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeResolverDictionary.Add(System.Collections.Generic.KeyValuePair{System.String,Mono.Cecil.TypeReference})">
+            <inheritdoc />
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeResolverDictionary.Clear">
+            <inheritdoc />
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeResolverDictionary.Contains(System.Collections.Generic.KeyValuePair{System.String,Mono.Cecil.TypeReference})">
+            <inheritdoc />
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeResolverDictionary.ContainsKey(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeResolverDictionary.CopyTo(System.Collections.Generic.KeyValuePair{System.String,Mono.Cecil.TypeReference}[],System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeResolverDictionary.GetEnumerator">
+            <inheritdoc />
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeResolverDictionary.Remove(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeResolverDictionary.Remove(System.Collections.Generic.KeyValuePair{System.String,Mono.Cecil.TypeReference})">
+            <inheritdoc />
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeResolverDictionary.TryGetValue(System.String,Mono.Cecil.TypeReference@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Cortex.Net.Fody.TypeResolverDictionary.System#Collections#IEnumerable#GetEnumerator">
+            <inheritdoc />
         </member>
     </members>
 </doc>

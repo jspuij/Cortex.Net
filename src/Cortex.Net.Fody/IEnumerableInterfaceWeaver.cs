@@ -31,6 +31,6 @@ namespace Cortex.Net.Fody
         /// </summary>
         /// <param name="propertyDefinition">The property to weave.</param>
         /// <param name="defaultEnhancerType">The type of the default enhancer.</param>
-        void WeaveEnumerableProperty(PropertyDefinition propertyDefinition, Type defaultEnhancerType);
+        void WeaveEnumerableProperty(PropertyDefinition propertyDefinition, TypeReference defaultEnhancerType);
     }
 }

@@ -2,9 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-
     <IsPackable>false</IsPackable>
-
+    <DisableFody>true</DisableFody>
     <NeutralLanguage>English</NeutralLanguage>
   </PropertyGroup>
 
