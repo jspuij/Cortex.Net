@@ -9,8 +9,15 @@
 
 @code {
 
+    /// <summary>
+    /// Gets or sets the Title.
+    /// </summary>
     public string Title { get; set; }
 
+    /// <summary>
+    /// Handles the key down event.
+    /// </summary>
+    /// <param name="args">The keyboard event arguments.</param>
     public void HandleKeyDown(KeyboardEventArgs args)
     {
         if (args.Key != "Enter")
@@ -18,8 +25,12 @@
             return;
         }
 
-        this.TodoStore.AddTodo(this.Title.Trim());
-        this.Title = "";
+        var val = this.Title?.Trim();
 
+        if (!string.IsNullOrEmpty(val))
+        {
+            this.TodoStore.AddTodo(val);
+            this.Title = "";
+        }
     }
 }

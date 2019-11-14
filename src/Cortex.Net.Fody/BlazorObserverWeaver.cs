@@ -319,12 +319,6 @@ namespace Cortex.Net.Fody
                 processor.Create(OpCodes.Ldc_I4_1),
                 processor.Create(OpCodes.Bne_Un_S, originalStart),
 
-                // write the name of the function to the console.
-                processor.Create(OpCodes.Ldarg_0),
-                processor.Create(OpCodes.Call, module.ImportReference(getTypeReference)),
-                processor.Create(OpCodes.Callvirt, module.ImportReference(getFullNameReference)),
-                processor.Create(OpCodes.Call, module.ImportReference(writeLineReference)),
-
                 // load the field where the action delegate is stored.
                 processor.Create(OpCodes.Ldarg_0),
                 processor.Create(OpCodes.Ldfld, observerObjectDefinition),

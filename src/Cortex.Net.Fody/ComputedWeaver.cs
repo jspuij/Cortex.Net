@@ -591,7 +591,7 @@ namespace Cortex.Net.Fody
                 processor.Emit(OpCodes.Dup);
                 processor.Emit(OpCodes.Ldarg_0);
                 processor.Emit(OpCodes.Ldftn, setMethodDefinition);
-                processor.Emit(OpCodes.Newobj, functionTypeConstructorReference);
+                processor.Emit(OpCodes.Newobj, actionTypeConstructorReference);
                 processor.Emit(OpCodes.Callvirt, setSetterReference);
             }
 

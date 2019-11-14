@@ -1,4 +1,6 @@
-﻿<Router AppAssembly="@typeof(Program).Assembly">
+﻿@inject NavigationManager NavigationManager
+
+<Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
     </Found>
@@ -8,3 +10,15 @@
         </LayoutView>
     </NotFound>
 </Router>
+
+@code
+{
+    /// <summary>
+    /// Navigates to the default hash.
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        this.NavigationManager.NavigateTo("#/");
+    }
+}
