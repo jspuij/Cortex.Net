@@ -1,8 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\build\build.props" />
 
   <PropertyGroup>
+    <NoWarn>$(NoWarn);NU5100</NoWarn>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <NeutralLanguage>en</NeutralLanguage>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <WeaverDirPath Condition="'$(WeaverDirPath)' == ''">$(SolutionDir)src\$(PackageId).Fody\bin\$(Configuration)\</WeaverDirPath>
+    <WeaverPropsFile Condition="'$(WeaverPropsFile)' == ''">$(SolutionDir)build\Weaver.props</WeaverPropsFile>
+    <TargetsForTfmSpecificContentInPackage Condition="'$(SkipPackagingDefaultFiles)' != 'true'">$(TargetsForTfmSpecificContentInPackage);IncludeFodyFiles</TargetsForTfmSpecificContentInPackage>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -18,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fody" Version="6.0.5" PrivateAssets="None" />
+    <PackageReference Include="Fody" Version="[6.0.0>" PrivateAssets="None" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -65,5 +70,24 @@
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
-  <Import Project="..\..\build\build.props"/>
+  
+  <Target Name="IncludeFodyFiles">
+    <PropertyGroup>
+      <WeaverFile>$(WeaverDirPath)netstandard2.0\$(PackageId).Fody.dll</WeaverFile>
+      <XcfFile>$(WeaverDirPath)netstandard2.0\$(PackageId).Fody.xcf</XcfFile>
+    </PropertyGroup>
+
+    <Error Text="FodyPackaging: No weaver found at $(WeaverFile). $(ProjectName) should have a Project Dependency on $(PackageId), and $(PackageId) should target 'netstandard2.0'."
+           Condition="!Exists($(WeaverFile))" />
+
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="$(XcfFile)"
+                              PackagePath="weaver\$(PackageId).Fody.xcf"
+                              Condition="Exists($(XcfFile))" />
+      <TfmSpecificPackageFile Include="$(WeaverFile)"
+                              PackagePath="weaver\$(PackageId).Fody.dll" />
+      <TfmSpecificPackageFile Include="$(WeaverPropsFile)"
+                              PackagePath="build\$(PackageId).props" />
+    </ItemGroup>
+  </Target>
 </Project>

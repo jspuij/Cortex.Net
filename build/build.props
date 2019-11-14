@@ -1,9 +1,19 @@
 <Project>
-    <PropertyGroup>
-        <Description>IL-instrumentation based observables</Description>
-        <Authors>Jan-Willem Spuij</Authors>
-        <PackageLicenseUrl>https://github.com/jspuij/Cortex.Net/blob/master/LICENSE</PackageLicenseUrl>
-        <PackageProjectUrl>https://github.com/jspuij/Cortex.Net</PackageProjectUrl>
-        <DisableFody>true</DisableFody>
-       </PropertyGroup>
+  <PropertyGroup>
+    <PackageId Condition="'$(PackageId)' == ''">$(MSBuildProjectName)</PackageId>
+    <Description>Transparent Reactive State Management for .NET applications.</Description>
+    <Authors>Jan-Willem Spuij</Authors>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/jspuij/Cortex.Net</PackageProjectUrl>
+    <DisableFody>true</DisableFody>
+    <Version>0.1.0-preview</Version>
+    <NeutralLanguage>en-US</NeutralLanguage>
+</PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(SolutionDir)LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

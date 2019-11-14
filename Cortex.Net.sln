@@ -31,6 +31,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{79D4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortex.Net.BlazorTodo", "samples\Cortex.Net.BlazorTodo\Cortex.Net.BlazorTodo.csproj", "{A9CA7C47-8A56-4BBC-B943-6BE37D1BAE3F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{8F1E2084-FEBE-462B-8F92-9644FB7577AE}"
+	ProjectSection(SolutionItems) = preProject
+		build\build.props = build\build.props
+		build\Weaver.props = build\Weaver.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
