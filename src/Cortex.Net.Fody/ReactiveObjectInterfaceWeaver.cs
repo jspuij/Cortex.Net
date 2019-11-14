@@ -33,30 +33,19 @@ namespace Cortex.Net.Fody
         private readonly CortexWeaver parentWeaver;
 
         /// <summary>
-        /// A type reference to the Cortex.Net.ISharedState type.
+        /// Weaving context.
         /// </summary>
-        private readonly TypeReference iSharedStateReference;
-
-        /// <summary>
-        /// A type reference to the Cortex.Net.IReactiveObject type.
-        /// </summary>
-        private readonly TypeReference iReactiveObjectReference;
+        private readonly WeavingContext weavingContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReactiveObjectInterfaceWeaver"/> class.
         /// </summary>
         /// <param name="parentWeaver">The parent weaver.</param>
-        /// <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
-        public ReactiveObjectInterfaceWeaver(CortexWeaver parentWeaver, IDictionary<string, TypeReference> resolvedTypes)
+        /// <param name="weavingContext">The resolved types necessary by this weaver.</param>
+        public ReactiveObjectInterfaceWeaver(CortexWeaver parentWeaver, WeavingContext weavingContext)
         {
-            if (resolvedTypes is null)
-            {
-                throw new ArgumentNullException(nameof(resolvedTypes));
-            }
-
             this.parentWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
-            this.iSharedStateReference = resolvedTypes["Cortex.Net.ISharedState"];
-            this.iReactiveObjectReference = resolvedTypes["Cortex.Net.IReactiveObject"];
+            this.weavingContext = weavingContext ?? throw new ArgumentNullException(nameof(weavingContext));
         }
 
         /// <summary>
@@ -80,7 +69,7 @@ namespace Cortex.Net.Fody
 
             foreach ((TypeDefinition reactiveObjectTypeDefinition, bool addInjectAttribute, IEnumerable<Action<ILProcessor, FieldReference>> processorActions) in queueContent)
             {
-                var iReactiveObjectInterfaceType = this.iReactiveObjectReference;
+                var iReactiveObjectInterfaceType = this.weavingContext.CortexNetIReactiveObject;
                 var iReactiveObjectinterfaceDefinition = new InterfaceImplementation(iReactiveObjectInterfaceType);
 
                 // If this object does not implement IReactiveObject, add it, plus a default implementation.
@@ -98,17 +87,17 @@ namespace Cortex.Net.Fody
                                               | MethodAttributes.NewSlot
                                               | MethodAttributes.Virtual;
 
-                    var fieldTypeReference = this.iSharedStateReference;
+                    var fieldTypeReference = this.weavingContext.CortexNetISharedState;
 
                     // add backing field for shared state to the class
-                    var backingField = reactiveObjectTypeDefinition.CreateBackingField(fieldTypeReference, "Cortex.Net.Api.IReactiveObject.SharedState");
+                    var backingField = reactiveObjectTypeDefinition.CreateBackingField(fieldTypeReference, "Cortex.Net.Api.IReactiveObject.SharedState", this.weavingContext);
 
                     // add getter
-                    var getter = reactiveObjectTypeDefinition.CreateDefaultGetter(backingField, "Cortex.Net.Api.IReactiveObject.SharedState", methodAttributes);
+                    var getter = reactiveObjectTypeDefinition.CreateDefaultGetter(backingField, "Cortex.Net.Api.IReactiveObject.SharedState", this.weavingContext, methodAttributes);
                     getter.Overrides.Add(moduleDefinition.ImportReference(getOverride));
 
                     // add setter
-                    var setter = reactiveObjectTypeDefinition.CreateDefaultSetter(backingField, "Cortex.Net.Api.IReactiveObject.SharedState", methodAttributes, p => ExecuteProcessorActions(p, backingField, processorActions));
+                    var setter = reactiveObjectTypeDefinition.CreateDefaultSetter(backingField, "Cortex.Net.Api.IReactiveObject.SharedState", this.weavingContext, methodAttributes, p => ExecuteProcessorActions(p, backingField, processorActions));
                     setter.Overrides.Add(moduleDefinition.ImportReference(setOverride));
 
                     // add property

@@ -30,20 +30,6 @@ namespace Cortex.Net.Fody.Test
     public class ActionWeaverTests
     {
         /// <summary>
-        /// Tests that the constructor arguments throw an <see cref="ArgumentNullException"/>.
-        /// </summary>
-        [Fact]
-        public void ConstructorArguments()
-        {
-            var parentWeaver = new Mock<BaseModuleWeaver>();
-            var processorQueue = new Mock<ISharedStateAssignmentILProcessorQueue>();
-
-            Assert.Throws<ArgumentNullException>(() => new ActionWeaver(null, processorQueue.Object, new Dictionary<string, TypeReference>()));
-            Assert.Throws<ArgumentNullException>(() => new ActionWeaver(parentWeaver.Object, null, new Dictionary<string, TypeReference>()));
-            Assert.Throws<ArgumentNullException>(() => new ActionWeaver(parentWeaver.Object, processorQueue.Object, null));
-        }
-
-        /// <summary>
         /// Tests execution of the <see cref="ActionWeaver"/> class.
         /// </summary>
         [Fact]

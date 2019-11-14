@@ -32,10 +32,11 @@ namespace Cortex.Net.Fody
         /// <param name="classType">The type reference of the class.</param>
         /// <param name="fieldType">The type reference of the Field.</param>
         /// <param name="name">The name of the Property.</param>
+        /// <param name="weavingContext">The weaving context.</param>
         /// <returns>The Field definition. It has already been added to the class type.</returns>
-        public static FieldDefinition CreateBackingField(this TypeDefinition classType, TypeReference fieldType, string name)
+        public static FieldDefinition CreateBackingField(this TypeDefinition classType, TypeReference fieldType, string name, WeavingContext weavingContext)
         {
-            return CreateField(classType, fieldType, $"<{name}>k__BackingField");
+            return CreateField(classType, fieldType, $"<{name}>k__BackingField", weavingContext);
         }
 
         /// <summary>
@@ -44,9 +45,10 @@ namespace Cortex.Net.Fody
         /// <param name="classType">The type reference of the class.</param>
         /// <param name="fieldType">The type reference of the Field.</param>
         /// <param name="name">The name of the field.</param>
+        /// <param name="weavingContext">The weaving context.</param>
         /// <param name="fieldAttributes">The field Atrributes.</param>
         /// <returns>The Field definition. It has already been added to the class type.</returns>
-        public static FieldDefinition CreateField(this TypeDefinition classType, TypeReference fieldType, string name, FieldAttributes fieldAttributes = FieldAttributes.Private)
+        public static FieldDefinition CreateField(this TypeDefinition classType, TypeReference fieldType, string name, WeavingContext weavingContext, FieldAttributes fieldAttributes = FieldAttributes.Private)
         {
             if (classType is null)
             {
@@ -63,18 +65,21 @@ namespace Cortex.Net.Fody
                 throw new ArgumentNullException(nameof(name));
             }
 
+            if (weavingContext is null)
+            {
+                throw new ArgumentNullException(nameof(weavingContext));
+            }
+
             var field = new FieldDefinition(name, fieldAttributes, fieldType);
 
             // Add compiler generated attribute.
-            var compilerGeneratedAttributeType = classType.Module.ImportReference(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute));
-            var ctor = compilerGeneratedAttributeType.Resolve().Methods.Single(x => x.IsConstructor);
+            var ctor = weavingContext.SystemRuntimeCompilerServicesCompilerGeneratedAttribute.Resolve().Methods.Single(x => x.IsConstructor);
             var ctorRef = classType.Module.ImportReference(ctor);
             var compilerGeneratedAttribute = new CustomAttribute(ctorRef, new byte[] { 01, 00, 00, 00 });
             field.CustomAttributes.Add(compilerGeneratedAttribute);
 
             // Add Debugger broswable attribute.
-            var debuggerBrowsableAttributeType = classType.Module.ImportReference(typeof(System.Diagnostics.DebuggerBrowsableAttribute));
-            ctor = debuggerBrowsableAttributeType.Resolve().Methods.Single(x => x.IsConstructor);
+            ctor = weavingContext.SystemDiagnosticsDebuggerBrowsableAttribute.Resolve().Methods.Single(x => x.IsConstructor);
             ctorRef = classType.Module.ImportReference(ctor);
             var debuggerBrowsableAttribute = new CustomAttribute(ctorRef, new byte[] { 01, 00, 00, 00, 00, 00, 00, 00 });
             field.CustomAttributes.Add(debuggerBrowsableAttribute);
@@ -89,9 +94,10 @@ namespace Cortex.Net.Fody
         /// <param name="classType">The type reference of the class.</param>
         /// <param name="backingField">A reference to the backing field.</param>
         /// <param name="name">The name of the property.</param>
+        /// <param name="weavingContext">The type of the weavingContext.</param>
         /// <param name="methodAttributes">The methodAttributes for this getter. Default value is MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName.</param>
         /// <returns>A method definition. The method is already added to the <paramref name="classType"/>.</returns>
-        public static MethodDefinition CreateDefaultGetter(this TypeDefinition classType, FieldDefinition backingField, string name, MethodAttributes methodAttributes = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName)
+        public static MethodDefinition CreateDefaultGetter(this TypeDefinition classType, FieldDefinition backingField, string name, WeavingContext weavingContext, MethodAttributes methodAttributes = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName)
         {
             if (classType is null)
             {
@@ -108,6 +114,11 @@ namespace Cortex.Net.Fody
                 throw new ArgumentNullException(nameof(name));
             }
 
+            if (weavingContext is null)
+            {
+                throw new ArgumentNullException(nameof(weavingContext));
+            }
+
             var moduleDefinition = classType.Module;
 
             var splittedName = name.Split('.');
@@ -121,8 +132,7 @@ namespace Cortex.Net.Fody
             var method = new MethodDefinition(name, methodAttributes, backingField.FieldType);
 
             // Add compiler generated attribute.
-            var compilerGeneratedAttributeType = classType.Module.ImportReference(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute));
-            var ctor = compilerGeneratedAttributeType.Resolve().Methods.Single(x => x.IsConstructor);
+            var ctor = weavingContext.SystemRuntimeCompilerServicesCompilerGeneratedAttribute.Resolve().Methods.Single(x => x.IsConstructor);
             var ctorRef = classType.Module.ImportReference(ctor);
             var compilerGeneratedAttribute = new CustomAttribute(ctorRef, new byte[] { 01, 00, 00, 00 });
             method.CustomAttributes.Add(compilerGeneratedAttribute);
@@ -147,6 +157,7 @@ namespace Cortex.Net.Fody
         /// <param name="classType">The type reference of the class.</param>
         /// <param name="backingField">A reference to the backing field.</param>
         /// <param name="name">The name of the property.</param>
+        /// <param name="weavingContext">The weaving context.</param>
         /// <param name="methodAttributes">The methodAttributes for this getter. Default value is MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName.</param>
         /// <param name="emitAction">Extra emit action after default setter.</param>
         /// <returns>A method definition. The method is already added to the <paramref name="classType"/>.</returns>
@@ -154,6 +165,7 @@ namespace Cortex.Net.Fody
             this TypeDefinition classType,
             FieldDefinition backingField,
             string name,
+            WeavingContext weavingContext,
             MethodAttributes methodAttributes = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName,
             Action<ILProcessor> emitAction = null)
         {
@@ -172,6 +184,11 @@ namespace Cortex.Net.Fody
                 throw new ArgumentNullException(nameof(name));
             }
 
+            if (weavingContext is null)
+            {
+                throw new ArgumentNullException(nameof(weavingContext));
+            }
+
             var moduleDefinition = classType.Module;
 
             var voidType = moduleDefinition.ImportReference(typeof(void));
@@ -188,8 +205,7 @@ namespace Cortex.Net.Fody
             method.Parameters.Add(new ParameterDefinition("value", ParameterAttributes.None, backingField.FieldType));
 
             // Add compiler generated attribute.
-            var compilerGeneratedAttributeType = classType.Module.ImportReference(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute));
-            var ctor = compilerGeneratedAttributeType.Resolve().Methods.Single(x => x.IsConstructor);
+            var ctor = weavingContext.SystemRuntimeCompilerServicesCompilerGeneratedAttribute.Resolve().Methods.Single(x => x.IsConstructor);
             var ctorRef = classType.Module.ImportReference(ctor);
             var compilerGeneratedAttribute = new CustomAttribute(ctorRef, new byte[] { 01, 00, 00, 00 });
             method.CustomAttributes.Add(compilerGeneratedAttribute);

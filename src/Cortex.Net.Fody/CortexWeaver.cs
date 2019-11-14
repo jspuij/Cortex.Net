@@ -19,6 +19,7 @@ namespace Cortex.Net.Fody
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
     using Cortex.Net.Fody.Properties;
     using global::Fody;
@@ -29,42 +30,36 @@ namespace Cortex.Net.Fody
     /// </summary>
     public class CortexWeaver : BaseModuleWeaver
     {
+        private string NetStandardReferencePath
+        {
+            get
+            {
+                var splitReferences = this.References.Split(';');
+                return splitReferences.Single(x => Path.GetFileNameWithoutExtension(x) == "netstandard");
+            }
+        }
+
+        internal TypeDefinition FindStandardType(string name)
+        {
+            return this.FindType(name);
+        }
+
         /// <summary>
         /// Executes the <see cref="CortexWeaver"/>.
         /// </summary>
         public override void Execute()
         {
-            IDictionary<string, TypeReference> cortexNetTypes;
-            IDictionary<string, TypeReference> cortexNetBlazorTypes;
+            var weavingContext =
+                this.ModuleDefinition.AssemblyReferences.Any(x => x.Name == "Cortex.Net.Blazor") ?
+                new BlazorWeavingContext(this) :
+                new WeavingContext(this);
 
-            try
-            {
-                cortexNetTypes = new TypeResolverDictionary(this.ModuleDefinition, new Dictionary<string, string>()
-                {
-                    { "Cortex.Net.ISharedState", "Cortex.Net" },
-                    { "Cortex.Net.Api.ActionAttribute", "Cortex.Net" },
-                    { "Cortex.Net.IReactiveObject", "Cortex.Net" },
-                    { "Cortex.Net.Api.ActionExtensions", "Cortex.Net" },
-                    { "Cortex.Net.Api.ComputedAttribute", "Cortex.Net" },
-                    { "Cortex.Net.Types.DeepEnhancer", "Cortex.Net" },
-                    { "Cortex.Net.Types.ObservableObject", "Cortex.Net" },
-                    { "Cortex.Net.ComputedValueOptions`1", "Cortex.Net" },
-                    { "Cortex.Net.Types.ObservableCollection`1", "Cortex.Net" },
-                    { "Cortex.Net.Api.ObservableAttribute", "Cortex.Net" },
-                    { "Cortex.Net.Core.ActionExtensions", "Cortex.Net" },
-                });
-            }
-            catch
-            {
-                throw new WeavingException(string.Format(CultureInfo.CurrentCulture, Resources.AssemblyOrTypeNotFound, "Cortex.Net"));
-            }
+            var reactiveObjectInterfaceWeaver = new ReactiveObjectInterfaceWeaver(this, weavingContext);
 
-            var reactiveObjectInterfaceWeaver = new ReactiveObjectInterfaceWeaver(this, cortexNetTypes);
-
-            var enumerableWeaver = new EnumerableInterfaceWeaver(this, reactiveObjectInterfaceWeaver, cortexNetTypes);
-            var actionWeaver = new ActionWeaver(this, reactiveObjectInterfaceWeaver, cortexNetTypes);
-            var observableWeaver = new ObservableWeaver(this, enumerableWeaver, reactiveObjectInterfaceWeaver, cortexNetTypes);
-            var computedWeaver = new ComputedWeaver(this, reactiveObjectInterfaceWeaver, cortexNetTypes);
+            var enumerableWeaver = new EnumerableInterfaceWeaver(this, reactiveObjectInterfaceWeaver, weavingContext);
+            var actionWeaver = new ActionWeaver(this, reactiveObjectInterfaceWeaver, weavingContext);
+            var observableWeaver = new ObservableWeaver(this, enumerableWeaver, reactiveObjectInterfaceWeaver, weavingContext);
+            var computedWeaver = new ComputedWeaver(this, reactiveObjectInterfaceWeaver, weavingContext);
 
             actionWeaver.Execute();
             observableWeaver.Execute();
@@ -72,33 +67,22 @@ namespace Cortex.Net.Fody
 
             if (this.ModuleDefinition.AssemblyReferences.Any(x => x.Name == "Cortex.Net.Blazor"))
             {
-                try
-                {
-                    cortexNetBlazorTypes = new TypeResolverDictionary(this.ModuleDefinition, new Dictionary<string, string>()
-                {
-                    { "Cortex.Net.Blazor.ObserverAttribute", "Cortex.Net.Blazor" },
-                    { "Cortex.Net.Blazor.ObserverObject", "Cortex.Net.Blazor" },
-                });
-                }
-                catch
-                {
-                    throw new WeavingException(string.Format(CultureInfo.CurrentCulture, Resources.AssemblyOrTypeNotFound, "Cortex.Net.Blazor"));
-                }
-
-                var blazorObserverWeaver = new BlazorObserverWeaver(this, reactiveObjectInterfaceWeaver, cortexNetBlazorTypes);
+                var blazorObserverWeaver = new BlazorObserverWeaver(this, reactiveObjectInterfaceWeaver, (BlazorWeavingContext)weavingContext);
                 blazorObserverWeaver.Execute();
             }
 
             reactiveObjectInterfaceWeaver.Execute();
-        }
+       }
 
         /// <summary>
-        /// Return a list of assembly names for scanning. Used as a list for Fody.BaseModuleWeaver.FindType.
+        /// Return a list of assembly names for scanning. Used as a list for Fody.CortexWeaver.FindType.
         /// </summary>
         /// <returns>All types in the references assembly.</returns>
         public override IEnumerable<string> GetAssembliesForScanning()
         {
-            return new string[] { "System.Runtime", "Microsoft.AspnetCore.Components" };
+            yield return "mscorlib";
+            yield return "netstandard";
+            yield return "Microsoft.AspNetCore.Components";
         }
     }
 }

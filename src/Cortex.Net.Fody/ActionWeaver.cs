@@ -43,7 +43,7 @@ namespace Cortex.Net.Fody
         /// <summary>
         /// A reference to the parent Cortex.Net weaver.
         /// </summary>
-        private readonly BaseModuleWeaver parentWeaver;
+        private readonly CortexWeaver parentWeaver;
 
         /// <summary>
         /// The queue to add ILProcessor actions to.
@@ -51,33 +51,22 @@ namespace Cortex.Net.Fody
         private readonly ISharedStateAssignmentILProcessorQueue processorQueue;
 
         /// <summary>
-        /// A type reference to the ActionAttribute type.
+        /// Weaving context.
         /// </summary>
-        private readonly TypeReference actionAttributeReference;
-
-        /// <summary>
-        /// A type reference to the ActionExtensions type.
-        /// </summary>
-        private readonly TypeReference actionExtensionsReference;
+        private readonly WeavingContext weavingContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActionWeaver"/> class.
         /// </summary>
         /// <param name="parentWeaver">A reference to the Parent Cortex.Net weaver.</param>
         /// <param name="processorQueue">The queue to add ILProcessor actions to.</param>
-        /// <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
+        /// <param name="weavingContext">The resolved types necessary by this weaver.</param>
         /// <exception cref="ArgumentNullException">When any of the arguments is null.</exception>
-        public ActionWeaver(BaseModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, IDictionary<string, TypeReference> resolvedTypes)
+        public ActionWeaver(CortexWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, WeavingContext weavingContext)
         {
-            if (resolvedTypes is null)
-            {
-                throw new ArgumentNullException(nameof(resolvedTypes));
-            }
-
             this.parentWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
             this.processorQueue = processorQueue ?? throw new ArgumentNullException(nameof(processorQueue));
-            this.actionAttributeReference = resolvedTypes["Cortex.Net.Api.ActionAttribute"];
-            this.actionExtensionsReference = resolvedTypes["Cortex.Net.Api.ActionExtensions"];
+            this.weavingContext = weavingContext ?? throw new ArgumentNullException(nameof(weavingContext));
         }
 
         /// <summary>
@@ -93,7 +82,7 @@ namespace Cortex.Net.Fody
                                       t.BaseType != null &&
                                       m != null &&
                                       m.CustomAttributes != null &&
-                                      m.CustomAttributes.Any(x => x.AttributeType.FullName == this.actionAttributeReference.FullName)
+                                      m.CustomAttributes.Any(x => x.AttributeType.FullName == this.weavingContext.CortexNetApiActionAttribute.FullName)
                                    select m;
 
             foreach (var method in decoratedMethods.ToList())
@@ -109,8 +98,28 @@ namespace Cortex.Net.Fody
         /// <param name="actionType">The type of the action delegate to invoke.</param>
         /// <param name="counterFieldDefinition">The definition of the field that holds the entrance counter.</param>
         /// <param name="actionFieldDefinition">The definition of the field that holds the action delegate.</param>
-        private static void ExtendActionMethodBody(MethodDefinition methodDefinition, TypeReference actionType, FieldDefinition counterFieldDefinition, FieldDefinition actionFieldDefinition)
+        private void ExtendActionMethodBody(MethodDefinition methodDefinition, TypeReference actionType, FieldDefinition counterFieldDefinition, FieldDefinition actionFieldDefinition)
         {
+            if (methodDefinition is null)
+            {
+                throw new ArgumentNullException(nameof(methodDefinition));
+            }
+
+            if (actionType is null)
+            {
+                throw new ArgumentNullException(nameof(actionType));
+            }
+
+            if (counterFieldDefinition is null)
+            {
+                throw new ArgumentNullException(nameof(counterFieldDefinition));
+            }
+
+            if (actionFieldDefinition is null)
+            {
+                throw new ArgumentNullException(nameof(actionFieldDefinition));
+            }
+
             var processor = methodDefinition.Body.GetILProcessor();
 
             var originalStart = methodDefinition.Body.Instructions.First();
@@ -148,8 +157,14 @@ namespace Cortex.Net.Fody
                 processor.Create(OpCodes.Ldfld, actionFieldDefinition),
             };
 
-            var invokeMethod = actionType.Resolve().Methods.Single(x => x.Name == "Invoke");
+            // workaround for fody bug.
+            var genericActionDefinition = (actionType is GenericInstanceType) ?
+                this.parentWeaver.FindStandardType($"System.Action`{(actionType as GenericInstanceType).GenericArguments.Count}")
+                : this.parentWeaver.FindStandardType("System.Action");
+
+            var invokeMethod = genericActionDefinition.Methods.Single(x => x.Name == "Invoke");
             var invokeReference = invokeMethod.GetGenericMethodOnInstantance(actionType);
+
 
             // push all function arguments onto the evaluation stack.
             for (int i = 0; i < methodDefinition.Parameters.Count; i++)
@@ -196,7 +211,7 @@ namespace Cortex.Net.Fody
             var moduleDefinition = sharedStateBackingField.Module;
 
             // determine the name of the action.
-            var attribute = methodDefinition.CustomAttributes.Single(x => x.AttributeType.FullName == this.actionAttributeReference.FullName);
+            var attribute = methodDefinition.CustomAttributes.Single(x => x.AttributeType.FullName == this.weavingContext.CortexNetApiActionAttribute.FullName);
             var actionName = methodDefinition.Name;
             var attributeArgument = attribute.ConstructorArguments.FirstOrDefault();
             if (!string.IsNullOrEmpty(attributeArgument.Value as string))
@@ -204,12 +219,17 @@ namespace Cortex.Net.Fody
                 actionName = attributeArgument.Value as string;
             }
 
-            var actionExtensions = this.actionExtensionsReference;
+            var actionExtensions = this.weavingContext.CortexNetApiActionExtensions;
             var voidType = moduleDefinition.ImportReference(typeof(void));
 
             MethodReference createActionMethod;
 
-            MethodReference actionTypeConstructorReference = actionType.Resolve().Methods.Single(x => x.IsConstructor);
+            // workaround for fody bug.
+            var genericActionDefinition = (actionType is GenericInstanceType) ?
+                this.parentWeaver.FindStandardType($"System.Action`{(actionType as GenericInstanceType).GenericArguments.Count}")
+                : this.parentWeaver.FindStandardType("System.Action");
+
+            MethodReference actionTypeConstructorReference = genericActionDefinition.Methods.Single(x => x.IsConstructor);
 
             actionTypeConstructorReference = actionTypeConstructorReference.GetGenericMethodOnInstantance(actionType);
 
@@ -267,10 +287,10 @@ namespace Cortex.Net.Fody
             var actionType = methodDefinition.GetActionType();
 
             // add the delegate as field to the class.
-            var actionFieldDefinition = declaringType.CreateField(actionType, $"{InnerActionFieldPrefix}{methodDefinition.Name}_Action", fieldAttributes);
+            var actionFieldDefinition = declaringType.CreateField(actionType, $"{InnerActionFieldPrefix}{methodDefinition.Name}_Action", this.weavingContext, fieldAttributes);
 
             // add entrance counter field.
-            var entranceCounterDefinition = declaringType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", fieldAttributes);
+            var entranceCounterDefinition = declaringType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", this.weavingContext, fieldAttributes);
 
             // push IL code for initialization of action members to the queue to emit in the ISharedState setter.
             this.processorQueue.SharedStateAssignmentQueue.Enqueue(

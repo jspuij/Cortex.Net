@@ -20,8 +20,6 @@ namespace Cortex.Net.Fody
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Runtime.CompilerServices;
-    using System.Text;
     using Cortex.Net.Fody.Properties;
     using global::Fody;
     using Mono.Cecil;
@@ -38,53 +36,17 @@ namespace Cortex.Net.Fody
         private readonly IEnumerableInterfaceWeaver enumerableInterfaceWeaver;
 
         /// <summary>
-        /// Type reference for the observable attribute.
-        /// </summary>
-        private readonly TypeReference observableAttributeReference;
-
-        /// <summary>
-        /// Type reference for the DeepEnhancer Type.
-        /// </summary>
-        private readonly TypeReference deepEnhancerReference;
-
-        /// <summary>
-        /// Type reference for an ObservableObject.
-        /// </summary>
-        private readonly TypeReference observableObjectReference;
-
-        /// <summary>
-        /// Type reference for an ObservableCollection.
-        /// </summary>
-        private readonly TypeReference observableCollectionReference;
-
-        /// <summary>
-        /// A type reference to the Cortex.Net.Core.ActionExtensions type.
-        /// </summary>
-        private readonly TypeReference actionExtensionsReference;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ObservableWeaver"/> class.
         /// </summary>
         /// <param name="parentWeaver">A reference to the Parent Cortex.Net weaver.</param>
         /// <param name="enumerableInterfaceWeaver">An implementation of <see cref="IEnumerableInterfaceWeaver" />.</param>
         /// <param name="processorQueue">The queue to add ILProcessor actions to.</param>
-        /// <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
+        /// <param name="weavingContext">The resolved types necessary by this weaver.</param>
         /// <exception cref="ArgumentNullException">When any of the arguments is null.</exception>
-        public ObservableWeaver(BaseModuleWeaver parentWeaver, IEnumerableInterfaceWeaver enumerableInterfaceWeaver,  ISharedStateAssignmentILProcessorQueue processorQueue, IDictionary<string, TypeReference> resolvedTypes)
-            : base(parentWeaver, processorQueue, resolvedTypes)
+        public ObservableWeaver(CortexWeaver parentWeaver, IEnumerableInterfaceWeaver enumerableInterfaceWeaver,  ISharedStateAssignmentILProcessorQueue processorQueue, WeavingContext weavingContext)
+            : base(parentWeaver, processorQueue, weavingContext)
         {
-            if (resolvedTypes is null)
-            {
-                throw new ArgumentNullException(nameof(resolvedTypes));
-            }
-
             this.enumerableInterfaceWeaver = enumerableInterfaceWeaver ?? throw new ArgumentNullException(nameof(enumerableInterfaceWeaver));
-
-            this.observableAttributeReference = resolvedTypes["Cortex.Net.Api.ObservableAttribute"];
-            this.deepEnhancerReference = resolvedTypes["Cortex.Net.Types.DeepEnhancer"];
-            this.observableObjectReference = resolvedTypes["Cortex.Net.Types.ObservableObject"];
-            this.observableCollectionReference = resolvedTypes["Cortex.Net.Types.ObservableCollection`1"];
-            this.actionExtensionsReference = resolvedTypes["Cortex.Net.Core.ActionExtensions"];
         }
 
         /// <summary>
@@ -100,18 +62,18 @@ namespace Cortex.Net.Fody
                                       t.BaseType != null &&
                                       p != null &&
                                       p.CustomAttributes != null &&
-                                      p.CustomAttributes.Any(x => x.AttributeType.FullName == this.observableAttributeReference.FullName)
+                                      p.CustomAttributes.Any(x => x.AttributeType.FullName == this.WeavingContext.CortexNetApiObservableAttribute.FullName)
                                    select p;
 
             foreach (var decoratedProperty in decoratedProperties.ToList())
             {
-                if (decoratedProperty.PropertyType.IsReplaceableCollection(this.observableCollectionReference))
+                if (decoratedProperty.PropertyType.IsReplaceableCollection(this.WeavingContext.CortexNetTypesObservableCollection))
                 {
-                    this.enumerableInterfaceWeaver.WeaveEnumerableProperty(decoratedProperty, this.deepEnhancerReference);
+                    this.enumerableInterfaceWeaver.WeaveEnumerableProperty(decoratedProperty, this.WeavingContext.CortexNetTypesDeepEnhancer);
                 }
                 else
                 {
-                    this.WeaveProperty(decoratedProperty, this.deepEnhancerReference);
+                    this.WeaveProperty(decoratedProperty, this.WeavingContext.CortexNetTypesDeepEnhancer);
                 }
             }
 
@@ -121,7 +83,7 @@ namespace Cortex.Net.Fody
                                          t.IsClass &&
                                          t.BaseType != null &&
                                          t.CustomAttributes != null &&
-                                         t.CustomAttributes.Any(x => x.AttributeType.FullName == this.observableAttributeReference.FullName)
+                                         t.CustomAttributes.Any(x => x.AttributeType.FullName == this.WeavingContext.CortexNetApiObservableAttribute.FullName)
                                       select t;
 
             foreach (var decoratedClass in decoratedClasses.ToList())
@@ -136,9 +98,9 @@ namespace Cortex.Net.Fody
         /// <param name="decoratedClass">The class that was decorated with the attribute.</param>
         private void WeaveClass(TypeDefinition decoratedClass)
         {
-            var observableAttribute = decoratedClass.CustomAttributes.Single(x => x.AttributeType.FullName == this.observableAttributeReference.FullName);
+            var observableAttribute = decoratedClass.CustomAttributes.Single(x => x.AttributeType.FullName == this.WeavingContext.CortexNetApiObservableAttribute.FullName);
 
-            var defaultEhancerType = this.deepEnhancerReference;
+            var defaultEhancerType = this.WeavingContext.CortexNetTypesDeepEnhancer;
             var enhancerType = defaultEhancerType;
             foreach (var constructorArgument in observableAttribute.ConstructorArguments)
             {
@@ -157,13 +119,13 @@ namespace Cortex.Net.Fody
 
             foreach (var property in decoratedClass.Properties.Where(x => x.GetMethod != null && x.GetMethod.IsPublic))
             {
-                if (property.PropertyType.IsReplaceableCollection(this.observableCollectionReference))
+                if (property.PropertyType.IsReplaceableCollection(this.WeavingContext.CortexNetTypesObservableCollection))
                 {
                     this.enumerableInterfaceWeaver.WeaveEnumerableProperty(property, enhancerType);
                 }
                 else
                 {
-                    if (property.SetMethod != null && property.SetMethod.IsPublic && property.GetMethod.CustomAttributes.Any(x => x.AttributeType.FullName == typeof(CompilerGeneratedAttribute).FullName))
+                    if (property.SetMethod != null && property.SetMethod.IsPublic && property.GetMethod.CustomAttributes.Any(x => x.AttributeType.FullName == this.WeavingContext.SystemRuntimeCompilerServicesCompilerGeneratedAttribute.FullName))
                     {
                         this.WeaveProperty(property, enhancerType);
                     }
@@ -183,7 +145,7 @@ namespace Cortex.Net.Fody
             var setMethod = property.SetMethod;
             var declaringType = property.DeclaringType;
 
-            if (!getMethod.CustomAttributes.Any(x => x.AttributeType.FullName == typeof(CompilerGeneratedAttribute).FullName))
+            if (!getMethod.CustomAttributes.Any(x => x.AttributeType.FullName == this.WeavingContext.SystemRuntimeCompilerServicesCompilerGeneratedAttribute.FullName))
             {
                 this.ParentWeaver.LogWarning(string.Format(CultureInfo.CurrentCulture, Resources.PropertyNotAutogenerated, property.Name, declaringType.Name));
                 return;
@@ -197,7 +159,7 @@ namespace Cortex.Net.Fody
 
             // property name
             var propertyName = property.Name;
-            var observableAttribute = property.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == this.observableAttributeReference.FullName);
+            var observableAttribute = property.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == this.WeavingContext.CortexNetApiObservableAttribute.FullName);
 
             // default enhancer
             var defaultEhancerType = defaultEnhancer;
@@ -225,11 +187,11 @@ namespace Cortex.Net.Fody
             declaringType.Fields.Remove(backingField);
 
             // get or create the ObservableObjectField.
-            FieldDefinition observableObjectField = declaringType.Fields.FirstOrDefault(x => x.FieldType.FullName == this.observableObjectReference.FullName);
+            FieldDefinition observableObjectField = declaringType.Fields.FirstOrDefault(x => x.FieldType.FullName == this.WeavingContext.CortexNetTypesObservableObject.FullName);
             if (observableObjectField is null)
             {
-                var observableFieldTypeReference = this.observableObjectReference;
-                observableObjectField = declaringType.CreateField(observableFieldTypeReference, InnerObservableObjectFieldName);
+                var observableFieldTypeReference = this.WeavingContext.CortexNetTypesObservableObject;
+                observableObjectField = declaringType.CreateField(observableFieldTypeReference, InnerObservableObjectFieldName, this.WeavingContext);
 
                 // push IL code for initialization of observableObject to the queue to emit in the ISharedState setter.
                 this.ProcessorQueue.SharedStateAssignmentQueue.Enqueue(
@@ -271,7 +233,7 @@ namespace Cortex.Net.Fody
             getMethod.Body.Instructions.Clear();
             var processor = getMethod.Body.GetILProcessor();
 
-            var observableObjectType = this.observableObjectReference.Resolve();
+            var observableObjectType = this.WeavingContext.CortexNetTypesObservableObject.Resolve();
             var observableObjectReadPropertyMethod = new GenericInstanceMethod(observableObjectType.Methods.FirstOrDefault(m => m.Name == "Read"));
             observableObjectReadPropertyMethod.GenericArguments.Add(propertyType);
 
@@ -294,7 +256,7 @@ namespace Cortex.Net.Fody
             setMethod.Body.Instructions.Clear();
             var processor = setMethod.Body.GetILProcessor();
 
-            var observableObjectType = this.observableObjectReference.Resolve();
+            var observableObjectType = this.WeavingContext.CortexNetTypesObservableObject.Resolve();
             var observableObjectWritePropertyMethod = new GenericInstanceMethod(observableObjectType.Methods.FirstOrDefault(m => m.Name == "Write"));
             observableObjectWritePropertyMethod.GenericArguments.Add(propertyType);
 
@@ -324,10 +286,10 @@ namespace Cortex.Net.Fody
             FieldDefinition observableObjectField)
         {
             var typeVariable = new VariableDefinition(propertyType);
-            var getTypeFromHandlerMethod = this.ParentWeaver.ModuleDefinition.ImportReference(this.ParentWeaver.ModuleDefinition.ImportReference(typeof(Type)).Resolve().Methods.Single(x => x.Name == "GetTypeFromHandle"));
-            var getEnhancerMethod = this.ParentWeaver.ModuleDefinition.ImportReference(this.actionExtensionsReference.Resolve().Methods.Single(x => x.Name == "GetEnhancer"));
+            var getTypeFromHandlerMethod = this.ParentWeaver.ModuleDefinition.ImportReference(this.ParentWeaver.FindType("System.Type").Methods.Single(x => x.Name == "GetTypeFromHandle"));
+            var getEnhancerMethod = this.ParentWeaver.ModuleDefinition.ImportReference(this.WeavingContext.CortexNetCoreActionExtensions.Resolve().Methods.Single(x => x.Name == "GetEnhancer"));
 
-            var observableObjectType = this.observableObjectReference.Resolve();
+            var observableObjectType = this.WeavingContext.CortexNetTypesObservableObject.Resolve();
             var observableObjectAddPropertyMethod = new GenericInstanceMethod(observableObjectType.Methods.FirstOrDefault(m => m.Name == "AddObservableProperty"));
             observableObjectAddPropertyMethod.GenericArguments.Add(propertyType);
 

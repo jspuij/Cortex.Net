@@ -35,44 +35,32 @@ namespace Cortex.Net.Fody
         protected const string InnerObservableObjectFieldName = "cortex_Net_Dogf73jc08asiy_ObservableObject";
 
         /// <summary>
-        /// Type reference for an ObservableObject.
-        /// </summary>
-        private readonly TypeReference observableObjectReference;
-
-        /// <summary>
-        /// A type reference to the Cortex.Net.Core.ActionExtensions type.
-        /// </summary>
-        private readonly TypeReference actionExtensionsReference;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ObservableObjectWeaverBase"/> class.
         /// </summary>
         /// <param name="parentWeaver">The parent weaver.</param>
         /// <param name="processorQueue">The processor queue to add delegates to.</param>
-        /// <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
-        protected ObservableObjectWeaverBase(BaseModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, IDictionary<string, TypeReference> resolvedTypes)
+        /// <param name="weavingContext">The resolved types necessary by this weaver.</param>
+        protected ObservableObjectWeaverBase(CortexWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, WeavingContext weavingContext)
         {
-            if (resolvedTypes is null)
-            {
-                throw new ArgumentNullException(nameof(resolvedTypes));
-            }
-
             this.ParentWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
             this.ProcessorQueue = processorQueue ?? throw new ArgumentNullException(nameof(processorQueue));
-
-            this.observableObjectReference = resolvedTypes["Cortex.Net.Types.ObservableObject"];
-            this.actionExtensionsReference = resolvedTypes["Cortex.Net.Core.ActionExtensions"];
+            this.WeavingContext = weavingContext ?? throw new ArgumentNullException(nameof(weavingContext));
         }
 
         /// <summary>
         /// Gets the parent weaver of this Weaver.
         /// </summary>
-        protected BaseModuleWeaver ParentWeaver { get; private set; }
+        protected CortexWeaver ParentWeaver { get; private set; }
 
         /// <summary>
         /// Gets the processor queue that contains delegates to be processed when the shared state is assigned.
         /// </summary>
         protected ISharedStateAssignmentILProcessorQueue ProcessorQueue { get; private set; }
+
+        /// <summary>
+        /// Gets the Weaving context.
+        /// </summary>
+        protected WeavingContext WeavingContext { get; }
 
         /// <summary>
         /// Emits the IL code to initialize the observable object. for the IReactiveObject.SharedState setter.
@@ -89,9 +77,9 @@ namespace Cortex.Net.Fody
             FieldReference sharedStateBackingField,
             FieldDefinition observableObjectField)
         {
-            var getTypeFromHandlerMethod = this.ParentWeaver.ModuleDefinition.ImportReference(this.ParentWeaver.ModuleDefinition.ImportReference(typeof(Type)).Resolve().Methods.Single(x => x.Name == "GetTypeFromHandle"));
-            var getEnhancerMethod = this.ParentWeaver.ModuleDefinition.ImportReference(this.actionExtensionsReference.Resolve().Methods.Single(x => x.Name == "GetEnhancer"));
-            var observableObjectConstructor = this.ParentWeaver.ModuleDefinition.ImportReference(this.observableObjectReference.Resolve().Methods.Single(x => x.IsConstructor));
+            var getTypeFromHandlerMethod = this.ParentWeaver.ModuleDefinition.ImportReference(this.ParentWeaver.FindType("System.Type").Methods.Single(x => x.Name == "GetTypeFromHandle"));
+            var getEnhancerMethod = this.ParentWeaver.ModuleDefinition.ImportReference(this.WeavingContext.CortexNetCoreActionExtensions.Resolve().Methods.Single(x => x.Name == "GetEnhancer"));
+            var observableObjectConstructor = this.ParentWeaver.ModuleDefinition.ImportReference(this.WeavingContext.CortexNetTypesObservableObject.Resolve().Methods.Single(x => x.IsConstructor));
 
             var instructions = new List<Instruction>
             {

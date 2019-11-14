@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <DocumentationFile>$(TargetDir)$(TargetName).xml</DocumentationFile>
+    <DocumentationFile>$(ProjectDir)$(OutDir)$(MSBuildProjectName).xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,5 +33,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Cortex.Net\Cortex.Net.csproj" />
   </ItemGroup>
-  <Import Project="..\..\build\build.props"/>
+  <Import Project="..\..\build\build.props" />
 </Project>

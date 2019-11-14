@@ -20,8 +20,6 @@ namespace Cortex.Net.Fody
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Runtime.CompilerServices;
-    using System.Text;
     using Cortex.Net.Fody.Properties;
     using global::Fody;
     using Mono.Cecil;
@@ -38,44 +36,15 @@ namespace Cortex.Net.Fody
         private const string InnerCounterFieldPrefix = "cortex_Net_Fvclsnf97SxcMxlkizajkz_";
 
         /// <summary>
-        /// Type reference for the computed attribute.
-        /// </summary>
-        private readonly TypeReference computedAttributeReference;
-
-        /// <summary>
-        /// Type reference for the DeepEnhancer Type.
-        /// </summary>
-        private readonly TypeReference deepEnhancerReference;
-
-        /// <summary>
-        /// Type reference for an ObservableObject.
-        /// </summary>
-        private readonly TypeReference observableObjectReference;
-
-        /// <summary>
-        /// Type reference for computedValueOptions.
-        /// </summary>
-        private readonly TypeReference computedValueOptionsReference;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ComputedWeaver"/> class.
         /// </summary>
         /// <param name="parentWeaver">A reference to the Parent Cortex.Net weaver.</param>
         /// <param name="processorQueue">The queue to add ILProcessor actions to.</param>
         /// <exception cref="ArgumentNullException">When any of the arguments is null.</exception>
-        /// <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
-        public ComputedWeaver(BaseModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, IDictionary<string, TypeReference> resolvedTypes)
-            : base(parentWeaver, processorQueue, resolvedTypes)
+        /// <param name="weavingContext">The resolved types necessary by this weaver.</param>
+        public ComputedWeaver(CortexWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, WeavingContext weavingContext)
+            : base(parentWeaver, processorQueue, weavingContext)
         {
-            if (resolvedTypes is null)
-            {
-                throw new ArgumentNullException(nameof(resolvedTypes));
-            }
-
-            this.computedAttributeReference = resolvedTypes["Cortex.Net.Api.ComputedAttribute"];
-            this.deepEnhancerReference = resolvedTypes["Cortex.Net.Types.DeepEnhancer"];
-            this.observableObjectReference = resolvedTypes["Cortex.Net.Types.ObservableObject"];
-            this.computedValueOptionsReference = resolvedTypes["Cortex.Net.ComputedValueOptions`1"];
         }
 
         /// <summary>
@@ -91,7 +60,7 @@ namespace Cortex.Net.Fody
                                       t.BaseType != null &&
                                       m != null &&
                                       m.CustomAttributes != null &&
-                                      m.CustomAttributes.Any(x => x.AttributeType.FullName == this.computedAttributeReference.FullName)
+                                      m.CustomAttributes.Any(x => x.AttributeType.FullName == this.WeavingContext.CortexNetApiComputedAttribute.FullName)
                                    select m;
 
             foreach (var decoratedProperty in decoratedProperties.ToList())
@@ -107,7 +76,7 @@ namespace Cortex.Net.Fody
                                       t.BaseType != null &&
                                       m != null &&
                                       m.CustomAttributes != null &&
-                                      m.CustomAttributes.Any(x => x.AttributeType.FullName == this.computedAttributeReference.FullName)
+                                      m.CustomAttributes.Any(x => x.AttributeType.FullName == this.WeavingContext.CortexNetApiComputedAttribute.FullName)
                                    select m;
 
             foreach (var method in decoratedMethods.ToList())
@@ -128,10 +97,10 @@ namespace Cortex.Net.Fody
             var moduleDefinition = propertyDefinition.Module;
             var declaringType = propertyDefinition.DeclaringType;
 
-            var computedAttribute = propertyDefinition.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == this.computedAttributeReference.FullName);
+            var computedAttribute = propertyDefinition.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == this.WeavingContext.CortexNetApiComputedAttribute.FullName);
 
             // default enhancer
-            var defaultEhancerType = this.deepEnhancerReference;
+            var defaultEhancerType = this.WeavingContext.CortexNetTypesDeepEnhancer;
             TypeReference equalityComparerType = null;
 
             var keepAlive = false;
@@ -194,7 +163,7 @@ namespace Cortex.Net.Fody
                 }
 
                 // add entrance counter field.
-                var entranceCounterDefinition = declaringType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", fieldAttributes);
+                var entranceCounterDefinition = declaringType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", this.WeavingContext, fieldAttributes);
 
                 // extend the method body.
                 this.ExtendGetMethodBody(methodDefinition, computedName, entranceCounterDefinition, observableObjectField);
@@ -211,7 +180,7 @@ namespace Cortex.Net.Fody
                 }
 
                 // add entrance counter field.
-                var entranceCounterDefinition = declaringType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", fieldAttributes);
+                var entranceCounterDefinition = declaringType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", this.WeavingContext, fieldAttributes);
 
                 // extend the method body.
                 this.ExtendSetMethodBody(methodDefinition, computedName, entranceCounterDefinition, observableObjectField);
@@ -232,7 +201,7 @@ namespace Cortex.Net.Fody
             var originalStart = methodDefinition.Body.Instructions.First();
             var originalEnd = methodDefinition.Body.Instructions.Last();
 
-            var observableObjectType = this.observableObjectReference.Resolve();
+            var observableObjectType = this.WeavingContext.CortexNetTypesObservableObject.Resolve();
             var observableObjectWritePropertyMethod = new GenericInstanceMethod(observableObjectType.Methods.FirstOrDefault(m => m.Name == "Write"));
             observableObjectWritePropertyMethod.GenericArguments.Add(methodDefinition.Parameters[0].ParameterType);
 
@@ -303,10 +272,10 @@ namespace Cortex.Net.Fody
             var moduleDefinition = methodDefinition.Module;
             var declaringType = methodDefinition.DeclaringType;
 
-            var computedAttribute = methodDefinition.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == this.computedAttributeReference.FullName);
+            var computedAttribute = methodDefinition.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == this.WeavingContext.CortexNetApiComputedAttribute.FullName);
 
             // default enhancer
-            var defaultEhancerType = this.deepEnhancerReference;
+            var defaultEhancerType = this.WeavingContext.CortexNetTypesDeepEnhancer;
             TypeReference equalityComparerType = null;
 
             var keepAlive = false;
@@ -362,7 +331,7 @@ namespace Cortex.Net.Fody
             }
 
             // add entrance counter field.
-            var entranceCounterDefinition = declaringType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", fieldAttributes);
+            var entranceCounterDefinition = declaringType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", this.WeavingContext, fieldAttributes);
 
             // extend the method body.
             this.ExtendGetMethodBody(methodDefinition, computedName, entranceCounterDefinition, observableObjectField);
@@ -377,11 +346,11 @@ namespace Cortex.Net.Fody
         private FieldDefinition CreateObservableObjectField(TypeDefinition declaringType, TypeReference defaultEhancerType)
         {
             // get or create the ObservableObjectField.
-            FieldDefinition observableObjectField = declaringType.Fields.FirstOrDefault(x => x.FieldType.FullName == this.observableObjectReference.FullName);
+            FieldDefinition observableObjectField = declaringType.Fields.FirstOrDefault(x => x.FieldType.FullName == this.WeavingContext.CortexNetTypesObservableObject.FullName);
             if (observableObjectField is null)
             {
-                var observableFieldTypeReference = this.observableObjectReference;
-                observableObjectField = declaringType.CreateField(observableFieldTypeReference, InnerObservableObjectFieldName);
+                var observableFieldTypeReference = this.WeavingContext.CortexNetTypesObservableObject;
+                observableObjectField = declaringType.CreateField(observableFieldTypeReference, InnerObservableObjectFieldName, this.WeavingContext);
 
                 // push IL code for initialization of observableObject to the queue to emit in the ISharedState setter.
                 this.ProcessorQueue.SharedStateAssignmentQueue.Enqueue(
@@ -412,7 +381,7 @@ namespace Cortex.Net.Fody
             var originalStart = methodDefinition.Body.Instructions.First();
             var originalEnd = methodDefinition.Body.Instructions.Last();
 
-            var observableObjectType = this.observableObjectReference.Resolve();
+            var observableObjectType = this.WeavingContext.CortexNetTypesObservableObject.Resolve();
             var observableObjectReadPropertyMethod = new GenericInstanceMethod(observableObjectType.Methods.FirstOrDefault(m => m.Name == "Read"));
             observableObjectReadPropertyMethod.GenericArguments.Add(methodDefinition.ReturnType);
 
@@ -494,16 +463,21 @@ namespace Cortex.Net.Fody
             var module = methodDefinition.Module;
             var functionType = methodDefinition.GetFunctionType();
 
-            var observableObjectType = this.observableObjectReference.Resolve();
+            var observableObjectType = this.WeavingContext.CortexNetTypesObservableObject.Resolve();
             var observableObjectAddComputedMethod = new GenericInstanceMethod(observableObjectType.Methods.FirstOrDefault(m => m.Name == "AddComputedMember"));
             observableObjectAddComputedMethod.GenericArguments.Add(methodDefinition.ReturnType);
 
-            MethodReference functionTypeConstructorReference = functionType.Resolve().Methods.Single(x => x.IsConstructor);
+            // workaround for fody bug.
+            var genericActionDefinition = (functionType is GenericInstanceType) ?
+                this.ParentWeaver.FindStandardType($"System.Func`{(functionType as GenericInstanceType).GenericArguments.Count}")
+                : this.ParentWeaver.FindStandardType("System.Func");
+
+            MethodReference functionTypeConstructorReference = genericActionDefinition.Methods.Single(x => x.IsConstructor);
 
             functionTypeConstructorReference = module.ImportReference(functionTypeConstructorReference.GetGenericMethodOnInstantance(functionType));
-
-            var computedValueOptionsType = this.computedValueOptionsReference.Resolve();
+            var computedValueOptionsType = this.WeavingContext.CortexNetComputedValueOptions.Resolve();
             var computedValueOptionsConstructor = computedValueOptionsType.Methods.Single(x => x.IsConstructor);
+
             var computedValueOptionsInstanceType = new GenericInstanceType(computedValueOptionsType);
             computedValueOptionsInstanceType.GenericArguments.Add(methodDefinition.ReturnType);
 
@@ -554,7 +528,7 @@ namespace Cortex.Net.Fody
                 var setEqualityComparerMethod = computedValueOptionsType.Methods.Single(x => x.Name == "set_EqualityComparer");
                 var setEqualityComparerReference = module.ImportReference(setEqualityComparerMethod.GetGenericMethodOnInstantance(computedValueOptionsInstanceType));
                 MethodReference equalityComparerConstructorReference = equalityComparerType.Resolve().Methods.SingleOrDefault(x => x.IsConstructor && x.Parameters.Count == 0);
-
+                
                 // The equalitycomparer needs to have a parameterless constructor.
                 if (equalityComparerConstructorReference == null)
                 {
@@ -584,7 +558,13 @@ namespace Cortex.Net.Fody
                 var setSetterMethod = computedValueOptionsType.Methods.Single(x => x.Name == "set_Setter");
                 var setSetterReference = module.ImportReference(setSetterMethod.GetGenericMethodOnInstantance(computedValueOptionsInstanceType));
                 var actionType = setMethodDefinition.GetActionType();
-                MethodReference actionTypeConstructorReference = actionType.Resolve().Methods.Single(x => x.IsConstructor);
+
+                // workaround for fody bug.
+                genericActionDefinition = (actionType is GenericInstanceType) ?
+                    this.ParentWeaver.FindStandardType($"System.Action`{(actionType as GenericInstanceType).GenericArguments.Count}")
+                    : this.ParentWeaver.FindStandardType("System.Action");
+
+                MethodReference actionTypeConstructorReference = genericActionDefinition.Methods.Single(x => x.IsConstructor);
 
                 actionTypeConstructorReference = module.ImportReference(actionTypeConstructorReference.GetGenericMethodOnInstantance(actionType));
 

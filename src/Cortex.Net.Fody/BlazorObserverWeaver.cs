@@ -50,37 +50,26 @@ namespace Cortex.Net.Fody
         private readonly ISharedStateAssignmentILProcessorQueue processorQueue;
 
         /// <summary>
-        /// Type reference to ObserverAttribute.
+        /// Weaving context.
         /// </summary>
-        private readonly TypeReference observerAttributeReference;
-
-        /// <summary>
-        /// Type reference to ObserverObject.
-        /// </summary>
-        private readonly TypeReference observerObjectReference;
+        private readonly BlazorWeavingContext weavingContext;
 
         /// <summary>
         /// The parent weaver.
         /// </summary>
-        private readonly BaseModuleWeaver parentWeaver;
+        private readonly CortexWeaver parentWeaver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BlazorObserverWeaver"/> class.
         /// </summary>
         /// <param name="parentWeaver">The parent weaver of this weaver.</param>
         /// <param name="processorQueue">The processor queue to add delegates to, to be executed on ISharedState property assignment.</param>
-        /// <param name="resolvedTypes">The resolved types necessary by this weaver.</param>
-        public BlazorObserverWeaver(BaseModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, IDictionary<string, TypeReference> resolvedTypes)
+        /// <param name="weavingContext">The resolved types necessary by this weaver.</param>
+        public BlazorObserverWeaver(CortexWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, BlazorWeavingContext weavingContext)
         {
-            if (resolvedTypes is null)
-            {
-                throw new ArgumentNullException(nameof(resolvedTypes));
-            }
-
             this.parentWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
             this.processorQueue = processorQueue ?? throw new ArgumentNullException(nameof(processorQueue));
-            this.observerAttributeReference = resolvedTypes["Cortex.Net.Blazor.ObserverAttribute"];
-            this.observerObjectReference = resolvedTypes["Cortex.Net.Blazor.ObserverObject"];
+            this.weavingContext = weavingContext ?? throw new ArgumentNullException(nameof(weavingContext));
         }
 
         /// <summary>
@@ -94,7 +83,7 @@ namespace Cortex.Net.Fody
                                       t.IsClass &&
                                       t.BaseType != null &&
                                       t.CustomAttributes != null &&
-                                      t.CustomAttributes.Any(x => x.AttributeType.FullName == this.observerAttributeReference.FullName)
+                                      t.CustomAttributes.Any(x => x.AttributeType.FullName == this.weavingContext.CortexNetBlazorObserverAttribute.FullName)
                                    select t;
 
             foreach (var decoratedClass in decoratedClasses.ToList())
@@ -141,12 +130,12 @@ namespace Cortex.Net.Fody
                 }
             }
 
-            var observerObjectType = this.observerObjectReference;
-            var innerObserverObjectField = decoratedType.CreateField(observerObjectType, InnerObserverObjectFieldName);
+            var observerObjectType = this.weavingContext.CortexNetBlazorObserverObject;
+            var innerObserverObjectField = decoratedType.CreateField(observerObjectType, InnerObserverObjectFieldName, this.weavingContext);
 
             // observerName name
             var observerName = decoratedClass.Name;
-            var observerAttribute = decoratedClass.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == this.observerAttributeReference.FullName);
+            var observerAttribute = decoratedClass.CustomAttributes.SingleOrDefault(x => x.AttributeType.FullName == this.weavingContext.CortexNetBlazorObserverAttribute.FullName);
 
             if (observerAttribute != null)
             {
@@ -167,7 +156,7 @@ namespace Cortex.Net.Fody
                 stateHasChangedMethod)));
 
             // add entrance counter field.
-            var entranceCounterDefinition = decoratedType.CreateField(module.TypeSystem.Int32, $"{InnerCounterFieldPrefix}BuildRenderTree_EntranceCount", FieldAttributes.Private);
+            var entranceCounterDefinition = decoratedType.CreateField(module.TypeSystem.Int32, $"{InnerCounterFieldPrefix}BuildRenderTree_EntranceCount", this.weavingContext, FieldAttributes.Private);
 
             // Weave the render tree method.
             this.WeaveBuildRenderTreeMethod(buildRenderTreeMethod, observerObjectType, innerObserverObjectField, entranceCounterDefinition);
@@ -237,16 +226,28 @@ namespace Cortex.Net.Fody
         {
             var module = this.parentWeaver.ModuleDefinition;
 
-            var observableObjectConstructor = module.ImportReference(this.parentWeaver.ModuleDefinition.ImportReference(this.observerObjectReference).Resolve().Methods.Single(x => x.IsConstructor));
+            var observableObjectConstructor = module.ImportReference(this.parentWeaver.ModuleDefinition.ImportReference(this.weavingContext.CortexNetBlazorObserverObject).Resolve().Methods.Single(x => x.IsConstructor));
             var buildRenderTreeReference = module.ImportReference(buildRenderTreeMethod);
             var stateChangedReference = module.ImportReference(stateChangedMethod);
 
             var renderActionType = buildRenderTreeMethod.GetActionType();
-            MethodReference renderActionConstructorType = renderActionType.Resolve().Methods.Single(x => x.IsConstructor);
+
+            // workaround for fody bug.
+            var genericActionDefinition = (renderActionType is GenericInstanceType) ?
+                this.parentWeaver.FindStandardType($"System.Action`{(renderActionType as GenericInstanceType).GenericArguments.Count}")
+                : this.parentWeaver.FindStandardType("System.Action");
+
+            MethodReference renderActionConstructorType = genericActionDefinition.Methods.Single(x => x.IsConstructor);
             var renderActionConstructorReference = module.ImportReference(renderActionConstructorType.GetGenericMethodOnInstantance(renderActionType));
 
             var stateChangedActionType = stateChangedMethod.GetActionType();
-            MethodReference stateChangedActionConstructorType = stateChangedActionType.Resolve().Methods.Single(x => x.IsConstructor);
+
+            // workaround for fody bug.
+            genericActionDefinition = (stateChangedActionType is GenericInstanceType) ?
+                this.parentWeaver.FindStandardType($"System.Action`{(stateChangedActionType as GenericInstanceType).GenericArguments.Count}")
+                : this.parentWeaver.FindStandardType("System.Action");
+
+            MethodReference stateChangedActionConstructorType = genericActionDefinition.Methods.Single(x => x.IsConstructor);
             var stateChangedActionConstructorReference = module.ImportReference(stateChangedActionConstructorType);
 
             var instructions = new List<Instruction>
@@ -282,10 +283,6 @@ namespace Cortex.Net.Fody
         private void WeaveBuildRenderTreeMethod(MethodDefinition buildRenderTreeMethod, TypeReference observerObjectType, FieldDefinition observerObjectDefinition, FieldDefinition counterFieldDefinition)
         {
             var module = this.parentWeaver.ModuleDefinition;
-
-            var getTypeReference = module.ImportReference(typeof(object)).Resolve().Methods.Single(x => x.Name == "GetType" && x.Parameters.Count == 0 && !x.IsStatic);
-            var getFullNameReference = module.ImportReference(typeof(Type)).Resolve().Methods.Single(x => x.Name == "get_FullName" && x.Parameters.Count == 0 && !x.IsStatic);
-            var writeLineReference = module.ImportReference(typeof(Console)).Resolve().Methods.Single(x => x.Name == "WriteLine" && x.Parameters.Count == 1 && x.IsStatic && x.Parameters[0].ParameterType.FullName == typeof(string).FullName);
 
             var processor = buildRenderTreeMethod.Body.GetILProcessor();
 
