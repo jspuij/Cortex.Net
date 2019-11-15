@@ -61,11 +61,29 @@ namespace Cortex.Net.Fody.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ({0}) assembly not found of one of the types inside not found..
+        ///   Looks up a localized string similar to ({0}) Type not found in assembly ({1}). The assembly is probably not referenced or none of the types is used and it is optimized away..
         /// </summary>
-        internal static string AssemblyOrTypeNotFound {
+        internal static string AssemblyOrTypeNotFoundReferences {
             get {
-                return ResourceManager.GetString("AssemblyOrTypeNotFound", resourceCulture);
+                return ResourceManager.GetString("AssemblyOrTypeNotFoundReferences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ({0}) Type not found while scanning .NET assemblies..
+        /// </summary>
+        internal static string AssemblyOrTypeNotFoundScan {
+            get {
+                return ResourceManager.GetString("AssemblyOrTypeNotFoundScan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot load all of the required types for weaving. Exiting weaver..
+        /// </summary>
+        internal static string CannotLoadTypes {
+            get {
+                return ResourceManager.GetString("CannotLoadTypes", resourceCulture);
             }
         }
         

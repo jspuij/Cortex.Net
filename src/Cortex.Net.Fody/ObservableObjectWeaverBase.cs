@@ -40,7 +40,7 @@ namespace Cortex.Net.Fody
         /// <param name="parentWeaver">The parent weaver.</param>
         /// <param name="processorQueue">The processor queue to add delegates to.</param>
         /// <param name="weavingContext">The resolved types necessary by this weaver.</param>
-        protected ObservableObjectWeaverBase(CortexWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, WeavingContext weavingContext)
+        protected ObservableObjectWeaverBase(ModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, WeavingContext weavingContext)
         {
             this.ParentWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
             this.ProcessorQueue = processorQueue ?? throw new ArgumentNullException(nameof(processorQueue));
@@ -50,7 +50,7 @@ namespace Cortex.Net.Fody
         /// <summary>
         /// Gets the parent weaver of this Weaver.
         /// </summary>
-        protected CortexWeaver ParentWeaver { get; private set; }
+        protected ModuleWeaver ParentWeaver { get; private set; }
 
         /// <summary>
         /// Gets the processor queue that contains delegates to be processed when the shared state is assigned.

@@ -57,7 +57,7 @@ namespace Cortex.Net.Fody
         /// <summary>
         /// The parent weaver.
         /// </summary>
-        private readonly CortexWeaver parentWeaver;
+        private readonly ModuleWeaver parentWeaver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BlazorObserverWeaver"/> class.
@@ -65,7 +65,7 @@ namespace Cortex.Net.Fody
         /// <param name="parentWeaver">The parent weaver of this weaver.</param>
         /// <param name="processorQueue">The processor queue to add delegates to, to be executed on ISharedState property assignment.</param>
         /// <param name="weavingContext">The resolved types necessary by this weaver.</param>
-        public BlazorObserverWeaver(CortexWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, BlazorWeavingContext weavingContext)
+        public BlazorObserverWeaver(ModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, BlazorWeavingContext weavingContext)
         {
             this.parentWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
             this.processorQueue = processorQueue ?? throw new ArgumentNullException(nameof(processorQueue));

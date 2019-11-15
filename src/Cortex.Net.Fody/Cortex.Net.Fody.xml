@@ -34,7 +34,7 @@
             Weaving context.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.ActionWeaver.#ctor(Cortex.Net.Fody.CortexWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,Cortex.Net.Fody.WeavingContext)">
+        <member name="M:Cortex.Net.Fody.ActionWeaver.#ctor(Cortex.Net.Fody.ModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,Cortex.Net.Fody.WeavingContext)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ActionWeaver"/> class.
             </summary>
@@ -112,7 +112,7 @@
             The parent weaver.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.#ctor(Cortex.Net.Fody.CortexWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,Cortex.Net.Fody.BlazorWeavingContext)">
+        <member name="M:Cortex.Net.Fody.BlazorObserverWeaver.#ctor(Cortex.Net.Fody.ModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,Cortex.Net.Fody.BlazorWeavingContext)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.BlazorObserverWeaver"/> class.
             </summary>
@@ -163,7 +163,7 @@
             Context class for Weaving.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.BlazorWeavingContext.#ctor(Cortex.Net.Fody.CortexWeaver)">
+        <member name="M:Cortex.Net.Fody.BlazorWeavingContext.#ctor(Cortex.Net.Fody.ModuleWeaver)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.BlazorWeavingContext"/> class.
             </summary>
@@ -189,7 +189,7 @@
             The prefix for an inner method that is the target of an action.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.ComputedWeaver.#ctor(Cortex.Net.Fody.CortexWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,Cortex.Net.Fody.WeavingContext)">
+        <member name="M:Cortex.Net.Fody.ComputedWeaver.#ctor(Cortex.Net.Fody.ModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,Cortex.Net.Fody.WeavingContext)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ComputedWeaver"/> class.
             </summary>
@@ -254,22 +254,6 @@
             <param name="keepAlive">Whether to keep the computed value alive.</param>
             <param name="observableObjectField">A <see cref="T:Mono.Cecil.FieldDefinition"/> for the field where the ObservableObject instance is kept.</param>
         </member>
-        <member name="T:Cortex.Net.Fody.CortexWeaver">
-            <summary>
-            Orchestrates weaving of classes with Cortex.Net Observables, Actions and Reactions.
-            </summary>
-        </member>
-        <member name="M:Cortex.Net.Fody.CortexWeaver.Execute">
-            <summary>
-            Executes the <see cref="T:Cortex.Net.Fody.CortexWeaver"/>.
-            </summary>
-        </member>
-        <member name="M:Cortex.Net.Fody.CortexWeaver.GetAssembliesForScanning">
-            <summary>
-            Return a list of assembly names for scanning. Used as a list for Fody.CortexWeaver.FindType.
-            </summary>
-            <returns>All types in the references assembly.</returns>
-        </member>
         <member name="T:Cortex.Net.Fody.EnumerableInterfaceWeaver">
             <summary>
             Weaver for enumerable types.
@@ -290,7 +274,7 @@
             Weaving context.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.EnumerableInterfaceWeaver.#ctor(Cortex.Net.Fody.CortexWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,Cortex.Net.Fody.WeavingContext)">
+        <member name="M:Cortex.Net.Fody.EnumerableInterfaceWeaver.#ctor(Cortex.Net.Fody.ModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,Cortex.Net.Fody.WeavingContext)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.EnumerableInterfaceWeaver"/> class.
             </summary>
@@ -375,6 +359,22 @@
             <param name="weavingContext">The weaving context.</param>
             <returns>A type reference.</returns>
         </member>
+        <member name="T:Cortex.Net.Fody.ModuleWeaver">
+            <summary>
+            Orchestrates weaving of classes with Cortex.Net Observables, Actions and Reactions.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ModuleWeaver.Execute">
+            <summary>
+            Executes the <see cref="T:Cortex.Net.Fody.ModuleWeaver"/>.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ModuleWeaver.GetAssembliesForScanning">
+            <summary>
+            Return a list of assembly names for scanning. Used as a list for Fody.ModuleWeaver.FindType.
+            </summary>
+            <returns>All types in the references assembly.</returns>
+        </member>
         <member name="T:Cortex.Net.Fody.ObservableObjectWeaverBase">
             <summary>
             Base class for Weavers that operate on an ObservableObject.
@@ -385,7 +385,7 @@
             The name of an Inner ObservableObjectField.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.ObservableObjectWeaverBase.#ctor(Cortex.Net.Fody.CortexWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,Cortex.Net.Fody.WeavingContext)">
+        <member name="M:Cortex.Net.Fody.ObservableObjectWeaverBase.#ctor(Cortex.Net.Fody.ModuleWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,Cortex.Net.Fody.WeavingContext)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ObservableObjectWeaverBase"/> class.
             </summary>
@@ -428,7 +428,7 @@
             The weaver to use to pass enumerable implementations to.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.ObservableWeaver.#ctor(Cortex.Net.Fody.CortexWeaver,Cortex.Net.Fody.IEnumerableInterfaceWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,Cortex.Net.Fody.WeavingContext)">
+        <member name="M:Cortex.Net.Fody.ObservableWeaver.#ctor(Cortex.Net.Fody.ModuleWeaver,Cortex.Net.Fody.IEnumerableInterfaceWeaver,Cortex.Net.Fody.ISharedStateAssignmentILProcessorQueue,Cortex.Net.Fody.WeavingContext)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ObservableWeaver"/> class.
             </summary>
@@ -536,9 +536,19 @@
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
-        <member name="P:Cortex.Net.Fody.Properties.Resources.AssemblyOrTypeNotFound">
+        <member name="P:Cortex.Net.Fody.Properties.Resources.AssemblyOrTypeNotFoundReferences">
             <summary>
-              Looks up a localized string similar to ({0}) assembly not found of one of the types inside not found..
+              Looks up a localized string similar to ({0}) Type not found in assembly ({1}). The assembly is probably not referenced or none of the types is used and it is optimized away..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.Properties.Resources.AssemblyOrTypeNotFoundScan">
+            <summary>
+              Looks up a localized string similar to ({0}) Type not found while scanning .NET assemblies..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.Properties.Resources.CannotLoadTypes">
+            <summary>
+              Looks up a localized string similar to Cannot load all of the required types for weaving. Exiting weaver..
             </summary>
         </member>
         <member name="P:Cortex.Net.Fody.Properties.Resources.MoreThan16Parameters">
@@ -593,7 +603,7 @@
             Weaving context.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.#ctor(Cortex.Net.Fody.CortexWeaver,Cortex.Net.Fody.WeavingContext)">
+        <member name="M:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.#ctor(Cortex.Net.Fody.ModuleWeaver,Cortex.Net.Fody.WeavingContext)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver"/> class.
             </summary>
@@ -697,7 +707,7 @@
             Context class for Weaving.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.WeavingContext.#ctor(Cortex.Net.Fody.CortexWeaver)">
+        <member name="M:Cortex.Net.Fody.WeavingContext.#ctor(Cortex.Net.Fody.ModuleWeaver)">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Fody.WeavingContext"/> class.
             </summary>
@@ -778,7 +788,7 @@
             Gets func type references.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.WeavingContext.TryResolveFromReference(Cortex.Net.Fody.CortexWeaver,System.String,System.String)">
+        <member name="M:Cortex.Net.Fody.WeavingContext.TryResolveFromReference(Cortex.Net.Fody.ModuleWeaver,System.String,System.String)">
             <summary>
             Tries to resolve a type from a preference.
             </summary>
@@ -787,7 +797,7 @@
             <param name="assemblyName">The assembly name.</param>
             <returns>A type reference.</returns>
         </member>
-        <member name="M:Cortex.Net.Fody.WeavingContext.TryResolveFromScannedAssemblies(Cortex.Net.Fody.CortexWeaver,System.String)">
+        <member name="M:Cortex.Net.Fody.WeavingContext.TryResolveFromScannedAssemblies(Cortex.Net.Fody.ModuleWeaver,System.String)">
             <summary>
             Tries to resolve a type from a preference.
             </summary>

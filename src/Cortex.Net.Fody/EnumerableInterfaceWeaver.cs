@@ -50,7 +50,7 @@ namespace Cortex.Net.Fody
         /// <summary>
         /// The parent weaver of this weaver.
         /// </summary>
-        private readonly CortexWeaver parentWeaver;
+        private readonly ModuleWeaver parentWeaver;
 
         /// <summary>
         /// The processor queue that contains delegates to be processed when the shared state is assigned.
@@ -68,7 +68,7 @@ namespace Cortex.Net.Fody
         /// <param name="parentWeaver">The parent weaver of this CollectionWeaver.</param>
         /// <param name="processorQueue">The queue to add ILProcessor actions to.</param>
         /// <param name="weavingContext">The resolved types necessary by this weaver.</param>
-        public EnumerableInterfaceWeaver(CortexWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, WeavingContext weavingContext)
+        public EnumerableInterfaceWeaver(ModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, WeavingContext weavingContext)
         {
             this.parentWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
             this.processorQueue = processorQueue ?? throw new ArgumentNullException(nameof(processorQueue));

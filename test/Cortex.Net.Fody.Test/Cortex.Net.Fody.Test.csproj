@@ -47,7 +47,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cortex.Net.Fody\Cortex.Net.Fody.csproj" />
     <ProjectReference Include="..\..\src\Cortex.Net\Cortex.Net.csproj" />
-    <WeaverFiles Include="$(SolutionDir)src\Cortex.Net.Fody\bin\$(Configuration)\netstandard2.0\Cortex.Net.Fody.dll" WeaverClassNames="CortexWeaver" />
+    <WeaverFiles Include="$(SolutionDir)src\Cortex.Net.Fody\bin\$(Configuration)\netstandard2.0\Cortex.Net.Fody.dll" WeaverClassNames="ModuleWeaver" />
   </ItemGroup>
 
 </Project>

@@ -30,7 +30,7 @@ namespace Cortex.Net.Fody
         /// <summary>
         /// A reference to the parent Cortex.Net weaver.
         /// </summary>
-        private readonly CortexWeaver parentWeaver;
+        private readonly ModuleWeaver parentWeaver;
 
         /// <summary>
         /// Weaving context.
@@ -42,7 +42,7 @@ namespace Cortex.Net.Fody
         /// </summary>
         /// <param name="parentWeaver">The parent weaver.</param>
         /// <param name="weavingContext">The resolved types necessary by this weaver.</param>
-        public ReactiveObjectInterfaceWeaver(CortexWeaver parentWeaver, WeavingContext weavingContext)
+        public ReactiveObjectInterfaceWeaver(ModuleWeaver parentWeaver, WeavingContext weavingContext)
         {
             this.parentWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
             this.weavingContext = weavingContext ?? throw new ArgumentNullException(nameof(weavingContext));

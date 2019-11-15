@@ -1,4 +1,4 @@
-﻿// <copyright file="CortexWeaver.cs" company="Jan-Willem Spuij">
+﻿// <copyright file="ModuleWeaver.cs" company="Jan-Willem Spuij">
 // Copyright 2019 Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -28,17 +28,28 @@ namespace Cortex.Net.Fody
     /// <summary>
     /// Orchestrates weaving of classes with Cortex.Net Observables, Actions and Reactions.
     /// </summary>
-    public class CortexWeaver : BaseModuleWeaver
+    public class ModuleWeaver : BaseModuleWeaver
     {
         /// <summary>
-        /// Executes the <see cref="CortexWeaver"/>.
+        /// Executes the <see cref="ModuleWeaver"/>.
         /// </summary>
         public override void Execute()
         {
-            var weavingContext =
-                this.ModuleDefinition.AssemblyReferences.Any(x => x.Name == "Cortex.Net.Blazor") ?
-                new BlazorWeavingContext(this) :
-                new WeavingContext(this);
+            WeavingContext weavingContext = null;
+            try
+            {
+                weavingContext =
+                    this.ModuleDefinition.AssemblyReferences.Any(x => x.Name == "Cortex.Net.Blazor") ?
+                    new BlazorWeavingContext(this) :
+                    new WeavingContext(this);
+#pragma warning disable CA1031 // Do not catch general exception types
+            }
+            catch
+#pragma warning restore CA1031 // Do not catch general exception types
+            {
+                this.LogWarning(Resources.CannotLoadTypes);
+                return;
+            }
 
             var reactiveObjectInterfaceWeaver = new ReactiveObjectInterfaceWeaver(this, weavingContext);
             var enumerableWeaver = new EnumerableInterfaceWeaver(this, reactiveObjectInterfaceWeaver, weavingContext);
@@ -62,7 +73,7 @@ namespace Cortex.Net.Fody
        }
 
         /// <summary>
-        /// Return a list of assembly names for scanning. Used as a list for Fody.CortexWeaver.FindType.
+        /// Return a list of assembly names for scanning. Used as a list for Fody.ModuleWeaver.FindType.
         /// </summary>
         /// <returns>All types in the references assembly.</returns>
         public override IEnumerable<string> GetAssembliesForScanning()

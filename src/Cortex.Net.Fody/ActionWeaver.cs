@@ -43,7 +43,7 @@ namespace Cortex.Net.Fody
         /// <summary>
         /// A reference to the parent Cortex.Net weaver.
         /// </summary>
-        private readonly CortexWeaver parentWeaver;
+        private readonly ModuleWeaver parentWeaver;
 
         /// <summary>
         /// The queue to add ILProcessor actions to.
@@ -62,7 +62,7 @@ namespace Cortex.Net.Fody
         /// <param name="processorQueue">The queue to add ILProcessor actions to.</param>
         /// <param name="weavingContext">The resolved types necessary by this weaver.</param>
         /// <exception cref="ArgumentNullException">When any of the arguments is null.</exception>
-        public ActionWeaver(CortexWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, WeavingContext weavingContext)
+        public ActionWeaver(ModuleWeaver parentWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, WeavingContext weavingContext)
         {
             this.parentWeaver = parentWeaver ?? throw new ArgumentNullException(nameof(parentWeaver));
             this.processorQueue = processorQueue ?? throw new ArgumentNullException(nameof(processorQueue));

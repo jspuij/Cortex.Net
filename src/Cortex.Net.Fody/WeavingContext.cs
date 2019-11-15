@@ -32,7 +32,7 @@ namespace Cortex.Net.Fody
         /// Initializes a new instance of the <see cref="WeavingContext"/> class.
         /// </summary>
         /// <param name="moduleWeaver">Moduleweaver to use.</param>
-        public WeavingContext(CortexWeaver moduleWeaver)
+        public WeavingContext(ModuleWeaver moduleWeaver)
         {
             this.CortexNetISharedState = TryResolveFromReference(moduleWeaver, "Cortex.Net.ISharedState", "Cortex.Net");
             this.CortexNetApiActionAttribute = TryResolveFromReference(moduleWeaver, "Cortex.Net.Api.ActionAttribute", "Cortex.Net");
@@ -133,7 +133,7 @@ namespace Cortex.Net.Fody
         /// <param name="fullName">The fullname of the type.</param>
         /// <param name="assemblyName">The assembly name.</param>
         /// <returns>A type reference.</returns>
-        protected static TypeReference TryResolveFromReference(CortexWeaver moduleWeaver, string fullName, string assemblyName)
+        protected static TypeReference TryResolveFromReference(ModuleWeaver moduleWeaver, string fullName, string assemblyName)
         {
             if (moduleWeaver is null)
             {
@@ -147,8 +147,8 @@ namespace Cortex.Net.Fody
             }
             catch
             {
+                moduleWeaver.LogWarning(string.Format(CultureInfo.CurrentCulture, Resources.AssemblyOrTypeNotFoundReferences, fullName, assemblyName));
                 throw;
-                throw new WeavingException(string.Format(CultureInfo.CurrentCulture, Resources.AssemblyOrTypeNotFound, fullName));
             }
         }
 
@@ -158,7 +158,7 @@ namespace Cortex.Net.Fody
         /// <param name="moduleWeaver">The module weaver to use.</param>
         /// <param name="fullName">The fullname of the type.</param>
         /// <returns>A type reference.</returns>
-        protected static TypeReference TryResolveFromScannedAssemblies(CortexWeaver moduleWeaver, string fullName)
+        protected static TypeReference TryResolveFromScannedAssemblies(ModuleWeaver moduleWeaver, string fullName)
         {
             if (moduleWeaver is null)
             {
@@ -173,7 +173,8 @@ namespace Cortex.Net.Fody
             }
             catch
             {
-                throw new WeavingException(string.Format(CultureInfo.CurrentCulture, Resources.AssemblyOrTypeNotFound, fullName));
+                moduleWeaver.LogWarning(string.Format(CultureInfo.CurrentCulture, Resources.AssemblyOrTypeNotFoundScan, fullName));
+                throw;
             }
         }
     }

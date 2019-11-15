@@ -28,7 +28,7 @@ namespace Cortex.Net.Fody
         /// Initializes a new instance of the <see cref="BlazorWeavingContext"/> class.
         /// </summary>
         /// <param name="moduleWeaver">Moduleweaver to use.</param>
-        public BlazorWeavingContext(CortexWeaver moduleWeaver)
+        public BlazorWeavingContext(ModuleWeaver moduleWeaver)
             : base(moduleWeaver)
         {
             this.CortexNetBlazorObserverAttribute = TryResolveFromReference(moduleWeaver, "Cortex.Net.Blazor.ObserverAttribute", "Cortex.Net.Blazor");

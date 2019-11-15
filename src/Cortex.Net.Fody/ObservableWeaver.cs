@@ -43,7 +43,7 @@ namespace Cortex.Net.Fody
         /// <param name="processorQueue">The queue to add ILProcessor actions to.</param>
         /// <param name="weavingContext">The resolved types necessary by this weaver.</param>
         /// <exception cref="ArgumentNullException">When any of the arguments is null.</exception>
-        public ObservableWeaver(CortexWeaver parentWeaver, IEnumerableInterfaceWeaver enumerableInterfaceWeaver,  ISharedStateAssignmentILProcessorQueue processorQueue, WeavingContext weavingContext)
+        public ObservableWeaver(ModuleWeaver parentWeaver, IEnumerableInterfaceWeaver enumerableInterfaceWeaver,  ISharedStateAssignmentILProcessorQueue processorQueue, WeavingContext weavingContext)
             : base(parentWeaver, processorQueue, weavingContext)
         {
             this.enumerableInterfaceWeaver = enumerableInterfaceWeaver ?? throw new ArgumentNullException(nameof(enumerableInterfaceWeaver));

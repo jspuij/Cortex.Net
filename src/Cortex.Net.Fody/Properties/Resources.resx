@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AssemblyOrTypeNotFound" xml:space="preserve">
-    <value>({0}) assembly not found of one of the types inside not found.</value>
+  <data name="AssemblyOrTypeNotFoundReferences" xml:space="preserve">
+    <value>({0}) Type not found in assembly ({1}). The assembly is probably not referenced or none of the types is used and it is optimized away.</value>
+  </data>
+  <data name="AssemblyOrTypeNotFoundScan" xml:space="preserve">
+    <value>({0}) Type not found while scanning .NET assemblies.</value>
+  </data>
+  <data name="CannotLoadTypes" xml:space="preserve">
+    <value>Cannot load all of the required types for weaving. Exiting weaver.</value>
   </data>
   <data name="MoreThan16Parameters" xml:space="preserve">
     <value>CannotHandle more than 16 parameters on Action Method: ({0})</value>
