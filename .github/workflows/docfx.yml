@@ -22,6 +22,6 @@ jobs:
     - name: Build with dotnet
       run: build/docfx.ps1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BUILD_TOKEN: ${{ secrets.BUILD_Token }}
         GH_EMAIL: ${{ secrets.GH_EMAIL }}
         GH_USER: ${{ secrets.GH_USER }}
