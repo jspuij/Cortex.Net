@@ -1,3 +1,5 @@
+git config --global user.email "%GH_EMAIL%"
+git config --global user.name "%GH_USER%"
 cd docs
 dir
 docfx docfx.json

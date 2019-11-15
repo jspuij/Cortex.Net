@@ -29,5 +29,6 @@ jobs:
     - name: Build with dotnet
       run: build/docfx.cmd
       env:
+        token: ${{ secrets.BUILD_Token }}
         GH_EMAIL: ${{ secrets.GH_EMAIL }}
         GH_USER: ${{ secrets.GH_USER }}
