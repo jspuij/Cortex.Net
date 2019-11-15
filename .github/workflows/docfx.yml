@@ -32,7 +32,7 @@ jobs:
         token: ${{ secrets.BUILD_Token }}
         GH_EMAIL: ${{ secrets.GH_EMAIL }}
         GH_USER: ${{ secrets.GH_USER }}
- - name: Push changes
+    - name: Push changes
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.BUILD_Token }}
