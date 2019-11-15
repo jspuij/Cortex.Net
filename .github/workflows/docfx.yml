@@ -26,9 +26,14 @@ jobs:
       uses: crazy-max/ghaction-chocolatey@v1.0.1
       with:
           args: install docfx -y
-    - name: Build with dotnet
+    - name: Run documentation generation
       run: build/docfx.cmd
       env:
-        token: ${{ secrets.BUILD_Token }}
         GH_EMAIL: ${{ secrets.GH_EMAIL }}
         GH_USER: ${{ secrets.GH_USER }}
+ - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.BUILD_Token }}
+        directory: ../Cortex.Net.Docs
+        repository: jspuij/Cortex.Net.Docs
