@@ -24,4 +24,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GH_EMAIL: ${{ secrets.GH_EMAIL }}
-        GH_USER: ${{ secrets.$GH_USER }}
+        GH_USER: ${{ secrets.GH_USER }}
