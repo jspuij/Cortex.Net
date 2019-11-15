@@ -23,11 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortex.Net.Fody", "src\Cort
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortex.Net.Fody.Test", "test\Cortex.Net.Fody.Test\Cortex.Net.Fody.Test.csproj", "{6A213F26-6769-432E-A157-DCEBA92F9E3D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{0E4B8F86-ED56-410C-B07F-340258B54990}"
-	ProjectSection(SolutionItems) = preProject
-		docs\README.md = docs\README.md
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortex.Net.Blazor", "src\Cortex.Net.Blazor\Cortex.Net.Blazor.csproj", "{2F1F7856-1D48-4087-B368-31A2CE1206EA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{79D4183C-B3B6-4ACE-82EF-3D103EB90049}"

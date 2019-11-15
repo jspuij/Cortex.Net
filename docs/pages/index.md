@@ -1,8 +1,4 @@
----
-title: Introduction
-sidebar_label: Introduction
-hide_title: true
----
+<img src="../logo.svg" alt="Cortex.Net" height=120 align="right">
 
 # Cortex.Net
 
@@ -15,25 +11,22 @@ To install the main library, install the the [Cortex.Net NuGet package](https://
 ```powershell
 PM> Install-Package Cortex.Net
 ```
-To make life easier Cortex.Net supports weaving to create transparent observable state.
+If you want to install the Blazor bindings, they are in a separate package:
 
-Install the [Cortex.Net.Fody NuGet package](https://nuget.org/packages/Cortex.Net.Fody/) and update the [Fody NuGet package](https://nuget.org/packages/Fody/):
+Install the [Cortex.Net.Blazor NuGet package](https://nuget.org/packages/Cortex.Net.Blazor/):
 
 ```powershell
-PM> Install-Package Fody
-PM> Install-Package Cortex.Net.Fody
+PM> Install-Package Cortex.Net.Blazor
 ```
-
-The `Install-Package Fody` is required since NuGet always defaults to the oldest, and most buggy, version of any dependency.
-
 
 ### Add to FodyWeavers.xml
 
-Add `<CortextWeaver/>` to [FodyWeavers.xml](https://github.com/Fody/Home/blob/master/pages/usage.md#add-fodyweaversxml)
+To make life easier Cortex.Net supports weaving to create transparent observable state. To do this you need to create a FodyWeavers.xml file and add it to your project.
+Add `<Cortex.Net />` to [FodyWeavers.xml](https://github.com/Fody/Home/blob/master/pages/usage.md#add-fodyweaversxml)
 
 ```xml
 <Weavers>
-  <CortextWeaver/>
+  <Cortex.Net />
 </Weavers>
 ```
 
