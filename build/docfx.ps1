@@ -1,7 +1,7 @@
 git config --global user.email "$Env:GH_EMAIL"
 git config --global user.name "$Env:GH_USER"
 cd docs
-git submodule add -f --name Cortex.Net.Docs "https://github.com/jspuij/Cortex.Net.Docs" "_site"
+git submodule add -f ----progress --name Cortex.Net.Docs "https://github.com/jspuij/Cortex.Net.Docs" "_site"
 #docfx docfx.json
 #cd _site
 #git add .
