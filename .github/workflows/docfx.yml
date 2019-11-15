@@ -21,4 +21,7 @@ jobs:
           args: install docfx -y
     - name: Build with dotnet
       run: build/docfx.ps1
-      
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_EMAIL: ${{ secrets.GH_EMAIL }}
+        GH_USER: ${{ secrets.$GH_USER }}
