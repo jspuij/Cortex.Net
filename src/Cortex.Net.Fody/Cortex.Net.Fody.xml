@@ -359,18 +359,20 @@
             <param name="instantiantedType">The instantiated type.</param>
             <returns>A new method reference.</returns>
         </member>
-        <member name="M:Cortex.Net.Fody.MethodReferenceExtensions.GetActionType(Mono.Cecil.MethodDefinition)">
+        <member name="M:Cortex.Net.Fody.MethodReferenceExtensions.GetActionType(Mono.Cecil.MethodDefinition,Cortex.Net.Fody.WeavingContext)">
             <summary>
             Gets the Action type for the private field that is added to the class for the private method.
             </summary>
             <param name="methodDefinition">The method definition for the action.</param>
+            <param name="weavingContext">The weaving context.</param>
             <returns>A type reference.</returns>
         </member>
-        <member name="M:Cortex.Net.Fody.MethodReferenceExtensions.GetFunctionType(Mono.Cecil.MethodDefinition)">
+        <member name="M:Cortex.Net.Fody.MethodReferenceExtensions.GetFunctionType(Mono.Cecil.MethodDefinition,Cortex.Net.Fody.WeavingContext)">
             <summary>
             Gets the Function type for the computed method that is passed.
             </summary>
             <param name="methodDefinition">The method definition for the function.</param>
+            <param name="weavingContext">The weaving context.</param>
             <returns>A type reference.</returns>
         </member>
         <member name="T:Cortex.Net.Fody.ObservableObjectWeaverBase">
@@ -764,6 +766,16 @@
         <member name="P:Cortex.Net.Fody.WeavingContext.SystemDiagnosticsDebuggerBrowsableAttribute">
             <summary>
             Gets type reference to System.Diagnostics.DebuggerBrowsableAttribute.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.WeavingContext.SystemAction">
+            <summary>
+            Gets action type references.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.WeavingContext.SystemFunc">
+            <summary>
+            Gets func type references.
             </summary>
         </member>
         <member name="M:Cortex.Net.Fody.WeavingContext.TryResolveFromReference(Cortex.Net.Fody.CortexWeaver,System.String,System.String)">

@@ -30,20 +30,6 @@ namespace Cortex.Net.Fody
     /// </summary>
     public class CortexWeaver : BaseModuleWeaver
     {
-        private string NetStandardReferencePath
-        {
-            get
-            {
-                var splitReferences = this.References.Split(';');
-                return splitReferences.Single(x => Path.GetFileNameWithoutExtension(x) == "netstandard");
-            }
-        }
-
-        internal TypeDefinition FindStandardType(string name)
-        {
-            return this.FindType(name);
-        }
-
         /// <summary>
         /// Executes the <see cref="CortexWeaver"/>.
         /// </summary>
@@ -55,9 +41,10 @@ namespace Cortex.Net.Fody
                 new WeavingContext(this);
 
             var reactiveObjectInterfaceWeaver = new ReactiveObjectInterfaceWeaver(this, weavingContext);
-
             var enumerableWeaver = new EnumerableInterfaceWeaver(this, reactiveObjectInterfaceWeaver, weavingContext);
+
             var actionWeaver = new ActionWeaver(this, reactiveObjectInterfaceWeaver, weavingContext);
+
             var observableWeaver = new ObservableWeaver(this, enumerableWeaver, reactiveObjectInterfaceWeaver, weavingContext);
             var computedWeaver = new ComputedWeaver(this, reactiveObjectInterfaceWeaver, weavingContext);
 
@@ -81,8 +68,14 @@ namespace Cortex.Net.Fody
         public override IEnumerable<string> GetAssembliesForScanning()
         {
             yield return "mscorlib";
+            yield return "System";
+            yield return "System.Runtime";
+            yield return "System.Core";
             yield return "netstandard";
-            yield return "Microsoft.AspNetCore.Components";
+            yield return "System.Collections";
+            yield return "System.ObjectModel";
+            yield return "System.Threading";
+            yield return "FSharp.Core";
         }
     }
 }

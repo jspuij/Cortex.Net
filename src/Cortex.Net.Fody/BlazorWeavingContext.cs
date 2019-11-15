@@ -31,8 +31,8 @@ namespace Cortex.Net.Fody
         public BlazorWeavingContext(CortexWeaver moduleWeaver)
             : base(moduleWeaver)
         {
-            this.CortexNetBlazorObserverAttribute = this.TryResolveFromReference(moduleWeaver, "Cortex.Net.Blazor.ObserverAttribute", "Cortex.Net.Blazor");
-            this.CortexNetBlazorObserverObject = this.TryResolveFromReference(moduleWeaver, "Cortex.Net.Blazor.ObserverObject", "Cortex.Net.Blazor");
+            this.CortexNetBlazorObserverAttribute = TryResolveFromReference(moduleWeaver, "Cortex.Net.Blazor.ObserverAttribute", "Cortex.Net.Blazor");
+            this.CortexNetBlazorObserverObject = TryResolveFromReference(moduleWeaver, "Cortex.Net.Blazor.ObserverObject", "Cortex.Net.Blazor");
         }
 
         /// <summary>

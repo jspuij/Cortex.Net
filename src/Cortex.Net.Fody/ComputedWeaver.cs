@@ -461,18 +461,13 @@ namespace Cortex.Net.Fody
             FieldDefinition observableObjectField)
         {
             var module = methodDefinition.Module;
-            var functionType = methodDefinition.GetFunctionType();
+            var functionType = methodDefinition.GetFunctionType(this.WeavingContext);
 
             var observableObjectType = this.WeavingContext.CortexNetTypesObservableObject.Resolve();
             var observableObjectAddComputedMethod = new GenericInstanceMethod(observableObjectType.Methods.FirstOrDefault(m => m.Name == "AddComputedMember"));
             observableObjectAddComputedMethod.GenericArguments.Add(methodDefinition.ReturnType);
 
-            // workaround for fody bug.
-            var genericActionDefinition = (functionType is GenericInstanceType) ?
-                this.ParentWeaver.FindStandardType($"System.Func`{(functionType as GenericInstanceType).GenericArguments.Count}")
-                : this.ParentWeaver.FindStandardType("System.Func");
-
-            MethodReference functionTypeConstructorReference = genericActionDefinition.Methods.Single(x => x.IsConstructor);
+            MethodReference functionTypeConstructorReference = functionType.Resolve().Methods.Single(x => x.IsConstructor);
 
             functionTypeConstructorReference = module.ImportReference(functionTypeConstructorReference.GetGenericMethodOnInstantance(functionType));
             var computedValueOptionsType = this.WeavingContext.CortexNetComputedValueOptions.Resolve();
@@ -528,7 +523,7 @@ namespace Cortex.Net.Fody
                 var setEqualityComparerMethod = computedValueOptionsType.Methods.Single(x => x.Name == "set_EqualityComparer");
                 var setEqualityComparerReference = module.ImportReference(setEqualityComparerMethod.GetGenericMethodOnInstantance(computedValueOptionsInstanceType));
                 MethodReference equalityComparerConstructorReference = equalityComparerType.Resolve().Methods.SingleOrDefault(x => x.IsConstructor && x.Parameters.Count == 0);
-                
+
                 // The equalitycomparer needs to have a parameterless constructor.
                 if (equalityComparerConstructorReference == null)
                 {
@@ -557,14 +552,9 @@ namespace Cortex.Net.Fody
             {
                 var setSetterMethod = computedValueOptionsType.Methods.Single(x => x.Name == "set_Setter");
                 var setSetterReference = module.ImportReference(setSetterMethod.GetGenericMethodOnInstantance(computedValueOptionsInstanceType));
-                var actionType = setMethodDefinition.GetActionType();
+                var actionType = setMethodDefinition.GetActionType(this.WeavingContext);
 
-                // workaround for fody bug.
-                genericActionDefinition = (actionType is GenericInstanceType) ?
-                    this.ParentWeaver.FindStandardType($"System.Action`{(actionType as GenericInstanceType).GenericArguments.Count}")
-                    : this.ParentWeaver.FindStandardType("System.Action");
-
-                MethodReference actionTypeConstructorReference = genericActionDefinition.Methods.Single(x => x.IsConstructor);
+                MethodReference actionTypeConstructorReference = actionType.Resolve().Methods.Single(x => x.IsConstructor);
 
                 actionTypeConstructorReference = module.ImportReference(actionTypeConstructorReference.GetGenericMethodOnInstantance(actionType));
 

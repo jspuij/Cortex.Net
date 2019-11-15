@@ -191,7 +191,7 @@ namespace Cortex.Net.Fody
 
             var moduleDefinition = classType.Module;
 
-            var voidType = moduleDefinition.ImportReference(typeof(void));
+            var voidType = moduleDefinition.TypeSystem.Void;
 
             var splittedName = name.Split('.');
 

@@ -98,7 +98,7 @@ namespace Cortex.Net.Fody
         /// <param name="actionType">The type of the action delegate to invoke.</param>
         /// <param name="counterFieldDefinition">The definition of the field that holds the entrance counter.</param>
         /// <param name="actionFieldDefinition">The definition of the field that holds the action delegate.</param>
-        private void ExtendActionMethodBody(MethodDefinition methodDefinition, TypeReference actionType, FieldDefinition counterFieldDefinition, FieldDefinition actionFieldDefinition)
+        private static void ExtendActionMethodBody(MethodDefinition methodDefinition, TypeReference actionType, FieldDefinition counterFieldDefinition, FieldDefinition actionFieldDefinition)
         {
             if (methodDefinition is null)
             {
@@ -157,14 +157,8 @@ namespace Cortex.Net.Fody
                 processor.Create(OpCodes.Ldfld, actionFieldDefinition),
             };
 
-            // workaround for fody bug.
-            var genericActionDefinition = (actionType is GenericInstanceType) ?
-                this.parentWeaver.FindStandardType($"System.Action`{(actionType as GenericInstanceType).GenericArguments.Count}")
-                : this.parentWeaver.FindStandardType("System.Action");
-
-            var invokeMethod = genericActionDefinition.Methods.Single(x => x.Name == "Invoke");
+            var invokeMethod = actionType.Resolve().Methods.Single(x => x.Name == "Invoke");
             var invokeReference = invokeMethod.GetGenericMethodOnInstantance(actionType);
-
 
             // push all function arguments onto the evaluation stack.
             for (int i = 0; i < methodDefinition.Parameters.Count; i++)
@@ -220,16 +214,11 @@ namespace Cortex.Net.Fody
             }
 
             var actionExtensions = this.weavingContext.CortexNetApiActionExtensions;
-            var voidType = moduleDefinition.ImportReference(typeof(void));
+            var voidType = moduleDefinition.TypeSystem.Void;
 
             MethodReference createActionMethod;
 
-            // workaround for fody bug.
-            var genericActionDefinition = (actionType is GenericInstanceType) ?
-                this.parentWeaver.FindStandardType($"System.Action`{(actionType as GenericInstanceType).GenericArguments.Count}")
-                : this.parentWeaver.FindStandardType("System.Action");
-
-            MethodReference actionTypeConstructorReference = genericActionDefinition.Methods.Single(x => x.IsConstructor);
+            MethodReference actionTypeConstructorReference = actionType.Resolve().Methods.Single(x => x.IsConstructor);
 
             actionTypeConstructorReference = actionTypeConstructorReference.GetGenericMethodOnInstantance(actionType);
 
@@ -284,7 +273,7 @@ namespace Cortex.Net.Fody
             }
 
             // convert the method definition to a corresponding Action<> delegate.
-            var actionType = methodDefinition.GetActionType();
+            var actionType = methodDefinition.GetActionType(this.weavingContext);
 
             // add the delegate as field to the class.
             var actionFieldDefinition = declaringType.CreateField(actionType, $"{InnerActionFieldPrefix}{methodDefinition.Name}_Action", this.weavingContext, fieldAttributes);

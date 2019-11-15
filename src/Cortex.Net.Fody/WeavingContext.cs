@@ -16,6 +16,7 @@
 
 namespace Cortex.Net.Fody
 {
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using Cortex.Net.Fody.Properties;
@@ -33,85 +34,97 @@ namespace Cortex.Net.Fody
         /// <param name="moduleWeaver">Moduleweaver to use.</param>
         public WeavingContext(CortexWeaver moduleWeaver)
         {
-            this.CortexNetISharedState = this.TryResolveFromReference(moduleWeaver, "Cortex.Net.ISharedState", "Cortex.Net");
-            this.CortexNetApiActionAttribute = this.TryResolveFromReference(moduleWeaver, "Cortex.Net.Api.ActionAttribute", "Cortex.Net");
-            this.CortexNetIReactiveObject = this.TryResolveFromReference(moduleWeaver, "Cortex.Net.IReactiveObject", "Cortex.Net");
-            this.CortexNetApiActionExtensions = this.TryResolveFromReference(moduleWeaver, "Cortex.Net.Api.ActionExtensions", "Cortex.Net");
-            this.CortexNetApiComputedAttribute = this.TryResolveFromReference(moduleWeaver, "Cortex.Net.Api.ComputedAttribute", "Cortex.Net");
-            this.CortexNetTypesDeepEnhancer = this.TryResolveFromReference(moduleWeaver, "Cortex.Net.Types.DeepEnhancer", "Cortex.Net");
-            this.CortexNetTypesObservableObject = this.TryResolveFromReference(moduleWeaver, "Cortex.Net.Types.ObservableObject", "Cortex.Net");
-            this.CortexNetComputedValueOptions = this.TryResolveFromReference(moduleWeaver, "Cortex.Net.ComputedValueOptions`1", "Cortex.Net");
-            this.CortexNetTypesObservableCollection = this.TryResolveFromReference(moduleWeaver, "Cortex.Net.Types.ObservableCollection`1", "Cortex.Net");
-            this.CortexNetApiObservableAttribute = this.TryResolveFromReference(moduleWeaver, "Cortex.Net.Api.ObservableAttribute", "Cortex.Net");
-            this.CortexNetCoreActionExtensions = this.TryResolveFromReference(moduleWeaver, "Cortex.Net.Core.ActionExtensions", "Cortex.Net");
-            this.SystemRuntimeCompilerServicesCompilerGeneratedAttribute = this.TryResolveFromScannedAssemblies(moduleWeaver, "System.Runtime.CompilerServices.CompilerGeneratedAttribute");
-            this.SystemDiagnosticsDebuggerBrowsableAttribute = this.TryResolveFromScannedAssemblies(moduleWeaver, "System.Diagnostics.DebuggerBrowsableAttribute");
+            this.CortexNetISharedState = TryResolveFromReference(moduleWeaver, "Cortex.Net.ISharedState", "Cortex.Net");
+            this.CortexNetApiActionAttribute = TryResolveFromReference(moduleWeaver, "Cortex.Net.Api.ActionAttribute", "Cortex.Net");
+            this.CortexNetIReactiveObject = TryResolveFromReference(moduleWeaver, "Cortex.Net.IReactiveObject", "Cortex.Net");
+            this.CortexNetApiActionExtensions = TryResolveFromReference(moduleWeaver, "Cortex.Net.Api.ActionExtensions", "Cortex.Net");
+            this.CortexNetApiComputedAttribute = TryResolveFromReference(moduleWeaver, "Cortex.Net.Api.ComputedAttribute", "Cortex.Net");
+            this.CortexNetTypesDeepEnhancer = TryResolveFromReference(moduleWeaver, "Cortex.Net.Types.DeepEnhancer", "Cortex.Net");
+            this.CortexNetTypesObservableObject = TryResolveFromReference(moduleWeaver, "Cortex.Net.Types.ObservableObject", "Cortex.Net");
+            this.CortexNetComputedValueOptions = TryResolveFromReference(moduleWeaver, "Cortex.Net.ComputedValueOptions`1", "Cortex.Net");
+            this.CortexNetTypesObservableCollection = TryResolveFromReference(moduleWeaver, "Cortex.Net.Types.ObservableCollection`1", "Cortex.Net");
+            this.CortexNetApiObservableAttribute = TryResolveFromReference(moduleWeaver, "Cortex.Net.Api.ObservableAttribute", "Cortex.Net");
+            this.CortexNetCoreActionExtensions = TryResolveFromReference(moduleWeaver, "Cortex.Net.Core.ActionExtensions", "Cortex.Net");
+            this.SystemRuntimeCompilerServicesCompilerGeneratedAttribute = TryResolveFromScannedAssemblies(moduleWeaver, "System.Runtime.CompilerServices.CompilerGeneratedAttribute");
+            this.SystemDiagnosticsDebuggerBrowsableAttribute = TryResolveFromScannedAssemblies(moduleWeaver, "System.Diagnostics.DebuggerBrowsableAttribute");
+            this.SystemAction = Enumerable.Range(0, 16).Select(x => TryResolveFromScannedAssemblies(moduleWeaver, x == 0 ? "System.Action" : $"System.Action`{x}")).ToList().AsReadOnly();
+            this.SystemFunc = Enumerable.Range(0, 16).Select(x => TryResolveFromScannedAssemblies(moduleWeaver, $"System.Func`{x + 1}")).ToList().AsReadOnly();
         }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.ISharedState.
         /// </summary>
-        internal TypeReference CortexNetISharedState { get; private set; }
+        public TypeReference CortexNetISharedState { get; private set; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Api.ActionAttribute.
         /// </summary>
-        internal TypeReference CortexNetApiActionAttribute { get; private set; }
+        public TypeReference CortexNetApiActionAttribute { get; private set; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.IReactiveObject.
         /// </summary>
-        internal TypeReference CortexNetIReactiveObject { get; private set; }
+        public TypeReference CortexNetIReactiveObject { get; private set; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Api.ActionExtensions.
         /// </summary>
-        internal TypeReference CortexNetApiActionExtensions { get; private set; }
+        public TypeReference CortexNetApiActionExtensions { get; private set; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Api.ComputedAttribute.
         /// </summary>
-        internal TypeReference CortexNetApiComputedAttribute { get; private set; }
+        public TypeReference CortexNetApiComputedAttribute { get; private set; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Types.DeepEnhancer.
         /// </summary>
-        internal TypeReference CortexNetTypesDeepEnhancer { get; private set; }
+        public TypeReference CortexNetTypesDeepEnhancer { get; private set; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Types.ObservableObject.
         /// </summary>
-        internal TypeReference CortexNetTypesObservableObject { get; private set; }
+        public TypeReference CortexNetTypesObservableObject { get; private set; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.ComputedValueOptions`1.
         /// </summary>
-        internal TypeReference CortexNetComputedValueOptions { get; private set; }
+        public TypeReference CortexNetComputedValueOptions { get; private set; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Types.ObservableCollection`1.
         /// </summary>
-        internal TypeReference CortexNetTypesObservableCollection { get; private set; }
+        public TypeReference CortexNetTypesObservableCollection { get; private set; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Api.ObservableAttribute.
         /// </summary>
-        internal TypeReference CortexNetApiObservableAttribute { get; private set; }
+        public TypeReference CortexNetApiObservableAttribute { get; private set; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Core.ActionExtensions.
         /// </summary>
-        internal TypeReference CortexNetCoreActionExtensions { get; private set; }
+        public TypeReference CortexNetCoreActionExtensions { get; private set; }
 
         /// <summary>
         /// Gets type reference to System.Runtime.CompilerServices.CompilerGeneratedAttribute.
         /// </summary>
-        internal TypeReference SystemRuntimeCompilerServicesCompilerGeneratedAttribute { get; private set; }
+        public TypeReference SystemRuntimeCompilerServicesCompilerGeneratedAttribute { get; private set; }
 
         /// <summary>
         /// Gets type reference to System.Diagnostics.DebuggerBrowsableAttribute.
         /// </summary>
-        internal TypeReference SystemDiagnosticsDebuggerBrowsableAttribute { get; private set; }
+        public TypeReference SystemDiagnosticsDebuggerBrowsableAttribute { get; private set; }
+
+        /// <summary>
+        /// Gets action type references.
+        /// </summary>
+        public IReadOnlyList<TypeReference> SystemAction { get; }
+
+        /// <summary>
+        /// Gets func type references.
+        /// </summary>
+        public IReadOnlyList<TypeReference> SystemFunc { get; }
 
         /// <summary>
         /// Tries to resolve a type from a preference.
@@ -120,8 +133,13 @@ namespace Cortex.Net.Fody
         /// <param name="fullName">The fullname of the type.</param>
         /// <param name="assemblyName">The assembly name.</param>
         /// <returns>A type reference.</returns>
-        protected TypeReference TryResolveFromReference(CortexWeaver moduleWeaver, string fullName, string assemblyName)
+        protected static TypeReference TryResolveFromReference(CortexWeaver moduleWeaver, string fullName, string assemblyName)
         {
+            if (moduleWeaver is null)
+            {
+                throw new System.ArgumentNullException(nameof(moduleWeaver));
+            }
+
             try
             {
                 var assembly = moduleWeaver.ModuleDefinition.AssemblyResolver.Resolve(moduleWeaver.ModuleDefinition.AssemblyReferences.FirstOrDefault(asm => asm.Name == assemblyName));
@@ -129,6 +147,7 @@ namespace Cortex.Net.Fody
             }
             catch
             {
+                throw;
                 throw new WeavingException(string.Format(CultureInfo.CurrentCulture, Resources.AssemblyOrTypeNotFound, fullName));
             }
         }
@@ -139,11 +158,18 @@ namespace Cortex.Net.Fody
         /// <param name="moduleWeaver">The module weaver to use.</param>
         /// <param name="fullName">The fullname of the type.</param>
         /// <returns>A type reference.</returns>
-        protected TypeReference TryResolveFromScannedAssemblies(CortexWeaver moduleWeaver, string fullName)
+        protected static TypeReference TryResolveFromScannedAssemblies(CortexWeaver moduleWeaver, string fullName)
         {
+            if (moduleWeaver is null)
+            {
+                throw new System.ArgumentNullException(nameof(moduleWeaver));
+            }
+
             try
             {
-                return moduleWeaver.ModuleDefinition.ImportReference(moduleWeaver.FindStandardType(fullName));
+                var type = moduleWeaver.FindType(fullName);
+                var result = moduleWeaver.ModuleDefinition.ImportReference(type);
+                return result;
             }
             catch
             {

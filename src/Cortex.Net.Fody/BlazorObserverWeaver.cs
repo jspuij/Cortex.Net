@@ -230,24 +230,14 @@ namespace Cortex.Net.Fody
             var buildRenderTreeReference = module.ImportReference(buildRenderTreeMethod);
             var stateChangedReference = module.ImportReference(stateChangedMethod);
 
-            var renderActionType = buildRenderTreeMethod.GetActionType();
+            var renderActionType = buildRenderTreeMethod.GetActionType(this.weavingContext);
 
-            // workaround for fody bug.
-            var genericActionDefinition = (renderActionType is GenericInstanceType) ?
-                this.parentWeaver.FindStandardType($"System.Action`{(renderActionType as GenericInstanceType).GenericArguments.Count}")
-                : this.parentWeaver.FindStandardType("System.Action");
-
-            MethodReference renderActionConstructorType = genericActionDefinition.Methods.Single(x => x.IsConstructor);
+            MethodReference renderActionConstructorType = renderActionType.Resolve().Methods.Single(x => x.IsConstructor);
             var renderActionConstructorReference = module.ImportReference(renderActionConstructorType.GetGenericMethodOnInstantance(renderActionType));
 
-            var stateChangedActionType = stateChangedMethod.GetActionType();
+            var stateChangedActionType = stateChangedMethod.GetActionType(this.weavingContext);
 
-            // workaround for fody bug.
-            genericActionDefinition = (stateChangedActionType is GenericInstanceType) ?
-                this.parentWeaver.FindStandardType($"System.Action`{(stateChangedActionType as GenericInstanceType).GenericArguments.Count}")
-                : this.parentWeaver.FindStandardType("System.Action");
-
-            MethodReference stateChangedActionConstructorType = genericActionDefinition.Methods.Single(x => x.IsConstructor);
+            MethodReference stateChangedActionConstructorType = stateChangedActionType.Resolve().Methods.Single(x => x.IsConstructor);
             var stateChangedActionConstructorReference = module.ImportReference(stateChangedActionConstructorType);
 
             var instructions = new List<Instruction>

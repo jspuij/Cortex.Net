@@ -20,6 +20,7 @@ namespace Cortex.Net.Fody
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Text;
     using Cortex.Net.Fody.Properties;
     using Mono.Cecil;
@@ -85,72 +86,33 @@ namespace Cortex.Net.Fody
         /// Gets the Action type for the private field that is added to the class for the private method.
         /// </summary>
         /// <param name="methodDefinition">The method definition for the action.</param>
+        /// <param name="weavingContext">The weaving context.</param>
         /// <returns>A type reference.</returns>
-        public static TypeReference GetActionType(this MethodDefinition methodDefinition)
+        public static TypeReference GetActionType(this MethodDefinition methodDefinition, WeavingContext weavingContext)
         {
             if (methodDefinition is null)
             {
                 throw new ArgumentNullException(nameof(methodDefinition));
             }
 
+            if (weavingContext is null)
+            {
+                throw new ArgumentNullException(nameof(weavingContext));
+            }
+
             var moduleDefinition = methodDefinition.Module;
 
             if (methodDefinition.Parameters == null || !methodDefinition.Parameters.Any())
             {
-                return moduleDefinition.ImportReference(typeof(Action));
+                return moduleDefinition.ImportReference(weavingContext.SystemAction[0]);
             }
 
             TypeReference genericActionType;
 
             switch (methodDefinition.Parameters.Count)
             {
-                case 1:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<>));
-                    break;
-                case 2:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,>));
-                    break;
-                case 3:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,>));
-                    break;
-                case 4:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,>));
-                    break;
-                case 5:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,>));
-                    break;
-                case 6:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,>));
-                    break;
-                case 7:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,>));
-                    break;
-                case 8:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,>));
-                    break;
-                case 9:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,>));
-                    break;
-                case 10:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,,>));
-                    break;
-                case 11:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,,,>));
-                    break;
-                case 12:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,,,,>));
-                    break;
-                case 13:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,,,,,>));
-                    break;
-                case 14:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,,,,,,>));
-                    break;
-                case 15:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,,,,,,,>));
-                    break;
-                case 16:
-                    genericActionType = moduleDefinition.ImportReference(typeof(Action<,,,,,,,,,,,,,,,>));
+                case int i when i > 0 && i <= 16:
+                    genericActionType = moduleDefinition.ImportReference(weavingContext.SystemAction[i]);
                     break;
                 default:
                     throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.MoreThan16Parameters, methodDefinition.Name));
@@ -170,12 +132,18 @@ namespace Cortex.Net.Fody
         /// Gets the Function type for the computed method that is passed.
         /// </summary>
         /// <param name="methodDefinition">The method definition for the function.</param>
+        /// <param name="weavingContext">The weaving context.</param>
         /// <returns>A type reference.</returns>
-        public static TypeReference GetFunctionType(this MethodDefinition methodDefinition)
+        public static TypeReference GetFunctionType(this MethodDefinition methodDefinition, WeavingContext weavingContext)
         {
             if (methodDefinition is null)
             {
                 throw new ArgumentNullException(nameof(methodDefinition));
+            }
+
+            if (weavingContext is null)
+            {
+                throw new ArgumentNullException(nameof(weavingContext));
             }
 
             var moduleDefinition = methodDefinition.Module;
@@ -184,56 +152,8 @@ namespace Cortex.Net.Fody
 
             switch (methodDefinition.Parameters.Count)
             {
-                case 0:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<>));
-                    break;
-                case 1:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,>));
-                    break;
-                case 2:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,>));
-                    break;
-                case 3:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,>));
-                    break;
-                case 4:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,>));
-                    break;
-                case 5:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,>));
-                    break;
-                case 6:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,>));
-                    break;
-                case 7:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,>));
-                    break;
-                case 8:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,>));
-                    break;
-                case 9:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,>));
-                    break;
-                case 10:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,,>));
-                    break;
-                case 11:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,,,>));
-                    break;
-                case 12:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,,,,>));
-                    break;
-                case 13:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,,,,,>));
-                    break;
-                case 14:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,,,,,,>));
-                    break;
-                case 15:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,,,,,,,>));
-                    break;
-                case 16:
-                    genericFunctionType = moduleDefinition.ImportReference(typeof(Func<,,,,,,,,,,,,,,,,>));
+                case int i when i >= 0 && i <= 16:
+                    genericFunctionType = moduleDefinition.ImportReference(weavingContext.SystemFunc[i]);
                     break;
                 default:
                     throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.MoreThan16Parameters, methodDefinition.Name));
