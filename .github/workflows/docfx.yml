@@ -27,7 +27,7 @@ jobs:
       with:
           args: install docfx -y
     - name: Build with dotnet
-      run: build/docfx.ps1
+      run: build/docfx.cmd
       env:
         GH_EMAIL: ${{ secrets.GH_EMAIL }}
         GH_USER: ${{ secrets.GH_USER }}
