@@ -7,4 +7,4 @@ cd ..\Cortex.Net\docs\
 xcopy .\_site\*.* ..\..\Cortex.Net.Docs\ /Y /E
 cd ..\..\Cortex.Net.Docs\
 git commit -m "Automated Documentation."
-git push
+git -c http.extraheader="AUTHORIZATION: basic $Env:token" push --progress
