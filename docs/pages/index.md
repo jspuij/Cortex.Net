@@ -119,7 +119,7 @@ Cortex.Net will ensure that `ActiveCount` is updated automatically when a todo i
 Reactions are similar to a computed value, but instead of producing a new value, a reaction produces a side effect for things like printing to the console, making network requests, incrementally updating the React component tree to patch the DOM, etc.
 In short, reactions bridge [reactive](https://en.wikipedia.org/wiki/Reactive_programming) and [imperative](https://en.wikipedia.org/wiki/Imperative_programming) programming.
 
-Reactions can simply be created using the [`Autorun`](xref:Cortex.Net.Api.SharedStateReactionExtensions.Autorun(Cortex.Net.ISharedState,Action{Cortex.Net.Core.Reaction},Cortex.Net.AutorunOptions)), [`Reaction`](xref:Cortex.Net.Api.SharedStateReactionExtensions.Reaction``1(Cortex.Net.ISharedState,Func{Cortex.Net.Core.Reaction,``0},Action{``0,Cortex.Net.Core.Reaction},Cortex.Net.ReactionOptions{``0})) or [`when`](http://mobxjs.github.io/mobx/refguide/when.html) methods to fit your specific situations.
+Reactions can simply be created using the [Autorun](xref:Cortex.Net.Api.SharedStateReactionExtensions.Autorun(Cortex.Net.ISharedState,Action{Cortex.Net.Core.Reaction},Cortex.Net.AutorunOptions)), [Reaction](xref:Cortex.Net.Api.SharedStateReactionExtensions.Reaction``1(Cortex.Net.ISharedState,Func{Cortex.Net.Core.Reaction,``0},Action{``0,Cortex.Net.Core.Reaction},Cortex.Net.ReactionOptions{``0})) or [when](http://mobxjs.github.io/mobx/refguide/when.html) methods to fit your specific situations.
 
 For example the following `Autorun` prints a log message each time `ActiveCount` changes:
 
@@ -135,7 +135,8 @@ sharedState.Autorun(() => {
 
 If you are using Blazor, you can turn your components into reactive components by simply adding the [[Observer]](xref:Cortex.Net.Blazor.ObserverAttribute) attribute from the `Cortex.Net.Blazor` nuget package onto them.
 
-```razor
+`TodoListView.razor:`
+```cshtml
 @using Cortex.Net.Blazor
 @using Cortex.Net.BlazorTodo.Stores
 @using Cortex.Net.BlazorTodo.Models
@@ -147,25 +148,149 @@ If you are using Blazor, you can turn your components into reactive components b
       <ul class="todo-list">
           @foreach (var todo in this.TodoStore.Todos)
           {
-              <li>
-                  <input
-                      type="checkbox"
-                      checked="@todo.Completed"
-                      @onchange="(args) => Toggle(todo)"
-                  />
-                  @todo.Title
-              </li>
+             <TodoItem Todo="todo"/> 
           }            
       </ul>
       Tasks left: @TodoStore.Todos.ActiveCount
   </section>
+```
+
+`TodoItem.razor:`
+```cshtml
+  
+@using Cortex.Net.Blazor
+@using Cortex.Net.Api
+@using Cortex.Net.BlazorTodo.Stores
+@using Cortex.Net.BlazorTodo.Models
+
+@attribute [Observer]
+
+<li>
+    <input
+        type="checkbox"
+        checked="@Todo.Completed"
+        @onchange="Toggle"
+    />
+    @todo.Title
+</li>
 
 @code 
 {
+    [Parameter]
+    public Todo Todo { get; set; }
+
     [Action]
-    void Toggle(Todo todo)
+    void Toggle(ChangeEventArgs args)
     {
-        todo.Completed != todo.Completed;
+        Todo.Completed != Todo.Completed;
     }
 }
 ```
+
+`[Observer]` turns Blazor components into derivations of the data they render. Cortex.Net will make sure the components are always re-rendered whenever needed, but also no more than that. So the `onChange` handler in the above example will force the proper `TodoItem` to render, and it will cause the `TodoListView` to render if the number of unfinished tasks has changed.
+However, if you would remove the `Tasks left` line (or put it into a separate component), the `TodoListView` will no longer re-render when ticking a box.
+
+### What will Cortex.Net react to?
+
+Why does a new message get printed or the Blazor component rerendered each time the `ActiveCount` is changed? The answer is this rule of thumb:
+
+Cortex.Net reacts to any existing observable property that is read during the execution of a tracked function._
+
+For an in-depth explanation about how Cortex.Net determines to which observables needs to be reacted, check [understanding what Cortex.Net reacts to](react.md).
+
+### Actions
+
+Unlike many flux frameworks, Cortex.Net is unopinionated about how user events should be handled.
+
+-   This can be done in a Flux like manner.
+-   Or by processing events using RxJS.
+-   Or by simply handling events in the most straightforward way possible, as demonstrated in the above `onChanged` handler.
+
+In the end it all boils down to: Somehow the state should be updated.
+
+After updating the state Cortex.Net will take care of the rest in an efficient, glitch-free manner. So simple statements, like below, are enough to automatically update the user interface.
+
+There is no technical need for firing events, calling a dispatcher or what more. A Blazor component in the end is nothing more than a fancy representation of your state. A derivation that will be managed by Cortex.Net.
+
+```csharp
+todos.Add(new Todo() { Title = "Get Coffee" });
+todos.Add(new Todo() { Title = "Write Code" });
+todos[0].Completed = true;
+```
+
+Nonetheless, Cortex.Net has an optional built-in concept of [`actions`](action.md).
+Read this section as well if you want to know more about writing asynchronous actions. It's easy!
+Use them to your advantage; they will help you to structure your code better and make wise decisions about when and where state should be modified. The default configuration of Cortex.Net will throw exceptions when observed data is modified outside an action to make sure that you are conscise and do not trigger too many reactions.
+
+```csharp
+
+var myAction = sharedState.Action(() => {
+    todos.Add(new Todo() { Title = "Get Coffee" });
+    todos.Add(new Todo() { Title = "Write Code" });
+    todos[0].Completed = true;
+});
+
+myAction();
+
+```
+
+Or with an [[Action]](xref:Cortex.Net.Blazor.ActionAttribute) attribute:
+
+```csharp
+
+[Action]
+public void MyAction()
+{
+todos.Add(new Todo() { Title = "Get Coffee" });
+    todos.Add(new Todo() { Title = "Write Code" });
+    todos[0].Completed = true;
+}
+
+MyAction();
+```
+
+### Referential integrity
+
+Since data doesn't need to be normalized, and Cortex.Net automatically tracks the relations between state and derivations, you get referential integrity for free. Rendering something that is accessed through three levels of indirection?
+
+No problem, Cortex.Net will track them and re-render whenever one of the references changes. As a result staleness bugs are a thing of the past. As a programmer you might forget that changing some data might influence a seemingly unrelated component in a corner case. Cortex.Net won't forget.
+
+### Simpler actions are easier to maintain
+
+As demonstrated above, modifying state when using Cortex.Net is very straightforward. You simply write down your intentions. Cortex.Net will take care of the rest.
+
+### Fine grained observability is efficient
+
+Cortex.Net builds a graph of all the derivations in your application to find the least number of re-computations that is needed to prevent staleness. "Derive everything" might sound expensive, Cortex.Net builds a virtual derivation graph to minimize the number of recomputations needed to keep derivations in sync with the state.
+
+Secondly Cortex.Net sees the causality between derivations so it can order them in such a way that no derivation has to run twice or introduces a glitch.
+
+How that works? See this [in-depth explanation of MobX](https://medium.com/@mweststrate/becoming-fully-reactive-an-in-depth-explanation-of-mobservable-55995262a254).
+
+### Easy interoperability
+
+Cortex.Net works with POCO objects. Due to its unobtrusiveness it works with most libraries out of the box, without needing Cortex.Net specific library flavors.
+
+For the same reason you can use it out of the box both server and client side, in isomorphic applications and with any IU framework. As long as the runtime supports netstandard2.0, you are good.
+
+The result of this is that you often need to learn less new concepts when using Cortex.Net in comparison to other state management solutions.
+
+---
+
+## Credits
+
+Credit where credit is due and Cortex.Net is entirely based on MobX.
+
+MobX is inspired by reactive programming principles as found in spreadsheets. It is inspired by MVVM frameworks like in MeteorJS tracker, knockout and Vue.js. But MobX brings Transparent Functional Reactive Programming to the next level and provides a stand alone implementation. It implements TFRP in a glitch-free, synchronous, predictable and efficient manner.
+
+A ton of credits for [Mendix](https://github.com/mendix), for providing the flexibility and support to maintain MobX and the chance to proof the philosophy of MobX in a real, complex, performance critical applications.
+
+And finally kudos for all the people that believed in, tried, validated and even [sponsored](https://github.com/mobxjs/mobx/blob/master/sponsors.md) MobX.
+
+To make Cortex.Net possible in .NET in an unobtrusive and transparent way we use IL-weaving from [Fody](https://github.com/Fody/Home). 
+
+## Contributing
+
+-   Feel free to send small pull requests. Please discuss new features or big changes in a GitHub issue first.
+-   Use `dotnet test` to run the basic test suite, and make sure your pull request is covered by tests.
+
