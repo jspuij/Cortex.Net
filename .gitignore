@@ -341,3 +341,4 @@ healthchecksdb
 
 # site documentation.
 _site/
+.DS_Store
