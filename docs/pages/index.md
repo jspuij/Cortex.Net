@@ -48,6 +48,124 @@ Both Blazor and Cortex.Net provide optimal and unique solutions to common proble
 
 ## Core concepts
 
-Cortex.Net has only a few core concepts. The following snippets can be tried online using 
+Cortex.Net has only a few core concepts. They will be illustrated in the snippets below:
 
 ### Observable state
+
+Cortex.Net adds observable capabilities to existing data structures like objects, collections and class instances.
+This can simply be done by annotating your auto-generated properties with the [[Observable]](xref:Cortex.Net.Api.ObservableAttribute) attribute (On a platform that supports weaving).
+
+```csharp
+using Cortex.Net.Api;
+
+public class Todo
+{
+    [Observable]
+    public string Title { get; set; }
+
+    [Observable]
+    public bool Completed { get; set; }
+}
+```
+
+Using `observable` is like turning a property of an object into a spreadsheet cell.
+But unlike spreadsheets, these values can be not only primitive values, but also references, objects and arrays.
+
+If your environment doesn't support weaving, don't worry, as Cortex.Net can be used fine without attributes, by inheriting from or encapsulating [ObservableObject](xref:Cortex.Net.Types.ObservableObject).
+Many Cortex.Net users do prefer the atrribute syntax though, as it is less boilerblate.
+
+```csharp
+using Cortex.Net.Types;
+
+public class Todo : ObservableObject
+{
+    public string Title
+    { 
+        get => this.Read<string>(nameof(Title)); 
+        set => this.Write(nameof(Title), value); 
+    }
+
+    public bool Completed
+    { 
+        get => this.Read<bool>(nameof(Completed)); 
+        set => this.Write(nameof(Completed), value); 
+    }
+}
+```
+### Computed values
+
+With Cortex.Net you can define values that will be derived automatically when relevant data is modified.
+By using the [[Computed]](xref:Cortex.Net.Api.ComputedAttribute) attribute or by using methods or property getters (or even setters) when using [ObservableObject](xref:Cortex.Net.Types.ObservableObject).
+
+```csharp
+using Cortex.Net.Api;
+
+[Observable]
+public class TodoStore
+{
+    // The IList<Todo> property is automatically assigned 
+    // with an observable collection during weaving.
+    public IList<Todo> Todos { get; private set; }
+
+    [Computed]
+    public int ActiveCount => this.Todos.Count(x => !x.Completed);    
+}
+```
+
+Cortex.Net will ensure that `ActiveCount` is updated automatically when a todo is added or when one of the `Completed` properties is modified. Computations like these resemble formulas in spreadsheet programs like MS Excel. They update automatically and only when required.
+
+### Reactions
+
+Reactions are similar to a computed value, but instead of producing a new value, a reaction produces a side effect for things like printing to the console, making network requests, incrementally updating the React component tree to patch the DOM, etc.
+In short, reactions bridge [reactive](https://en.wikipedia.org/wiki/Reactive_programming) and [imperative](https://en.wikipedia.org/wiki/Imperative_programming) programming.
+
+Reactions can simply be created using the [`Autorun`](xref:Cortex.Net.Api.SharedStateReactionExtensions.Autorun(Cortex.Net.ISharedState,Action{Cortex.Net.Core.Reaction},Cortex.Net.AutorunOptions)), [`Reaction`](xref:Cortex.Net.Api.SharedStateReactionExtensions.Reaction``1(Cortex.Net.ISharedState,Func{Cortex.Net.Core.Reaction,``0},Action{``0,Cortex.Net.Core.Reaction},Cortex.Net.ReactionOptions{``0})) or [`when`](http://mobxjs.github.io/mobx/refguide/when.html) methods to fit your specific situations.
+
+For example the following `Autorun` prints a log message each time `ActiveCount` changes:
+
+```csharp
+using Cortex.Net.Api;
+
+sharedState.Autorun(() => {
+    Console.WriteLine($"Tasks left: {todos.ActiveCount}");
+});
+```
+
+### Blazor components
+
+If you are using Blazor, you can turn your components into reactive components by simply adding the [[Observer]](xref:Cortex.Net.Blazor.ObserverAttribute) attribute from the `Cortex.Net.Blazor` nuget package onto them.
+
+```razor
+@using Cortex.Net.Blazor
+@using Cortex.Net.BlazorTodo.Stores
+@using Cortex.Net.BlazorTodo.Models
+
+@attribute [Observer]
+@inject TodoStore TodoStore
+
+  <section class="main">
+      <ul class="todo-list">
+          @foreach (var todo in this.TodoStore.Todos)
+          {
+              <li>
+                  <input
+                      type="checkbox"
+                      checked="@todo.Completed"
+                      @onchange="(args) => Toggle(todo)"
+                  />
+                  @todo.Title
+              </li>
+          }            
+      </ul>
+      Tasks left: @TodoStore.Todos.ActiveCount
+  </section>
+
+@code 
+{
+    [Action]
+    void Toggle(Todo todo)
+    {
+        todo.Completed != todo.Completed;
+    }
+}
+```
