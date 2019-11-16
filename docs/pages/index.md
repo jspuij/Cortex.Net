@@ -248,8 +248,15 @@ todos.Add(new Todo() { Title = "Get Coffee" });
 
 MyAction();
 ```
+## Cortex.Net: Simple and scalable
 
-### Referential integrity
+Cortex.Net is one of the least obtrusive libraries you can use for state management. That makes the `Cortex.Net` approach not just simple, but very scalable as well:
+
+### Using classes and real references
+
+With Cortex.Net you don't need to normalize your data. This makes the library very suitable for very complex domain models.
+
+### Referential integrity guaranteed.
 
 Since data doesn't need to be normalized, and Cortex.Net automatically tracks the relations between state and derivations, you get referential integrity for free. Rendering something that is accessed through three levels of indirection?
 
