@@ -21,6 +21,7 @@ public class Person : ObservableObject
         set => this.Write(nameof(LastName), value);
 	}
 }
+```
 
 Notice that it inherits from [ObservableObject](xref:Cortex.Net.Types.ObservableObject). This will give your
 object observable superpowers like the ability to report changes to observers and to report that it is being
@@ -47,6 +48,7 @@ public class Person
     [Observable]
     public string LastName { get; set; }
 }
+```
 
 The [[Observable]](xref:Cortex.Net.Api.ObservableAttribute) attribute is applied to an auto-implemented property to signal
 Cortex.Net that it should be converted to an observable value. If you want all your auto-implemented properties to be converted
@@ -63,6 +65,7 @@ public class Person
 
     public string LastName { get; set; }
 }
+```
 
 Not bad for all that functionality right?
 
