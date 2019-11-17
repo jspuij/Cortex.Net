@@ -184,6 +184,15 @@ namespace Cortex.Net.Types
                     if (!Equals(oldValue, newValue))
                     {
                         this.innerList[index] = newValue;
+
+                        if (newValue is IReactiveObject reactiveObject)
+                        {
+                            if (reactiveObject.SharedState != this.SharedState)
+                            {
+                                reactiveObject.SharedState = this.SharedState;
+                            }
+                        }
+
                         this.NotifyArrayChildUpdate(index, newValue, oldValue);
                     }
                 }
@@ -469,6 +478,17 @@ namespace Cortex.Net.Types
                 var newItems = addEventArgs.AddedValues.Select(x => this.enhancer.Enhance(x, default, this.Name));
 
                 this.innerList.InsertRange(index, newItems);
+
+                foreach (var item in newItems)
+                {
+                    if (item is IReactiveObject reactiveObject)
+                    {
+                        if (reactiveObject.SharedState != this.SharedState)
+                        {
+                            reactiveObject.SharedState = this.SharedState;
+                        }
+                    }
+                }
 
                 this.NotifyArrayChildAdd(index, newItems);
             }
