@@ -1,4 +1,24 @@
 - name: Introduction
-  href: index.md
-- name: Concepts
-  href: concepts.md
+  - items:
+    - name: Summary
+      href: index.md
+    - name: Concepts & Principles
+      href: concepts.md
+    - name: The gist of Cortex.Net
+      href: gist.md
+-name: Making things observable
+  - items:
+    - name: Observable
+      href: observable.md
+    - name: Collections
+      href: collections.md
+    - name: ObservableObject
+      href: observableobject.md
+-name: Useful to know
+  - items:
+    - name: SharedState
+      href: sharedstate.md
+    - name: Threading
+      href: threading.md
+    - name: Dependency Injection
+      href: dependencyinjection.md
