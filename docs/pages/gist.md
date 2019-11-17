@@ -29,7 +29,7 @@ This single fact saves you tons of boilerplate and is wickedly efficient.
 Generally speaking any Action/Func/Method can become a reactive view that observes its data, and Cortex.Net can be applied in any .NET netstandard environment.
 But here is an example of a view in the form of a Blazor component.
 
-```cshtml
+```cshtml-razor
 @using Cortex.Net.Blazor
 
 @attribute [Observer]

@@ -40,7 +40,7 @@ namespace Cortex.Net.Api
         /// <summary>
         /// Initializes a new instance of the <see cref="ComputedAttribute"/> class.
         /// </summary>
-        /// <param name="name">The name of the action.</param>
+        /// <param name="name">The name of the computed value.</param>
         /// <param name="requiresReaction">Whether the computed has to be calculated inside a reactive context.</param>
         /// <param name="keepAlive">whether to keep the computed value alive when it's not observed.</param>
         public ComputedAttribute(string name, bool requiresReaction = false, bool keepAlive = false)
@@ -64,7 +64,7 @@ namespace Cortex.Net.Api
         /// <summary>
         /// Initializes a new instance of the <see cref="ComputedAttribute"/> class.
         /// </summary>
-        /// <param name="name">The name of the action.</param>
+        /// <param name="name">The name of the computed value.</param>
         /// <param name="equalityComparerType">The type of the comparer used to see whether the value has changed.</param>
         /// <param name="requiresReaction">Whether the computed has to be calculated inside a reactive context.</param>
         /// <param name="keepAlive">whether to keep the computed value alive when it's not observed.</param>

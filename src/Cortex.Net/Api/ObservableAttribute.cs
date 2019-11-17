@@ -38,7 +38,7 @@ namespace Cortex.Net.Api
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableAttribute"/> class.
         /// </summary>
-        /// <param name="name">The name of the action.</param>
+        /// <param name="name">The name of the observable.</param>
         public ObservableAttribute(string name)
         {
             this.Name = name;
@@ -57,7 +57,7 @@ namespace Cortex.Net.Api
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableAttribute"/> class.
         /// </summary>
-        /// <param name="name">The name of the action.</param>
+        /// <param name="name">The name of the observable.</param>
         /// <param name="enhancerType">The type of the enhancer.</param>
         public ObservableAttribute(string name, Type enhancerType)
         {
@@ -66,12 +66,12 @@ namespace Cortex.Net.Api
         }
 
         /// <summary>
-        /// Gets the Name of the action.
+        /// Gets the Name of the observable.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// Gets the Name of the action.
+        /// Gets the Type of the enhancer to use.
         /// </summary>
         public Type EnhancerType { get; }
     }

@@ -136,7 +136,7 @@ sharedState.Autorun(() => {
 If you are using Blazor, you can turn your components into reactive components by simply adding the [[Observer]](xref:Cortex.Net.Blazor.ObserverAttribute) attribute from the `Cortex.Net.Blazor` nuget package onto them.
 
 `TodoListView.razor:`
-```cshtml
+```cshtml-razor
 @using Cortex.Net.Blazor
 @using Cortex.Net.BlazorTodo.Stores
 @using Cortex.Net.BlazorTodo.Models
@@ -156,7 +156,7 @@ If you are using Blazor, you can turn your components into reactive components b
 ```
 
 `TodoItem.razor:`
-```cshtml
+```cshtml-razor
   
 @using Cortex.Net.Blazor
 @using Cortex.Net.Api
@@ -169,8 +169,7 @@ If you are using Blazor, you can turn your components into reactive components b
     <input
         type="checkbox"
         checked="@Todo.Completed"
-        @onchange="Toggle"
-    />
+        @onchange="Toggle" />
     @todo.Title
 </li>
 
@@ -234,7 +233,7 @@ myAction();
 
 ```
 
-Or with an [[Action]](xref:Cortex.Net.Blazor.ActionAttribute) attribute:
+Or with an [[Action]](xref:Cortex.Net.Api.ActionAttribute) attribute:
 
 ```csharp
 
@@ -309,7 +308,7 @@ To make Cortex.Net possible in .NET in an unobtrusive and transparent way we use
 
 Cortext.Net is licenced under the [MIT license](https://opensource.org/licenses/MIT). More information about the license can be found on [opensource.org](https://opensource.org/licenses/MIT). The full text of the license is below:
 
-```
+```text
 Copyright 2019 Michel Weststrate, Jan-Willem Spuij
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation

@@ -18,6 +18,8 @@
   items:
     - name: SharedState
       href: sharedstate.md
+    - name: Weaving with fody.
+      href: weaving.md
     - name: Threading
       href: threading.md
     - name: Dependency Injection
