@@ -1,4 +1,4 @@
-# observable
+# Observable
 
 Observability in Cortex.Net means that some value can report that it has changed to an observer. 
 It can also report that it became observed, or that it lost al observers.
@@ -76,7 +76,7 @@ There are a few simple rules to remember while working with the [[Observable]](x
 
 - It either applies to an [auto-implemented property](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/auto-implemented-properties)
   or a class. In the latter case all auto-implemented properties will be converted to observables.
-- It will convert IList&lt;T&gt;, ICollection&lt;T&gt;, IReadonlyCollection&lt;T&gt; interface properties to [ObservableCollection&lt;T&gt;](xref:Cortex.Net.Types.ObservableCollection-1).
+- It will convert IList&lt;T&gt;, ICollection&lt;T&gt;, IReadonlyCollection&lt;T&gt; interface properties to [ObservableCollection&lt;T&gt;](xref:Cortex.Net.Types.ObservableCollection`1).
 - It will convert ISet&lt;T&gt; interface properties to [ObservableSet](xref:Cortex.Net.Types.ObservableSet).
 - It will convert IDictionary&lt;TKey,TValue&gt; interface properties to [ObservableDictionary](xref:Cortex.Net.Types.ObservableDictionary).
 - It cannot convert arrays and it will not convert collection properties that are declared as a concrete type instead of an instance.
