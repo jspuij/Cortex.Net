@@ -35,7 +35,8 @@ objects to inherit from [ObservableObject](xref:Cortex.Net.Types.ObservableObjec
 
 Luckily Cortex.Net can come to the rescue and convert all your objects to observable ones during build.
 After compilation Cortex.Net will transform the code below to more or less the code above (Cortex.Net uses an
-encapsulated, inner ObservableObject instance and forwards the IReactiveObject interface):
+encapsulated, inner [ObservableObject](xref:Cortex.Net.Types.ObservableObject) instance and forwards
+the [IReactiveObject](xref:Cortex.Net.IReactiveObject) interface):
 
 ```csharp
 using Cortex.Net.Api;
@@ -73,11 +74,11 @@ Not bad for all that functionality right?
 
 There are a few simple rules to remember while working with the [[Observable]](xref:Cortex.Net.Api.ObservableAttribute) attribute:
 
-- It either applies to an [auto-implemented property](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/auto-implemented-properties
+- It either applies to an [auto-implemented property](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/auto-implemented-properties)
   or a class. In the latter case all auto-implemented properties will be converted to observables.
-- It will convert IList<T>, ICollection<T>, IReadonlyCollection<T> interface properties to [ObservableCollection](xref:Cortex.Net.Types.ObservableCollection).
-- It will convert ISet<T> interface properties to [ObservableSet](xref:Cortex.Net.Types.ObservableSet).
-- It will convert IDictionary<TKey,TValue> interface properties to [ObservableDictionary](xref:Cortex.Net.Types.ObservableDictionary).
+- It will convert IList&lt;T&rt;, ICollection&lt;T&rt;, IReadonlyCollection&lt;T&rt; interface properties to [ObservableCollection&lt;T&rt;](xref:Cortex.Net.Types.ObservableCollection-1).
+- It will convert ISet&lt;T&rt; interface properties to [ObservableSet](xref:Cortex.Net.Types.ObservableSet).
+- It will convert IDictionary&lt;TKey,TValue&rt; interface properties to [ObservableDictionary](xref:Cortex.Net.Types.ObservableDictionary).
 - It cannot convert arrays and it will not convert collection properties that are declared as a concrete type instead of an instance.
 
 These rules might seem complicated at first sight, but you will notice that in practice they are very intuitive to work with.
