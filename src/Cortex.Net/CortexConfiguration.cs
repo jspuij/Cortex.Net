@@ -60,5 +60,11 @@ namespace Cortex.Net
         /// Gets or sets a value that defines how strict modification of state should be enforced.
         /// </summary>
         public EnforceAction EnforceActions { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use a Global Shared State.
+        /// </summary>
+        /// <remarks>When set to false, code that not explicitly sets Shared State will throw exceptions.</remarks>
+        internal static bool UseGlobalState { get; set; } = true;
     }
 }

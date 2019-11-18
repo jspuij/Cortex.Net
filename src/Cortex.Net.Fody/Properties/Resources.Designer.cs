@@ -88,6 +88,15 @@ namespace Cortex.Net.Fody.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do not mix Cortex.Net attributes with IReactiveObject on a single type ({0}). Use either attributes or implement IReactiveObject yourself..
+        /// </summary>
+        internal static string DoNotMixAttributesAndIReactiveObject {
+            get {
+                return ResourceManager.GetString("DoNotMixAttributesAndIReactiveObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CannotHandle more than 16 parameters on Action Method: ({0}).
         /// </summary>
         internal static string MoreThan16Parameters {

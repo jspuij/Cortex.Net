@@ -57,13 +57,11 @@ namespace Cortex.Net.Types
         /// <param name="enhancer">The enhancer to use on the type.</param>
         /// <param name="value">The initial value of the Observable.</param>
         public ObservableValue(ISharedState sharedState, string name, IEnhancer enhancer, T value = default)
-            : base(
-                  sharedState ?? throw new ArgumentNullException(nameof(sharedState)),
-                  string.IsNullOrEmpty(name) ? $"{nameof(ObservableValue<T>)}@{sharedState.GetUniqueId()}" : name)
+            : base(sharedState, name)
         {
             this.enhancer = enhancer ?? throw new ArgumentNullException(nameof(enhancer));
             this.value = this.enhancer.Enhance(value, default, this.Name);
-            sharedState.OnSpy(this, new ObservableValueCreateSpyEventArgs() { Name = this.Name, NewValue = value });
+            this.SharedState.OnSpy(this, new ObservableValueCreateSpyEventArgs() { Name = this.Name, NewValue = value });
         }
 
         /// <summary>

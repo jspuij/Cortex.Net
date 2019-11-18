@@ -86,12 +86,10 @@ namespace Cortex.Net.Core
         /// </summary>
         /// <param name="sharedState">The shared state this computedValue is connected to.</param>
         /// <param name="options">An <see cref="ComputedValueOptions{T}"/> instance that define the options for this computed value.</param>
-        public ComputedValue(ISharedState sharedState, ComputedValueOptions<T> options)
+        internal ComputedValue(ISharedState sharedState, ComputedValueOptions<T> options)
         {
-            if (sharedState is null)
-            {
-                throw new ArgumentNullException(nameof(sharedState));
-            }
+            // resolve state state from context if necessary.
+            this.SharedState = Net.SharedState.ResolveState(sharedState);
 
             if (options is null)
             {
@@ -100,7 +98,6 @@ namespace Cortex.Net.Core
 
             this.Name = options.Name;
             this.derivation = options.Getter;
-            this.SharedState = sharedState;
 
             if (options.Setter != null)
             {

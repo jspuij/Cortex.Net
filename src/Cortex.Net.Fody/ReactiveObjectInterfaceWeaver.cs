@@ -18,7 +18,10 @@ namespace Cortex.Net.Fody
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
+    using Cortex.Net.Fody.Properties;
+    using global::Fody;
     using Mono.Cecil;
     using Mono.Cecil.Cil;
 
@@ -69,14 +72,16 @@ namespace Cortex.Net.Fody
 
             foreach ((TypeDefinition reactiveObjectTypeDefinition, bool addInjectAttribute, IEnumerable<Action<ILProcessor, FieldReference>> processorActions) in queueContent)
             {
+                FieldDefinition backingField = null;
+
                 var iReactiveObjectInterfaceType = this.weavingContext.CortexNetIReactiveObject;
                 var iReactiveObjectinterfaceDefinition = new InterfaceImplementation(iReactiveObjectInterfaceType);
+                var fieldTypeReference = this.weavingContext.CortexNetISharedState;
 
                 // If this object does not implement IReactiveObject, add it, plus a default implementation.
-                if (!reactiveObjectTypeDefinition.Interfaces.Contains(iReactiveObjectinterfaceDefinition))
+                if (!reactiveObjectTypeDefinition.Interfaces.Any(x => x.InterfaceType.FullName == iReactiveObjectInterfaceType.FullName))
                 {
                     var getOverride = iReactiveObjectInterfaceType.Resolve().Methods.Single(x => x.Name.Contains($"get_SharedState"));
-                    var setOverride = iReactiveObjectInterfaceType.Resolve().Methods.Single(x => x.Name.Contains($"set_SharedState"));
 
                     reactiveObjectTypeDefinition.Interfaces.Add(iReactiveObjectinterfaceDefinition);
 
@@ -87,49 +92,95 @@ namespace Cortex.Net.Fody
                                               | MethodAttributes.NewSlot
                                               | MethodAttributes.Virtual;
 
-                    var fieldTypeReference = this.weavingContext.CortexNetISharedState;
-
                     // add backing field for shared state to the class
-                    var backingField = reactiveObjectTypeDefinition.CreateBackingField(fieldTypeReference, "Cortex.Net.Api.IReactiveObject.SharedState", this.weavingContext);
+                    backingField = reactiveObjectTypeDefinition.CreateBackingField(fieldTypeReference, "Cortex.Net.Api.IReactiveObject.SharedState", this.weavingContext);
 
                     // add getter
                     var getter = reactiveObjectTypeDefinition.CreateDefaultGetter(backingField, "Cortex.Net.Api.IReactiveObject.SharedState", this.weavingContext, methodAttributes);
                     getter.Overrides.Add(moduleDefinition.ImportReference(getOverride));
 
-                    // add setter
-                    var setter = reactiveObjectTypeDefinition.CreateDefaultSetter(backingField, "Cortex.Net.Api.IReactiveObject.SharedState", this.weavingContext, methodAttributes, p => ExecuteProcessorActions(p, backingField, processorActions));
-                    setter.Overrides.Add(moduleDefinition.ImportReference(setOverride));
-
                     // add property
-                    var propertyDefinition = reactiveObjectTypeDefinition.CreateProperty("Cortex.Net.Api.IReactiveObject.SharedState", getter, setter);
-                    if (addInjectAttribute)
+                    var propertyDefinition = reactiveObjectTypeDefinition.CreateProperty("Cortex.Net.Api.IReactiveObject.SharedState", getter);
+
+                    // create a private setter.
+                    var setter = reactiveObjectTypeDefinition.CreateDefaultSetter(backingField, "Cortex.Net.Api.IReactiveObject.SharedState", this.weavingContext, methodAttributes, p => ExecuteProcessorActions(p, backingField, processorActions));
+
+                    foreach (var constructor in reactiveObjectTypeDefinition.Methods.Where(x => x.IsConstructor))
                     {
-                        // add Inject attribute.
-                        AddInjectAttribute(moduleDefinition, propertyDefinition);
+                        if (!CallsOtherConstructor(constructor))
+                        {
+                            // call the setter from each constructor.
+                            this.EmitConstructorCall(constructor.Body.GetILProcessor(), backingField, setter);
+                        }
                     }
                 }
                 else
                 {
-                    throw new NotImplementedException();
+                    throw new WeavingException(string.Format(CultureInfo.CurrentCulture, Resources.DoNotMixAttributesAndIReactiveObject, reactiveObjectTypeDefinition.FullName));
                 }
             }
         }
 
         /// <summary>
-        /// Adds an inject attribute to a property.
+        /// Checks whether this constructor calls another constructor.
         /// </summary>
-        /// <param name="moduleDefinition">The moduleDefinition to use.</param>
-        /// <param name="propertyDefinition">The property Definition to use.</param>
-        private static void AddInjectAttribute(ModuleDefinition moduleDefinition, PropertyDefinition propertyDefinition)
+        /// <param name="constructor">The constructor to call.</param>
+        /// <returns>Whether this constructor calls another constructor.</returns>
+        private static bool CallsOtherConstructor(MethodDefinition constructor)
         {
-            var assemblyNameReference = moduleDefinition.AssemblyReferences.First(x => x.Name == "Microsoft.AspNetCore.Components");
-            AssemblyDefinition foo = moduleDefinition.AssemblyResolver.Resolve(assemblyNameReference);
-            var typeReference = foo.MainModule.GetType("Microsoft.AspNetCore.Components.InjectAttribute");
-            var injectAttributeReference = moduleDefinition.ImportReference(typeReference);
-            var ctor = injectAttributeReference.Resolve().Methods.Single(x => x.IsConstructor);
-            var ctorRef = moduleDefinition.ImportReference(ctor);
-            var injectAttribute = new CustomAttribute(ctorRef, new byte[] { 01, 00, 00, 00 });
-            propertyDefinition.CustomAttributes.Add(injectAttribute);
+            foreach (var instruction in constructor.Body.Instructions)
+            {
+                if (instruction.OpCode == OpCodes.Call ||
+                    instruction.OpCode == OpCodes.Calli ||
+                    instruction.OpCode == OpCodes.Callvirt)
+                {
+                    if (instruction.Operand is MethodReference methodReference)
+                    {
+                        if (methodReference.Resolve().IsConstructor && methodReference.DeclaringType == constructor.DeclaringType)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the instruction that calls the base constructor.
+        /// </summary>
+        /// <param name="methodBody">The methodBody to search.</param>
+        /// <param name="constructorType">The decalring type of the constructor.</param>
+        /// <returns>The instruction that calls the base constructor.</returns>
+        private static Instruction FindBaseConstructor(MethodBody methodBody, TypeDefinition constructorType)
+        {
+            foreach (var instruction in methodBody.Instructions)
+            {
+                if (instruction.OpCode == OpCodes.Call ||
+                    instruction.OpCode == OpCodes.Calli ||
+                    instruction.OpCode == OpCodes.Callvirt)
+                {
+                    if (instruction.Operand is MethodReference methodReference)
+                    {
+                        if (methodReference.Resolve().IsConstructor)
+                        {
+                            var baseType = constructorType.BaseType;
+                            while (baseType != null && baseType.FullName != methodReference.DeclaringType.FullName)
+                            {
+                                baseType = baseType.Resolve().BaseType;
+                            }
+
+                            if (baseType != null)
+                            {
+                                return instruction;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -150,6 +201,33 @@ namespace Cortex.Net.Fody
             foreach (var action in processorActions)
             {
                 action(processor, backingField);
+            }
+        }
+
+        /// <summary>
+        /// Executes the processoractions agains the processor.
+        /// </summary>
+        /// <param name="processor">The processor to use.</param>
+        /// <param name="backingField">The backing field for the ISharedState" instance.</param>
+        /// <param name="setterReference">A reference to the new private setter.</param>
+        private void EmitConstructorCall(ILProcessor processor, FieldDefinition backingField, MethodReference setterReference)
+        {
+            var module = backingField.DeclaringType.Module;
+            var resolveReference = module.ImportReference(this.weavingContext.CortexNetSharedState.Resolve().Methods.Single(x => x.Name == "ResolveState"));
+
+            var instructions = new List<Instruction>()
+            {
+                processor.Create(OpCodes.Ldarg_0),
+                processor.Create(OpCodes.Ldnull),
+                processor.Create(OpCodes.Call, resolveReference),
+                processor.Create(OpCodes.Callvirt, setterReference),
+            };
+
+            Instruction callBase = FindBaseConstructor(processor.Body, backingField.DeclaringType);
+
+            foreach (var instruction in instructions.Reverse<Instruction>())
+            {
+                processor.InsertAfter(callBase, instruction);
             }
         }
     }

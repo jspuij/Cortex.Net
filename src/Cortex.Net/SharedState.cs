@@ -22,6 +22,7 @@ namespace Cortex.Net
     using System.Globalization;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using Cortex.Net.Core;
     using Cortex.Net.Properties;
     using Cortex.Net.Spy;
@@ -32,6 +33,16 @@ namespace Cortex.Net
     /// </summary>
     public sealed partial class SharedState : ISharedState
     {
+        /// <summary>
+        /// An async local shared state context to use to fetch ISharedState context when using multiple shared states.
+        /// </summary>
+        private static readonly AsyncLocal<ISharedState> AsyncLocalSharedStateContext = new AsyncLocal<ISharedState>();
+
+        /// <summary>
+        /// A reference to the Global state (if used).
+        /// </summary>
+        private static ISharedState globalState;
+
         private readonly IList<IEnhancer> enhancers = new List<IEnhancer>()
         {
             new ReferenceEnhancer(),
@@ -64,6 +75,12 @@ namespace Cortex.Net
         public SharedState(CortexConfiguration configuration)
         {
             this.Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            if (globalState != null)
+            {
+                throw new InvalidOperationException(Resources.GlobalStateAlreadyInitialized);
+            }
+
+            CortexConfiguration.UseGlobalState = false;
         }
 
         /// <summary>
@@ -76,6 +93,31 @@ namespace Cortex.Net
         /// Event that fires when a reaction produces an unhandled exception.
         /// </summary>
         public event EventHandler<UnhandledExceptionEventArgs> UnhandledReactionException;
+
+        /// <summary>
+        /// Gets a reference to the Global Shared State or throws an exception
+        /// when the Shared State is configured to not allow Shared State.
+        /// </summary>
+        public static ISharedState GlobalState
+        {
+            get
+            {
+                if (!CortexConfiguration.UseGlobalState)
+                {
+                    throw new InvalidOperationException(Resources.NoGlobalSharedState);
+                }
+
+                if (globalState == null)
+                {
+                    globalState = new SharedState();
+
+                    // reset Use Global State.
+                    CortexConfiguration.UseGlobalState = true;
+                }
+
+                return globalState;
+            }
+        }
 
         /// <summary>
         /// Gets a queue of all pending Unobservations.
@@ -153,6 +195,29 @@ namespace Cortex.Net
         /// Gets a list of enhancers on this SharedState.
         /// </summary>
         public IList<IEnhancer> Enhancers => this.enhancers;
+
+        /// <summary>
+        /// Resolves a shared state for Weaved objects.
+        /// </summary>
+        /// <param name="sharedState">The shared state.</param>
+        /// <returns>Shared state when found, otherwise throws an exception.</returns>
+        public static ISharedState ResolveState(ISharedState sharedState)
+        {
+            // shared state was explicit, good, return it.
+            if (sharedState != null)
+            {
+                return sharedState;
+            }
+
+            // Get it from the async execution context.
+            if (AsyncLocalSharedStateContext.Value != null)
+            {
+                return AsyncLocalSharedStateContext.Value;
+            }
+
+            // last option: use the global state and hope for the best.
+            return GlobalState;
+        }
 
         /// <summary>
         /// Gets a unique Id that is incremented every time and identifies unique instances.
@@ -351,6 +416,15 @@ namespace Cortex.Net
             }
 
             this.ReactionScheduler(new Action(this.RunReactionsDefaultAction));
+        }
+
+        /// <summary>
+        /// Set the AsyncLocalSharedState.
+        /// </summary>
+        /// <param name="sharedState">The Async Local Shared State.</param>
+        internal static void SetAsyncLocalState(ISharedState sharedState)
+        {
+            AsyncLocalSharedStateContext.Value = sharedState;
         }
 
         /// <summary>

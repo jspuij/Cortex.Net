@@ -12,10 +12,10 @@ namespace Cortext.Next.Playground
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Program start.")]
         public static void Main(string[] args)
         {
-            var sharedState = new SharedState(new CortexConfiguration()
-            {
-                EnforceActions = EnforceAction.Never,    
-            });
+
+            var sharedState = SharedState.GlobalState;
+            sharedState.Configuration.EnforceActions = EnforceAction.Never;
+
             sharedState.SpyEvent += SharedState_SpyEvent;
 
             var person = new Person(sharedState);
@@ -34,7 +34,6 @@ namespace Cortext.Next.Playground
             Console.WriteLine(person.FullName3);
 
             var personWeave = new PersonWeave();
-            ((IReactiveObject)personWeave).SharedState = sharedState;
             personWeave.Age = 30;
 
             var d2 = sharedState.Reaction<string>(r => personWeave.FullName, (s, r) =>
@@ -56,8 +55,7 @@ namespace Cortext.Next.Playground
             personWeave.ChangeFullNameToBirdseyeview();
 
             var group = new Group();
-            ((IReactiveObject)group).SharedState = sharedState;
-
+            
             var d5 = sharedState.Autorun(r =>
             {
                 Console.WriteLine($"Autorun Average: {group.Average}");
@@ -65,7 +63,6 @@ namespace Cortext.Next.Playground
             });
 
             var person2 = new PersonWeave();
-            ((IReactiveObject)person2).SharedState = sharedState;
             person2.ChangeBothNames("Claudia", "Pietryga");
             person2.Age = 20;
 

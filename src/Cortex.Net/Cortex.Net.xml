@@ -283,6 +283,21 @@
             Gets the Type of the enhancer to use.
             </summary>
         </member>
+        <member name="T:Cortex.Net.Api.SharedStateObservableExtensions">
+            <summary>
+            Extension methods for ISharedState to make attach an object to a shared state and make sure that
+            Enhancer methods are properly followed.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.SharedStateObservableExtensions.Observable``1(Cortex.Net.ISharedState,System.Func{``0})">
+            <summary>
+            Makes sure that the observable is initialized against the shared state and any other objects along the tree.
+            </summary>
+            <typeparam name="T">The type to return.</typeparam>
+            <param name="sharedState">The shared state to attach to.</param>
+            <param name="initializerFunction">The initializer function.</param>
+            <returns>The observable you wannt.</returns>
+        </member>
         <member name="T:Cortex.Net.Api.SharedStateReactionExtensions">
             <summary>
             Extension methods that deal with Reactions on an ISharedState instance.
@@ -1570,6 +1585,12 @@
             Gets or sets a value that defines how strict modification of state should be enforced.
             </summary>
         </member>
+        <member name="P:Cortex.Net.CortexConfiguration.UseGlobalState">
+            <summary>
+            Gets or sets a value indicating whether to use a Global Shared State.
+            </summary>
+            <remarks>When set to false, code that not explicitly sets Shared State will throw exceptions.</remarks>
+        </member>
         <member name="T:Cortex.Net.DerivationState">
             <summary>
             The state of the <see cref="T:Cortex.Net.IDerivation"/> instance.
@@ -1817,7 +1838,7 @@
         </member>
         <member name="P:Cortex.Net.IReactiveObject.SharedState">
             <summary>
-            Gets or sets the Shared State on this object.
+            Gets the Shared State on this object.
             </summary>
         </member>
         <member name="T:Cortex.Net.ISharedState">
@@ -2082,9 +2103,19 @@
               Looks up a localized string similar to The setter of computed value ({0}) is trying to update itself. Did you intend to update an observable value instead of a computed value?.
             </summary>
         </member>
+        <member name="P:Cortex.Net.Properties.Resources.DifferentSharedStates">
+            <summary>
+              Looks up a localized string similar to [Cortex.Net] the object being added or updated has a different state than collection ({0})..
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Properties.Resources.GetExpressionNull">
             <summary>
               Looks up a localized string similar to Get expression is null for ({0}) of type ({1}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.GlobalStateAlreadyInitialized">
+            <summary>
+              Looks up a localized string similar to [Cortex.Net] Global State is already (implicitly) initialized. Make sure to call this constructor before you use any of the Observable or Reactive types..
             </summary>
         </member>
         <member name="P:Cortex.Net.Properties.Resources.GlobalUnobservationOnlyWithoutObservers">
@@ -2115,6 +2146,11 @@
         <member name="P:Cortex.Net.Properties.Resources.ModifiedOutsideActionEnforceAlways">
             <summary>
               Looks up a localized string similar to &quot;Since strict-mode is enabled, changing observed observable values outside actions is not allowed. Please wrap the code in an `action` if this change is intended. Tried to modify: ({0}).
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.NoGlobalSharedState">
+            <summary>
+              Looks up a localized string similar to [Cortex.Net] Global Shared state is not configured, please specify shared state when creating new Observables, Computed Values or Reactions..
             </summary>
         </member>
         <member name="P:Cortex.Net.Properties.Resources.ObserverNotInObservable">
@@ -2193,6 +2229,16 @@
             Holds the Shared state that all nodes of the Dependency Graph share.
             </summary>
         </member>
+        <member name="F:Cortex.Net.SharedState.AsyncLocalSharedStateContext">
+            <summary>
+            An async local shared state context to use to fetch ISharedState context when using multiple shared states.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.SharedState.globalState">
+            <summary>
+            A reference to the Global state (if used).
+            </summary>
+        </member>
         <member name="F:Cortex.Net.SharedState.batchCount">
             <summary>
             Batch counter to support reentrance of Start and EndBatch.
@@ -2224,6 +2270,12 @@
         <member name="E:Cortex.Net.SharedState.UnhandledReactionException">
             <summary>
             Event that fires when a reaction produces an unhandled exception.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.GlobalState">
+            <summary>
+            Gets a reference to the Global Shared State or throws an exception
+            when the Shared State is configured to not allow Shared State.
             </summary>
         </member>
         <member name="P:Cortex.Net.SharedState.PendingUnobservations">
@@ -2302,6 +2354,13 @@
             <summary>
             Gets a list of enhancers on this SharedState.
             </summary>
+        </member>
+        <member name="M:Cortex.Net.SharedState.ResolveState(Cortex.Net.ISharedState)">
+            <summary>
+            Resolves a shared state for Weaved objects.
+            </summary>
+            <param name="sharedState">The shared state.</param>
+            <returns>Shared state when found, otherwise throws an exception.</returns>
         </member>
         <member name="M:Cortex.Net.SharedState.GetUniqueId">
             <summary>
@@ -2403,6 +2462,12 @@
             <summary>
             Runs reactions. This implementation will run the default Reaction Scheduler function.
             </summary>
+        </member>
+        <member name="M:Cortex.Net.SharedState.SetAsyncLocalState(Cortex.Net.ISharedState)">
+            <summary>
+            Set the AsyncLocalSharedState.
+            </summary>
+            <param name="sharedState">The Async Local Shared State.</param>
         </member>
         <member name="M:Cortex.Net.SharedState.RunReactionsDefaultAction">
             <summary>

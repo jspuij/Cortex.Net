@@ -35,6 +35,7 @@ namespace Cortex.Net.Fody
         public WeavingContext(ModuleWeaver moduleWeaver)
         {
             this.CortexNetISharedState = TryResolveFromReference(moduleWeaver, "Cortex.Net.ISharedState", "Cortex.Net");
+            this.CortexNetSharedState = TryResolveFromReference(moduleWeaver, "Cortex.Net.SharedState", "Cortex.Net");
             this.CortexNetApiActionAttribute = TryResolveFromReference(moduleWeaver, "Cortex.Net.Api.ActionAttribute", "Cortex.Net");
             this.CortexNetIReactiveObject = TryResolveFromReference(moduleWeaver, "Cortex.Net.IReactiveObject", "Cortex.Net");
             this.CortexNetApiActionExtensions = TryResolveFromReference(moduleWeaver, "Cortex.Net.Api.ActionExtensions", "Cortex.Net");
@@ -55,6 +56,11 @@ namespace Cortex.Net.Fody
         /// Gets type reference to Cortex.Net.ISharedState.
         /// </summary>
         public TypeReference CortexNetISharedState { get; private set; }
+
+        /// <summary>
+        /// Gets type reference to Cortex.Net.ISharedState.
+        /// </summary>
+        public TypeReference CortexNetSharedState { get; private set; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Api.ActionAttribute.

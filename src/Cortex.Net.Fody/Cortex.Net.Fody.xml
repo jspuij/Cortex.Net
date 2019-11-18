@@ -551,6 +551,11 @@
               Looks up a localized string similar to Cannot load all of the required types for weaving. Exiting weaver..
             </summary>
         </member>
+        <member name="P:Cortex.Net.Fody.Properties.Resources.DoNotMixAttributesAndIReactiveObject">
+            <summary>
+              Looks up a localized string similar to Do not mix Cortex.Net attributes with IReactiveObject on a single type ({0}). Use either attributes or implement IReactiveObject yourself..
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Fody.Properties.Resources.MoreThan16Parameters">
             <summary>
               Looks up a localized string similar to CannotHandle more than 16 parameters on Action Method: ({0}).
@@ -620,12 +625,20 @@
             Executes this weaver.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.AddInjectAttribute(Mono.Cecil.ModuleDefinition,Mono.Cecil.PropertyDefinition)">
+        <member name="M:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.CallsOtherConstructor(Mono.Cecil.MethodDefinition)">
             <summary>
-            Adds an inject attribute to a property.
+            Checks whether this constructor calls another constructor.
             </summary>
-            <param name="moduleDefinition">The moduleDefinition to use.</param>
-            <param name="propertyDefinition">The property Definition to use.</param>
+            <param name="constructor">The constructor to call.</param>
+            <returns>Whether this constructor calls another constructor.</returns>
+        </member>
+        <member name="M:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.FindBaseConstructor(Mono.Cecil.Cil.MethodBody,Mono.Cecil.TypeDefinition)">
+            <summary>
+            Gets the instruction that calls the base constructor.
+            </summary>
+            <param name="methodBody">The methodBody to search.</param>
+            <param name="constructorType">The decalring type of the constructor.</param>
+            <returns>The instruction that calls the base constructor.</returns>
         </member>
         <member name="M:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.ExecuteProcessorActions(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldDefinition,System.Collections.Generic.IEnumerable{System.Action{Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldReference}})">
             <summary>
@@ -634,6 +647,14 @@
             <param name="processor">The processor to use.</param>
             <param name="backingField">The backing field for the ISharedState" instance.</param>
             <param name="processorActions">The processor actions to execute.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.EmitConstructorCall(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldDefinition,Mono.Cecil.MethodReference)">
+            <summary>
+            Executes the processoractions agains the processor.
+            </summary>
+            <param name="processor">The processor to use.</param>
+            <param name="backingField">The backing field for the ISharedState" instance.</param>
+            <param name="setterReference">A reference to the new private setter.</param>
         </member>
         <member name="T:Cortex.Net.Fody.TypeDefinitionExtenions">
             <summary>
@@ -714,6 +735,11 @@
             <param name="moduleWeaver">Moduleweaver to use.</param>
         </member>
         <member name="P:Cortex.Net.Fody.WeavingContext.CortexNetISharedState">
+            <summary>
+            Gets type reference to Cortex.Net.ISharedState.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.WeavingContext.CortexNetSharedState">
             <summary>
             Gets type reference to Cortex.Net.ISharedState.
             </summary>

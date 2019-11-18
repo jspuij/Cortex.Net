@@ -23,8 +23,8 @@ namespace Cortex.Net
     public interface IReactiveObject
     {
         /// <summary>
-        /// Gets or sets the Shared State on this object.
+        /// Gets the Shared State on this object.
         /// </summary>
-        ISharedState SharedState { get; set; }
+        ISharedState SharedState { get; }
     }
 }

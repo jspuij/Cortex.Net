@@ -34,17 +34,14 @@ namespace Cortex.Net.Core
         /// <param name="name">The name for this Atom.</param>
         internal Atom(ISharedState sharedState, string name)
         {
-            if (sharedState is null)
-            {
-                throw new ArgumentNullException(nameof(sharedState));
-            }
+            // resolve state state from context if necessary.
+            this.SharedState = Net.SharedState.ResolveState(sharedState);
 
             if (string.IsNullOrEmpty(name))
             {
                 throw new ArgumentNullException(nameof(name));
             }
 
-            this.SharedState = sharedState;
             this.Name = name;
         }
 

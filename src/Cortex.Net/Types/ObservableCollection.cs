@@ -19,8 +19,10 @@ namespace Cortex.Net.Types
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using Cortex.Net.Core;
+    using Cortex.Net.Properties;
     using Cortex.Net.Spy;
 
     /// <summary>
@@ -189,7 +191,7 @@ namespace Cortex.Net.Types
                         {
                             if (reactiveObject.SharedState != this.SharedState)
                             {
-                                reactiveObject.SharedState = this.SharedState;
+                                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.DifferentSharedStates, this.Name));
                             }
                         }
 
@@ -485,7 +487,7 @@ namespace Cortex.Net.Types
                     {
                         if (reactiveObject.SharedState != this.SharedState)
                         {
-                            reactiveObject.SharedState = this.SharedState;
+                            throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.DifferentSharedStates, this.Name));
                         }
                     }
                 }

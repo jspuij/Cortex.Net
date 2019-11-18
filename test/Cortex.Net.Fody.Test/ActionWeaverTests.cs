@@ -39,7 +39,6 @@ namespace Cortex.Net.Fody.Test
 
             var testClass = new ActionTestClass();
             Assert.True(testClass is IReactiveObject);
-            ((IReactiveObject)testClass).SharedState = sharedState;
             string expected = "Lisa";
             testClass.SetName(expected);
             Assert.Equal(expected, testClass.Name);

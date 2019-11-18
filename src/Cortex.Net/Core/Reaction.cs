@@ -87,7 +87,8 @@ namespace Cortex.Net.Core
         /// <param name="errorHandler">The error handler for this reaction.</param>
         internal Reaction(ISharedState sharedState, string name, Action onInvalidate, Action<Reaction, Exception> errorHandler)
         {
-            this.SharedState = sharedState ?? throw new ArgumentNullException(nameof(sharedState));
+            // resolve state state from context if necessary.
+            this.SharedState = Net.SharedState.ResolveState(sharedState);
             this.onInvalidate = onInvalidate ?? throw new ArgumentNullException(nameof(onInvalidate));
             this.errorHandler = errorHandler;
             this.Name = !string.IsNullOrEmpty(name) ? name : $"{this.SharedState.GetUniqueId()}";

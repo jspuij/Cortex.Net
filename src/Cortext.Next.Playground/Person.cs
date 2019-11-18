@@ -13,9 +13,9 @@ namespace Cortext.Next.Playground
     public class Person : IReactiveObject
     {
         private readonly ObservableObject observableObject;
-        private Action<string, string> testAction;
+        private readonly Action<string, string> testAction;
 
-        public Person(SharedState sharedState)
+        public Person(ISharedState sharedState)
         {
             observableObject = new ObservableObject(nameof(Person),sharedState.GetEnhancer(typeof(DeepEnhancer)), sharedState);
             observableObject.AddObservableProperty<string>(nameof(FirstName));
@@ -75,23 +75,12 @@ namespace Cortext.Next.Playground
             set => this.observableObject.Write<string>(nameof(FullName3), value);
         }
 
-        private ISharedState sharedState;
-
         ISharedState IReactiveObject.SharedState
         {
-            get => sharedState;
-            set
-            {
-                sharedState = value;
-
-                if (value == null)
-                {
-                    return;
-                }
-
-                testAction = sharedState.CreateAction<string, string>("ChangeBothNames", this, ChangeBothNames);
-            }
+            get => this.observableObject.SharedState;
         }
+
+        public string Name => nameof(Person);
 
         private int changeBothNamesCount = 0;
 

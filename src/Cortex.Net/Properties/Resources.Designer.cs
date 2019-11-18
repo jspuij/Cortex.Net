@@ -151,11 +151,29 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [Cortex.Net] the object being added or updated has a different state than collection ({0})..
+        /// </summary>
+        internal static string DifferentSharedStates {
+            get {
+                return ResourceManager.GetString("DifferentSharedStates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Get expression is null for ({0}) of type ({1}).
         /// </summary>
         internal static string GetExpressionNull {
             get {
                 return ResourceManager.GetString("GetExpressionNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [Cortex.Net] Global State is already (implicitly) initialized. Make sure to call this constructor before you use any of the Observable or Reactive types..
+        /// </summary>
+        internal static string GlobalStateAlreadyInitialized {
+            get {
+                return ResourceManager.GetString("GlobalStateAlreadyInitialized", resourceCulture);
             }
         }
         
@@ -210,6 +228,15 @@ namespace Cortex.Net.Properties {
         internal static string ModifiedOutsideActionEnforceAlways {
             get {
                 return ResourceManager.GetString("ModifiedOutsideActionEnforceAlways", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [Cortex.Net] Global Shared state is not configured, please specify shared state when creating new Observables, Computed Values or Reactions..
+        /// </summary>
+        internal static string NoGlobalSharedState {
+            get {
+                return ResourceManager.GetString("NoGlobalSharedState", resourceCulture);
             }
         }
         

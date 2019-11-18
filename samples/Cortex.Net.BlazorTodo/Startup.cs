@@ -16,6 +16,7 @@
 
 namespace Cortex.Net.BlazorTodo
 {
+    using Cortex.Net.Api;
     using Cortex.Net.BlazorTodo.Stores;
     using Microsoft.AspNetCore.Components.Builder;
     using Microsoft.Extensions.DependencyInjection;
@@ -33,23 +34,13 @@ namespace Cortex.Net.BlazorTodo
         public void ConfigureServices(IServiceCollection services)
         {
             // Add the Shared state to the DI container.
-            services.AddSingleton<ISharedState>(x => new SharedState());
+            services.AddSingleton(x => SharedState.GlobalState);
 
             // Add a singleton ViewStore to the DI container.
-            services.AddSingleton(x =>
-            {
-                var vs = new ViewStore();
-                ((IReactiveObject)vs).SharedState = x.GetRequiredService<ISharedState>();
-                return vs;
-            });
+            services.AddSingleton<ViewStore>();
 
             // Add a singleton TodoStore to the DI container.
-            services.AddSingleton(x =>
-            {
-                var ts = new TodoStore();
-                ((IReactiveObject)ts).SharedState = x.GetRequiredService<ISharedState>();
-                return ts;
-            });
+            services.AddSingleton<TodoStore>();
         }
 
         /// <summary>

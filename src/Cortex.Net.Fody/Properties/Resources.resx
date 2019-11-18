@@ -126,6 +126,9 @@
   <data name="CannotLoadTypes" xml:space="preserve">
     <value>Cannot load all of the required types for weaving. Exiting weaver.</value>
   </data>
+  <data name="DoNotMixAttributesAndIReactiveObject" xml:space="preserve">
+    <value>Do not mix Cortex.Net attributes with IReactiveObject on a single type ({0}). Use either attributes or implement IReactiveObject yourself.</value>
+  </data>
   <data name="MoreThan16Parameters" xml:space="preserve">
     <value>CannotHandle more than 16 parameters on Action Method: ({0})</value>
   </data>

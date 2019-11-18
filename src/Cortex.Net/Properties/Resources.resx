@@ -147,8 +147,14 @@
   <data name="CycleDetectedInSetter" xml:space="preserve">
     <value>The setter of computed value ({0}) is trying to update itself. Did you intend to update an observable value instead of a computed value?</value>
   </data>
+  <data name="DifferentSharedStates" xml:space="preserve">
+    <value>[Cortex.Net] the object being added or updated has a different state than collection ({0}).</value>
+  </data>
   <data name="GetExpressionNull" xml:space="preserve">
     <value>Get expression is null for ({0}) of type ({1})</value>
+  </data>
+  <data name="GlobalStateAlreadyInitialized" xml:space="preserve">
+    <value>[Cortex.Net] Global State is already (implicitly) initialized. Make sure to call this constructor before you use any of the Observable or Reactive types.</value>
   </data>
   <data name="GlobalUnobservationOnlyWithoutObservers" xml:space="preserve">
     <value>Global unobservation should only be queued without observers.</value>
@@ -167,6 +173,9 @@
   </data>
   <data name="ModifiedOutsideActionEnforceAlways" xml:space="preserve">
     <value>"Since strict-mode is enabled, changing observed observable values outside actions is not allowed. Please wrap the code in an `action` if this change is intended. Tried to modify: ({0})</value>
+  </data>
+  <data name="NoGlobalSharedState" xml:space="preserve">
+    <value>[Cortex.Net] Global Shared state is not configured, please specify shared state when creating new Observables, Computed Values or Reactions.</value>
   </data>
   <data name="ObserverNotInObservable" xml:space="preserve">
     <value>The derivation ({0}) does not exist in the set of observers of observable ({1})</value>
