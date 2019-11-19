@@ -35,7 +35,7 @@ namespace Cortext.Next.Playground
             person.ChangeBothNames("Eddy", "Tickie");
             Console.WriteLine(person.FullName3);
 
-            var personWeave = new PersonWeave();
+            var personWeave = new PersonWeave(sharedState);
             personWeave.Age = 30;
 
             var d2 = sharedState.Reaction<string>(r => personWeave.FullName, (s, r) =>
@@ -64,7 +64,7 @@ namespace Cortext.Next.Playground
                 r.Trace(TraceMode.Log);
             });
 
-            var person2 = new PersonWeave();
+            var person2 = new PersonWeave(sharedState);
             person2.ChangeBothNames("Claudia", "Pietryga");
             person2.Age = 20;
 
@@ -72,7 +72,7 @@ namespace Cortext.Next.Playground
             group.People.Add(person2);
 
             var program = new Program();
-            var task = program.WriteToFileAsync(group);
+            var task = program.WriteToFileAsync(group, sharedState);
 
             personWeave.ChangeBothNames("Jan-Willem", "Spuij2");
             await task;
@@ -92,10 +92,10 @@ namespace Cortext.Next.Playground
         }
 
         [Action]
-        public async Task WriteToFileAsync(Group group)
+        public async Task WriteToFileAsync(Group group, ISharedState sharedState)
         {
             await File.WriteAllTextAsync("output.txt", group.Average.ToString());
-            var person3 = new PersonWeave();
+            var person3 = new PersonWeave(sharedState);
             person3.ChangeBothNames("Pipo", "De clown");
             person3.Age = 10;
 

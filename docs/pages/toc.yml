@@ -6,6 +6,8 @@
       href: concepts.md
     - name: The gist of Cortex.Net
       href: gist.md
+    - name: Shared State
+      href: sharedstate.md
 - name: Making things observable
   items:
     - name: Observable
@@ -16,11 +18,9 @@
       href: observableobject.md
 - name: Useful to know
   items:
-    - name: SharedState
-      href: sharedstate.md
     - name: Weaving with fody.
       href: weaving.md
-    - name: Threading
+    - name: "Threading and async/await"
       href: threading.md
     - name: Dependency Injection
       href: dependencyinjection.md

@@ -8,8 +8,15 @@ using System.Text;
 namespace Cortext.Next.Playground
 {
     [Observable]
-    public class PersonWeave
+    public class PersonWeave : IReactiveObject
     {
+        public PersonWeave(ISharedState sharedState)
+        {
+            this.SharedState = sharedState;
+        }
+
+        public ISharedState SharedState { get; private set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

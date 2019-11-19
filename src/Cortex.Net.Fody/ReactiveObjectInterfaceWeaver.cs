@@ -116,6 +116,32 @@ namespace Cortex.Net.Fody
                 }
                 else
                 {
+                    try
+                    {
+                        var setOverride = reactiveObjectTypeDefinition.Resolve().Methods.Single(x => x.Name.Contains($"set_SharedState"));
+
+                        if (setOverride != null)
+                        {
+                            backingField = reactiveObjectTypeDefinition.Fields.Single(x => x.Name.ToUpperInvariant().Contains("SHAREDSTATE") && x.FieldType.FullName == fieldTypeReference.FullName);
+
+                            if (backingField != null)
+                            {
+                                // remove ret
+                                setOverride.Body.Instructions.Remove(setOverride.Body.Instructions.Last());
+                                var processor = setOverride.Body.GetILProcessor();
+                                ExecuteProcessorActions(processor, backingField, processorActions);
+                                processor.Emit(OpCodes.Ret);
+                                continue;
+                            }
+                        }
+                    }
+#pragma warning disable CA1031 // Do not catch general exception types
+                    catch
+#pragma warning restore CA1031 // Do not catch general exception types
+                    {
+                        throw;
+                    }
+
                     throw new WeavingException(string.Format(CultureInfo.CurrentCulture, Resources.DoNotMixAttributesAndIReactiveObject, reactiveObjectTypeDefinition.FullName));
                 }
             }
