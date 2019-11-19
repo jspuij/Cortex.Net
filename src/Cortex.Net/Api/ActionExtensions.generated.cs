@@ -74,42 +74,6 @@ namespace Cortex.Net.Api
         }
 
 	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-
-        public static void RunInAction(this ISharedState sharedState, Action action)
-        {
-            CreateAction(sharedState, null, null, action)();
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-
-        public static void RunInAction(this ISharedState sharedState, string actionName, Action action)
-        {
-            CreateAction(sharedState, actionName, null, action)();
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-
-        public static void RunInAction(this ISharedState sharedState, string actionName, object scope, Action action)
-        {
-            CreateAction(sharedState, actionName, scope, action)();
-        }
-
-	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
 		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
@@ -155,42 +119,6 @@ namespace Cortex.Net.Api
             }
 
             return new Action<T1>((T1 arg1) => Core.ActionExtensions.ExecuteAction<T1>(sharedState, actionName, scope, action, arg1));
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        public static void RunInAction<T1>(this ISharedState sharedState, Action<T1> action, T1 arg1)
-        {
-            CreateAction<T1>(sharedState, null, null, action)(arg1);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        public static void RunInAction<T1>(this ISharedState sharedState, string actionName, Action<T1> action, T1 arg1)
-        {
-            CreateAction<T1>(sharedState, actionName, null, action)(arg1);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        public static void RunInAction<T1>(this ISharedState sharedState, string actionName, object scope, Action<T1> action, T1 arg1)
-        {
-            CreateAction<T1>(sharedState, actionName, scope, action)(arg1);
         }
 
 	    /// <summary>
@@ -242,45 +170,6 @@ namespace Cortex.Net.Api
         }
 
 	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        public static void RunInAction<T1,T2>(this ISharedState sharedState, Action<T1,T2> action, T1 arg1, T2 arg2)
-        {
-            CreateAction<T1,T2>(sharedState, null, null, action)(arg1, arg2);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        public static void RunInAction<T1,T2>(this ISharedState sharedState, string actionName, Action<T1,T2> action, T1 arg1, T2 arg2)
-        {
-            CreateAction<T1,T2>(sharedState, actionName, null, action)(arg1, arg2);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        public static void RunInAction<T1,T2>(this ISharedState sharedState, string actionName, object scope, Action<T1,T2> action, T1 arg1, T2 arg2)
-        {
-            CreateAction<T1,T2>(sharedState, actionName, scope, action)(arg1, arg2);
-        }
-
-	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
 		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
@@ -326,48 +215,6 @@ namespace Cortex.Net.Api
             }
 
             return new Action<T1,T2,T3>((T1 arg1, T2 arg2, T3 arg3) => Core.ActionExtensions.ExecuteAction<T1,T2,T3>(sharedState, actionName, scope, action, arg1, arg2, arg3));
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        public static void RunInAction<T1,T2,T3>(this ISharedState sharedState, Action<T1,T2,T3> action, T1 arg1, T2 arg2, T3 arg3)
-        {
-            CreateAction<T1,T2,T3>(sharedState, null, null, action)(arg1, arg2, arg3);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        public static void RunInAction<T1,T2,T3>(this ISharedState sharedState, string actionName, Action<T1,T2,T3> action, T1 arg1, T2 arg2, T3 arg3)
-        {
-            CreateAction<T1,T2,T3>(sharedState, actionName, null, action)(arg1, arg2, arg3);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        public static void RunInAction<T1,T2,T3>(this ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3> action, T1 arg1, T2 arg2, T3 arg3)
-        {
-            CreateAction<T1,T2,T3>(sharedState, actionName, scope, action)(arg1, arg2, arg3);
         }
 
 	    /// <summary>
@@ -419,51 +266,6 @@ namespace Cortex.Net.Api
         }
 
 	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        public static void RunInAction<T1,T2,T3,T4>(this ISharedState sharedState, Action<T1,T2,T3,T4> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
-        {
-            CreateAction<T1,T2,T3,T4>(sharedState, null, null, action)(arg1, arg2, arg3, arg4);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        public static void RunInAction<T1,T2,T3,T4>(this ISharedState sharedState, string actionName, Action<T1,T2,T3,T4> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
-        {
-            CreateAction<T1,T2,T3,T4>(sharedState, actionName, null, action)(arg1, arg2, arg3, arg4);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        public static void RunInAction<T1,T2,T3,T4>(this ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
-        {
-            CreateAction<T1,T2,T3,T4>(sharedState, actionName, scope, action)(arg1, arg2, arg3, arg4);
-        }
-
-	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
 		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
@@ -509,54 +311,6 @@ namespace Cortex.Net.Api
             }
 
             return new Action<T1,T2,T3,T4,T5>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) => Core.ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5));
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
-        {
-            CreateAction<T1,T2,T3,T4,T5>(sharedState, null, null, action)(arg1, arg2, arg3, arg4, arg5);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5>(this ISharedState sharedState, string actionName, Action<T1,T2,T3,T4,T5> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
-        {
-            CreateAction<T1,T2,T3,T4,T5>(sharedState, actionName, null, action)(arg1, arg2, arg3, arg4, arg5);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5>(this ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
-        {
-            CreateAction<T1,T2,T3,T4,T5>(sharedState, actionName, scope, action)(arg1, arg2, arg3, arg4, arg5);
         }
 
 	    /// <summary>
@@ -608,57 +362,6 @@ namespace Cortex.Net.Api
         }
 
 	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6>(sharedState, null, null, action)(arg1, arg2, arg3, arg4, arg5, arg6);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6>(this ISharedState sharedState, string actionName, Action<T1,T2,T3,T4,T5,T6> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6>(sharedState, actionName, null, action)(arg1, arg2, arg3, arg4, arg5, arg6);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6>(this ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6>(sharedState, actionName, scope, action)(arg1, arg2, arg3, arg4, arg5, arg6);
-        }
-
-	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
 		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
@@ -704,60 +407,6 @@ namespace Cortex.Net.Api
             }
 
             return new Action<T1,T2,T3,T4,T5,T6,T7>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7) => Core.ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6,T7>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6, arg7));
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7>(sharedState, null, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7>(this ISharedState sharedState, string actionName, Action<T1,T2,T3,T4,T5,T6,T7> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7>(sharedState, actionName, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7>(this ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7>(sharedState, actionName, scope, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
 
 	    /// <summary>
@@ -809,63 +458,6 @@ namespace Cortex.Net.Api
         }
 
 	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8>(sharedState, null, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8>(this ISharedState sharedState, string actionName, Action<T1,T2,T3,T4,T5,T6,T7,T8> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8>(sharedState, actionName, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8>(this ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8>(sharedState, actionName, scope, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-        }
-
-	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
 		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
@@ -911,66 +503,6 @@ namespace Cortex.Net.Api
             }
 
             return new Action<T1,T2,T3,T4,T5,T6,T7,T8,T9>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9) => Core.ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9));
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9>(sharedState, null, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9>(this ISharedState sharedState, string actionName, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9>(sharedState, actionName, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9>(this ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9>(sharedState, actionName, scope, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
 
 	    /// <summary>
@@ -1022,69 +554,6 @@ namespace Cortex.Net.Api
         }
 
 	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10>(sharedState, null, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10>(this ISharedState sharedState, string actionName, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10>(sharedState, actionName, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10>(this ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10>(sharedState, actionName, scope, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-        }
-
-	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
 		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
@@ -1130,72 +599,6 @@ namespace Cortex.Net.Api
             }
 
             return new Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11) => Core.ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11));
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11>(sharedState, null, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11>(this ISharedState sharedState, string actionName, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11>(sharedState, actionName, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11>(this ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11>(sharedState, actionName, scope, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
         }
 
 	    /// <summary>
@@ -1247,75 +650,6 @@ namespace Cortex.Net.Api
         }
 
 	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        /// <param name="arg12">Argument nr. 12.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12>(sharedState, null, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        /// <param name="arg12">Argument nr. 12.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12>(this ISharedState sharedState, string actionName, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12>(sharedState, actionName, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        /// <param name="arg12">Argument nr. 12.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12>(this ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12>(sharedState, actionName, scope, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
-        }
-
-	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
 		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
@@ -1361,78 +695,6 @@ namespace Cortex.Net.Api
             }
 
             return new Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13) => Core.ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13));
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        /// <param name="arg12">Argument nr. 12.</param>
-        /// <param name="arg13">Argument nr. 13.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13>(sharedState, null, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        /// <param name="arg12">Argument nr. 12.</param>
-        /// <param name="arg13">Argument nr. 13.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13>(this ISharedState sharedState, string actionName, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13>(sharedState, actionName, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        /// <param name="arg12">Argument nr. 12.</param>
-        /// <param name="arg13">Argument nr. 13.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13>(this ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13>(sharedState, actionName, scope, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13);
         }
 
 	    /// <summary>
@@ -1484,81 +746,6 @@ namespace Cortex.Net.Api
         }
 
 	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        /// <param name="arg12">Argument nr. 12.</param>
-        /// <param name="arg13">Argument nr. 13.</param>
-        /// <param name="arg14">Argument nr. 14.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14>(sharedState, null, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        /// <param name="arg12">Argument nr. 12.</param>
-        /// <param name="arg13">Argument nr. 13.</param>
-        /// <param name="arg14">Argument nr. 14.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14>(this ISharedState sharedState, string actionName, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14>(sharedState, actionName, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        /// <param name="arg12">Argument nr. 12.</param>
-        /// <param name="arg13">Argument nr. 13.</param>
-        /// <param name="arg14">Argument nr. 14.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14>(this ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14>(sharedState, actionName, scope, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14);
-        }
-
-	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
 		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
@@ -1607,84 +794,6 @@ namespace Cortex.Net.Api
         }
 
 	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        /// <param name="arg12">Argument nr. 12.</param>
-        /// <param name="arg13">Argument nr. 13.</param>
-        /// <param name="arg14">Argument nr. 14.</param>
-        /// <param name="arg15">Argument nr. 15.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15>(sharedState, null, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        /// <param name="arg12">Argument nr. 12.</param>
-        /// <param name="arg13">Argument nr. 13.</param>
-        /// <param name="arg14">Argument nr. 14.</param>
-        /// <param name="arg15">Argument nr. 15.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15>(this ISharedState sharedState, string actionName, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15>(sharedState, actionName, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        /// <param name="arg12">Argument nr. 12.</param>
-        /// <param name="arg13">Argument nr. 13.</param>
-        /// <param name="arg14">Argument nr. 14.</param>
-        /// <param name="arg15">Argument nr. 15.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15>(this ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15>(sharedState, actionName, scope, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15);
-        }
-
-	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
 		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
@@ -1730,87 +839,6 @@ namespace Cortex.Net.Api
             }
 
             return new Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>((T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15, T16 arg16) => Core.ActionExtensions.ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>(sharedState, actionName, scope, action, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16));
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        /// <param name="arg12">Argument nr. 12.</param>
-        /// <param name="arg13">Argument nr. 13.</param>
-        /// <param name="arg14">Argument nr. 14.</param>
-        /// <param name="arg15">Argument nr. 15.</param>
-        /// <param name="arg16">Argument nr. 16.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15, T16 arg16)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>(sharedState, null, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        /// <param name="arg12">Argument nr. 12.</param>
-        /// <param name="arg13">Argument nr. 13.</param>
-        /// <param name="arg14">Argument nr. 14.</param>
-        /// <param name="arg15">Argument nr. 15.</param>
-        /// <param name="arg16">Argument nr. 16.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>(this ISharedState sharedState, string actionName, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15, T16 arg16)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>(sharedState, actionName, null, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16);
-        }
-
-	    /// <summary>
-        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
-        /// </summary>
-		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
-        /// <param name="actionName">The name of this action.</param>
-        /// <param name="scope">The scope of this action.</param>
-        /// <param name="action">The action itself.</param>
-        /// <param name="arg1">Argument nr. 1.</param>
-        /// <param name="arg2">Argument nr. 2.</param>
-        /// <param name="arg3">Argument nr. 3.</param>
-        /// <param name="arg4">Argument nr. 4.</param>
-        /// <param name="arg5">Argument nr. 5.</param>
-        /// <param name="arg6">Argument nr. 6.</param>
-        /// <param name="arg7">Argument nr. 7.</param>
-        /// <param name="arg8">Argument nr. 8.</param>
-        /// <param name="arg9">Argument nr. 9.</param>
-        /// <param name="arg10">Argument nr. 10.</param>
-        /// <param name="arg11">Argument nr. 11.</param>
-        /// <param name="arg12">Argument nr. 12.</param>
-        /// <param name="arg13">Argument nr. 13.</param>
-        /// <param name="arg14">Argument nr. 14.</param>
-        /// <param name="arg15">Argument nr. 15.</param>
-        /// <param name="arg16">Argument nr. 16.</param>
-        public static void RunInAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>(this ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15, T16 arg16)
-        {
-            CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>(sharedState, actionName, scope, action)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16);
         }
 
 	}
