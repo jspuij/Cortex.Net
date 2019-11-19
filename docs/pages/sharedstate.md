@@ -1,16 +1,15 @@
-# Shared State
+# Shared state
 
 To be able to track observables and generate a dependency graph, Cortex.Net has to
 keep its own internal state somewhere. It does this by maintaining a reference to an
 [ISharedState](xref:Cortex.Net.ISharedState) instance in every Observable and Derivation.
 In most applications with a UI this will be a single instance for the entire application.
-However other scenarios are entirely possible. The most different possibilites are
-described below:
+However other scenarios are entirely possible. Two distict possibilities are described below:
 
-## One Single Global State
+## A single global state
 
 This is the most common scenario where one instance is shared among all Observables and
-derivations. It's also the default scenario; calling a constructor on an Observable or
+Derivations. It's also the default scenario; calling a constructor on an Observable or
 referencing [Cortex.Net.SharedState.GlobalState](xref:Cortex.Net.SharedState.GlobalState)
 will automatically and lazily create a global instance of shared state:
 
@@ -29,7 +28,7 @@ using Cortex.Net;
 var person = new Person();
 ```
 
-This pattern is most suitable for applications with a UI where the UI must be updated
+This pattern is suitable for applications with a UI where the UI must be updated
 on the main thread. It implies that the state must be read and updated on the main thread
 as well. This does not mean however that you cannot use multiple threads or 
 [Asynchronous Programming](https://en.wikipedia.org/wiki/Async/await). More details about
@@ -49,9 +48,9 @@ var person = new Person();
 ISharedState sharedState = new SharedState();
 ```
 
-## Multiple Shared State Instances.
+## Multiple shared state instances.
 
-This pattern is most suitable for applications without a UI that is running multiple concurrent
+This pattern is suitable for applications without a UI that are running multiple concurrent
 threads or asynchronous execution contexts. For instance a web application where you could have
 one `SharedState` per web request or a calculation engine where there is one shared state per
 calculation thread. 
@@ -73,7 +72,7 @@ var person1 = firstSharedState.Observable(() => new Person());
 // This is the second person that is created with a reference to secondSharedState
 var person2 = secondSharedState.Observable(() => new Person());
 
-// this will throw as there are already non Global Shared States defined.
+// this will throw as there are already non global shared states defined.
 var sharedState = SharedState.GlobalState;
 
 // this will throw as well as there is no shared state context for person3.
@@ -94,7 +93,7 @@ using Cortex.Net;
 
 public void ConfigureServices(IServiceCollection services)
 {
-    // Add the Shared state to the DI container.
+    // Add the shared state to the DI container.
     services.AddScoped<ISharedState, SharedState>();
 
     // Add a PeopleStore to the DI container.
@@ -109,11 +108,11 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-## ISharedState as a starting point for Extension methods.
+## ISharedState as a starting point for extension methods.
 
 Cortex.Net defines several extension methods on `ISharedState` that
 allow you to create `Observables`, `Actions`, `Reactions`, `Autorun` and `Atoms`.
-This ties the instance to that Shared state immediately.
+This ties the instance to that shared state immediately.
 For instance, to create an `Autorun` on a person:
 
 ```csharp
