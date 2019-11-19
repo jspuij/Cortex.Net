@@ -10,6 +10,12 @@ using Cortex.Net.Types;
 
 public class Person : ObservableObject
 {
+    public Person()
+    {
+        this.AddObservableProperty<string>(nameof(FirstName));
+        this.AddObservableProperty<string>(nameof(LastName));
+	}
+
     public string FirstName
     {
         get => this.Read<string>(nameof(FirstName));
