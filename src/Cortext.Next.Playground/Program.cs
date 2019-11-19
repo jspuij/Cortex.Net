@@ -4,13 +4,15 @@ using Cortex.Net.Core;
 using System;
 using Cortex.Net.Api;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using System.IO;
 
 namespace Cortext.Next.Playground
 {
     public class Program
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Program start.")]
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
 
             var sharedState = SharedState.GlobalState;
@@ -69,8 +71,13 @@ namespace Cortext.Next.Playground
             group.People.Add(personWeave);
             group.People.Add(person2);
 
-            d.Dispose();
-            d2.Dispose();
+            var program = new Program();
+            var task = program.WriteToFileAsync(group);
+
+            personWeave.ChangeBothNames("Jan-Willem", "Spuij2");
+            await task;
+
+            Console.WriteLine("Completed");
         }
 
         private static void SharedState_SpyEvent(object sender, Cortex.Net.Spy.SpyEventArgs e)
@@ -82,6 +89,20 @@ namespace Cortext.Next.Playground
             {
                 Trace.WriteLine($"[Spy] {prop.Name}: {prop.GetValue(e)}");
             }
+        }
+
+        [Action]
+        public async Task WriteToFileAsync(Group group)
+        {
+            await File.WriteAllTextAsync("output.txt", group.Average.ToString());
+            var person3 = new PersonWeave();
+            person3.ChangeBothNames("Pipo", "De clown");
+            person3.Age = 10;
+
+            await Task.Delay(3000);
+
+            group.People.Add(person3);
+
         }
     }
 }

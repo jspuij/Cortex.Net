@@ -135,6 +135,9 @@
   <data name="NonReplaceableCollection" xml:space="preserve">
     <value>Property with name ({0}) has an unknown collection type ({1}). Skipping.</value>
   </data>
+  <data name="NonVoidReturnTypeForAction" xml:space="preserve">
+    <value>Method ({0}) on type ({1}) has a non void return type: ({2}). Method cannot be converted into an action.</value>
+  </data>
   <data name="NoParameterLessConstructorForEqualityComparer" xml:space="preserve">
     <value>EqualityComparer ({0}) on Property with name ({1}) on class ({2}) </value>
   </data>

@@ -52,10 +52,14 @@ namespace Cortex.Net.BlazorTodo.Stores
         [Action]
         public void AddTodo(string title)
         {
-            var newTodo = new Todo(this, Guid.NewGuid());
+            var newTodo = new Todo()
+            {
+                Id = Guid.NewGuid(),
+                Title = title,
+                Completed = false,
+                Store = this,
+            };
             this.Todos.Add(newTodo);
-            newTodo.Title = title;
-            newTodo.Completed = false;
         }
 
         /// <summary>

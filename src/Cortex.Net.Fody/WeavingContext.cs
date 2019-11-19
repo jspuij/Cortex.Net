@@ -50,77 +50,79 @@ namespace Cortex.Net.Fody
             this.SystemDiagnosticsDebuggerBrowsableAttribute = TryResolveFromScannedAssemblies(moduleWeaver, "System.Diagnostics.DebuggerBrowsableAttribute");
             this.SystemAction = Enumerable.Range(0, 16).Select(x => TryResolveFromScannedAssemblies(moduleWeaver, x == 0 ? "System.Action" : $"System.Action`{x}")).ToList().AsReadOnly();
             this.SystemFunc = Enumerable.Range(0, 16).Select(x => TryResolveFromScannedAssemblies(moduleWeaver, $"System.Func`{x + 1}")).ToList().AsReadOnly();
+            this.SystemThreadingTasksTask = TryResolveFromScannedAssemblies(moduleWeaver, "System.Threading.Tasks.Task");
+            this.SystemRuntimeCompilerServicesAsyncStateMachineAttribute = TryResolveFromScannedAssemblies(moduleWeaver, "System.Runtime.CompilerServices.AsyncStateMachineAttribute");
         }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.ISharedState.
         /// </summary>
-        public TypeReference CortexNetISharedState { get; private set; }
+        public TypeReference CortexNetISharedState { get; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.ISharedState.
         /// </summary>
-        public TypeReference CortexNetSharedState { get; private set; }
+        public TypeReference CortexNetSharedState { get; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Api.ActionAttribute.
         /// </summary>
-        public TypeReference CortexNetApiActionAttribute { get; private set; }
+        public TypeReference CortexNetApiActionAttribute { get; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.IReactiveObject.
         /// </summary>
-        public TypeReference CortexNetIReactiveObject { get; private set; }
+        public TypeReference CortexNetIReactiveObject { get; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Api.ActionExtensions.
         /// </summary>
-        public TypeReference CortexNetApiActionExtensions { get; private set; }
+        public TypeReference CortexNetApiActionExtensions { get; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Api.ComputedAttribute.
         /// </summary>
-        public TypeReference CortexNetApiComputedAttribute { get; private set; }
+        public TypeReference CortexNetApiComputedAttribute { get; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Types.DeepEnhancer.
         /// </summary>
-        public TypeReference CortexNetTypesDeepEnhancer { get; private set; }
+        public TypeReference CortexNetTypesDeepEnhancer { get; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Types.ObservableObject.
         /// </summary>
-        public TypeReference CortexNetTypesObservableObject { get; private set; }
+        public TypeReference CortexNetTypesObservableObject { get; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.ComputedValueOptions`1.
         /// </summary>
-        public TypeReference CortexNetComputedValueOptions { get; private set; }
+        public TypeReference CortexNetComputedValueOptions { get; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Types.ObservableCollection`1.
         /// </summary>
-        public TypeReference CortexNetTypesObservableCollection { get; private set; }
+        public TypeReference CortexNetTypesObservableCollection { get; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Api.ObservableAttribute.
         /// </summary>
-        public TypeReference CortexNetApiObservableAttribute { get; private set; }
+        public TypeReference CortexNetApiObservableAttribute { get; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Core.ActionExtensions.
         /// </summary>
-        public TypeReference CortexNetCoreActionExtensions { get; private set; }
+        public TypeReference CortexNetCoreActionExtensions { get; }
 
         /// <summary>
         /// Gets type reference to System.Runtime.CompilerServices.CompilerGeneratedAttribute.
         /// </summary>
-        public TypeReference SystemRuntimeCompilerServicesCompilerGeneratedAttribute { get; private set; }
+        public TypeReference SystemRuntimeCompilerServicesCompilerGeneratedAttribute { get; }
 
         /// <summary>
         /// Gets type reference to System.Diagnostics.DebuggerBrowsableAttribute.
         /// </summary>
-        public TypeReference SystemDiagnosticsDebuggerBrowsableAttribute { get; private set; }
+        public TypeReference SystemDiagnosticsDebuggerBrowsableAttribute { get; }
 
         /// <summary>
         /// Gets action type references.
@@ -131,6 +133,16 @@ namespace Cortex.Net.Fody
         /// Gets func type references.
         /// </summary>
         public IReadOnlyList<TypeReference> SystemFunc { get; }
+
+        /// <summary>
+        /// Gets a reference to System.Threading.Tasks.Task.
+        /// </summary>
+        public TypeReference SystemThreadingTasksTask { get; }
+
+        /// <summary>
+        /// Gets a reference to System.Runtime.CompilerServices.AsyncStateMachineAttribute.
+        /// </summary>
+        public TypeReference SystemRuntimeCompilerServicesAsyncStateMachineAttribute { get; }
 
         /// <summary>
         /// Tries to resolve a type from a preference.

@@ -30,6 +30,21 @@
             Extensions class for <see cref="T:Cortex.Net.ISharedState"/> instances.
             </summary>
         </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction(Cortex.Net.ISharedState,System.Action)">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction(Cortex.Net.ISharedState,System.String,System.Action)">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction(Cortex.Net.ISharedState,System.String,System.Object,System.Action)">
             <summary>
             Creates an Action that triggers reaction in all observables in the shared state.
@@ -37,6 +52,45 @@
             <param name="sharedState">The name of the shared state to use to create this action.</param>
             <param name="actionName">The name of this action.</param>
             <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction(Cortex.Net.ISharedState,System.Action)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction(Cortex.Net.ISharedState,System.String,System.Action)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction(Cortex.Net.ISharedState,System.String,System.Object,System.Action)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``1(Cortex.Net.ISharedState,System.Action{``0})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``1(Cortex.Net.ISharedState,System.String,System.Action{``0})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
             <param name="action">The action itself.</param>
         </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``1(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0})">
@@ -48,6 +102,48 @@
             <param name="scope">The scope of this action.</param>
             <param name="action">The action itself.</param>
         </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``1(Cortex.Net.ISharedState,System.Action{``0},``0)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``1(Cortex.Net.ISharedState,System.String,System.Action{``0},``0)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``1(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0},``0)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``2(Cortex.Net.ISharedState,System.Action{``0,``1})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``2(Cortex.Net.ISharedState,System.String,System.Action{``0,``1})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``2(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1})">
             <summary>
             Creates an Action that triggers reaction in all observables in the shared state.
@@ -55,6 +151,51 @@
             <param name="sharedState">The name of the shared state to use to create this action.</param>
             <param name="actionName">The name of this action.</param>
             <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``2(Cortex.Net.ISharedState,System.Action{``0,``1},``0,``1)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``2(Cortex.Net.ISharedState,System.String,System.Action{``0,``1},``0,``1)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``2(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1},``0,``1)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``3(Cortex.Net.ISharedState,System.Action{``0,``1,``2})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``3(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
             <param name="action">The action itself.</param>
         </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``3(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2})">
@@ -66,6 +207,54 @@
             <param name="scope">The scope of this action.</param>
             <param name="action">The action itself.</param>
         </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``3(Cortex.Net.ISharedState,System.Action{``0,``1,``2},``0,``1,``2)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``3(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2},``0,``1,``2)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``3(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2},``0,``1,``2)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``4(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``4(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``4(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3})">
             <summary>
             Creates an Action that triggers reaction in all observables in the shared state.
@@ -73,6 +262,57 @@
             <param name="sharedState">The name of the shared state to use to create this action.</param>
             <param name="actionName">The name of this action.</param>
             <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``4(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3},``0,``1,``2,``3)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``4(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3},``0,``1,``2,``3)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``4(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3},``0,``1,``2,``3)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``5(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``5(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
             <param name="action">The action itself.</param>
         </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``5(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4})">
@@ -84,6 +324,60 @@
             <param name="scope">The scope of this action.</param>
             <param name="action">The action itself.</param>
         </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``5(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4},``0,``1,``2,``3,``4)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``5(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4},``0,``1,``2,``3,``4)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``5(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4},``0,``1,``2,``3,``4)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``6(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``6(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``6(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5})">
             <summary>
             Creates an Action that triggers reaction in all observables in the shared state.
@@ -91,6 +385,63 @@
             <param name="sharedState">The name of the shared state to use to create this action.</param>
             <param name="actionName">The name of this action.</param>
             <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``6(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5},``0,``1,``2,``3,``4,``5)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``6(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5},``0,``1,``2,``3,``4,``5)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``6(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5},``0,``1,``2,``3,``4,``5)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``7(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``7(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
             <param name="action">The action itself.</param>
         </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``7(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6})">
@@ -102,6 +453,66 @@
             <param name="scope">The scope of this action.</param>
             <param name="action">The action itself.</param>
         </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``7(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6},``0,``1,``2,``3,``4,``5,``6)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``7(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6},``0,``1,``2,``3,``4,``5,``6)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``7(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6},``0,``1,``2,``3,``4,``5,``6)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``8(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``8(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``8(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7})">
             <summary>
             Creates an Action that triggers reaction in all observables in the shared state.
@@ -109,6 +520,69 @@
             <param name="sharedState">The name of the shared state to use to create this action.</param>
             <param name="actionName">The name of this action.</param>
             <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``8(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7},``0,``1,``2,``3,``4,``5,``6,``7)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``8(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7},``0,``1,``2,``3,``4,``5,``6,``7)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``8(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7},``0,``1,``2,``3,``4,``5,``6,``7)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``9(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``9(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
             <param name="action">The action itself.</param>
         </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``9(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8})">
@@ -120,6 +594,72 @@
             <param name="scope">The scope of this action.</param>
             <param name="action">The action itself.</param>
         </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``9(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8},``0,``1,``2,``3,``4,``5,``6,``7,``8)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``9(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8},``0,``1,``2,``3,``4,``5,``6,``7,``8)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``9(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8},``0,``1,``2,``3,``4,``5,``6,``7,``8)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``10(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``10(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``10(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">
             <summary>
             Creates an Action that triggers reaction in all observables in the shared state.
@@ -127,6 +667,75 @@
             <param name="sharedState">The name of the shared state to use to create this action.</param>
             <param name="actionName">The name of this action.</param>
             <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``10(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``10(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``10(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``11(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``11(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
             <param name="action">The action itself.</param>
         </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``11(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10})">
@@ -138,6 +747,78 @@
             <param name="scope">The scope of this action.</param>
             <param name="action">The action itself.</param>
         </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``11(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``11(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``11(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``12(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``12(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``12(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11})">
             <summary>
             Creates an Action that triggers reaction in all observables in the shared state.
@@ -145,6 +826,81 @@
             <param name="sharedState">The name of the shared state to use to create this action.</param>
             <param name="actionName">The name of this action.</param>
             <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``12(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``12(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``12(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``13(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``13(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
             <param name="action">The action itself.</param>
         </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``13(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12})">
@@ -156,6 +912,84 @@
             <param name="scope">The scope of this action.</param>
             <param name="action">The action itself.</param>
         </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``13(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``13(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``13(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``14(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``14(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``14(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13})">
             <summary>
             Creates an Action that triggers reaction in all observables in the shared state.
@@ -163,6 +997,87 @@
             <param name="sharedState">The name of the shared state to use to create this action.</param>
             <param name="actionName">The name of this action.</param>
             <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``14(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+            <param name="arg14">Argument nr. 14.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``14(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+            <param name="arg14">Argument nr. 14.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``14(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+            <param name="arg14">Argument nr. 14.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``15(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``15(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
             <param name="action">The action itself.</param>
         </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``15(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14})">
@@ -174,6 +1089,90 @@
             <param name="scope">The scope of this action.</param>
             <param name="action">The action itself.</param>
         </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``15(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+            <param name="arg14">Argument nr. 14.</param>
+            <param name="arg15">Argument nr. 15.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``15(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+            <param name="arg14">Argument nr. 14.</param>
+            <param name="arg15">Argument nr. 15.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``15(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+            <param name="arg14">Argument nr. 14.</param>
+            <param name="arg15">Argument nr. 15.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``16(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``16(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">
+            <summary>
+            Creates an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+        </member>
         <member name="M:Cortex.Net.Api.ActionExtensions.CreateAction``16(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15})">
             <summary>
             Creates an Action that triggers reaction in all observables in the shared state.
@@ -182,6 +1181,78 @@
             <param name="actionName">The name of this action.</param>
             <param name="scope">The scope of this action.</param>
             <param name="action">The action itself.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``16(Cortex.Net.ISharedState,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+            <param name="arg14">Argument nr. 14.</param>
+            <param name="arg15">Argument nr. 15.</param>
+            <param name="arg16">Argument nr. 16.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``16(Cortex.Net.ISharedState,System.String,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+            <param name="arg14">Argument nr. 14.</param>
+            <param name="arg15">Argument nr. 15.</param>
+            <param name="arg16">Argument nr. 16.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.ActionExtensions.RunInAction``16(Cortex.Net.ISharedState,System.String,System.Object,System.Action{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15)">
+            <summary>
+            Creates and runs an Action that triggers reaction in all observables in the shared state.
+            </summary>
+            <param name="sharedState">The name of the shared state to use to create this action.</param>
+            <param name="actionName">The name of this action.</param>
+            <param name="scope">The scope of this action.</param>
+            <param name="action">The action itself.</param>
+            <param name="arg1">Argument nr. 1.</param>
+            <param name="arg2">Argument nr. 2.</param>
+            <param name="arg3">Argument nr. 3.</param>
+            <param name="arg4">Argument nr. 4.</param>
+            <param name="arg5">Argument nr. 5.</param>
+            <param name="arg6">Argument nr. 6.</param>
+            <param name="arg7">Argument nr. 7.</param>
+            <param name="arg8">Argument nr. 8.</param>
+            <param name="arg9">Argument nr. 9.</param>
+            <param name="arg10">Argument nr. 10.</param>
+            <param name="arg11">Argument nr. 11.</param>
+            <param name="arg12">Argument nr. 12.</param>
+            <param name="arg13">Argument nr. 13.</param>
+            <param name="arg14">Argument nr. 14.</param>
+            <param name="arg15">Argument nr. 15.</param>
+            <param name="arg16">Argument nr. 16.</param>
         </member>
         <member name="T:Cortex.Net.Api.ComputedAttribute">
             <summary>
@@ -2355,6 +3426,12 @@
             Gets a list of enhancers on this SharedState.
             </summary>
         </member>
+        <member name="M:Cortex.Net.SharedState.SetAsyncLocalState(Cortex.Net.ISharedState)">
+            <summary>
+            Set the AsyncLocalSharedState.
+            </summary>
+            <param name="sharedState">The Async Local Shared State.</param>
+        </member>
         <member name="M:Cortex.Net.SharedState.ResolveState(Cortex.Net.ISharedState)">
             <summary>
             Resolves a shared state for Weaved objects.
@@ -2462,12 +3539,6 @@
             <summary>
             Runs reactions. This implementation will run the default Reaction Scheduler function.
             </summary>
-        </member>
-        <member name="M:Cortex.Net.SharedState.SetAsyncLocalState(Cortex.Net.ISharedState)">
-            <summary>
-            Set the AsyncLocalSharedState.
-            </summary>
-            <param name="sharedState">The Async Local Shared State.</param>
         </member>
         <member name="M:Cortex.Net.SharedState.RunReactionsDefaultAction">
             <summary>

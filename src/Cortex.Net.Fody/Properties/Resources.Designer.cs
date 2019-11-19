@@ -115,6 +115,15 @@ namespace Cortex.Net.Fody.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Method ({0}) on type ({1}) has a non void return type: ({2}). Method cannot be converted into an action..
+        /// </summary>
+        internal static string NonVoidReturnTypeForAction {
+            get {
+                return ResourceManager.GetString("NonVoidReturnTypeForAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EqualityComparer ({0}) on Property with name ({1}) on class ({2}) .
         /// </summary>
         internal static string NoParameterLessConstructorForEqualityComparer {

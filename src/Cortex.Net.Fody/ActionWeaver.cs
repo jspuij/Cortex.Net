@@ -87,7 +87,14 @@ namespace Cortex.Net.Fody
 
             foreach (var method in decoratedMethods.ToList())
             {
-                this.WeaveMethod(method);
+                if (method.ReturnType.FullName == this.weavingContext.SystemThreadingTasksTask.FullName)
+                {
+                    this.WeaveAsyncMethod(method);
+                }
+                else
+                {
+                    this.WeaveMethod(method);
+                }
             }
         }
 
@@ -193,25 +200,18 @@ namespace Cortex.Net.Fody
         /// <param name="processor">The ILProcessor to use.</param>
         /// <param name="sharedStateBackingField">The backing field for the shared state.</param>
         /// <param name="methodDefinition">The inner definition of the action method.</param>
+        /// <param name="actionName">The name of the action.</param>
         /// <param name="actionType">The action type.</param>
         /// <param name="actionFieldDefinition">The field definition.</param>
         private void EmitSharedStateSetter(
         ILProcessor processor,
         FieldReference sharedStateBackingField,
         MethodDefinition methodDefinition,
+        string actionName,
         TypeReference actionType,
         FieldDefinition actionFieldDefinition)
         {
             var moduleDefinition = sharedStateBackingField.Module;
-
-            // determine the name of the action.
-            var attribute = methodDefinition.CustomAttributes.Single(x => x.AttributeType.FullName == this.weavingContext.CortexNetApiActionAttribute.FullName);
-            var actionName = methodDefinition.Name;
-            var attributeArgument = attribute.ConstructorArguments.FirstOrDefault();
-            if (!string.IsNullOrEmpty(attributeArgument.Value as string))
-            {
-                actionName = attributeArgument.Value as string;
-            }
 
             var actionExtensions = this.weavingContext.CortexNetApiActionExtensions;
             var voidType = moduleDefinition.TypeSystem.Void;
@@ -226,7 +226,7 @@ namespace Cortex.Net.Fody
             {
                 actionTypeConstructorReference = moduleDefinition.ImportReference(actionTypeConstructorReference, (GenericInstanceType)actionType);
 
-                createActionMethod = actionExtensions.Resolve().Methods.Single(x => x.Name.Contains("CreateAction") && x.GenericParameters.Count == ((GenericInstanceType)actionType).GenericArguments.Count);
+                createActionMethod = actionExtensions.Resolve().Methods.Single(x => x.Name.Contains("CreateAction") && x.GenericParameters.Count == ((GenericInstanceType)actionType).GenericArguments.Count && x.Parameters.Count == 4);
                 var createActionInstanceMethod = new GenericInstanceMethod(createActionMethod);
                 foreach (var parameter in ((GenericInstanceType)actionType).GenericArguments)
                 {
@@ -238,7 +238,7 @@ namespace Cortex.Net.Fody
             else
             {
                 actionTypeConstructorReference = moduleDefinition.ImportReference(actionTypeConstructorReference);
-                createActionMethod = moduleDefinition.ImportReference(actionExtensions.Resolve().Methods.Single(x => x.Name.Contains("CreateAction") && !x.GenericParameters.Any()));
+                createActionMethod = moduleDefinition.ImportReference(actionExtensions.Resolve().Methods.Single(x => x.Name.Contains("CreateAction") && !x.GenericParameters.Any() && x.Parameters.Count == 4));
             }
 
             processor.Emit(OpCodes.Ldarg_0);
@@ -266,6 +266,21 @@ namespace Cortex.Net.Fody
             var moduleDefinition = methodDefinition.Module;
             var declaringType = methodDefinition.DeclaringType;
 
+            // determine the name of the action.
+            var attribute = methodDefinition.CustomAttributes.Single(x => x.AttributeType.FullName == this.weavingContext.CortexNetApiActionAttribute.FullName);
+            var actionName = methodDefinition.Name;
+            var attributeArgument = attribute.ConstructorArguments.FirstOrDefault();
+            if (!string.IsNullOrEmpty(attributeArgument.Value as string))
+            {
+                actionName = attributeArgument.Value as string;
+            }
+
+            if (methodDefinition.ReturnType != moduleDefinition.TypeSystem.Void)
+            {
+                this.parentWeaver.LogWarning(string.Format(CultureInfo.CurrentCulture, Resources.NonVoidReturnTypeForAction, methodDefinition.Name, declaringType.FullName, methodDefinition.ReturnType.Name));
+                return;
+            }
+
             var fieldAttributes = FieldAttributes.Private;
             if (methodDefinition.IsStatic)
             {
@@ -289,11 +304,104 @@ namespace Cortex.Net.Fody
                     processor,
                     sharedStateBackingField,
                     methodDefinition,
+                    actionName,
                     actionType,
                     actionFieldDefinition)));
 
             // extend the action method body.
             ExtendActionMethodBody(methodDefinition, actionType, entranceCounterDefinition, actionFieldDefinition);
+        }
+
+        /// <summary>
+        /// Weaves an async method that was decorated with the Action Attribute.
+        /// </summary>
+        /// <param name="methodDefinition">The asynchronous method to weave.</param>
+        private void WeaveAsyncMethod(MethodDefinition methodDefinition)
+        {
+            var moduleDefinition = methodDefinition.Module;
+            var declaringType = methodDefinition.DeclaringType;
+
+            // determine the name of the action.
+            var attribute = methodDefinition.CustomAttributes.Single(x => x.AttributeType.FullName == this.weavingContext.CortexNetApiActionAttribute.FullName);
+            var actionName = methodDefinition.Name;
+            var attributeArgument = attribute.ConstructorArguments.FirstOrDefault();
+            if (!string.IsNullOrEmpty(attributeArgument.Value as string))
+            {
+                actionName = attributeArgument.Value as string;
+            }
+
+            var fieldAttributes = FieldAttributes.Private;
+
+            if (methodDefinition.IsStatic)
+            {
+                fieldAttributes |= FieldAttributes.Static;
+            }
+
+            var asyncAttribute = methodDefinition.CustomAttributes.Single(x => x.AttributeType.FullName == this.weavingContext.SystemRuntimeCompilerServicesAsyncStateMachineAttribute.FullName);
+            var stateMachineType = asyncAttribute.ConstructorArguments.Single().Value as TypeDefinition;
+
+            var moveNextMethod = stateMachineType.Resolve().Methods.Single(x => x.Name == "MoveNext");
+
+            // convert the method definition to a corresponding Action<> delegate.
+            var actionType = moveNextMethod.GetActionType(this.weavingContext);
+
+            var innerType = moveNextMethod.DeclaringType;
+
+            // add the delegate as field to the class.
+            var actionFieldDefinition = innerType.CreateField(actionType, $"{InnerActionFieldPrefix}{methodDefinition.Name}_Action", this.weavingContext, fieldAttributes);
+
+            // add entrance counter field.
+            var entranceCounterDefinition = innerType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", this.weavingContext, fieldAttributes);
+
+            // push IL code for initialization of action members to the queue to emit in the ISharedState setter.
+            this.processorQueue.SharedStateAssignmentQueue.Enqueue(
+                (stateMachineType,
+                false,
+                (processor, sharedStateBackingField) => this.EmitSharedStateSetter(
+                    processor,
+                    sharedStateBackingField,
+                    moveNextMethod,
+                    actionName,
+                    actionType,
+                    actionFieldDefinition)));
+
+            // extend the action method body.
+            ExtendActionMethodBody(moveNextMethod, actionType, entranceCounterDefinition, actionFieldDefinition);
+
+            // push IL code for initialization of IShared State of inner struct / class for async.
+            this.processorQueue.SharedStateAssignmentQueue.Enqueue(
+                (declaringType,
+                false,
+                (processor, sharedStateBackingField) => this.ExtendAsyncMethodBody(
+                    methodDefinition,
+                    sharedStateBackingField)));
+        }
+
+        /// <summary>
+        /// Executes the processoractions agains the processor.
+        /// </summary>
+        /// <param name="methodDefinition">The methodDefinition to use.</param>
+        /// <param name="backingField">The backing field for the ISharedState" instance.</param>
+        private void ExtendAsyncMethodBody(MethodDefinition methodDefinition, FieldReference backingField)
+        {
+            var processor = methodDefinition.Body.GetILProcessor();
+
+            var module = backingField.DeclaringType.Module;
+            var setLocalStateReference = module.ImportReference(this.weavingContext.CortexNetSharedState.Resolve().Methods.Single(x => x.Name == "SetAsyncLocalState"));
+
+            var instructions = new List<Instruction>()
+            {
+                processor.Create(OpCodes.Ldarg_0),
+                processor.Create(OpCodes.Ldfld, backingField),
+                processor.Create(OpCodes.Call, setLocalStateReference),
+            };
+
+            var first = processor.Body.Instructions.First();
+
+            foreach (var instruction in instructions)
+            {
+                processor.InsertBefore(first, instruction);
+            }
         }
     }
 }

@@ -197,6 +197,15 @@ namespace Cortex.Net
         public IList<IEnhancer> Enhancers => this.enhancers;
 
         /// <summary>
+        /// Set the AsyncLocalSharedState.
+        /// </summary>
+        /// <param name="sharedState">The Async Local Shared State.</param>
+        public static void SetAsyncLocalState(ISharedState sharedState)
+        {
+            AsyncLocalSharedStateContext.Value = sharedState;
+        }
+
+        /// <summary>
         /// Resolves a shared state for Weaved objects.
         /// </summary>
         /// <param name="sharedState">The shared state.</param>
@@ -416,15 +425,6 @@ namespace Cortex.Net
             }
 
             this.ReactionScheduler(new Action(this.RunReactionsDefaultAction));
-        }
-
-        /// <summary>
-        /// Set the AsyncLocalSharedState.
-        /// </summary>
-        /// <param name="sharedState">The Async Local Shared State.</param>
-        internal static void SetAsyncLocalState(ISharedState sharedState)
-        {
-            AsyncLocalSharedStateContext.Value = sharedState;
         }
 
         /// <summary>

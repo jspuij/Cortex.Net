@@ -17,9 +17,7 @@
 namespace Cortex.Net.BlazorTodo.Models
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    using System.Text.Json.Serialization;
     using Cortex.Net.Api;
     using Cortex.Net.BlazorTodo.Stores;
 
@@ -29,25 +27,15 @@ namespace Cortex.Net.BlazorTodo.Models
     public class Todo
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Todo"/> class.
+        /// Gets or sets the store.
         /// </summary>
-        /// <param name="store">The store this todo is connected to.</param>
-        /// <param name="id">The Id of the Todo item.</param>
-        public Todo(TodoStore store, Guid id)
-        {
-            this.Store = store;
-            this.Id = id;
-        }
+        [JsonIgnore]
+        public TodoStore Store { get; set; }
 
         /// <summary>
-        /// Gets the store.
+        /// Gets or sets the Id.
         /// </summary>
-        public TodoStore Store { get; private set; }
-
-        /// <summary>
-        /// Gets the Id.
-        /// </summary>
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or sets the Title.

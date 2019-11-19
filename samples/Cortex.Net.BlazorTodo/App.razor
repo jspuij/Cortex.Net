@@ -1,4 +1,12 @@
-﻿@inject NavigationManager NavigationManager
+﻿@using Cortex.Net.Api;
+@using System.Text.Json;
+
+@inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject TodoStore TodoStore
+@inject ISharedState SharedState
+
+@implements IDisposable
 
 <Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
@@ -13,12 +21,58 @@
 
 @code
 {
+    private IDisposable reactionDisposable;
+    private JsonSerializerOptions jsonOptions = new JsonSerializerOptions();
+
     /// <summary>
     /// Navigates to the default hash.
     /// </summary>
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         base.OnInitialized();
+        await TryRestore();
+#pragma warning disable CS4014 // fire and forget of Save To local storage.
+        // We use a reaction that serializes the Todo's collection. It is triggered by any dependency that will change the content string value.
+        // Then we asynchronously write to local storage. We don't await that.
+        reactionDisposable = SharedState.Reaction(r => JsonSerializer.Serialize(this.TodoStore.Todos), (content, r) => SaveToLocalStorage(content));
         this.NavigationManager.NavigateTo("#/");
+#pragma warning restore CS4014
+    }
+
+    /// <summary>
+    /// Try to restore the todo items from localstorage.
+    /// </summary>
+    /// <returns>A task to await.</returns>
+    [Action]
+    private async Task TryRestore()
+    {
+        if (await LocalStorage.ContainKeyAsync("todos-[Cortex.Net]"))
+        {
+
+            ICollection<Todo> todoItems = await LocalStorage.GetItemAsync<ICollection<Todo>>("todos-[Cortex.Net]");
+            foreach (var item in todoItems)
+            {
+                item.Store = this.TodoStore;
+                this.TodoStore.Todos.Add(item);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Save the JSon string to local storage. Unfortunately LocalStorage only supports
+    /// </summary>
+    /// <param name="content"></param>
+    /// <returns>A task to await.</returns>
+    private async Task SaveToLocalStorage(string content)
+    {        
+        await LocalStorage.SetItemAsync("todos-[Cortex.Net]", JsonDocument.Parse(content).RootElement);
+    }
+
+    /// <summary>
+    /// Cleanup the reaction.
+    /// </summary>
+    public void Dispose()
+    {
+        reactionDisposable.Dispose();
     }
 }

@@ -41,12 +41,37 @@ namespace Cortex.Net.Api
 	string invokeArgs = string.Join(", ", Enumerable.Repeat("T", i).Select(t => $"arg{++j}"));
 	j = 0;
 	string startActionArgs = i > 0 ? "new object[] {" + string.Join(", ", Enumerable.Repeat("T", i).Select(t => $"arg{++j}")) + "}" : "Array.Empty<object>()";
+	j = 0;
+    string paramHeaders = string.Join(Environment.NewLine, Enumerable.Repeat("T", i).Select(t => $"        /// <param name=\"arg{++j}\">Argument nr. {j}.</param>"));
 
 	string commaInvokeArgs = "";
+	string commaParamArgs = "";
 
 	if (!string.IsNullOrEmpty(typeArgs)) typeArgs = "<" + typeArgs + ">";
 	if (!string.IsNullOrEmpty(invokeArgs)) commaInvokeArgs = ", " + invokeArgs;
+	if (!string.IsNullOrEmpty(paramArgs)) commaParamArgs = ", " + paramArgs;
 #>
+	    /// <summary>
+        /// Creates an Action that triggers reaction in all observables in the shared state.
+        /// </summary>
+		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
+        /// <param name="action">The action itself.</param>
+        public static Action<#=typeArgs#> CreateAction<#=typeArgs#>(this ISharedState sharedState, Action<#=typeArgs#> action)
+        {
+            return CreateAction<#=typeArgs#>(sharedState, null, null, action);
+        }
+
+	    /// <summary>
+        /// Creates an Action that triggers reaction in all observables in the shared state.
+        /// </summary>
+		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
+        /// <param name="actionName">The name of this action.</param>
+        /// <param name="action">The action itself.</param>
+        public static Action<#=typeArgs#> CreateAction<#=typeArgs#>(this ISharedState sharedState, string actionName, Action<#=typeArgs#> action)
+        {
+            return CreateAction<#=typeArgs#>(sharedState, actionName, null, action);
+        }
+
 	    /// <summary>
         /// Creates an Action that triggers reaction in all observables in the shared state.
         /// </summary>
@@ -73,6 +98,43 @@ namespace Cortex.Net.Api
 
             return new Action<#=typeArgs#>((<#=paramArgs#>) => Core.ActionExtensions.ExecuteAction<#=typeArgs#>(sharedState, actionName, scope, action<#=commaInvokeArgs#>));
         }
+
+	    /// <summary>
+        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
+        /// </summary>
+		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
+        /// <param name="action">The action itself.</param>
+<#=paramHeaders#>
+        public static void RunInAction<#=typeArgs#>(this ISharedState sharedState, Action<#=typeArgs#> action<#=commaParamArgs#>)
+        {
+            CreateAction<#=typeArgs#>(sharedState, null, null, action)(<#=invokeArgs#>);
+        }
+
+	    /// <summary>
+        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
+        /// </summary>
+		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
+        /// <param name="actionName">The name of this action.</param>
+        /// <param name="action">The action itself.</param>
+<#=paramHeaders#>
+        public static void RunInAction<#=typeArgs#>(this ISharedState sharedState, string actionName, Action<#=typeArgs#> action<#=commaParamArgs#>)
+        {
+            CreateAction<#=typeArgs#>(sharedState, actionName, null, action)(<#=invokeArgs#>);
+        }
+
+	    /// <summary>
+        /// Creates and runs an Action that triggers reaction in all observables in the shared state.
+        /// </summary>
+		/// <param name="sharedState">The name of the shared state to use to create this action.</param>
+        /// <param name="actionName">The name of this action.</param>
+        /// <param name="scope">The scope of this action.</param>
+        /// <param name="action">The action itself.</param>
+<#=paramHeaders#>
+        public static void RunInAction<#=typeArgs#>(this ISharedState sharedState, string actionName, object scope, Action<#=typeArgs#> action<#=commaParamArgs#>)
+        {
+            CreateAction<#=typeArgs#>(sharedState, actionName, scope, action)(<#=invokeArgs#>);
+        }
+
 <# } #>
 	}
 }

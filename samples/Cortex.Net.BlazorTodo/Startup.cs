@@ -16,6 +16,7 @@
 
 namespace Cortex.Net.BlazorTodo
 {
+    using Blazored.LocalStorage;
     using Cortex.Net.Api;
     using Cortex.Net.BlazorTodo.Stores;
     using Microsoft.AspNetCore.Components.Builder;
@@ -33,6 +34,9 @@ namespace Cortex.Net.BlazorTodo
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Startup convention.")]
         public void ConfigureServices(IServiceCollection services)
         {
+            // add local storage support.
+            services.AddBlazoredLocalStorage();
+
             // Add the Shared state to the DI container.
             services.AddSingleton(x => SharedState.GlobalState);
 

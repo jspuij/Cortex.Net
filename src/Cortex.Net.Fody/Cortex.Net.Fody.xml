@@ -57,13 +57,14 @@
             <param name="counterFieldDefinition">The definition of the field that holds the entrance counter.</param>
             <param name="actionFieldDefinition">The definition of the field that holds the action delegate.</param>
         </member>
-        <member name="M:Cortex.Net.Fody.ActionWeaver.EmitSharedStateSetter(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldReference,Mono.Cecil.MethodDefinition,Mono.Cecil.TypeReference,Mono.Cecil.FieldDefinition)">
+        <member name="M:Cortex.Net.Fody.ActionWeaver.EmitSharedStateSetter(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.FieldReference,Mono.Cecil.MethodDefinition,System.String,Mono.Cecil.TypeReference,Mono.Cecil.FieldDefinition)">
             <summary>
             Emits most of the body of the shared state setter.
             </summary>
             <param name="processor">The ILProcessor to use.</param>
             <param name="sharedStateBackingField">The backing field for the shared state.</param>
             <param name="methodDefinition">The inner definition of the action method.</param>
+            <param name="actionName">The name of the action.</param>
             <param name="actionType">The action type.</param>
             <param name="actionFieldDefinition">The field definition.</param>
         </member>
@@ -76,6 +77,19 @@
             The reason that methods are extended with a counter counting recursive entrance is that this
             way debugging is kept intact.
             </remarks>
+        </member>
+        <member name="M:Cortex.Net.Fody.ActionWeaver.WeaveAsyncMethod(Mono.Cecil.MethodDefinition)">
+            <summary>
+            Weaves an async method that was decorated with the Action Attribute.
+            </summary>
+            <param name="methodDefinition">The asynchronous method to weave.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.ActionWeaver.ExtendAsyncMethodBody(Mono.Cecil.MethodDefinition,Mono.Cecil.FieldReference)">
+            <summary>
+            Executes the processoractions agains the processor.
+            </summary>
+            <param name="methodDefinition">The methodDefinition to use.</param>
+            <param name="backingField">The backing field for the ISharedState" instance.</param>
         </member>
         <member name="T:Cortex.Net.Fody.BlazorObserverWeaver">
             <summary>
@@ -566,6 +580,11 @@
               Looks up a localized string similar to Property with name ({0}) has an unknown collection type ({1}). Skipping..
             </summary>
         </member>
+        <member name="P:Cortex.Net.Fody.Properties.Resources.NonVoidReturnTypeForAction">
+            <summary>
+              Looks up a localized string similar to Method ({0}) on type ({1}) has a non void return type: ({2}). Method cannot be converted into an action..
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Fody.Properties.Resources.NoParameterLessConstructorForEqualityComparer">
             <summary>
               Looks up a localized string similar to EqualityComparer ({0}) on Property with name ({1}) on class ({2}) .
@@ -812,6 +831,16 @@
         <member name="P:Cortex.Net.Fody.WeavingContext.SystemFunc">
             <summary>
             Gets func type references.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.WeavingContext.SystemThreadingTasksTask">
+            <summary>
+            Gets a reference to System.Threading.Tasks.Task.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.WeavingContext.SystemRuntimeCompilerServicesAsyncStateMachineAttribute">
+            <summary>
+            Gets a reference to System.Runtime.CompilerServices.AsyncStateMachineAttribute.
             </summary>
         </member>
         <member name="M:Cortex.Net.Fody.WeavingContext.TryResolveFromReference(Cortex.Net.Fody.ModuleWeaver,System.String,System.String)">

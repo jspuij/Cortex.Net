@@ -9,21 +9,14 @@
             Represents a model of a Todo.
             </summary>
         </member>
-        <member name="M:Cortex.Net.BlazorTodo.Models.Todo.#ctor(Cortex.Net.BlazorTodo.Stores.TodoStore,System.Guid)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Cortex.Net.BlazorTodo.Models.Todo"/> class.
-            </summary>
-            <param name="store">The store this todo is connected to.</param>
-            <param name="id">The Id of the Todo item.</param>
-        </member>
         <member name="P:Cortex.Net.BlazorTodo.Models.Todo.Store">
             <summary>
-            Gets the store.
+            Gets or sets the store.
             </summary>
         </member>
         <member name="P:Cortex.Net.BlazorTodo.Models.Todo.Id">
             <summary>
-            Gets the Id.
+            Gets or sets the Id.
             </summary>
         </member>
         <member name="P:Cortex.Net.BlazorTodo.Models.Todo.Title">
@@ -152,9 +145,27 @@
             Only completed Todo items are displayed.
             </summary>
         </member>
-        <member name="M:Cortex.Net.BlazorTodo.App.OnInitialized">
+        <member name="M:Cortex.Net.BlazorTodo.App.OnInitializedAsync">
             <summary>
             Navigates to the default hash.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.App.TryRestore">
+            <summary>
+            Try to restore the todo items from localstorage.
+            </summary>
+            <returns>A task to await.</returns>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.App.SaveToLocalStorage(System.String)">
+            <summary>
+            Save the JSon string to local storage. Unfortunately LocalStorage only supports
+            </summary>
+            <param name="content"></param>
+            <returns>A task to await.</returns>
+        </member>
+        <member name="M:Cortex.Net.BlazorTodo.App.Dispose">
+            <summary>
+            Cleanup the reaction.
             </summary>
         </member>
         <member name="P:Cortex.Net.BlazorTodo.Components.TodoEntry.Title">
