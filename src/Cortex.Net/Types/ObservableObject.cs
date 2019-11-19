@@ -89,7 +89,8 @@ namespace Cortex.Net.Types
 
             this.Name = name;
             this.defaultEnhancer = defaultEnhancer ?? throw new ArgumentNullException(nameof(defaultEnhancer));
-            this.SharedState = sharedState;
+            this.sharedState = sharedState ?? throw new ArgumentNullException(nameof(sharedState));
+            this.keys = new Atom(this.sharedState, $"{this.Name}.keys");
         }
 
         /// <summary>
@@ -135,19 +136,6 @@ namespace Cortex.Net.Types
         public ISharedState SharedState
         {
             get => this.sharedState;
-
-            set
-            {
-                this.sharedState = value;
-                if (this.sharedState != null)
-                {
-                    this.keys = new Atom(this.sharedState, $"{this.Name}.keys");
-                    this.pendingKeys.Clear();
-                    this.values.Clear();
-                    this.changeEventHandlers.Clear();
-                    this.changedEventHandlers.Clear();
-                }
-            }
         }
 
         /// <summary>

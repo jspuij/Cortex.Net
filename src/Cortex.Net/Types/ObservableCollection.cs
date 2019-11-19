@@ -101,7 +101,7 @@ namespace Cortex.Net.Types
         /// <summary>
         /// Gets the shared state this <see cref="ObservableCollection{T}"/> operates on.
         /// </summary>
-        public ISharedState SharedState { get; private set; }
+        public ISharedState SharedState { get; }
 
         /// <summary>
         /// Gets the number of elements contained in the <see cref="ObservableCollection{T}"/>.
