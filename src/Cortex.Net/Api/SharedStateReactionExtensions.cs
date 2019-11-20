@@ -89,12 +89,20 @@ namespace Cortex.Net.Api
                 {
                     if (!isScheduled)
                     {
+                        var taskScheduler = GetTaskScheduler(sharedState);
                         isScheduled = true;
                         Task.Factory.StartNew(
-                           scheduler,
-                           CancellationToken.None,
-                           TaskCreationOptions.DenyChildAttach,
-                           GetTaskScheduler(sharedState));
+                            scheduler,
+                            CancellationToken.None,
+                            TaskCreationOptions.DenyChildAttach,
+                            taskScheduler).ContinueWith(
+                                t =>
+                                {
+                                    if (t.Exception != null)
+                                    {
+                                        reaction.ReportExceptionInReaction(t.Exception);
+                                    }
+                                }, taskScheduler);
                     }
                 },
                 autorunOptions.ErrorHandler);
@@ -184,12 +192,20 @@ namespace Cortex.Net.Api
                     }
                     else if (!isScheduled)
                     {
+                        var taskScheduler = GetTaskScheduler(sharedState);
                         isScheduled = true;
                         Task.Factory.StartNew(
                             scheduler,
                             CancellationToken.None,
                             TaskCreationOptions.DenyChildAttach,
-                            GetTaskScheduler(sharedState));
+                            taskScheduler).ContinueWith(
+                                t =>
+                                {
+                                    if (t.Exception != null)
+                                    {
+                                        reaction.ReportExceptionInReaction(t.Exception);
+                                    }
+                                }, taskScheduler);
                     }
                 }, reactionOptions.ErrorHandler);
 #pragma warning restore IDE0067 // Dispose objects before losing scope

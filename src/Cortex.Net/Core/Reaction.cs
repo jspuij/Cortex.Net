@@ -275,7 +275,7 @@ namespace Cortex.Net.Core
         /// Reports an Exception in the reaction.
         /// </summary>
         /// <param name="exception">The exception to report.</param>
-        private void ReportExceptionInReaction(Exception exception)
+        internal void ReportExceptionInReaction(Exception exception)
         {
             if (this.errorHandler != null)
             {
