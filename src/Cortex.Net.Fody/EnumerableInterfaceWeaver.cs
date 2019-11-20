@@ -132,7 +132,7 @@ namespace Cortex.Net.Fody
             var module = propertyDefinition.Module;
             var declaringType = propertyDefinition.DeclaringType;
             var importedType = observableEnumerableType;
-            var genricConstructor = importedType.Resolve().Methods.Single(x => x.IsConstructor);
+            var genricConstructor = importedType.Resolve().Methods.Single(x => x.IsConstructor && !x.IsStatic);
             MethodReference constructorReference;
 
             // property name

@@ -21,6 +21,7 @@ namespace Cortex.Net.BlazorTodo
     using Cortex.Net.BlazorTodo.Stores;
     using Microsoft.AspNetCore.Components.Builder;
     using Microsoft.Extensions.DependencyInjection;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Startup class that configures services.
@@ -34,6 +35,10 @@ namespace Cortex.Net.BlazorTodo
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Startup convention.")]
         public void ConfigureServices(IServiceCollection services)
         {
+            // Blazor is single threaded for now but does not provide a Task Scheduler when FromCurrentSynchronizationContext();
+            // is called. However TaskScheduler.Current is available and at least is able to Schedule tasks.
+            SharedState.GlobalState.Configuration.TaskScheduler = TaskScheduler.Current;
+
             // add local storage support.
             services.AddBlazoredLocalStorage();
 

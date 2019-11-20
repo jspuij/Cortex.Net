@@ -6,15 +6,20 @@ using Cortex.Net.Api;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.IO;
+using Nito.AsyncEx;
 
 namespace Cortext.Next.Playground
 {
     public class Program
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Program start.")]
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
+            AsyncContext.Run(Run);
+        }
 
+        private static async Task Run()
+        { 
             var sharedState = SharedState.GlobalState;
             sharedState.Configuration.EnforceActions = EnforceAction.Never;
 
@@ -42,6 +47,9 @@ namespace Cortext.Next.Playground
             {
                 r.Trace(TraceMode.Log);
                 Console.WriteLine($"Weaved: FullName Changed: {s}");
+            }, new ReactionOptions<string>()
+            {
+                Delay = 10,
             });
 
             var d4 = sharedState.Autorun(r =>
@@ -53,8 +61,11 @@ namespace Cortext.Next.Playground
             personWeave.Trace(x => x.FullName2());
 
             personWeave.ChangeBothNames("Jan-Willem", "Spuij");
+            Console.WriteLine(personWeave.FullName);
             personWeave.ChangeBothNames("Jan-Willem", "Spuijtje");
+            Console.WriteLine(personWeave.FullName);
             personWeave.ChangeFullNameToBirdseyeview();
+            Console.WriteLine(personWeave.FullName);
 
             var group = new Group();
             

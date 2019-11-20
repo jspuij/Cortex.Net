@@ -79,7 +79,7 @@ namespace Cortex.Net.Fody
         {
             var getTypeFromHandlerMethod = this.ParentWeaver.ModuleDefinition.ImportReference(this.ParentWeaver.FindType("System.Type").Methods.Single(x => x.Name == "GetTypeFromHandle"));
             var getEnhancerMethod = this.ParentWeaver.ModuleDefinition.ImportReference(this.WeavingContext.CortexNetCoreActionExtensions.Resolve().Methods.Single(x => x.Name == "GetEnhancer"));
-            var observableObjectConstructor = this.ParentWeaver.ModuleDefinition.ImportReference(this.WeavingContext.CortexNetTypesObservableObject.Resolve().Methods.Single(x => x.IsConstructor));
+            var observableObjectConstructor = this.ParentWeaver.ModuleDefinition.ImportReference(this.WeavingContext.CortexNetTypesObservableObject.Resolve().Methods.Single(x => x.IsConstructor && !x.IsStatic));
 
             var instructions = new List<Instruction>
             {

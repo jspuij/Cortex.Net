@@ -218,7 +218,7 @@ namespace Cortex.Net.Fody
 
             MethodReference createActionMethod;
 
-            MethodReference actionTypeConstructorReference = actionType.Resolve().Methods.Single(x => x.IsConstructor);
+            MethodReference actionTypeConstructorReference = actionType.Resolve().Methods.Single(x => x.IsConstructor && !x.IsStatic);
 
             actionTypeConstructorReference = actionTypeConstructorReference.GetGenericMethodOnInstantance(actionType);
 

@@ -204,6 +204,9 @@
   <data name="ReadOutsideReactionRecompute" xml:space="preserve">
     <value>[Cortex.Net] ({0}) is read outside a reactive context. Doing full recompute.</value>
   </data>
+  <data name="TaskSchedulerNull" xml:space="preserve">
+    <value>[Cortex.Net] To schedule reactions, a TaskScheduler needs to be provided in the configuration options. Cortex.Net tried to create one based on the current SynchronisationContext, but there wasn't one.</value>
+  </data>
   <data name="UncaughtExceptionInsideReaction" xml:space="preserve">
     <value>[Cortex.Net] Encountered an uncaught exception that was thrown by a reaction or observer component, in: ({0})</value>
   </data>

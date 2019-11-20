@@ -73,13 +73,13 @@ namespace Cortex.Net.Fody
             var field = new FieldDefinition(name, fieldAttributes, fieldType);
 
             // Add compiler generated attribute.
-            var ctor = weavingContext.SystemRuntimeCompilerServicesCompilerGeneratedAttribute.Resolve().Methods.Single(x => x.IsConstructor);
+            var ctor = weavingContext.SystemRuntimeCompilerServicesCompilerGeneratedAttribute.Resolve().Methods.Single(x => x.IsConstructor && !x.IsStatic);
             var ctorRef = classType.Module.ImportReference(ctor);
             var compilerGeneratedAttribute = new CustomAttribute(ctorRef, new byte[] { 01, 00, 00, 00 });
             field.CustomAttributes.Add(compilerGeneratedAttribute);
 
             // Add Debugger broswable attribute.
-            ctor = weavingContext.SystemDiagnosticsDebuggerBrowsableAttribute.Resolve().Methods.Single(x => x.IsConstructor);
+            ctor = weavingContext.SystemDiagnosticsDebuggerBrowsableAttribute.Resolve().Methods.Single(x => x.IsConstructor && !x.IsStatic);
             ctorRef = classType.Module.ImportReference(ctor);
             var debuggerBrowsableAttribute = new CustomAttribute(ctorRef, new byte[] { 01, 00, 00, 00, 00, 00, 00, 00 });
             field.CustomAttributes.Add(debuggerBrowsableAttribute);
@@ -132,7 +132,7 @@ namespace Cortex.Net.Fody
             var method = new MethodDefinition(name, methodAttributes, backingField.FieldType);
 
             // Add compiler generated attribute.
-            var ctor = weavingContext.SystemRuntimeCompilerServicesCompilerGeneratedAttribute.Resolve().Methods.Single(x => x.IsConstructor);
+            var ctor = weavingContext.SystemRuntimeCompilerServicesCompilerGeneratedAttribute.Resolve().Methods.Single(x => x.IsConstructor && !x.IsStatic);
             var ctorRef = classType.Module.ImportReference(ctor);
             var compilerGeneratedAttribute = new CustomAttribute(ctorRef, new byte[] { 01, 00, 00, 00 });
             method.CustomAttributes.Add(compilerGeneratedAttribute);
@@ -205,7 +205,7 @@ namespace Cortex.Net.Fody
             method.Parameters.Add(new ParameterDefinition("value", ParameterAttributes.None, backingField.FieldType));
 
             // Add compiler generated attribute.
-            var ctor = weavingContext.SystemRuntimeCompilerServicesCompilerGeneratedAttribute.Resolve().Methods.Single(x => x.IsConstructor);
+            var ctor = weavingContext.SystemRuntimeCompilerServicesCompilerGeneratedAttribute.Resolve().Methods.Single(x => x.IsConstructor && !x.IsStatic);
             var ctorRef = classType.Module.ImportReference(ctor);
             var compilerGeneratedAttribute = new CustomAttribute(ctorRef, new byte[] { 01, 00, 00, 00 });
             method.CustomAttributes.Add(compilerGeneratedAttribute);

@@ -105,7 +105,7 @@ namespace Cortex.Net.Fody
                     // create a private setter.
                     var setter = reactiveObjectTypeDefinition.CreateDefaultSetter(backingField, "Cortex.Net.Api.IReactiveObject.SharedState", this.weavingContext, methodAttributes, p => ExecuteProcessorActions(p, backingField, processorActions));
 
-                    foreach (var constructor in reactiveObjectTypeDefinition.Methods.Where(x => x.IsConstructor))
+                    foreach (var constructor in reactiveObjectTypeDefinition.Methods.Where(x => x.IsConstructor && !x.IsStatic))
                     {
                         if (!CallsOtherConstructor(constructor))
                         {
@@ -162,7 +162,8 @@ namespace Cortex.Net.Fody
                 {
                     if (instruction.Operand is MethodReference methodReference)
                     {
-                        if (methodReference.Resolve().IsConstructor && methodReference.DeclaringType == constructor.DeclaringType)
+                        var md = methodReference.Resolve();
+                        if (md.IsConstructor && methodReference.DeclaringType == constructor.DeclaringType && !md.IsStatic)
                         {
                             return true;
                         }
@@ -189,7 +190,8 @@ namespace Cortex.Net.Fody
                 {
                     if (instruction.Operand is MethodReference methodReference)
                     {
-                        if (methodReference.Resolve().IsConstructor)
+                        var md = methodReference.Resolve();
+                        if (md.IsConstructor && !md.IsStatic)
                         {
                             var baseType = constructorType.BaseType;
                             while (baseType != null && baseType.FullName != methodReference.DeclaringType.FullName)

@@ -467,11 +467,11 @@ namespace Cortex.Net.Fody
             var observableObjectAddComputedMethod = new GenericInstanceMethod(observableObjectType.Methods.FirstOrDefault(m => m.Name == "AddComputedMember"));
             observableObjectAddComputedMethod.GenericArguments.Add(methodDefinition.ReturnType);
 
-            MethodReference functionTypeConstructorReference = functionType.Resolve().Methods.Single(x => x.IsConstructor);
+            MethodReference functionTypeConstructorReference = functionType.Resolve().Methods.Single(x => x.IsConstructor && !x.IsStatic);
 
             functionTypeConstructorReference = module.ImportReference(functionTypeConstructorReference.GetGenericMethodOnInstantance(functionType));
             var computedValueOptionsType = this.WeavingContext.CortexNetComputedValueOptions.Resolve();
-            var computedValueOptionsConstructor = computedValueOptionsType.Methods.Single(x => x.IsConstructor);
+            var computedValueOptionsConstructor = computedValueOptionsType.Methods.Single(x => x.IsConstructor && !x.IsStatic);
 
             var computedValueOptionsInstanceType = new GenericInstanceType(computedValueOptionsType);
             computedValueOptionsInstanceType.GenericArguments.Add(methodDefinition.ReturnType);
@@ -522,7 +522,7 @@ namespace Cortex.Net.Fody
             {
                 var setEqualityComparerMethod = computedValueOptionsType.Methods.Single(x => x.Name == "set_EqualityComparer");
                 var setEqualityComparerReference = module.ImportReference(setEqualityComparerMethod.GetGenericMethodOnInstantance(computedValueOptionsInstanceType));
-                MethodReference equalityComparerConstructorReference = equalityComparerType.Resolve().Methods.SingleOrDefault(x => x.IsConstructor && x.Parameters.Count == 0);
+                MethodReference equalityComparerConstructorReference = equalityComparerType.Resolve().Methods.SingleOrDefault(x => x.IsConstructor && !x.IsStatic && x.Parameters.Count == 0);
 
                 // The equalitycomparer needs to have a parameterless constructor.
                 if (equalityComparerConstructorReference == null)
@@ -554,7 +554,7 @@ namespace Cortex.Net.Fody
                 var setSetterReference = module.ImportReference(setSetterMethod.GetGenericMethodOnInstantance(computedValueOptionsInstanceType));
                 var actionType = setMethodDefinition.GetActionType(this.WeavingContext);
 
-                MethodReference actionTypeConstructorReference = actionType.Resolve().Methods.Single(x => x.IsConstructor);
+                MethodReference actionTypeConstructorReference = actionType.Resolve().Methods.Single(x => x.IsConstructor && !x.IsStatic);
 
                 actionTypeConstructorReference = module.ImportReference(actionTypeConstructorReference.GetGenericMethodOnInstantance(actionType));
 

@@ -19,8 +19,10 @@ namespace Cortex.Net.Api
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
     using Cortex.Net.Core;
+    using Cortex.Net.Properties;
 
     /// <summary>
     /// Extension methods that deal with Reactions on an ISharedState instance.
@@ -65,14 +67,17 @@ namespace Cortex.Net.Api
                 reaction = new Reaction(
                 sharedState,
                 name,
-                () =>
-                {
-                    ReactionRunner().GetAwaiter().GetResult();
-                }, autorunOptions.ErrorHandler);
+                ReactionRunner,
+                autorunOptions.ErrorHandler);
             }
             else
             {
-                var scheduler = CreateSchedulerFromOptions(autorunOptions, ReactionRunner);
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+                var scheduler = CreateSchedulerFromOptions(autorunOptions, async () =>
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+                {
+                    ReactionRunner();
+                });
 
                 // debounced autorun
                 var isScheduled = false;
@@ -85,7 +90,11 @@ namespace Cortex.Net.Api
                     if (!isScheduled)
                     {
                         isScheduled = true;
-                        scheduler().GetAwaiter().GetResult();
+                        Task.Factory.StartNew(
+                           scheduler,
+                           CancellationToken.None,
+                           TaskCreationOptions.DenyChildAttach,
+                           GetTaskScheduler(sharedState));
                     }
                 },
                 autorunOptions.ErrorHandler);
@@ -93,15 +102,14 @@ namespace Cortex.Net.Api
 #pragma warning restore IDE0067 // Dispose objects before losing scope
 #pragma warning restore CA2000 // Dispose objects before losing scope
 
-            Task ReactionRunner()
+            void ReactionRunner()
             {
                 if (reaction.IsDisposed)
                 {
-                    return Task.CompletedTask;
+                    return;
                 }
 
                 reaction.Track(() => expression(reaction));
-                return Task.CompletedTask;
             }
 
             reaction.Schedule();
@@ -156,7 +164,12 @@ namespace Cortex.Net.Api
                 new Func<T, T, bool>(reactionOptions.EqualityComparer.Equals) :
                 new Func<T, T, bool>((x, y) => Equals(x, y));
 
-            var scheduler = CreateSchedulerFromOptions(reactionOptions, ReactionRunner);
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+            var scheduler = CreateSchedulerFromOptions(reactionOptions, async () =>
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+            {
+                ReactionRunner();
+            });
 
 #pragma warning disable CA2000 // Dispose objects before losing scope
 #pragma warning disable IDE0067 // Dispose objects before losing scope
@@ -167,23 +180,27 @@ namespace Cortex.Net.Api
                 {
                     if (firstTime || runSync)
                     {
-                        ReactionRunner().GetAwaiter().GetResult();
+                        ReactionRunner();
                     }
                     else if (!isScheduled)
                     {
                         isScheduled = true;
-                        scheduler().GetAwaiter().GetResult();
+                        Task.Factory.StartNew(
+                            scheduler,
+                            CancellationToken.None,
+                            TaskCreationOptions.DenyChildAttach,
+                            GetTaskScheduler(sharedState));
                     }
                 }, reactionOptions.ErrorHandler);
 #pragma warning restore IDE0067 // Dispose objects before losing scope
 #pragma warning restore CA2000 // Dispose objects before losing scope
 
-            Task ReactionRunner()
+            void ReactionRunner()
             {
                 isScheduled = false; // Q: move into reaction runner?
                 if (reaction.IsDisposed)
                 {
-                    return Task.CompletedTask;
+                    return;
                 }
 
                 var changed = false;
@@ -208,8 +225,6 @@ namespace Cortex.Net.Api
                 {
                     firstTime = false;
                 }
-
-                return Task.CompletedTask;
             }
 
             reaction.Schedule();
@@ -240,15 +255,39 @@ namespace Cortex.Net.Api
             });
         }
 
+        /// <summary>
+        /// Creates a default scheduler function for reactions.
+        /// </summary>
+        /// <param name="options">The options to run the scheduler with.</param>
+        /// <param name="action">The action to execute.</param>
+        /// <returns>A Scheduler function.</returns>
         private static Func<Task> CreateSchedulerFromOptions(AutorunOptions options, Func<Task> action)
         {
-            return options.Scheduler ?? (options.Delay > 0
-                ? new Func<Task>(async () =>
+            return async () =>
                 {
                     await Task.Delay(options.Delay).ConfigureAwait(true);
                     await action().ConfigureAwait(true);
-                })
-            : action);
+                };
+        }
+
+        /// <summary>
+        /// Tries to get a Task scheduler or throws an exception.
+        /// </summary>
+        /// <param name="sharedState">The shared state to use.</param>
+        /// <returns>The task scheduler.</returns>
+        /// <exception cref="InvalidOperationException">When a task scheduler was not specified or could not be inferred from a SynchronizationContext.</exception>
+        private static TaskScheduler GetTaskScheduler(ISharedState sharedState)
+        {
+            if (sharedState.Configuration.TaskScheduler != null)
+            {
+                return sharedState.Configuration.TaskScheduler;
+            }
+            else if (SynchronizationContext.Current != null)
+            {
+                return TaskScheduler.FromCurrentSynchronizationContext();
+            }
+
+            throw new InvalidOperationException(Resources.TaskSchedulerNull);
         }
     }
 }

@@ -322,6 +322,15 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [Cortex.Net] To schedule reactions, a TaskScheduler needs to be provided in the configuration options. Cortex.Net tried to create one based on the current SynchronisationContext, but there wasn&apos;t one..
+        /// </summary>
+        internal static string TaskSchedulerNull {
+            get {
+                return ResourceManager.GetString("TaskSchedulerNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to [Cortex.Net] Encountered an uncaught exception that was thrown by a reaction or observer component, in: ({0}).
         /// </summary>
         internal static string UncaughtExceptionInsideReaction {

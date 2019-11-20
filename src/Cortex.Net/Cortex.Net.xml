@@ -614,6 +614,22 @@
             <param name="action">The action to wrap.</param>
             <returns>The wrapped action.</returns>
         </member>
+        <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.CreateSchedulerFromOptions(Cortex.Net.AutorunOptions,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Creates a default scheduler function for reactions.
+            </summary>
+            <param name="options">The options to run the scheduler with.</param>
+            <param name="action">The action to execute.</param>
+            <returns>A Scheduler function.</returns>
+        </member>
+        <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.GetTaskScheduler(Cortex.Net.ISharedState)">
+            <summary>
+            Tries to get a Task scheduler or throws an exception.
+            </summary>
+            <param name="sharedState">The shared state to use.</param>
+            <returns>The task scheduler.</returns>
+            <exception cref="T:System.InvalidOperationException">When a task scheduler was not specified or could not be inferred from a SynchronizationContext.</exception>
+        </member>
         <member name="T:Cortex.Net.Api.TraceExtensions">
             <summary>
             Extension methods for tracing.
@@ -686,7 +702,7 @@
         </member>
         <member name="P:Cortex.Net.AutorunOptions.Delay">
             <summary>
-            Gets or sets the delay.
+            Gets or sets the delay in miliseconds.
             </summary>
         </member>
         <member name="P:Cortex.Net.AutorunOptions.Name">
@@ -1867,6 +1883,11 @@
             Gets or sets a value that defines how strict modification of state should be enforced.
             </summary>
         </member>
+        <member name="P:Cortex.Net.CortexConfiguration.TaskScheduler">
+            <summary>
+            Gets or sets the default Task scheduler that will be used for Reactions.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.CortexConfiguration.UseGlobalState">
             <summary>
             Gets or sets a value indicating whether to use a Global Shared State.
@@ -2478,6 +2499,11 @@
         <member name="P:Cortex.Net.Properties.Resources.ReadOutsideReactionRecompute">
             <summary>
               Looks up a localized string similar to [Cortex.Net] ({0}) is read outside a reactive context. Doing full recompute..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.TaskSchedulerNull">
+            <summary>
+              Looks up a localized string similar to [Cortex.Net] To schedule reactions, a TaskScheduler needs to be provided in the configuration options. Cortex.Net tried to create one based on the current SynchronisationContext, but there wasn&apos;t one..
             </summary>
         </member>
         <member name="P:Cortex.Net.Properties.Resources.UncaughtExceptionInsideReaction">

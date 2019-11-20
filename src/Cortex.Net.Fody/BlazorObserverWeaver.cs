@@ -226,18 +226,18 @@ namespace Cortex.Net.Fody
         {
             var module = this.parentWeaver.ModuleDefinition;
 
-            var observableObjectConstructor = module.ImportReference(this.parentWeaver.ModuleDefinition.ImportReference(this.weavingContext.CortexNetBlazorObserverObject).Resolve().Methods.Single(x => x.IsConstructor));
+            var observableObjectConstructor = module.ImportReference(this.parentWeaver.ModuleDefinition.ImportReference(this.weavingContext.CortexNetBlazorObserverObject).Resolve().Methods.Single(x => x.IsConstructor && !x.IsStatic));
             var buildRenderTreeReference = module.ImportReference(buildRenderTreeMethod);
             var stateChangedReference = module.ImportReference(stateChangedMethod);
 
             var renderActionType = buildRenderTreeMethod.GetActionType(this.weavingContext);
 
-            MethodReference renderActionConstructorType = renderActionType.Resolve().Methods.Single(x => x.IsConstructor);
+            MethodReference renderActionConstructorType = renderActionType.Resolve().Methods.Single(x => x.IsConstructor && !x.IsStatic);
             var renderActionConstructorReference = module.ImportReference(renderActionConstructorType.GetGenericMethodOnInstantance(renderActionType));
 
             var stateChangedActionType = stateChangedMethod.GetActionType(this.weavingContext);
 
-            MethodReference stateChangedActionConstructorType = stateChangedActionType.Resolve().Methods.Single(x => x.IsConstructor);
+            MethodReference stateChangedActionConstructorType = stateChangedActionType.Resolve().Methods.Single(x => x.IsConstructor && !x.IsStatic);
             var stateChangedActionConstructorReference = module.ImportReference(stateChangedActionConstructorType);
 
             var instructions = new List<Instruction>

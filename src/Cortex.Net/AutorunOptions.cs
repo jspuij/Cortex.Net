@@ -28,7 +28,7 @@ namespace Cortex.Net
     public class AutorunOptions
     {
         /// <summary>
-        /// Gets or sets the delay.
+        /// Gets or sets the delay in miliseconds.
         /// </summary>
         public int Delay { get; set; }
 

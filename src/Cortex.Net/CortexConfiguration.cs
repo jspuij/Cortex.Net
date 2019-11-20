@@ -19,6 +19,8 @@ namespace Cortex.Net
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Cortex.Net.Core;
 
     /// <summary>
@@ -60,6 +62,11 @@ namespace Cortex.Net
         /// Gets or sets a value that defines how strict modification of state should be enforced.
         /// </summary>
         public EnforceAction EnforceActions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the default Task scheduler that will be used for Reactions.
+        /// </summary>
+        public TaskScheduler TaskScheduler { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to use a Global Shared State.
