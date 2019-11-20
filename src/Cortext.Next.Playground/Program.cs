@@ -40,8 +40,10 @@ namespace Cortext.Next.Playground
             person.ChangeBothNames("Eddy", "Tickie");
             Console.WriteLine(person.FullName3);
 
-            var personWeave = new PersonWeave(sharedState);
-            personWeave.Age = 30;
+            var personWeave = new PersonWeave(sharedState)
+            {
+                Age = 30
+            };
 
             var d2 = sharedState.Reaction<string>(r => personWeave.FullName, (s, r) =>
             {

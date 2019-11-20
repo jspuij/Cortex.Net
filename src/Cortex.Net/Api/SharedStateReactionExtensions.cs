@@ -248,6 +248,138 @@ namespace Cortex.Net.Api
         }
 
         /// <summary>
+        /// Creates a reaction that operates on data of type T.
+        /// </summary>
+        /// <typeparam name="T">The type the reaction operates on.</typeparam>
+        /// <param name="sharedState">The shared state to use.</param>
+        /// <param name="expression">The expression that delivers a value.</param>
+        /// <param name="effect">The effect that is executed when the value changes.</param>
+        /// <param name="reactionOptions">The options to use for the reaction.</param>
+        /// <returns>An <see cref="IDisposable"/> instance that can be used to stop the reaction.</returns>
+        /// <remarks>Only pass asynchronous effect functions that wrap state modifications in actions.</remarks>
+        public static IDisposable Reaction<T>(this ISharedState sharedState, Func<Reaction, T> expression, Func<T, Reaction, Task> effect, ReactionOptions<T> reactionOptions = null)
+        {
+            if (sharedState is null)
+            {
+                throw new ArgumentNullException(nameof(sharedState));
+            }
+
+            if (expression is null)
+            {
+                throw new ArgumentNullException(nameof(expression));
+            }
+
+            if (effect is null)
+            {
+                throw new ArgumentNullException(nameof(effect));
+            }
+
+            if (reactionOptions is null)
+            {
+                reactionOptions = new ReactionOptions<T>();
+            }
+
+            var name = reactionOptions.Name ?? $"Reaction@{sharedState.GetUniqueId()}";
+            var action = reactionOptions.ErrorHandler != null ? WrapErrorHandler(reactionOptions.ErrorHandler, effect) : effect;
+            var runSync = reactionOptions.Scheduler == null && reactionOptions.Delay == 0;
+
+            var firstTime = true;
+            var isScheduled = false;
+            T value = default;
+            Reaction reaction = null;
+
+            var equals =
+                reactionOptions.EqualityComparer != null ?
+                new Func<T, T, bool>(reactionOptions.EqualityComparer.Equals) :
+                new Func<T, T, bool>((x, y) => Equals(x, y));
+
+            var scheduler = CreateSchedulerFromOptions(reactionOptions, async () =>
+            {
+                await ReactionRunner().ConfigureAwait(true);
+            });
+
+#pragma warning disable CA2000 // Dispose objects before losing scope
+#pragma warning disable IDE0067 // Dispose objects before losing scope
+            reaction = new Reaction(
+                sharedState,
+                name,
+                () =>
+                {
+                    if (firstTime || runSync)
+                    {
+                        var taskScheduler = GetTaskScheduler(sharedState);
+                        isScheduled = true;
+                        Task.Factory.StartNew(
+                            ReactionRunner,
+                            CancellationToken.None,
+                            TaskCreationOptions.DenyChildAttach,
+                            taskScheduler).ContinueWith(
+                                t =>
+                                {
+                                    if (t.Exception != null)
+                                    {
+                                        reaction.ReportExceptionInReaction(t.Exception);
+                                    }
+                                }, taskScheduler);
+                    }
+                    else if (!isScheduled)
+                    {
+                        var taskScheduler = GetTaskScheduler(sharedState);
+                        isScheduled = true;
+                        Task.Factory.StartNew(
+                            scheduler,
+                            CancellationToken.None,
+                            TaskCreationOptions.DenyChildAttach,
+                            taskScheduler).ContinueWith(
+                                t =>
+                                {
+                                    if (t.Exception != null)
+                                    {
+                                        reaction.ReportExceptionInReaction(t.Exception);
+                                    }
+                                }, taskScheduler);
+                    }
+                }, reactionOptions.ErrorHandler);
+#pragma warning restore IDE0067 // Dispose objects before losing scope
+#pragma warning restore CA2000 // Dispose objects before losing scope
+
+            async Task ReactionRunner()
+            {
+                isScheduled = false; // Q: move into reaction runner?
+                if (reaction.IsDisposed)
+                {
+                    return;
+                }
+
+                var changed = false;
+
+                reaction.Track(() =>
+                {
+                    var nextValue = expression(reaction);
+                    changed = firstTime || !equals(value, nextValue);
+                    value = nextValue;
+                });
+                if (firstTime && reactionOptions.FireImmediately)
+                {
+                    await action(value, reaction).ConfigureAwait(true);
+                }
+
+                if (!firstTime && changed)
+                {
+                    await action(value, reaction).ConfigureAwait(true);
+                }
+
+                if (firstTime)
+                {
+                    firstTime = false;
+                }
+            }
+
+            reaction.Schedule();
+            return new DisposableDelegate(() => reaction.Dispose());
+        }
+
+        /// <summary>
         /// Wraps the error handler function around an action.
         /// </summary>
         /// <typeparam name="T">The type of the value.</typeparam>
@@ -256,7 +388,7 @@ namespace Cortex.Net.Api
         /// <returns>The wrapped action.</returns>
         private static Action<T, Reaction> WrapErrorHandler<T>(Action<Reaction, Exception> errorHandler, Action<T, Reaction> action)
         {
-            return new Action<T, Reaction>((value, reaction) =>
+            return (value, reaction) =>
             {
                 try
                 {
@@ -268,7 +400,31 @@ namespace Cortex.Net.Api
                 {
                     errorHandler(reaction, exception);
                 }
-            });
+            };
+        }
+
+        /// <summary>
+        /// Wraps the error handler function around an action.
+        /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="errorHandler">The errorhandler to use.</param>
+        /// <param name="asyncAction">The asynchronous action action to wrap.</param>
+        /// <returns>The wrapped action.</returns>
+        private static Func<T, Reaction, Task> WrapErrorHandler<T>(Action<Reaction, Exception> errorHandler, Func<T, Reaction, Task> asyncAction)
+        {
+            return async (value, reaction) =>
+            {
+                try
+                {
+                    await asyncAction(value, reaction).ConfigureAwait(true);
+                }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch (Exception exception)
+#pragma warning restore CA1031 // Do not catch general exception types
+                {
+                    errorHandler(reaction, exception);
+                }
+            };
         }
 
         /// <summary>

@@ -16,12 +16,12 @@
 
 namespace Cortex.Net.BlazorTodo
 {
+    using System.Threading.Tasks;
     using Blazored.LocalStorage;
     using Cortex.Net.Api;
     using Cortex.Net.BlazorTodo.Stores;
     using Microsoft.AspNetCore.Components.Builder;
     using Microsoft.Extensions.DependencyInjection;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Startup class that configures services.

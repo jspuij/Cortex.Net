@@ -35,7 +35,7 @@
         // We use a reaction that serializes the Todo's collection. It is triggered by any dependency that will change the content string value.
         // Then we asynchronously write to local storage. We don't await that.
         // The reaction is scheduled to run after 1 second, and will swallow any calls in between to limit the amount of Javascript callbacks that have to be made.
-        reactionDisposable = SharedState.Reaction(r => JsonSerializer.Serialize(this.TodoStore.Todos), (content, r) => SaveToLocalStorage(content), new ReactionOptions<string>() { Delay = 1000 });
+        reactionDisposable = SharedState.Reaction(r => JsonSerializer.Serialize(this.TodoStore.Todos), async (content, r) => await SaveToLocalStorage(content), new ReactionOptions<string>() { Delay = 1000 });
         this.NavigationManager.NavigateTo("#/");
 #pragma warning restore CS4014
     }
@@ -64,6 +64,7 @@
     /// </summary>
     /// <param name="content"></param>
     /// <returns>A task to await.</returns>
+    [Action]
     private async Task SaveToLocalStorage(string content)
     {
         await LocalStorage.SetItemAsync("todos-[Cortex.Net]", JsonDocument.Parse(content).RootElement);
