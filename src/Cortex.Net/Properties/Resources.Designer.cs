@@ -232,6 +232,15 @@ namespace Cortex.Net.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The error handler for when reactions cannot be specified when using async / await..
+        /// </summary>
+        internal static string NoErrorHandlerWithWhen {
+            get {
+                return ResourceManager.GetString("NoErrorHandlerWithWhen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to [Cortex.Net] Global Shared state is not configured, please specify shared state when creating new Observables, Computed Values or Reactions..
         /// </summary>
         internal static string NoGlobalSharedState {
@@ -327,6 +336,15 @@ namespace Cortex.Net.Properties {
         internal static string TaskSchedulerNull {
             get {
                 return ResourceManager.GetString("TaskSchedulerNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [Cortex.Net] Timeout occured while running ({0}) Timeout value was ({1}) miliseconds..
+        /// </summary>
+        internal static string TimeoutOccuredInWhen {
+            get {
+                return ResourceManager.GetString("TimeoutOccuredInWhen", resourceCulture);
             }
         }
         

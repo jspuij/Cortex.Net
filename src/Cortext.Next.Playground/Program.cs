@@ -54,6 +54,13 @@ namespace Cortext.Next.Playground
                 Delay = 10,
             });
 
+            var test = sharedState.When(
+                () => personWeave.FullName == "Dikkertje Dap",
+                new WhenOptions()
+                {
+                    TimeOut = 1000
+                });
+
             var d4 = sharedState.Autorun(r =>
             {
                 Console.WriteLine($"Autorun Fullname weaved: {personWeave.FullName}");
@@ -68,6 +75,11 @@ namespace Cortext.Next.Playground
             Console.WriteLine(personWeave.FullName);
             personWeave.ChangeFullNameToBirdseyeview();
             Console.WriteLine(personWeave.FullName);
+            
+            await test;
+            personWeave.ChangeBothNames("Dikkertje", "Dap");
+
+            await Task.Delay(1000);
 
             var group = new Group();
             

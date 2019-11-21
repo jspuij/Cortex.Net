@@ -30,6 +30,31 @@ namespace Cortex.Net.Api
     public static class SharedStateReactionExtensions
     {
         /// <summary>
+        /// Tries to get a Task scheduler or throws an exception.
+        /// </summary>
+        /// <param name="sharedState">The shared state to use.</param>
+        /// <returns>The task scheduler.</returns>
+        /// <exception cref="InvalidOperationException">When a task scheduler was not specified or could not be inferred from a SynchronizationContext.</exception>
+        public static TaskScheduler GetTaskScheduler(this ISharedState sharedState)
+        {
+            if (sharedState is null)
+            {
+                throw new ArgumentNullException(nameof(sharedState));
+            }
+
+            if (sharedState.Configuration.TaskScheduler != null)
+            {
+                return sharedState.Configuration.TaskScheduler;
+            }
+            else if (SynchronizationContext.Current != null)
+            {
+                return TaskScheduler.FromCurrentSynchronizationContext();
+            }
+
+            throw new InvalidOperationException(Resources.TaskSchedulerNull);
+        }
+
+        /// <summary>
         /// Creates a new Autorun reaction.
         /// </summary>
         /// <param name="sharedState">The shared state to operate on.</param>
@@ -89,13 +114,13 @@ namespace Cortex.Net.Api
                 {
                     if (!isScheduled)
                     {
-                        var taskScheduler = GetTaskScheduler(sharedState);
+                        var taskScheduler = sharedState.GetTaskScheduler();
                         isScheduled = true;
                         Task.Factory.StartNew(
                             scheduler,
                             CancellationToken.None,
                             TaskCreationOptions.DenyChildAttach,
-                            taskScheduler).ContinueWith(
+                            taskScheduler).Unwrap().ContinueWith(
                                 t =>
                                 {
                                     if (t.Exception != null)
@@ -192,13 +217,13 @@ namespace Cortex.Net.Api
                     }
                     else if (!isScheduled)
                     {
-                        var taskScheduler = GetTaskScheduler(sharedState);
+                        var taskScheduler = sharedState.GetTaskScheduler();
                         isScheduled = true;
                         Task.Factory.StartNew(
                             scheduler,
                             CancellationToken.None,
                             TaskCreationOptions.DenyChildAttach,
-                            taskScheduler).ContinueWith(
+                            taskScheduler).Unwrap().ContinueWith(
                                 t =>
                                 {
                                     if (t.Exception != null)
@@ -307,13 +332,13 @@ namespace Cortex.Net.Api
                 {
                     if (firstTime || runSync)
                     {
-                        var taskScheduler = GetTaskScheduler(sharedState);
+                        var taskScheduler = sharedState.GetTaskScheduler();
                         isScheduled = true;
                         Task.Factory.StartNew(
                             ReactionRunner,
                             CancellationToken.None,
                             TaskCreationOptions.DenyChildAttach,
-                            taskScheduler).ContinueWith(
+                            taskScheduler).Unwrap().ContinueWith(
                                 t =>
                                 {
                                     if (t.Exception != null)
@@ -324,13 +349,13 @@ namespace Cortex.Net.Api
                     }
                     else if (!isScheduled)
                     {
-                        var taskScheduler = GetTaskScheduler(sharedState);
+                        var taskScheduler = sharedState.GetTaskScheduler();
                         isScheduled = true;
                         Task.Factory.StartNew(
                             scheduler,
                             CancellationToken.None,
                             TaskCreationOptions.DenyChildAttach,
-                            taskScheduler).ContinueWith(
+                            taskScheduler).Unwrap().ContinueWith(
                                 t =>
                                 {
                                     if (t.Exception != null)
@@ -440,26 +465,6 @@ namespace Cortex.Net.Api
                     await Task.Delay(options.Delay).ConfigureAwait(true);
                     await action().ConfigureAwait(true);
                 };
-        }
-
-        /// <summary>
-        /// Tries to get a Task scheduler or throws an exception.
-        /// </summary>
-        /// <param name="sharedState">The shared state to use.</param>
-        /// <returns>The task scheduler.</returns>
-        /// <exception cref="InvalidOperationException">When a task scheduler was not specified or could not be inferred from a SynchronizationContext.</exception>
-        private static TaskScheduler GetTaskScheduler(ISharedState sharedState)
-        {
-            if (sharedState.Configuration.TaskScheduler != null)
-            {
-                return sharedState.Configuration.TaskScheduler;
-            }
-            else if (SynchronizationContext.Current != null)
-            {
-                return TaskScheduler.FromCurrentSynchronizationContext();
-            }
-
-            throw new InvalidOperationException(Resources.TaskSchedulerNull);
         }
     }
 }

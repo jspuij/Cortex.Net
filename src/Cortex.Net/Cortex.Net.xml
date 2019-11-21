@@ -585,6 +585,14 @@
             Extension methods that deal with Reactions on an ISharedState instance.
             </summary>
         </member>
+        <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.GetTaskScheduler(Cortex.Net.ISharedState)">
+            <summary>
+            Tries to get a Task scheduler or throws an exception.
+            </summary>
+            <param name="sharedState">The shared state to use.</param>
+            <returns>The task scheduler.</returns>
+            <exception cref="T:System.InvalidOperationException">When a task scheduler was not specified or could not be inferred from a SynchronizationContext.</exception>
+        </member>
         <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.Autorun(Cortex.Net.ISharedState,System.Action{Cortex.Net.Core.Reaction},Cortex.Net.AutorunOptions)">
             <summary>
             Creates a new Autorun reaction.
@@ -643,13 +651,47 @@
             <param name="action">The action to execute.</param>
             <returns>A Scheduler function.</returns>
         </member>
-        <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.GetTaskScheduler(Cortex.Net.ISharedState)">
+        <member name="T:Cortex.Net.Api.SharedStateWhenExtensions">
             <summary>
-            Tries to get a Task scheduler or throws an exception.
+            Extension methods on the shared state than create an Autorun that observes and runs the given predicate until it returns true.
+            Once that happens, the given effect is executed and the autorunner is disposed.
+            The function returns a disposer to cancel the autorunner prematurely.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.SharedStateWhenExtensions.When(Cortex.Net.ISharedState,System.Func{System.Boolean},System.Action,Cortex.Net.WhenOptions)">
+            <summary>
+             Creates an autorun that observes and runs the given predicate until it returns true.
+             Once that happens, the given effect is executed and the autorunner is disposed.
+             The function returns a disposer to cancel the autorunner prematurely.
             </summary>
             <param name="sharedState">The shared state to use.</param>
-            <returns>The task scheduler.</returns>
-            <exception cref="T:System.InvalidOperationException">When a task scheduler was not specified or could not be inferred from a SynchronizationContext.</exception>
+            <param name="predicate">The predicate to match.</param>
+            <param name="effect">The effect to run.</param>
+            <param name="whenOptions">The options for this When.</param>
+            <returns>A disposer to cancel the autorunner prematurely.</returns>
+        </member>
+        <member name="M:Cortex.Net.Api.SharedStateWhenExtensions.When(Cortex.Net.ISharedState,System.Func{System.Boolean},Cortex.Net.WhenOptions)">
+            <summary>
+             Creates an autorun that observes and runs the given predicate until it returns true.
+             Once that happens, the given effect is executed and the autorunner is disposed.
+             The function returns a disposer to cancel the autorunner prematurely.
+            </summary>
+            <param name="sharedState">The shared state to use.</param>
+            <param name="predicate">The predicate to match.</param>
+            <param name="whenOptions">The options for this When.</param>
+            <returns>A task to await in asynchronous code..</returns>
+        </member>
+        <member name="M:Cortex.Net.Api.SharedStateWhenExtensions.When(Cortex.Net.ISharedState,System.Func{System.Boolean},System.Threading.CancellationToken,Cortex.Net.WhenOptions)">
+            <summary>
+             Creates an autorun that observes and runs the given predicate until it returns true.
+             Once that happens, the given effect is executed and the autorunner is disposed.
+             The function returns a disposer to cancel the autorunner prematurely.
+            </summary>
+            <param name="sharedState">The shared state to use.</param>
+            <param name="predicate">The predicate to match.</param>
+            <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+            <param name="whenOptions">The options for this When.</param>
+            <returns>A task to await in asynchronous code..</returns>
         </member>
         <member name="T:Cortex.Net.Api.TraceExtensions">
             <summary>
@@ -2472,6 +2514,11 @@
               Looks up a localized string similar to &quot;Since strict-mode is enabled, changing observed observable values outside actions is not allowed. Please wrap the code in an `action` if this change is intended. Tried to modify: ({0}).
             </summary>
         </member>
+        <member name="P:Cortex.Net.Properties.Resources.NoErrorHandlerWithWhen">
+            <summary>
+              Looks up a localized string similar to The error handler for when reactions cannot be specified when using async / await..
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Properties.Resources.NoGlobalSharedState">
             <summary>
               Looks up a localized string similar to [Cortex.Net] Global Shared state is not configured, please specify shared state when creating new Observables, Computed Values or Reactions..
@@ -2525,6 +2572,11 @@
         <member name="P:Cortex.Net.Properties.Resources.TaskSchedulerNull">
             <summary>
               Looks up a localized string similar to [Cortex.Net] To schedule reactions, a TaskScheduler needs to be provided in the configuration options. Cortex.Net tried to create one based on the current SynchronisationContext, but there wasn&apos;t one..
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Properties.Resources.TimeoutOccuredInWhen">
+            <summary>
+              Looks up a localized string similar to [Cortex.Net] Timeout occured while running ({0}) Timeout value was ({1}) miliseconds..
             </summary>
         </member>
         <member name="P:Cortex.Net.Properties.Resources.UncaughtExceptionInsideReaction">
@@ -4113,6 +4165,31 @@
         <member name="M:Cortex.Net.Utils.ShallowEqualityComparer`1.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.Utils.ShallowEqualityComparer`1"/> class.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.WhenOptions">
+            <summary>
+            Options for the When Extension methods.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.WhenOptions.Name">
+            <summary>
+            Gets or sets then name.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.WhenOptions.TimeOut">
+            <summary>
+            Gets or sets the TimeOut.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.WhenOptions.RequiresObservable">
+            <summary>
+            Gets or sets a value indicating whether observables are required in the view function.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.WhenOptions.ErrorHandler">
+            <summary>
+            Gets or sets error handler function that is called in case of an error. Otherwise the error is propagated.
             </summary>
         </member>
     </members>
