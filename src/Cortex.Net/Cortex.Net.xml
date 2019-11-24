@@ -1448,6 +1448,11 @@
             The equality comparer that is used.
             </summary>
         </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.changedEventHandlers">
+            <summary>
+            A dictionary of event handlers for the changed event.
+            </summary>
+        </member>
         <member name="F:Cortex.Net.Core.ComputedValue`1.keepAlive">
             <summary>
             A value indicating whether the computed value keeps calculating, even when it is not observed.
@@ -1493,6 +1498,11 @@
         <member name="E:Cortex.Net.Core.ComputedValue`1.BecomeUnobserved">
             <summary>
             Event that will fire after the observable has become unobserved.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.Core.ComputedValue`1.Changed">
+            <summary>
+            Event that fires after the value has changed.
             </summary>
         </member>
         <member name="P:Cortex.Net.Core.ComputedValue`1.Observers">
@@ -1599,6 +1609,13 @@
             Computed values are automatically teared down when the last observer leaves.
             This process happens recursively, this computed might be the last observabe of another, etc.
             </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue`1.Observe(System.EventHandler{Cortex.Net.Types.ValueChangedEventArgs{`0}},System.Boolean)">
+            <summary>
+            Registers the secified event handler, and optionally fires it first.
+            </summary>
+            <param name="changedEventHandler">The event handler to register.</param>
+            <param name="fireImmediately">Whether to fire the event handler immediately.</param>
         </member>
         <member name="M:Cortex.Net.Core.ComputedValue`1.TrackAndCompute">
             <summary>
@@ -2099,6 +2116,11 @@
             Interface for Computed values.
             </summary>
             <typeparam name="T">The type of the computed value.</typeparam>
+        </member>
+        <member name="E:Cortex.Net.IComputedValue`1.Changed">
+            <summary>
+            Event that fires after the value has changed.
+            </summary>
         </member>
         <member name="T:Cortex.Net.IComputedValue">
             <summary>

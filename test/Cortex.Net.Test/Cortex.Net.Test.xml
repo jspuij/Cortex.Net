@@ -4,6 +4,36 @@
         <name>Cortex.Net.Test</name>
     </assembly>
     <members>
+        <member name="T:Cortex.Net.Test.Base.ActionTests">
+            <summary>
+            Unit tests for Actions.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Test.Base.ActionTests"/> class.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.ActionShouldWrapInTransaction">
+            <summary>
+            Action sould wrap in an transaction.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.ActionModificationsShouldBePickedUp1">
+            <summary>
+            Action modifications should be picked up 1.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.ActionModificationsShouldBePickedUp2">
+            <summary>
+            Action modifications should be picked up 2.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.ActionModificationsShouldBePickedUp3">
+            <summary>
+            Action modifications should be picked up 3.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Test.IDependencyNodeTests">
             <summary>
             Unit tests for Implementations of <see cref="T:Cortex.Net.IDependencyNode"/>.

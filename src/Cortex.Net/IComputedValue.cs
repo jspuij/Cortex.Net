@@ -16,12 +16,19 @@
 
 namespace Cortex.Net
 {
+    using System;
+    using Cortex.Net.Types;
+
     /// <summary>
     /// Interface for Computed values.
     /// </summary>
     /// <typeparam name="T">The type of the computed value.</typeparam>
     public interface IComputedValue<T> : IComputedValue, IValue<T>
     {
+        /// <summary>
+        /// Event that fires after the value has changed.
+        /// </summary>
+        event EventHandler<ValueChangedEventArgs<T>> Changed;
     }
 
     /// <summary>

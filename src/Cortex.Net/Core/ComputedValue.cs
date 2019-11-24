@@ -24,6 +24,7 @@ namespace Cortex.Net.Core
     using Cortex.Net.Api;
     using Cortex.Net.Properties;
     using Cortex.Net.Spy;
+    using Cortex.Net.Types;
 
     /// <summary>
     /// A node in the state dependency root that observes other nodes, and can be observed itself.
@@ -50,6 +51,11 @@ namespace Cortex.Net.Core
         /// The equality comparer that is used.
         /// </summary>
         private readonly IEqualityComparer<T> equalityComparer;
+
+        /// <summary>
+        /// A dictionary of event handlers for the changed event.
+        /// </summary>
+        private readonly Dictionary<EventHandler<ValueChangedEventArgs<T>>, IDisposable> changedEventHandlers = new Dictionary<EventHandler<ValueChangedEventArgs<T>>, IDisposable>();
 
         /// <summary>
         /// A value indicating whether the computed value keeps calculating, even when it is not observed.
@@ -119,6 +125,51 @@ namespace Cortex.Net.Core
         /// Event that will fire after the observable has become unobserved.
         /// </summary>
         public event EventHandler BecomeUnobserved;
+
+        /// <summary>
+        /// Event that fires after the value has changed.
+        /// </summary>
+        public event EventHandler<ValueChangedEventArgs<T>> Changed
+        {
+            add
+            {
+                if (!this.changedEventHandlers.ContainsKey(value))
+                {
+                    bool firstTime = true;
+                    T previousValue = default;
+                    var autorun = this.SharedState.Autorun(r =>
+                    {
+                        var newValue = this.Value;
+                        if (!firstTime)
+                        {
+                            var previousDerivation = this.SharedState.StartUntracked();
+                            value(this, new ValueChangedEventArgs<T>()
+                            {
+                                Context = this,
+                                OldValue = previousValue,
+                                NewValue = newValue,
+                            });
+                            this.SharedState.EndTracking(previousDerivation);
+                        }
+
+                        firstTime = false;
+                        previousValue = newValue;
+                    });
+
+                    this.changedEventHandlers.Add(value, autorun);
+                }
+            }
+
+            remove
+            {
+                if (this.changedEventHandlers.ContainsKey(value))
+                {
+                    var disposable = this.changedEventHandlers[value];
+                    disposable.Dispose();
+                    this.changedEventHandlers.Remove(value);
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the Observers.
@@ -319,6 +370,31 @@ namespace Cortex.Net.Core
                 this.value = default;
                 this.lastException = null;
             }
+        }
+
+        /// <summary>
+        /// Registers the secified event handler, and optionally fires it first.
+        /// </summary>
+        /// <param name="changedEventHandler">The event handler to register.</param>
+        /// <param name="fireImmediately">Whether to fire the event handler immediately.</param>
+        public void Observe(EventHandler<ValueChangedEventArgs<T>> changedEventHandler, bool fireImmediately)
+        {
+            if (changedEventHandler is null)
+            {
+                throw new ArgumentNullException(nameof(changedEventHandler));
+            }
+
+            if (fireImmediately)
+            {
+                changedEventHandler(this, new ValueChangedEventArgs<T>()
+                {
+                    Context = this,
+                    OldValue = default,
+                    NewValue = this.Value,
+                });
+            }
+
+            this.Changed += changedEventHandler;
         }
 
         /// <summary>
