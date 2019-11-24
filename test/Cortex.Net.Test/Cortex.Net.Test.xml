@@ -34,6 +34,51 @@
             Action modifications should be picked up 3.
             </summary>
         </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.ActionShouldBeUntracked">
+            <summary>
+            Action should be untracked.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.ShouldBePossibleToCreateAutorunInAction">
+            <summary>
+            Tests that it should be possible to create an autorun inside an action.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.ShouldBePossibleToChangeUnobservedStateInActionCalledFromComputed">
+            <summary>
+            Should be possible to change unobserved state in an action called from computed.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.ShouldBePossibleToChangeObservedStateInActionCalledFromComputedIfRunInsideAllowStateChange">
+            <summary>
+            should be possible to change observed state in an action
+            called from computed if run inside _allowStateChangesInsideComputed.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.ShouldNotBePossibleToChangeObservedStateInAnActionCalledFromComputed">
+            <summary>
+            Tests that it should not be possible to change observed state in an action called from computed.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.ActionInAutorunShouldBeUntracked">
+            <summary>
+            Tests that action in autorun should be untracked.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.ExceptionsInActionsShouldNotAffectGlobalState">
+            <summary>
+            Tests #286 exceptions in actions should not affect global state.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.CreateAction``2(System.Func{``0,``1})">
+            <summary>
+            Helper to have an action that returns something.
+            </summary>
+            <typeparam name="T1">The type of the first argument.</typeparam>
+            <typeparam name="TResult">The type of the result.</typeparam>
+            <param name="func">The func to run.</param>
+            <returns>A function.</returns>
+        </member>
         <member name="T:Cortex.Net.Test.IDependencyNodeTests">
             <summary>
             Unit tests for Implementations of <see cref="T:Cortex.Net.IDependencyNode"/>.

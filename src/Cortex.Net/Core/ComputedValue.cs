@@ -253,16 +253,14 @@ namespace Cortex.Net.Core
                 {
                     throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.CycleDetectedInComputation, this.Name, this.derivation));
                 }
-
-                Exception caughtException = null;
-
+              
                 if (this.SharedState.InBatch && !this.HasObservers() && !this.keepAlive)
                 {
                     if (this.ShouldCompute())
                     {
                         this.WarnAboutUntrackedRead();
                         this.SharedState.StartBatch();
-                        (this.value, caughtException) = this.ComputeValue(false);
+                        (this.value, this.lastException) = this.ComputeValue(false);
                         this.SharedState.EndBatch();
                     }
                 }
@@ -278,9 +276,9 @@ namespace Cortex.Net.Core
                     }
                 }
 
-                if (caughtException != null)
+                if (this.lastException != null)
                 {
-                    throw new InvalidOperationException(Resources.CaughtExceptionDuringGet, caughtException);
+                    throw new InvalidOperationException(Resources.CaughtExceptionDuringGet, this.lastException);
                 }
 
                 return this.value;

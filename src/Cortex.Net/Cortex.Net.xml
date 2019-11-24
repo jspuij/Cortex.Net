@@ -1266,6 +1266,16 @@
             <param name="function">The function to execute.</param>
             <returns>The return value of the function.</returns>
         </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.AllowStateChangesInsideComputed``1(Cortex.Net.ISharedState,System.Func{``0})">
+            <summary>
+            Executes a function while storing and restoring the computation depth.
+            This allows the computed to modify state.
+            </summary>
+            <typeparam name="T">The result type of the function.</typeparam>
+            <param name="sharedState">The shared state to operate on.</param>
+            <param name="function">The function to execute.</param>
+            <returns>The return value of the function.</returns>
+        </member>
         <member name="T:Cortex.Net.Core.ActionRunInfo">
             <summary>
             Data class with run info about an action.
