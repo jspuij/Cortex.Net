@@ -185,8 +185,6 @@ namespace Cortex.Net.Types
 
                     if (!Equals(oldValue, newValue))
                     {
-                        this.innerList[index] = newValue;
-
                         if (newValue is IReactiveObject reactiveObject)
                         {
                             if (reactiveObject.SharedState != this.SharedState)
@@ -194,6 +192,8 @@ namespace Cortex.Net.Types
                                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.DifferentSharedStates, this.Name));
                             }
                         }
+
+                        this.innerList[index] = newValue;
 
                         this.NotifyArrayChildUpdate(index, newValue, oldValue);
                     }
@@ -234,27 +234,7 @@ namespace Cortex.Net.Types
         /// </summary>
         public void Clear()
         {
-            this.atom.CheckIfStateModificationsAreAllowed();
-
-            var items = this.innerList.GetRange(0, this.innerList.Count);
-
-            var removeEventArgs = new ObservableCollectionRemoveEventArgs<T>(items)
-            {
-                Index = 0,
-                Cancel = false,
-                Context = this,
-            };
-
-            this.InterceptChange(removeEventArgs);
-
-            if (removeEventArgs.Cancel)
-            {
-                return;
-            }
-
-            this.innerList.Clear();
-
-            this.NotifyArrayChildRemove(0, items);
+            this.RemoveRange(0, this.innerList.Count);
         }
 
         /// <summary>
@@ -479,8 +459,6 @@ namespace Cortex.Net.Types
 
                 var newItems = addEventArgs.AddedValues.Select(x => this.enhancer.Enhance(x, default, this.Name));
 
-                this.innerList.InsertRange(index, newItems);
-
                 foreach (var item in newItems)
                 {
                     if (item is IReactiveObject reactiveObject)
@@ -491,6 +469,8 @@ namespace Cortex.Net.Types
                         }
                     }
                 }
+
+                this.innerList.InsertRange(index, newItems);
 
                 this.NotifyArrayChildAdd(index, newItems);
             }

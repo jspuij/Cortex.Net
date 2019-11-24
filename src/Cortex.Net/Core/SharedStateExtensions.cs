@@ -55,6 +55,34 @@ namespace Cortex.Net.Core
         }
 
         /// <summary>
+        /// Executes an action without tracking derivations.
+        /// </summary>
+        /// <param name="sharedState">The <see cref="ISharedState"/> instance to use to temporarily stop tracking derivations.</param>
+        /// <param name="action">The action to execute.</param>
+        public static void Untracked(this ISharedState sharedState, Action action)
+        {
+            if (sharedState is null)
+            {
+                throw new ArgumentNullException(nameof(sharedState));
+            }
+
+            if (action is null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            var previousDerivation = sharedState.StartUntracked();
+            try
+            {
+                action();
+            }
+            finally
+            {
+                sharedState.EndTracking(previousDerivation);
+            }
+        }
+
+        /// <summary>
         /// Gets the enhancer specified by the type from the Shared State.
         /// </summary>
         /// <param name="sharedState">The shared state that should provide the reference enhancer.</param>
