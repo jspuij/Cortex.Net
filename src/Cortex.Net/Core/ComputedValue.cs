@@ -78,6 +78,11 @@ namespace Cortex.Net.Core
         private bool isRunningSetter = false;
 
         /// <summary>
+        /// To support computed weaving with reentrancy we allow 1 cycle of reentrance immediately after derivation call.
+        /// </summary>
+        private bool immediateDerivationCall = false;
+
+        /// <summary>
         /// The computed value.
         /// </summary>
         private T value;
@@ -251,6 +256,13 @@ namespace Cortex.Net.Core
             {
                 if (this.isComputing)
                 {
+                    if (this.immediateDerivationCall)
+                    {
+                        // allow 1 level of reentrancy by calling the derivation again.
+                        this.immediateDerivationCall = false;
+                        return this.derivation();
+                    }
+
                     throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.CycleDetectedInComputation, this.Name, this.derivation));
                 }
 
@@ -442,19 +454,29 @@ namespace Cortex.Net.Core
 
             if (track)
             {
-                (result, caughtException) = this.TrackDerivedFunction(this.derivation);
+                (result, caughtException) = this.TrackDerivedFunction(() =>
+            {
+                this.immediateDerivationCall = true;
+                var r = this.derivation();
+                this.immediateDerivationCall = false;
+                return r;
+            });
             }
             else
             {
                 if (this.SharedState.Configuration.DisableErrorBoundaries)
                 {
+                    this.immediateDerivationCall = true;
                     result = this.derivation();
+                    this.immediateDerivationCall = false;
                 }
                 else
                 {
                     try
                     {
+                        this.immediateDerivationCall = true;
                         result = this.derivation();
+                        this.immediateDerivationCall = false;
                     }
 #pragma warning disable CA1031 // Do not catch general exception types
                     catch (Exception e)
