@@ -1483,6 +1483,11 @@
             To check for setter cycles.
             </summary>
         </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.immediateDerivationCall">
+            <summary>
+            To support computed weaving with reentrancy we allow 1 cycle of reentrance immediately after derivation call.
+            </summary>
+        </member>
         <member name="F:Cortex.Net.Core.ComputedValue`1.value">
             <summary>
             The computed value.
