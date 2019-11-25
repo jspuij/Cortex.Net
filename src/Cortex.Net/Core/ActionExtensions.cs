@@ -33,7 +33,7 @@ namespace Cortex.Net.Core
         /// <param name="scope">The scope of the action.</param>
         /// <param name="arguments">The arguments to the action.</param>
         /// <returns>An <see cref="ActionRunInfo"/> instance containing the information on the currently running action.</returns>
-        private static ActionRunInfo StartAction(ISharedState sharedState, string actionName, object scope, object[] arguments)
+        internal static ActionRunInfo StartAction(ISharedState sharedState, string actionName, object scope, object[] arguments)
         {
             var notifySpy = !string.IsNullOrEmpty(actionName);
             var previousDerivation = sharedState.StartUntracked();
@@ -74,7 +74,7 @@ namespace Cortex.Net.Core
         /// Ends an action using the specified <see cref="ActionRunInfo"/> instance.
         /// </summary>
         /// <param name="actionRunInfo">The run info about the action.</param>
-        private static void EndAction(ActionRunInfo actionRunInfo)
+        internal static void EndAction(ActionRunInfo actionRunInfo)
         {
             if (actionRunInfo.SharedState.CurrentActionId != actionRunInfo.ActionId)
             {

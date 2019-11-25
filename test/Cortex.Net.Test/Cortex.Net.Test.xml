@@ -70,6 +70,26 @@
             Tests #286 exceptions in actions should not affect global state.
             </summary>
         </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.RunInAction">
+            <summary>
+            Tests run in action.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.ActionInAutoRunDoesNotKeepComputedValuesAlive">
+            <summary>
+            Tests that an action in autorun does not keep / make computed values alive.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.ComputedValuesAndActions">
+            <summary>
+            Tests computed values and actions.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Test.Base.ActionTests.OutOfOrderStartActionEndAction">
+            <summary>
+            Tests out of order startactions / endactions.
+            </summary>
+        </member>
         <member name="M:Cortex.Net.Test.Base.ActionTests.CreateAction``2(System.Func{``0,``1})">
             <summary>
             Helper to have an action that returns something.

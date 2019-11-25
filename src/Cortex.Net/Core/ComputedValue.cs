@@ -253,8 +253,8 @@ namespace Cortex.Net.Core
                 {
                     throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.CycleDetectedInComputation, this.Name, this.derivation));
                 }
-              
-                if (this.SharedState.InBatch && !this.HasObservers() && !this.keepAlive)
+
+                if (!this.SharedState.InBatch && !this.HasObservers() && !this.keepAlive)
                 {
                     if (this.ShouldCompute())
                     {

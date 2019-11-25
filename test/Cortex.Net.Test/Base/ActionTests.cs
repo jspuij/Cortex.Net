@@ -21,6 +21,7 @@ namespace Cortex.Net.Test.Base
     using System.Text;
     using Cortex.Net.Api;
     using Cortex.Net.Core;
+    using Cortex.Net.Spy;
     using Cortex.Net.Types;
     using Xunit;
 
@@ -139,12 +140,7 @@ namespace Cortex.Net.Test.Base
             var b = 0;
 
             var doubler = new ComputedValue<int>(this.sharedState, new ComputedValueOptions<int>(
-            () => a.Value + 2, "doubler"));
-
-            this.sharedState.Autorun((r) =>
-            {
-                b = a.Value * 2;
-            });
+            () => a.Value * 2, "doubler"));
 
             doubler.Observe(
                 (s, e) =>
@@ -435,260 +431,174 @@ namespace Cortex.Net.Test.Base
             }
         }
 
-        /*
+        /// <summary>
+        /// Tests run in action.
+        /// </summary>
+        [Fact]
+        public void RunInAction()
+        {
+            this.sharedState.Configuration.EnforceActions = EnforceAction.Observed;
 
-               test("runInAction", () => {
-                   mobx.configure({ enforceActions: "observed" })
-                   const values = []
-                   const events = []
-                   const spyDisposer = mobx.spy(ev => {
-                       if (ev.type === "action")
-                           events.push({
-                               name: ev.name,
-                               arguments: ev.arguments
-                           })
-                   })
+            var values = new List<int>();
+            var events = new List<ActionStartSpyEventArgs>();
 
-                   const observable = mobx.observable.box(0)
-                   const d = mobx.autorun(() => values.push(observable.get()))
+            this.sharedState.SpyEvent += (s, e) =>
+            {
+                if (e is ActionStartSpyEventArgs spyEventArgs)
+                {
+                    events.Add(spyEventArgs);
+                }
+            };
 
-                   let res = mobx.runInAction("increment", () => {
-                       observable.set(observable.get() + 6 * 2)
-                       observable.set(observable.get() - 3) // oops
-                       return 2
-                   })
+            var observable = new ObservableValue<int>(this.sharedState, "a", this.sharedState.ReferenceEnhancer(), 0);
 
-                   expect(res).toBe(2)
-                   expect(values).toEqual([0, 9])
+            var d = this.sharedState.Autorun(r =>
+            {
+                values.Add(observable.Value);
+            });
 
-                   res = mobx.runInAction(() => {
-                       observable.set(observable.get() + 5 * 2)
-                       observable.set(observable.get() - 4) // oops
-                       return 3
-                   })
+            int res = 0;
 
-                   expect(res).toBe(3)
-                   expect(values).toEqual([0, 9, 15])
-                   expect(events).toEqual([
-                       { arguments: [], name: "increment" },
-                       { arguments: [], name: "<unnamed action>" }
-                   ])
+            this.sharedState.RunInAction("increment", () =>
+            {
+                observable.Value = observable.Value + (6 * 2);
+                observable.Value = observable.Value - 3; // oops
+                res = 2;
+            });
 
-                   mobx.configure({ enforceActions: "never" })
-                   spyDisposer()
+            Assert.Equal(2, res);
+            Assert.Equal(new[] { 0, 9 }, values);
 
-                   d()
-               })
+            this.sharedState.RunInAction(() =>
+            {
+                observable.Value = observable.Value + (5 * 2);
+                observable.Value = observable.Value - 4; // oops
+                res = 3;
+            });
 
-               test("action in autorun does not keep / make computed values alive", () => {
-                   let calls = 0
-                   const myComputed = mobx.computed(() => calls++)
-                   const callComputedTwice = () => {
-                       myComputed.get()
-                       myComputed.get()
-                   }
+            Assert.Equal(3, res);
+            Assert.Equal(new[] { 0, 9, 15 }, values);
+            Assert.Collection(
+                events,
+                evt =>
+            {
+                Assert.Equal(Array.Empty<object>(), evt.Arguments);
+                Assert.Equal("increment", evt.Name);
+            },
+                evt =>
+            {
+                Assert.Equal(Array.Empty<object>(), evt.Arguments);
+                Assert.Equal("<unnamed action>", evt.Name);
+            });
 
-                   const runWithMemoizing = fun => {
-                       mobx.autorun(fun)()
-                   }
+            d.Dispose();
+        }
 
-                   callComputedTwice()
-                   expect(calls).toBe(2)
+        /// <summary>
+        /// Tests that an action in autorun does not keep / make computed values alive.
+        /// </summary>
+        [Fact]
+        public void ActionInAutoRunDoesNotKeepComputedValuesAlive()
+        {
+            var calls = 0;
+            var computed = new ComputedValue<int>(this.sharedState, new ComputedValueOptions<int>(
+            () =>
+            {
+               return calls++;
+            }, "computed"));
 
-                   runWithMemoizing(callComputedTwice)
-                   expect(calls).toBe(3)
+            Action callComputedTwice = () =>
+            {
+                int i = computed.Value;
+                int j = computed.Value;
+            };
 
-                   callComputedTwice()
-                   expect(calls).toBe(5)
+            Action<Action> runWithMemoizing = (act) =>
+            {
+                this.sharedState.Autorun(r => act()).Dispose();
+            };
 
-                   runWithMemoizing(function() {
-                       mobx.runInAction(callComputedTwice)
-                   })
-                   expect(calls).toBe(6)
+            callComputedTwice();
+            Assert.Equal(2, calls);
 
-                   callComputedTwice()
-                   expect(calls).toBe(8)
-               })
+            runWithMemoizing(callComputedTwice);
+            Assert.Equal(3, calls);
 
-               test("computed values and actions", () => {
-                   let calls = 0
+            callComputedTwice();
+            Assert.Equal(5, calls);
 
-                   const number = mobx.observable.box(1)
-                   const squared = mobx.computed(() => {
-                       calls++
-                       return number.get() * number.get()
-                   })
-                   const changeNumber10Times = mobx.action(() => {
-                       squared.get()
-                       squared.get()
-                       for (let i = 0; i < 10; i++) number.set(number.get() + 1)
-                   })
+            runWithMemoizing(() =>
+            {
+                this.sharedState.RunInAction(callComputedTwice);
+            });
 
-                   changeNumber10Times()
-                   expect(calls).toBe(1)
+            Assert.Equal(6, calls);
 
-                   mobx.autorun(() => {
-                       changeNumber10Times()
-                       expect(calls).toBe(2)
-                   })()
-                   expect(calls).toBe(2)
+            callComputedTwice();
+            Assert.Equal(8, calls);
+        }
 
-                   changeNumber10Times()
-                   expect(calls).toBe(3)
-               })
+        /// <summary>
+        /// Tests computed values and actions.
+        /// </summary>
+        [Fact]
+        public void ComputedValuesAndActions()
+        {
+            var calls = 0;
 
-               test("extendObservable respects action decorators", () => {
-                   const x = mobx.observable(
-                       {
-                           a1() {
-                               return this
-                           },
-                           a2() {
-                               return this
-                           },
-                           a3() {
-                               return this
-                           }
-                       },
-                       {
-                           a1: mobx.action,
-                           a2: mobx.action.bound
-                       }
-                   )
-                   expect(mobx.isAction(x.a1)).toBe(true)
-                   expect(mobx.isAction(x.a2)).toBe(true)
-                   expect(mobx.isAction(x.a3)).toBe(false)
+            var number = new ObservableValue<int>(this.sharedState, "a", this.sharedState.ReferenceEnhancer(), 1);
+            var squared = new ComputedValue<int>(this.sharedState, new ComputedValueOptions<int>(
+            () =>
+            {
+                calls++;
+                return number.Value * number.Value;
+            }, "squared"));
 
-                   // const global = (function() {
-                   //     return this
-                   // })()
+            var changeNumber10Times = this.sharedState.CreateAction(() =>
+            {
+                int i = squared.Value;
+                i = squared.Value;
 
-                   const { a1, a2, a3 } = x
-                   expect(a1.call(x)).toBe(x)
-                   // expect(a1()).toBe(global)
-                   expect(a2.call(x)).toBeTruthy() // it is not this! proxies :) see test in proxies.js
-                   expect(a2()).toBeTruthy()
-                   expect(a3.call(x)).toBe(x)
-                   // expect(a3()).toBe(global)
-               })
+                for (i = 0; i < 10; i++)
+                {
+                    number.Value += 1;
+                }
+            });
 
-               test("expect warning for invalid decorator", () => {
-                   expect(() => {
-                       mobx.observable({ x: 1 }, { x: undefined })
-                   }).toThrow(/Not a valid decorator for 'x', got: undefined/)
-               })
+            changeNumber10Times();
+            Assert.Equal(1, calls);
 
-               test("expect warning superfluos decorator", () => {
-                   expect(() => {
-                       mobx.observable({ x() {} }, { y: mobx.action })
-                   }).toThrow(/Trying to declare a decorator for unspecified property 'y'/)
-               })
+            var d = this.sharedState.Autorun(r =>
+             {
+                 changeNumber10Times();
+                 Assert.Equal(2, calls);
+             });
 
-               test("bound actions bind", () => {
-                   let called = 0
-                   const x = mobx.observable(
-                       {
-                           y: 0,
-                           z: function(v) {
-                               this.y += v
-                               this.y += v
-                           },
-                           get yValue() {
-                               called++
-                               return this.y
-                           }
-                       },
-                       {
-                           z: mobx.action.bound
-                       }
-                   )
+            d.Dispose();
+            Assert.Equal(2, calls);
 
-                   const d = mobx.autorun(() => {
-                       x.yValue
-                   })
-                   const events = []
-                   const d2 = mobx.spy(e => events.push(e))
+            changeNumber10Times();
+            Assert.Equal(3, calls);
+        }
 
-                   const runner = x.z
-                   runner(3)
-                   expect(x.yValue).toBe(6)
-                   expect(called).toBe(2)
+        /// <summary>
+        /// Tests out of order startactions / endactions.
+        /// </summary>
+        [Fact]
+        public void OutOfOrderStartActionEndAction()
+        {
+            var a1 = Core.ActionExtensions.StartAction(this.sharedState, "a1", this, Array.Empty<object>());
+            var a2 = Core.ActionExtensions.StartAction(this.sharedState, "a1", this, Array.Empty<object>());
 
-                   expect(events.filter(e => e.type === "action").map(e => e.name)).toEqual(["z"])
-                   expect(Object.keys(x)).toEqual(["y"])
+            Assert.Throws<InvalidOperationException>(() => Core.ActionExtensions.EndAction(a1));
 
-                   d()
-                   d2()
-               })
+            Core.ActionExtensions.EndAction(a2);
 
-               test("Fix #1367", () => {
-                   const x = mobx.extendObservable(
-                       {},
-                       {
-                           method() {}
-                       },
-                       {
-                           method: mobx.action
-                       }
-                   )
-                   expect(mobx.isAction(x.method)).toBe(true)
-               })
+            // double finishing
+            Assert.Throws<InvalidOperationException>(() => Core.ActionExtensions.EndAction(a2));
 
-               test("error logging, #1836 - 1", () => {
-                   const messages = utils.supressConsole(() => {
-                       try {
-                           const a = mobx.observable.box(3)
-                           mobx.autorun(() => {
-                               if (a.get() === 4) throw new Error("Reaction error")
-                           })
-
-                           mobx.action(() => {
-                               a.set(4)
-                               throw new Error("Action error")
-                           })()
-                       } catch (e) {
-                           expect(e.toString()).toEqual("Error: Action error")
-                           console.error(e)
-                       }
-                   })
-
-                   expect(messages).toMatchSnapshot()
-               })
-
-               test("error logging, #1836 - 2", () => {
-                   const messages = utils.supressConsole(() => {
-                       try {
-                           const a = mobx.observable.box(3)
-                           mobx.autorun(() => {
-                               if (a.get() === 4) throw new Error("Reaction error")
-                           })
-
-                           mobx.action(() => {
-                               a.set(4)
-                           })()
-                       } catch (e) {
-                           expect(e.toString()).toEqual("Error: Action error")
-                           console.error(e)
-                       }
-                   })
-
-                   expect(messages).toMatchSnapshot()
-               })
-
-               test("out of order startAction / endAction", () => {
-                   const a1 = mobx._startAction("a1")
-                   const a2 = mobx._startAction("a2")
-
-                   expect(() => mobx._endAction(a1)).toThrow("invalid action stack")
-
-                   mobx._endAction(a2)
-
-                   // double finishing
-                   expect(() => mobx._endAction(a2)).toThrow("invalid action stack")
-
-                   mobx._endAction(a1)
-               })
-                        */
+            Core.ActionExtensions.EndAction(a1);
+        }
 
         /// <summary>
         /// Helper to have an action that returns something.

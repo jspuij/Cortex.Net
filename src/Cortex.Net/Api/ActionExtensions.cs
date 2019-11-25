@@ -30,7 +30,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static void RunInAction(this ISharedState sharedState, Action action)
         {
-            CreateAction(sharedState, null, null, action)();
+            CreateAction(sharedState, "<unnamed action>", null, action)();
         }
 
         /// <summary>
