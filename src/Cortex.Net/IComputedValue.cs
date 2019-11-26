@@ -29,6 +29,13 @@ namespace Cortex.Net
         /// Event that fires after the value has changed.
         /// </summary>
         event EventHandler<ValueChangedEventArgs<T>> Changed;
+
+        /// <summary>
+        /// Registers the secified event handler, and optionally fires it first.
+        /// </summary>
+        /// <param name="changedEventHandler">The event handler to register.</param>
+        /// <param name="fireImmediately">Whether to fire the event handler immediately.</param>
+        void Observe(EventHandler<ValueChangedEventArgs<T>> changedEventHandler, bool fireImmediately);
     }
 
     /// <summary>

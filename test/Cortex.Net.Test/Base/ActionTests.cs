@@ -51,7 +51,7 @@ namespace Cortex.Net.Test.Base
         {
             var values = new List<int>();
 
-            var observable = new ObservableValue<int>(this.sharedState, "int", this.sharedState.ReferenceEnhancer(), 0);
+            var observable = this.sharedState.Box(0);
 
             this.sharedState.Autorun((r) => values.Add(observable.Value));
 
@@ -72,7 +72,7 @@ namespace Cortex.Net.Test.Base
         [Fact]
         public void ActionModificationsShouldBePickedUp1()
         {
-            var a = new ObservableValue<int>(this.sharedState, "int", this.sharedState.ReferenceEnhancer(), 1);
+            var a = this.sharedState.Box(1);
 
             var i = 3;
             var b = 0;
@@ -104,7 +104,7 @@ namespace Cortex.Net.Test.Base
         [Fact]
         public void ActionModificationsShouldBePickedUp2()
         {
-            var a = new ObservableValue<int>(this.sharedState, "int", this.sharedState.ReferenceEnhancer(), 1);
+            var a = this.sharedState.Box(1);
 
             var b = 0;
 
@@ -135,12 +135,11 @@ namespace Cortex.Net.Test.Base
         [Fact]
         public void ActionModificationsShouldBePickedUp3()
         {
-            var a = new ObservableValue<int>(this.sharedState, "int", this.sharedState.ReferenceEnhancer(), 1);
+            var a = this.sharedState.Box(1);
 
             var b = 0;
 
-            var doubler = new ComputedValue<int>(this.sharedState, new ComputedValueOptions<int>(
-            () => a.Value * 2, "doubler"));
+            var doubler = this.sharedState.Computed(() => a.Value * 2, "doubler");
 
             doubler.Observe(
                 (s, e) =>
@@ -168,8 +167,8 @@ namespace Cortex.Net.Test.Base
         [Fact]
         public void ActionShouldBeUntracked()
         {
-            var a = new ObservableValue<int>(this.sharedState, "int", this.sharedState.ReferenceEnhancer(), 3);
-            var b = new ObservableValue<int>(this.sharedState, "int", this.sharedState.ReferenceEnhancer(), 4);
+            var a = this.sharedState.Box(3);
+            var b = this.sharedState.Box(4);
 
             var latest = 0;
             var runs = 0;
@@ -222,7 +221,7 @@ namespace Cortex.Net.Test.Base
         [Fact]
         public void ShouldBePossibleToCreateAutorunInAction()
         {
-            var a = new ObservableValue<int>(this.sharedState, "int", this.sharedState.ReferenceEnhancer(), 1);
+            var a = this.sharedState.Box(1);
             var values = new List<int>();
 
             var adder = this.CreateAction<int, IDisposable>(increment =>
@@ -251,19 +250,19 @@ namespace Cortex.Net.Test.Base
         [Fact]
         public void ShouldBePossibleToChangeUnobservedStateInActionCalledFromComputed()
         {
-            var a = new ObservableValue<int>(this.sharedState, "int", this.sharedState.ReferenceEnhancer(), 2);
+            var a = this.sharedState.Box(2);
 
             var testAction = this.sharedState.CreateAction(() =>
             {
                 a.Value = 3;
             });
 
-            var c = new ComputedValue<int>(this.sharedState, new ComputedValueOptions<int>(
+            var c = this.sharedState.Computed(
             () =>
             {
                 testAction();
                 return 0;
-            }, "computed"));
+            }, "computed");
 
             this.sharedState.Autorun(r =>
             {
@@ -280,15 +279,15 @@ namespace Cortex.Net.Test.Base
         [Fact]
         public void ShouldBePossibleToChangeObservedStateInActionCalledFromComputedIfRunInsideAllowStateChange()
         {
-            var a = new ObservableValue<int>(this.sharedState, "int", this.sharedState.ReferenceEnhancer(), 2);
+            var a = this.sharedState.Box(2);
 
             var d = this.sharedState.Autorun(r =>
             {
                 int i = a.Value;
             });
 
-            ComputedValue<int> c = null;
-            ComputedValue<int> c2 = null;
+            IComputedValue<int> c = null;
+            IComputedValue<int> c2 = null;
 
             var testAction = this.sharedState.CreateAction(() =>
             {
@@ -312,19 +311,19 @@ namespace Cortex.Net.Test.Base
                 });
             });
 
-            c = new ComputedValue<int>(this.sharedState, new ComputedValueOptions<int>(
+            c = this.sharedState.Computed(
             () =>
             {
                 testAction();
                 return a.Value;
-            }, "computed"));
+            }, "computed");
 
-            c2 = new ComputedValue<int>(this.sharedState, new ComputedValueOptions<int>(
+            c2 = this.sharedState.Computed(
            () =>
            {
                a.Value = 6;
                return a.Value;
-           }, "computed"));
+           }, "computed");
 
             int j = c.Value;
 
@@ -337,7 +336,7 @@ namespace Cortex.Net.Test.Base
         [Fact]
         public void ShouldNotBePossibleToChangeObservedStateInAnActionCalledFromComputed()
         {
-            var a = new ObservableValue<int>(this.sharedState, "int", this.sharedState.ReferenceEnhancer(), 2);
+            var a = this.sharedState.Box(2);
 
             var d = this.sharedState.Autorun(r =>
             {
@@ -349,12 +348,12 @@ namespace Cortex.Net.Test.Base
                 a.Value = 3;
             });
 
-            var c = new ComputedValue<int>(this.sharedState, new ComputedValueOptions<int>(
+            var c = this.sharedState.Computed(
             () =>
             {
                 testAction();
                 return a.Value;
-            }, "computed"));
+            }, "computed");
 
             Assert.Throws<InvalidOperationException>(() =>
             {
@@ -370,8 +369,8 @@ namespace Cortex.Net.Test.Base
         [Fact]
         public void ActionInAutorunShouldBeUntracked()
         {
-            var a = new ObservableValue<int>(this.sharedState, "a", this.sharedState.ReferenceEnhancer(), 2);
-            var b = new ObservableValue<int>(this.sharedState, "b", this.sharedState.ReferenceEnhancer(), 3);
+            var a = this.sharedState.Box(2);
+            var b = this.sharedState.Box(3);
 
             var values = new List<int>();
 
@@ -400,7 +399,7 @@ namespace Cortex.Net.Test.Base
         public void ExceptionsInActionsShouldNotAffectGlobalState()
         {
             int autoRunTimes = 0;
-            var count = new ObservableValue<int>(this.sharedState, "a", this.sharedState.ReferenceEnhancer(), 2);
+            var count = this.sharedState.Box(2);
 
             var add = this.sharedState.CreateAction(() =>
             {
@@ -450,7 +449,7 @@ namespace Cortex.Net.Test.Base
                 }
             };
 
-            var observable = new ObservableValue<int>(this.sharedState, "a", this.sharedState.ReferenceEnhancer(), 0);
+            var observable = this.sharedState.Box(0);
 
             var d = this.sharedState.Autorun(r =>
             {
@@ -501,11 +500,11 @@ namespace Cortex.Net.Test.Base
         public void ActionInAutoRunDoesNotKeepComputedValuesAlive()
         {
             var calls = 0;
-            var computed = new ComputedValue<int>(this.sharedState, new ComputedValueOptions<int>(
+            var computed = this.sharedState.Computed(
             () =>
             {
                return calls++;
-            }, "computed"));
+            }, "computed");
 
             Action callComputedTwice = () =>
             {
@@ -546,13 +545,13 @@ namespace Cortex.Net.Test.Base
         {
             var calls = 0;
 
-            var number = new ObservableValue<int>(this.sharedState, "a", this.sharedState.ReferenceEnhancer(), 1);
-            var squared = new ComputedValue<int>(this.sharedState, new ComputedValueOptions<int>(
+            var number = this.sharedState.Box(1);
+            var squared = this.sharedState.Computed(
             () =>
             {
                 calls++;
                 return number.Value * number.Value;
-            }, "squared"));
+            }, "squared");
 
             var changeNumber10Times = this.sharedState.CreateAction(() =>
             {

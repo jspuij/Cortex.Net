@@ -625,6 +625,16 @@
             <param name="enhancer">The optional enhancer to use. default enhancer is the deep enhancer.</param>
             <returns>The observable.</returns>
         </member>
+        <member name="M:Cortex.Net.Api.SharedStateObservableExtensions.Computed``1(Cortex.Net.ISharedState,System.Func{``0},System.String)">
+            <summary>
+            Creates a computed value.
+            </summary>
+            <typeparam name="T">The type of the elements.</typeparam>
+            <param name="sharedState">The shared state to operate on.</param>
+            <param name="getter">The getter function to use.</param>
+            <param name="name">The name of the observable collection.</param>
+            <returns>The computed value.</returns>
+        </member>
         <member name="T:Cortex.Net.Api.SharedStateReactionExtensions">
             <summary>
             Extension methods that deal with Reactions on an ISharedState instance.
@@ -2136,6 +2146,13 @@
             <summary>
             Event that fires after the value has changed.
             </summary>
+        </member>
+        <member name="M:Cortex.Net.IComputedValue`1.Observe(System.EventHandler{Cortex.Net.Types.ValueChangedEventArgs{`0}},System.Boolean)">
+            <summary>
+            Registers the secified event handler, and optionally fires it first.
+            </summary>
+            <param name="changedEventHandler">The event handler to register.</param>
+            <param name="fireImmediately">Whether to fire the event handler immediately.</param>
         </member>
         <member name="T:Cortex.Net.IComputedValue">
             <summary>
