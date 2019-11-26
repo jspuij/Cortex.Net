@@ -52,6 +52,18 @@ namespace Cortex.Net.Types
         /// <param name="enhancer">The <see cref="IEnhancer"/> implementation to use.</param>
         /// <param name="name">The name of the ObservableCollection.</param>
         public ObservableCollection(ISharedState sharedState, IEnhancer enhancer, string name = null)
+            : this(sharedState, enhancer, null, name)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableCollection{T}"/> class.
+        /// </summary>
+        /// <param name="sharedState">The <see cref="ISharedState"/> instance this observableCollection belongs to.</param>
+        /// <param name="enhancer">The <see cref="IEnhancer"/> implementation to use.</param>
+        /// <param name="name">The name of the ObservableCollection.</param>
+        /// <param name="initialValues">The initial values to use.</param>
+        public ObservableCollection(ISharedState sharedState, IEnhancer enhancer, IEnumerable<T> initialValues, string name = null)
         {
             this.SharedState = sharedState ?? throw new ArgumentNullException(nameof(sharedState));
             this.enhancer = enhancer ?? throw new ArgumentNullException(nameof(enhancer));
@@ -62,7 +74,7 @@ namespace Cortex.Net.Types
             }
 
             this.Name = name;
-            this.innerList = new List<T>();
+            this.innerList = initialValues != null ? new List<T>(initialValues) : new List<T>();
             this.atom = new Atom(sharedState, name);
         }
 

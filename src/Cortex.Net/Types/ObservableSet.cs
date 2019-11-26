@@ -55,6 +55,18 @@ namespace Cortex.Net.Types
         /// <param name="enhancer">The <see cref="IEnhancer"/> implementation to use.</param>
         /// <param name="name">The name of the ObservableSet.</param>
         public ObservableSet(ISharedState sharedState, IEnhancer enhancer, string name = null)
+            : this(sharedState, enhancer, null, name)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableSet{T}"/> class.
+        /// </summary>
+        /// <param name="sharedState">The <see cref="ISharedState"/> instance this ObservableSet belongs to.</param>
+        /// <param name="enhancer">The <see cref="IEnhancer"/> implementation to use.</param>
+        /// <param name="name">The name of the ObservableSet.</param>
+        /// <param name="initialItems">The initialItems to use.</param>
+        public ObservableSet(ISharedState sharedState, IEnhancer enhancer, IEnumerable<T> initialItems, string name = null)
         {
             this.SharedState = sharedState ?? throw new ArgumentNullException(nameof(sharedState));
             this.enhancer = enhancer ?? throw new ArgumentNullException(nameof(enhancer));
@@ -65,7 +77,7 @@ namespace Cortex.Net.Types
             }
 
             this.Name = name;
-            this.innerSet = new HashSet<T>();
+            this.innerSet = initialItems != null ? new HashSet<T>(initialItems) : new HashSet<T>();
             this.atom = new Atom(sharedState, name);
         }
 

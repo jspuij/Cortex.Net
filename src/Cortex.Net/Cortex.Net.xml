@@ -580,6 +580,51 @@
             <param name="initializerFunction">The initializer function.</param>
             <returns>The observable you wannt.</returns>
         </member>
+        <member name="M:Cortex.Net.Api.SharedStateObservableExtensions.Box``1(Cortex.Net.ISharedState,``0,System.String,Cortex.Net.IEnhancer)">
+            <summary>
+            Boxes the value T inside an <see cref="T:Cortex.Net.IObservableValue`1" /> instance.
+            </summary>
+            <typeparam name="T">The type to box.</typeparam>
+            <param name="sharedState">The shared state to operate on.</param>
+            <param name="initialValue">The initial value to use.</param>
+            <param name="name">The name of the observable value.</param>
+            <param name="enhancer">The optional enhancer to use. default enhancer is the referenceEnhancer.</param>
+            <returns>The observable.</returns>
+        </member>
+        <member name="M:Cortex.Net.Api.SharedStateObservableExtensions.Collection``1(Cortex.Net.ISharedState,System.Collections.Generic.IEnumerable{``0},System.String,Cortex.Net.IEnhancer)">
+            <summary>
+            Creates an observable Collection from an IEnumerable.
+            </summary>
+            <typeparam name="T">The type of the elements.</typeparam>
+            <param name="sharedState">The shared state to operate on.</param>
+            <param name="initialValues">The initial values to use.</param>
+            <param name="name">The name of the observable collection.</param>
+            <param name="enhancer">The optional enhancer to use. default enhancer is the deep enhancer.</param>
+            <returns>The observable.</returns>
+        </member>
+        <member name="M:Cortex.Net.Api.SharedStateObservableExtensions.Set``1(Cortex.Net.ISharedState,System.Collections.Generic.IEnumerable{``0},System.String,Cortex.Net.IEnhancer)">
+            <summary>
+            Creates an observable Set from an initial Ienumberable.
+            </summary>
+            <typeparam name="T">The type of the elements.</typeparam>
+            <param name="sharedState">The shared state to operate on.</param>
+            <param name="initialValues">The initial values to use.</param>
+            <param name="name">The name of the observable collection.</param>
+            <param name="enhancer">The optional enhancer to use. default enhancer is the deep enhancer.</param>
+            <returns>The observable.</returns>
+        </member>
+        <member name="M:Cortex.Net.Api.SharedStateObservableExtensions.Dictionary``2(Cortex.Net.ISharedState,System.Collections.Generic.IDictionary{``0,``1},System.String,Cortex.Net.IEnhancer)">
+            <summary>
+            Creates an observable Dictionary from an initial dictionary.
+            </summary>
+            <typeparam name="TKey">The type of the key.</typeparam>
+            <typeparam name="TValue">The type of the value.</typeparam>
+            <param name="sharedState">The shared state to operate on.</param>
+            <param name="initialValues">The initial values to use.</param>
+            <param name="name">The name of the observable collection.</param>
+            <param name="enhancer">The optional enhancer to use. default enhancer is the deep enhancer.</param>
+            <returns>The observable.</returns>
+        </member>
         <member name="T:Cortex.Net.Api.SharedStateReactionExtensions">
             <summary>
             Extension methods that deal with Reactions on an ISharedState instance.
@@ -3602,6 +3647,15 @@
             <param name="enhancer">The <see cref="T:Cortex.Net.IEnhancer"/> implementation to use.</param>
             <param name="name">The name of the ObservableCollection.</param>
         </member>
+        <member name="M:Cortex.Net.Types.ObservableCollection`1.#ctor(Cortex.Net.ISharedState,Cortex.Net.IEnhancer,System.Collections.Generic.IEnumerable{`0},System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/> class.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance this observableCollection belongs to.</param>
+            <param name="enhancer">The <see cref="T:Cortex.Net.IEnhancer"/> implementation to use.</param>
+            <param name="name">The name of the ObservableCollection.</param>
+            <param name="initialValues">The initial values to use.</param>
+        </member>
         <member name="E:Cortex.Net.Types.ObservableCollection`1.Change">
             <summary>
             Event that fires before the value will change.
@@ -4035,6 +4089,15 @@
             </summary>
             <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance this observableDictionary belongs to.</param>
             <param name="enhancer">The <see cref="T:Cortex.Net.IEnhancer"/> implementation to use.</param>
+            <param name="name">The name of the ObservableDictionary.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableDictionary`2.#ctor(Cortex.Net.ISharedState,Cortex.Net.IEnhancer,System.Collections.Generic.IDictionary{`0,`1},System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableDictionary`2"/> class.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance this observableDictionary belongs to.</param>
+            <param name="enhancer">The <see cref="T:Cortex.Net.IEnhancer"/> implementation to use.</param>
+            <param name="initialValues">The initial values.</param>
             <param name="name">The name of the ObservableDictionary.</param>
         </member>
         <member name="E:Cortex.Net.Types.ObservableDictionary`2.Change">
@@ -4684,6 +4747,15 @@
             <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance this ObservableSet belongs to.</param>
             <param name="enhancer">The <see cref="T:Cortex.Net.IEnhancer"/> implementation to use.</param>
             <param name="name">The name of the ObservableSet.</param>
+        </member>
+        <member name="M:Cortex.Net.Types.ObservableSet`1.#ctor(Cortex.Net.ISharedState,Cortex.Net.IEnhancer,System.Collections.Generic.IEnumerable{`0},System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Types.ObservableSet`1"/> class.
+            </summary>
+            <param name="sharedState">The <see cref="T:Cortex.Net.ISharedState"/> instance this ObservableSet belongs to.</param>
+            <param name="enhancer">The <see cref="T:Cortex.Net.IEnhancer"/> implementation to use.</param>
+            <param name="name">The name of the ObservableSet.</param>
+            <param name="initialItems">The initialItems to use.</param>
         </member>
         <member name="E:Cortex.Net.Types.ObservableSet`1.Change">
             <summary>

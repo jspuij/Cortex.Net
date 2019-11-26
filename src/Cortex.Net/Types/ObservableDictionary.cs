@@ -79,6 +79,18 @@ namespace Cortex.Net.Types
         /// <param name="enhancer">The <see cref="IEnhancer"/> implementation to use.</param>
         /// <param name="name">The name of the ObservableDictionary.</param>
         public ObservableDictionary(ISharedState sharedState, IEnhancer enhancer, string name = null)
+            : this(sharedState, enhancer, null, name)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}"/> class.
+        /// </summary>
+        /// <param name="sharedState">The <see cref="ISharedState"/> instance this observableDictionary belongs to.</param>
+        /// <param name="enhancer">The <see cref="IEnhancer"/> implementation to use.</param>
+        /// <param name="initialValues">The initial values.</param>
+        /// <param name="name">The name of the ObservableDictionary.</param>
+        public ObservableDictionary(ISharedState sharedState, IEnhancer enhancer, IDictionary<TKey, TValue> initialValues, string name = null)
         {
             this.SharedState = sharedState ?? throw new ArgumentNullException(nameof(sharedState));
             this.enhancer = enhancer ?? throw new ArgumentNullException(nameof(enhancer));
@@ -89,7 +101,7 @@ namespace Cortex.Net.Types
             }
 
             this.Name = name;
-            this.innerDictionary = new Dictionary<TKey, TValue>();
+            this.innerDictionary = initialValues != null ? new Dictionary<TKey, TValue>(initialValues) : new Dictionary<TKey, TValue>();
             this.hasDictionary = new Dictionary<TKey, ObservableValue<bool>>();
 
             this.atom = new Atom(sharedState, name);
