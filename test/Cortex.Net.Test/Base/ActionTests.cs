@@ -57,8 +57,8 @@ namespace Cortex.Net.Test.Base
 
             var increment = this.sharedState.CreateAction<int>("increment", (amount) =>
             {
-                observable.Value = observable.Value + (amount * 2);
-                observable.Value = observable.Value - amount; // oops
+                observable.Value += amount * 2;
+                observable.Value -= amount; // oops
             });
 
             increment(7);
@@ -460,8 +460,8 @@ namespace Cortex.Net.Test.Base
 
             this.sharedState.RunInAction("increment", () =>
             {
-                observable.Value = observable.Value + (6 * 2);
-                observable.Value = observable.Value - 3; // oops
+                observable.Value += 6 * 2;
+                observable.Value -= 3; // oops
                 res = 2;
             });
 
@@ -470,8 +470,8 @@ namespace Cortex.Net.Test.Base
 
             this.sharedState.RunInAction(() =>
             {
-                observable.Value = observable.Value + (5 * 2);
-                observable.Value = observable.Value - 4; // oops
+                observable.Value += 5 * 2;
+                observable.Value -= 4; // oops
                 res = 3;
             });
 
@@ -506,34 +506,34 @@ namespace Cortex.Net.Test.Base
                return calls++;
             }, "computed");
 
-            Action callComputedTwice = () =>
+            void CallComputedTwice()
             {
                 int i = computed.Value;
                 int j = computed.Value;
-            };
+            }
 
-            Action<Action> runWithMemoizing = (act) =>
+            void RunWithMemoizing(Action act)
             {
                 this.sharedState.Autorun(r => act()).Dispose();
-            };
+            }
 
-            callComputedTwice();
+            CallComputedTwice();
             Assert.Equal(2, calls);
 
-            runWithMemoizing(callComputedTwice);
+            RunWithMemoizing(CallComputedTwice);
             Assert.Equal(3, calls);
 
-            callComputedTwice();
+            CallComputedTwice();
             Assert.Equal(5, calls);
 
-            runWithMemoizing(() =>
+            RunWithMemoizing(() =>
             {
-                this.sharedState.RunInAction(callComputedTwice);
+                this.sharedState.RunInAction(CallComputedTwice);
             });
 
             Assert.Equal(6, calls);
 
-            callComputedTwice();
+            CallComputedTwice();
             Assert.Equal(8, calls);
         }
 
