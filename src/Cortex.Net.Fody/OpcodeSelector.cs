@@ -106,7 +106,7 @@ namespace Cortex.Net.Fody
                 case 3:
                     return processor.Create(opCode3);
                 case int n when n > 3 && n <= 255:
-                    return processor.Create(opCodeS, index);
+                    return processor.Create(opCodeS, Convert.ToByte(index));
                 default:
                     return processor.Create(opCode, index);
             }
