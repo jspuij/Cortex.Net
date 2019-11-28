@@ -167,5 +167,38 @@ namespace Cortex.Net.Core
                 sharedState.EndAllowStateChanges(previousAllowStateChanges);
             }
         }
+
+        /// <summary>
+        /// Executes a function while storing and restoring the computation depth.
+        /// This allows the computed to modify state.
+        /// </summary>
+        /// <typeparam name="T">The result type of the function.</typeparam>
+        /// <param name="sharedState">The shared state to operate on.</param>
+        /// <param name="function">The function to execute.</param>
+        /// <returns>The return value of the function.</returns>
+        public static T AllowStateChangesInsideComputed<T>(this ISharedState sharedState, Func<T> function)
+        {
+            if (sharedState is null)
+            {
+                throw new ArgumentNullException(nameof(sharedState));
+            }
+
+            if (function is null)
+            {
+                throw new ArgumentNullException(nameof(function));
+            }
+
+            var previousComputationDeph = sharedState.ComputationDepth;
+            sharedState.ComputationDepth = 0;
+
+            try
+            {
+                return function();
+            }
+            finally
+            {
+                sharedState.ComputationDepth = previousComputationDeph;
+            }
+        }
     }
 }

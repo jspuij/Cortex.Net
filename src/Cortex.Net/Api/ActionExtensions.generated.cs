@@ -32,7 +32,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action CreateAction(this ISharedState sharedState, Action action)
         {
-            return CreateAction(sharedState, null, null, action);
+            return CreateAction(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -80,7 +80,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1> CreateAction<T1>(this ISharedState sharedState, Action<T1> action)
         {
-            return CreateAction<T1>(sharedState, null, null, action);
+            return CreateAction<T1>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -128,7 +128,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1,T2> CreateAction<T1,T2>(this ISharedState sharedState, Action<T1,T2> action)
         {
-            return CreateAction<T1,T2>(sharedState, null, null, action);
+            return CreateAction<T1,T2>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -176,7 +176,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1,T2,T3> CreateAction<T1,T2,T3>(this ISharedState sharedState, Action<T1,T2,T3> action)
         {
-            return CreateAction<T1,T2,T3>(sharedState, null, null, action);
+            return CreateAction<T1,T2,T3>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -224,7 +224,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1,T2,T3,T4> CreateAction<T1,T2,T3,T4>(this ISharedState sharedState, Action<T1,T2,T3,T4> action)
         {
-            return CreateAction<T1,T2,T3,T4>(sharedState, null, null, action);
+            return CreateAction<T1,T2,T3,T4>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -272,7 +272,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1,T2,T3,T4,T5> CreateAction<T1,T2,T3,T4,T5>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5> action)
         {
-            return CreateAction<T1,T2,T3,T4,T5>(sharedState, null, null, action);
+            return CreateAction<T1,T2,T3,T4,T5>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -320,7 +320,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1,T2,T3,T4,T5,T6> CreateAction<T1,T2,T3,T4,T5,T6>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6> action)
         {
-            return CreateAction<T1,T2,T3,T4,T5,T6>(sharedState, null, null, action);
+            return CreateAction<T1,T2,T3,T4,T5,T6>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -368,7 +368,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1,T2,T3,T4,T5,T6,T7> CreateAction<T1,T2,T3,T4,T5,T6,T7>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7> action)
         {
-            return CreateAction<T1,T2,T3,T4,T5,T6,T7>(sharedState, null, null, action);
+            return CreateAction<T1,T2,T3,T4,T5,T6,T7>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -416,7 +416,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1,T2,T3,T4,T5,T6,T7,T8> CreateAction<T1,T2,T3,T4,T5,T6,T7,T8>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8> action)
         {
-            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8>(sharedState, null, null, action);
+            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -464,7 +464,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1,T2,T3,T4,T5,T6,T7,T8,T9> CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9> action)
         {
-            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9>(sharedState, null, null, action);
+            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -512,7 +512,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10> CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10> action)
         {
-            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10>(sharedState, null, null, action);
+            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -560,7 +560,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11> CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11> action)
         {
-            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11>(sharedState, null, null, action);
+            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -608,7 +608,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12> CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12> action)
         {
-            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12>(sharedState, null, null, action);
+            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -656,7 +656,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13> CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13> action)
         {
-            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13>(sharedState, null, null, action);
+            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -704,7 +704,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14> CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14> action)
         {
-            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14>(sharedState, null, null, action);
+            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -752,7 +752,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15> CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15> action)
         {
-            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15>(sharedState, null, null, action);
+            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>
@@ -800,7 +800,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16> CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>(this ISharedState sharedState, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16> action)
         {
-            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>(sharedState, null, null, action);
+            return CreateAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>

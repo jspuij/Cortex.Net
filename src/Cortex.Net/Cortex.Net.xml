@@ -625,6 +625,16 @@
             <param name="enhancer">The optional enhancer to use. default enhancer is the deep enhancer.</param>
             <returns>The observable.</returns>
         </member>
+        <member name="M:Cortex.Net.Api.SharedStateObservableExtensions.Computed``1(Cortex.Net.ISharedState,System.Func{``0},System.String)">
+            <summary>
+            Creates a computed value.
+            </summary>
+            <typeparam name="T">The type of the elements.</typeparam>
+            <param name="sharedState">The shared state to operate on.</param>
+            <param name="getter">The getter function to use.</param>
+            <param name="name">The name of the observable collection.</param>
+            <returns>The computed value.</returns>
+        </member>
         <member name="T:Cortex.Net.Api.SharedStateReactionExtensions">
             <summary>
             Extension methods that deal with Reactions on an ISharedState instance.
@@ -1266,6 +1276,16 @@
             <param name="function">The function to execute.</param>
             <returns>The return value of the function.</returns>
         </member>
+        <member name="M:Cortex.Net.Core.ActionExtensions.AllowStateChangesInsideComputed``1(Cortex.Net.ISharedState,System.Func{``0})">
+            <summary>
+            Executes a function while storing and restoring the computation depth.
+            This allows the computed to modify state.
+            </summary>
+            <typeparam name="T">The result type of the function.</typeparam>
+            <param name="sharedState">The shared state to operate on.</param>
+            <param name="function">The function to execute.</param>
+            <returns>The return value of the function.</returns>
+        </member>
         <member name="T:Cortex.Net.Core.ActionRunInfo">
             <summary>
             Data class with run info about an action.
@@ -1448,6 +1468,11 @@
             The equality comparer that is used.
             </summary>
         </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.changedEventHandlers">
+            <summary>
+            A dictionary of event handlers for the changed event.
+            </summary>
+        </member>
         <member name="F:Cortex.Net.Core.ComputedValue`1.keepAlive">
             <summary>
             A value indicating whether the computed value keeps calculating, even when it is not observed.
@@ -1466,6 +1491,11 @@
         <member name="F:Cortex.Net.Core.ComputedValue`1.isRunningSetter">
             <summary>
             To check for setter cycles.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Core.ComputedValue`1.immediateDerivationCall">
+            <summary>
+            To support computed weaving with reentrancy we allow 1 cycle of reentrance immediately after derivation call.
             </summary>
         </member>
         <member name="F:Cortex.Net.Core.ComputedValue`1.value">
@@ -1493,6 +1523,11 @@
         <member name="E:Cortex.Net.Core.ComputedValue`1.BecomeUnobserved">
             <summary>
             Event that will fire after the observable has become unobserved.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.Core.ComputedValue`1.Changed">
+            <summary>
+            Event that fires after the value has changed.
             </summary>
         </member>
         <member name="P:Cortex.Net.Core.ComputedValue`1.Observers">
@@ -1599,6 +1634,13 @@
             Computed values are automatically teared down when the last observer leaves.
             This process happens recursively, this computed might be the last observabe of another, etc.
             </summary>
+        </member>
+        <member name="M:Cortex.Net.Core.ComputedValue`1.Observe(System.EventHandler{Cortex.Net.Types.ValueChangedEventArgs{`0}},System.Boolean)">
+            <summary>
+            Registers the secified event handler, and optionally fires it first.
+            </summary>
+            <param name="changedEventHandler">The event handler to register.</param>
+            <param name="fireImmediately">Whether to fire the event handler immediately.</param>
         </member>
         <member name="M:Cortex.Net.Core.ComputedValue`1.TrackAndCompute">
             <summary>
@@ -2099,6 +2141,18 @@
             Interface for Computed values.
             </summary>
             <typeparam name="T">The type of the computed value.</typeparam>
+        </member>
+        <member name="E:Cortex.Net.IComputedValue`1.Changed">
+            <summary>
+            Event that fires after the value has changed.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.IComputedValue`1.Observe(System.EventHandler{Cortex.Net.Types.ValueChangedEventArgs{`0}},System.Boolean)">
+            <summary>
+            Registers the secified event handler, and optionally fires it first.
+            </summary>
+            <param name="changedEventHandler">The event handler to register.</param>
+            <param name="fireImmediately">Whether to fire the event handler immediately.</param>
         </member>
         <member name="T:Cortex.Net.IComputedValue">
             <summary>

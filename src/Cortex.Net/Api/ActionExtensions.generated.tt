@@ -56,7 +56,7 @@ namespace Cortex.Net.Api
         /// <param name="action">The action itself.</param>
         public static Action<#=typeArgs#> CreateAction<#=typeArgs#>(this ISharedState sharedState, Action<#=typeArgs#> action)
         {
-            return CreateAction<#=typeArgs#>(sharedState, null, null, action);
+            return CreateAction<#=typeArgs#>(sharedState, "<unnamed action>", null, action);
         }
 
 	    /// <summary>

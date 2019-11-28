@@ -181,5 +181,28 @@ namespace Cortex.Net.Api
 
             return new ObservableDictionary<TKey, TValue>(sharedState, enhancer, initialValues, name);
         }
+
+        /// <summary>
+        /// Creates a computed value.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements.</typeparam>
+        /// <param name="sharedState">The shared state to operate on.</param>
+        /// <param name="getter">The getter function to use.</param>
+        /// <param name="name">The name of the observable collection.</param>
+        /// <returns>The computed value.</returns>
+        public static IComputedValue<T> Computed<T>(this ISharedState sharedState, Func<T> getter, string name = null)
+        {
+            if (sharedState is null)
+            {
+                throw new ArgumentNullException(nameof(sharedState));
+            }
+
+            if (string.IsNullOrEmpty(name))
+            {
+                name = $"{nameof(ComputedValue<T>)}@{sharedState.GetUniqueId()}";
+            }
+
+            return new ComputedValue<T>(sharedState, new ComputedValueOptions<T>(getter, name));
+        }
     }
 }

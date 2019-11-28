@@ -264,7 +264,7 @@ namespace Cortex.Net
                 foreach (var observable in this.PendingUnobservations.ToList())
                 {
                     observable.IsPendingUnobservation = false;
-                    if (observable.HasObservers())
+                    if (!observable.HasObservers())
                     {
                         if (observable.IsBeingObserved)
                         {

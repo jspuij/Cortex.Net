@@ -24,6 +24,7 @@ namespace Cortex.Net.Core
     using Cortex.Net.Api;
     using Cortex.Net.Properties;
     using Cortex.Net.Spy;
+    using Cortex.Net.Types;
 
     /// <summary>
     /// A node in the state dependency root that observes other nodes, and can be observed itself.
@@ -52,6 +53,11 @@ namespace Cortex.Net.Core
         private readonly IEqualityComparer<T> equalityComparer;
 
         /// <summary>
+        /// A dictionary of event handlers for the changed event.
+        /// </summary>
+        private readonly Dictionary<EventHandler<ValueChangedEventArgs<T>>, IDisposable> changedEventHandlers = new Dictionary<EventHandler<ValueChangedEventArgs<T>>, IDisposable>();
+
+        /// <summary>
         /// A value indicating whether the computed value keeps calculating, even when it is not observed.
         /// </summary>
         private readonly bool keepAlive;
@@ -70,6 +76,11 @@ namespace Cortex.Net.Core
         /// To check for setter cycles.
         /// </summary>
         private bool isRunningSetter = false;
+
+        /// <summary>
+        /// To support computed weaving with reentrancy we allow 1 cycle of reentrance immediately after derivation call.
+        /// </summary>
+        private bool immediateDerivationCall = false;
 
         /// <summary>
         /// The computed value.
@@ -119,6 +130,51 @@ namespace Cortex.Net.Core
         /// Event that will fire after the observable has become unobserved.
         /// </summary>
         public event EventHandler BecomeUnobserved;
+
+        /// <summary>
+        /// Event that fires after the value has changed.
+        /// </summary>
+        public event EventHandler<ValueChangedEventArgs<T>> Changed
+        {
+            add
+            {
+                if (!this.changedEventHandlers.ContainsKey(value))
+                {
+                    bool firstTime = true;
+                    T previousValue = default;
+                    var autorun = this.SharedState.Autorun(r =>
+                    {
+                        var newValue = this.Value;
+                        if (!firstTime)
+                        {
+                            var previousDerivation = this.SharedState.StartUntracked();
+                            value(this, new ValueChangedEventArgs<T>()
+                            {
+                                Context = this,
+                                OldValue = previousValue,
+                                NewValue = newValue,
+                            });
+                            this.SharedState.EndTracking(previousDerivation);
+                        }
+
+                        firstTime = false;
+                        previousValue = newValue;
+                    });
+
+                    this.changedEventHandlers.Add(value, autorun);
+                }
+            }
+
+            remove
+            {
+                if (this.changedEventHandlers.ContainsKey(value))
+                {
+                    var disposable = this.changedEventHandlers[value];
+                    disposable.Dispose();
+                    this.changedEventHandlers.Remove(value);
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the Observers.
@@ -200,18 +256,23 @@ namespace Cortex.Net.Core
             {
                 if (this.isComputing)
                 {
+                    if (this.immediateDerivationCall)
+                    {
+                        // allow 1 level of reentrancy by calling the derivation again.
+                        this.immediateDerivationCall = false;
+                        return this.derivation();
+                    }
+
                     throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.CycleDetectedInComputation, this.Name, this.derivation));
                 }
 
-                Exception caughtException = null;
-
-                if (this.SharedState.InBatch && !this.HasObservers() && !this.keepAlive)
+                if (!this.SharedState.InBatch && !this.HasObservers() && !this.keepAlive)
                 {
                     if (this.ShouldCompute())
                     {
                         this.WarnAboutUntrackedRead();
                         this.SharedState.StartBatch();
-                        (this.value, caughtException) = this.ComputeValue(false);
+                        (this.value, this.lastException) = this.ComputeValue(false);
                         this.SharedState.EndBatch();
                     }
                 }
@@ -227,9 +288,9 @@ namespace Cortex.Net.Core
                     }
                 }
 
-                if (caughtException != null)
+                if (this.lastException != null)
                 {
-                    throw new InvalidOperationException(Resources.CaughtExceptionDuringGet, caughtException);
+                    throw new InvalidOperationException(Resources.CaughtExceptionDuringGet, this.lastException);
                 }
 
                 return this.value;
@@ -322,6 +383,31 @@ namespace Cortex.Net.Core
         }
 
         /// <summary>
+        /// Registers the secified event handler, and optionally fires it first.
+        /// </summary>
+        /// <param name="changedEventHandler">The event handler to register.</param>
+        /// <param name="fireImmediately">Whether to fire the event handler immediately.</param>
+        public void Observe(EventHandler<ValueChangedEventArgs<T>> changedEventHandler, bool fireImmediately)
+        {
+            if (changedEventHandler is null)
+            {
+                throw new ArgumentNullException(nameof(changedEventHandler));
+            }
+
+            if (fireImmediately)
+            {
+                changedEventHandler(this, new ValueChangedEventArgs<T>()
+                {
+                    Context = this,
+                    OldValue = default,
+                    NewValue = this.Value,
+                });
+            }
+
+            this.Changed += changedEventHandler;
+        }
+
+        /// <summary>
         /// Track computed value by calling the getter.
         /// </summary>
         /// <returns>Whether the value has changed.</returns>
@@ -368,19 +454,29 @@ namespace Cortex.Net.Core
 
             if (track)
             {
-                (result, caughtException) = this.TrackDerivedFunction(this.derivation);
+                (result, caughtException) = this.TrackDerivedFunction(() =>
+            {
+                this.immediateDerivationCall = true;
+                var r = this.derivation();
+                this.immediateDerivationCall = false;
+                return r;
+            });
             }
             else
             {
                 if (this.SharedState.Configuration.DisableErrorBoundaries)
                 {
+                    this.immediateDerivationCall = true;
                     result = this.derivation();
+                    this.immediateDerivationCall = false;
                 }
                 else
                 {
                     try
                     {
+                        this.immediateDerivationCall = true;
                         result = this.derivation();
+                        this.immediateDerivationCall = false;
                     }
 #pragma warning disable CA1031 // Do not catch general exception types
                     catch (Exception e)

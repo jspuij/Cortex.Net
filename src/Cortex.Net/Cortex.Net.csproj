@@ -40,6 +40,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ActionExtensions.generated.tt</DependentUpon>
     </Compile>
+    <Compile Update="Core\ActionExtensions.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ActionExtensions.generated.tt</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -63,6 +68,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ActionExtensions.generated.cs</LastGenOutput>
     </None>
+    <None Update="Core\ActionExtensions.generated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ActionExtensions.generated.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup Condition="'$(BuildMode)' == 'nuget'">
     <ProjectReference Include="..\Cortex.Net.Fody\Cortex.Net.Fody.csproj" />
@@ -77,17 +86,12 @@
       <XcfFile>$(WeaverDirPath)netstandard2.0\$(PackageId).Fody.xcf</XcfFile>
     </PropertyGroup>
 
-    <Error Text="FodyPackaging: No weaver found at $(WeaverFile). $(ProjectName) should have a Project Dependency on $(PackageId), and $(PackageId) should target 'netstandard2.0'."
-           Condition="!Exists($(WeaverFile))" />
+    <Error Text="FodyPackaging: No weaver found at $(WeaverFile). $(ProjectName) should have a Project Dependency on $(PackageId), and $(PackageId) should target 'netstandard2.0'." Condition="!Exists($(WeaverFile))" />
 
     <ItemGroup>
-      <TfmSpecificPackageFile Include="$(XcfFile)"
-                              PackagePath="weaver\$(PackageId).Fody.xcf"
-                              Condition="Exists($(XcfFile))" />
-      <TfmSpecificPackageFile Include="$(WeaverFile)"
-                              PackagePath="weaver\$(PackageId).Fody.dll" />
-      <TfmSpecificPackageFile Include="$(WeaverPropsFile)"
-                              PackagePath="build\$(PackageId).props" />
+      <TfmSpecificPackageFile Include="$(XcfFile)" PackagePath="weaver\$(PackageId).Fody.xcf" Condition="Exists($(XcfFile))" />
+      <TfmSpecificPackageFile Include="$(WeaverFile)" PackagePath="weaver\$(PackageId).Fody.dll" />
+      <TfmSpecificPackageFile Include="$(WeaverPropsFile)" PackagePath="build\$(PackageId).props" />
     </ItemGroup>
   </Target>
 </Project>
