@@ -6,7 +6,7 @@
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/jspuij/Cortex.Net</PackageProjectUrl>
     <DisableFody>true</DisableFody>
-    <Version>0.1.0-preview3</Version>
+    <Version>0.1.0-preview4</Version>
     <NeutralLanguage>en-US</NeutralLanguage>
 </PropertyGroup>
 
