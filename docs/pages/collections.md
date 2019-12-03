@@ -73,8 +73,8 @@ store.Integers[1] = 20;
 
 Note that any collection property on an observable object that implements one of the interfaces of
 [ObservableCollection&lt;T&gt;](xref:Cortex.Net.Types.ObservableCollection`1) will be automatically
-weaved to be implemted by `ObservableCollection`. No need to allocate the property, this will be
-done automatically from the constructor.
+weaved to be implemented by `ObservableCollection`. No need to allocate the property, this will be
+done automatically in the constructor by the weaver.
 
 ## Sets and Dictionaries.
 
