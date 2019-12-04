@@ -16,6 +16,32 @@
       href: collections.md
     - name: ObservableObject
       href: observableobject.md
+- name: Reacting to observables
+  items:
+    - name: Computed
+      href: computed.md
+    - name: Autorun
+      href: autorun.md
+    - name: Reaction
+      href: reaction.md
+    - name: When
+      href: when.md
+    - name: Observer
+      href: observer.md
+    - name: What Cortex.Net reacts to
+      href: react.md
+- name: Updating observables
+  items:
+    - name: actions
+    - href: actions.md
+    - name: async / await
+    - href: async.md
+- name: Utilities
+  items:
+    - name: box
+    - href: box.md  
+    - name: inject
+    - href: inject.md 
 - name: Useful to know
   items:
     - name: Weaving with fody.
