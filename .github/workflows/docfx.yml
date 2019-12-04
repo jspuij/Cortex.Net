@@ -21,7 +21,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.100-preview3-014645
+        dotnet-version: 3.1.100
     - name: Chocolatey Action
       uses: crazy-max/ghaction-chocolatey@v1.0.1
       with:
