@@ -35,7 +35,8 @@ namespace Cortex.Net
         /// </summary>
         /// <param name="changedEventHandler">The event handler to register.</param>
         /// <param name="fireImmediately">Whether to fire the event handler immediately.</param>
-        void Observe(EventHandler<ValueChangedEventArgs<T>> changedEventHandler, bool fireImmediately);
+        /// <returns>An IDisposable interface to remove the eventhandler.</returns>
+        IDisposable Observe(EventHandler<ValueChangedEventArgs<T>> changedEventHandler, bool fireImmediately);
     }
 
     /// <summary>

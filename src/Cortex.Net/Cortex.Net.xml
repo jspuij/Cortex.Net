@@ -1641,6 +1641,7 @@
             </summary>
             <param name="changedEventHandler">The event handler to register.</param>
             <param name="fireImmediately">Whether to fire the event handler immediately.</param>
+            <returns>A disposable to remove the event handler when the disposable is disposed.</returns>
         </member>
         <member name="M:Cortex.Net.Core.ComputedValue`1.TrackAndCompute">
             <summary>
@@ -2153,6 +2154,7 @@
             </summary>
             <param name="changedEventHandler">The event handler to register.</param>
             <param name="fireImmediately">Whether to fire the event handler immediately.</param>
+            <returns>An IDisposable interface to remove the eventhandler.</returns>
         </member>
         <member name="T:Cortex.Net.IComputedValue">
             <summary>
@@ -2722,6 +2724,124 @@
             <summary>
             Gets or sets the Equality comparer to use to compare the value type.
             </summary>
+        </member>
+        <member name="T:Cortex.Net.Rx.DelegateObservable`1">
+            <summary>
+            An observable object that uses a delegate as a subscribe function.
+            </summary>
+            <typeparam name="T">The type of the values to observe.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Rx.DelegateObservable`1.#ctor(System.Func{System.IObserver{`0},System.IDisposable})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Rx.DelegateObservable`1"/> class.
+            </summary>
+            <param name="subscribeDelegate">The delegate to be used when an observer subscribes.</param>
+        </member>
+        <member name="M:Cortex.Net.Rx.DelegateObservable`1.Subscribe(System.IObserver{`0})">
+            <summary>
+            Notifies the provider that an observer is to receive notifications.
+            </summary>
+            <param name="observer">The object that is to receive notifications.</param>
+            <returns>
+            A reference to an interface that allows observers to stop receiving notifications
+            before the provider has finished sending them.
+            </returns>
+        </member>
+        <member name="T:Cortex.Net.Rx.RxObserver`1">
+            <summary>
+            An RxObserver class that observes an System.Reactive observable and
+            subsequently triggers an <see cref="T:Cortex.Net.IObservableValue`1" /> instance.
+            </summary>
+            <typeparam name="T">The type of the observable.</typeparam>
+        </member>
+        <member name="M:Cortex.Net.Rx.RxObserver`1.#ctor(Cortex.Net.ISharedState,System.IObservable{`0},`0,System.Action{System.Exception})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.Rx.RxObserver`1"/> class.
+            </summary>
+            <param name="sharedState">The shared state.</param>
+            <param name="observable">The observable.</param>
+            <param name="exceptionHandler">The exception handler.</param>
+            <param name="initialValue">The initial value.</param>
+        </member>
+        <member name="E:Cortex.Net.Rx.RxObserver`1.Change">
+            <summary>
+            Event that fires before the value will change.
+            </summary>
+        </member>
+        <member name="E:Cortex.Net.Rx.RxObserver`1.Changed">
+            <summary>
+            Event that fires after the value has changed.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Rx.RxObserver`1.Value">
+            <summary>
+            Gets or sets the underlying value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Rx.RxObserver`1.Cortex#Net#IValue#Value">
+            <summary>
+            Gets or sets the underlying value.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Rx.RxObserver`1.Dispose">
+            <summary>
+            Cleans up the subscription when the observer is disposed.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Rx.RxObserver`1.Observe(System.EventHandler{Cortex.Net.Types.ValueChangedEventArgs{`0}},System.Boolean)">
+            <summary>
+            Registers the secified event handler, and optionally fires it first.
+            </summary>
+            <param name="changedEventHandler">The event handler to register.</param>
+            <param name="fireImmediately">Whether to fire the event handler immediately.</param>
+        </member>
+        <member name="M:Cortex.Net.Rx.RxObserver`1.OnCompleted">
+            <summary>
+            Notifies the observer that the provider has finished sending push-based notifications.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Rx.RxObserver`1.OnError(System.Exception)">
+            <summary>
+            Notifies the observer that the provider has experienced an error condition.
+            </summary>
+            <param name="error">An object that provides additional information about the error.</param>
+        </member>
+        <member name="M:Cortex.Net.Rx.RxObserver`1.OnNext(`0)">
+            <summary>
+            Provides the observer with new data.
+            </summary>
+            <param name="value">The current notification information.</param>
+        </member>
+        <member name="T:Cortex.Net.Rx.SharedStateReactiveExtensions">
+            <summary>
+            Extension methods on ISharedState for conversion from and to
+            System.Reactive observables.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Rx.SharedStateReactiveExtensions.AsObservable``1(Cortex.Net.ISharedState,System.Func{``0},System.Boolean)">
+            <summary>
+            Converts an expression to observe into an <see cref="T:System.IObservable`1" />.
+            </summary>
+            <remarks>
+            The provided expression is tracked by Cortex.Net as long as there are subscribers, automatically
+            emitting when new values become available. The expressions respect(trans)actions.</remarks>
+            <typeparam name="T">The type to observe.</typeparam>
+            <param name="sharedState">The shared state to use.</param>
+            <param name="expressionToObserve">The expression to observe.</param>
+            <param name="fireImmediately">Whether to fire immediately.</param>
+            <returns>An <see cref="T:System.IObservable`1" /> instance that can be used to observe.</returns>
+        </member>
+        <member name="M:Cortex.Net.Rx.SharedStateReactiveExtensions.FromObservable``1(Cortex.Net.ISharedState,System.IObservable{``0},``0,System.Action{System.Exception})">
+            <summary>
+             Converts a <see cref="T:System.IObservable`1" /> into an <see cref="T:Cortex.Net.IObservableValue`1"></see> which stores the current value(as `Current`).
+             The subscription can be canceled through the `Dispose` method. Takes an initial value as second optional argument.
+            </summary>
+            <typeparam name="T">The type to observe.</typeparam>
+            <param name="sharedState">The shared state to use.</param>
+            <param name="observable">The observable to "convert".</param>
+            <param name="initialValue">The initial value for the <see cref="T:Cortex.Net.IObservableValue`1" />.</param>
+            <param name="exceptionHandler">The exception handler to use.</param>
+            <returns>An observable value.</returns>
         </member>
         <member name="T:Cortex.Net.SharedState">
             <summary>

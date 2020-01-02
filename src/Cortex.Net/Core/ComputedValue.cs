@@ -387,7 +387,8 @@ namespace Cortex.Net.Core
         /// </summary>
         /// <param name="changedEventHandler">The event handler to register.</param>
         /// <param name="fireImmediately">Whether to fire the event handler immediately.</param>
-        public void Observe(EventHandler<ValueChangedEventArgs<T>> changedEventHandler, bool fireImmediately)
+        /// <returns>A disposable to remove the event handler when the disposable is disposed.</returns>
+        public IDisposable Observe(EventHandler<ValueChangedEventArgs<T>> changedEventHandler, bool fireImmediately)
         {
             if (changedEventHandler is null)
             {
@@ -405,6 +406,7 @@ namespace Cortex.Net.Core
             }
 
             this.Changed += changedEventHandler;
+            return new DisposableDelegate(() => this.Changed -= changedEventHandler);
         }
 
         /// <summary>
