@@ -195,7 +195,7 @@ namespace Cortex.Net.Core
 
             var lowestNewObservingDerivationState = DerivationState.UpToDate;
 
-            foreach (var dependency in derivation.NewObserving.ToList())
+            foreach (var dependency in derivation.NewObserving)
             {
                 if (dependency is IDerivation)
                 {
@@ -203,7 +203,7 @@ namespace Cortex.Net.Core
                 }
             }
 
-            foreach (var dependency in derivation.Observing.ToList())
+            foreach (var dependency in derivation.Observing)
             {
                 if (!derivation.NewObserving.Contains(dependency))
                 {
