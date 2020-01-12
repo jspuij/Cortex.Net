@@ -32,8 +32,8 @@
       href: react.md
 - name: Updating observables
   items:
-    - name: actions
-    - href: actions.md
+    - name: action
+    - href: action.md
     - name: async / await
     - href: async.md
 - name: Utilities
