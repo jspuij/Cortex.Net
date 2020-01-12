@@ -1,6 +1,6 @@
-# @observer
+# Observer
 
-The `Observer` attribute is implemented for now in Blazor. It is possible to integrate the Attribute in other UI frameworks easily. Create an issue if your favorite UI framework is not supported yet. Feel free to implement it and create a pull request if you want to do it yourself.
+The `Observer` attribute is only implemented in Blazor for now. It is possible to integrate the Attribute in other UI frameworks easily. Create an issue if your favorite UI framework is not supported yet. Feel free to implement it and create a pull request if you want to do it yourself.
 
 ## Blazor
 
