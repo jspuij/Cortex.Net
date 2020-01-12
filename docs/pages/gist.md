@@ -64,17 +64,32 @@ No explicit relations are defined in either the controller functions that _chang
 Decorating your _state_ and _views_ with [[Observable]](xref:Cortex.Net.Api.ObservableAttribute) is enough for Cortex.Net to detect all relationships.
 Here are two examples of changing the state:
 
-```javascript
-appState.resetTimer = action(function reset() {
-    appState.timer = 0
-})
+```csharp
 
-setInterval(
-    action(function tick() {
-        appState.timer += 1
-    }),
-    1000
-)
+using Cortex.Net.Api;
+
+[Observable]
+public class AppState
+{
+    public int Timer { get; }
+
+    [Action]
+    public void ResetTimer()
+    {
+        Timer = 0;
+    }
+
+    [Action]
+    public async Run()
+    {
+        while(true)
+        {
+            Timer += 1;
+            await Task.Delay(1000);
+        }
+    }
+}
+
 ```
 
 The `Action` attribute is only neccessary when using Cortex.Net enforces modification through reactions.
