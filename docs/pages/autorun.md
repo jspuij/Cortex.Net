@@ -3,7 +3,7 @@
 [Autorun](xref:Cortex.Net.Api.SharedStateReactionExtensions.Autorun(Cortex.Net.ISharedState,Action{Cortex.Net.Core.Reaction},Cortex.Net.AutorunOptions)) can be used in those cases where you want to create a reactive function that will never have observers itself.
 This is usually the case when you need to bridge from reactive to imperative code, for example for logging, persistence, or UI-updating code.
 When the `Autorun` extension method on `ISharedState` is used, the provided function will always be triggered once immediately and then again each time one of its dependencies changes.
-In contrast, [Computed](computed.md)] creates functions that only re-evaluate if it has
+In contrast, [Computed](computed.md) creates functions that only re-evaluate if it has
 observers on its own, otherwise its value is considered to be irrelevant.
 As a rule of thumb: use `Autorun` if you have a function that should run automatically but that doesn't result in a new value.
 Use `Computed` for everything else. Autoruns are about initiating _effects_, not about producing new values.
@@ -76,9 +76,10 @@ using System.Text.Json;
 var sharedState = SharedState.GlobalState;
 
 sharedState.Autorun(
-    () => {
+    r => {
         // Assuming that profile is an observable object,
-        // send it to the server each time it is changed, but await at least 300 milliseconds before sending it.
+        // send it to the server each time it is changed, 
+        // but await at least 300 milliseconds before sending it.
         // When sent, the latest value of profile will be used.
         sendProfileToServer(JsonSerializer.Serialize(profile));
     },
@@ -105,7 +106,7 @@ var sharedState = SharedState.GlobalState;
 const age = sharedState.Box(10);
 
 const dispose = sharedState.Autorun(
-    () => 
+    r => 
     {
         if (age.Value < 0)
         {
