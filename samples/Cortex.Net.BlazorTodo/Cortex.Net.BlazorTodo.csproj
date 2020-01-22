@@ -41,7 +41,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Cortex.Net.Blazor\Cortex.Net.Blazor.csproj" />
     <ProjectReference Include="..\..\src\Cortex.Net\Cortex.Net.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <WeaverFiles Include="$(SolutionDir)src\Cortex.Net.Fody\bin\$(Configuration)\netstandard2.0\Cortex.Net.Fody.dll" WeaverClassNames="ModuleWeaver" />
   </ItemGroup>
-
 </Project>

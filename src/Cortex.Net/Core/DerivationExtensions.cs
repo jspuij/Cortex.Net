@@ -203,7 +203,7 @@ namespace Cortex.Net.Core
                 }
             }
 
-            foreach (var dependency in derivation.Observing)
+            foreach (var dependency in derivation.Observing.ToList())
             {
                 if (!derivation.NewObserving.Contains(dependency))
                 {
@@ -212,7 +212,7 @@ namespace Cortex.Net.Core
                 }
             }
 
-            foreach (var dependency in derivation.NewObserving.ToList())
+            foreach (var dependency in derivation.NewObserving)
             {
                 if (!derivation.Observing.Contains(dependency))
                 {
