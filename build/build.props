@@ -11,9 +11,8 @@
 </PropertyGroup>
 <PropertyGroup>
   <IncludeSymbols>True</IncludeSymbols>
-  <SymbolsPackageFormat>snupkg</SymbolsPackageFormat>
+  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 </PropertyGroup>
-
   <ItemGroup>
     <None Include="$(SolutionDir)LICENSE.txt">
       <Pack>True</Pack>

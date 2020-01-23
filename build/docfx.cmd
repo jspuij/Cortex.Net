@@ -2,7 +2,7 @@ git config --global user.email "%GH_EMAIL%"
 git config --global user.name "%GH_USER%"
 cd docs
 dir
-docfx docfx.json
+C:\ProgramData\chocolatey\lib\docfx\tools\docfx.exe docfx.json
 cd ..\..\Cortex.Net.Docs\
 git checkout master
 cd ..\Cortex.Net\docs\

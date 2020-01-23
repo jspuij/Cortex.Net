@@ -23,4 +23,4 @@ jobs:
     - name: Pack nuget package
       run: dotnet pack --configuration Release
     - name: Push nuget package
-      run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
