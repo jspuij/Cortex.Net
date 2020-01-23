@@ -2,6 +2,7 @@
   <Import Project="..\..\build\build.props" />
 
   <PropertyGroup>
+    <IsPackable>true</IsPackable>
     <NoWarn>$(NoWarn);NU5100</NoWarn>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

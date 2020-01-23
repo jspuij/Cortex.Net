@@ -50,3 +50,5 @@
       href: threading.md
     - name: Dependency Injection
       href: dependencyinjection.md
+    - name: Changelog
+      href: changelog.md

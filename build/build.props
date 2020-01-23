@@ -9,6 +9,10 @@
     <Version>0.1.0-preview8</Version>
     <NeutralLanguage>en-US</NeutralLanguage>
 </PropertyGroup>
+<PropertyGroup>
+  <IncludeSymbols>True</IncludeSymbols>
+  <SymbolsPackageFormat>snupkg</SymbolsPackageFormat>
+</PropertyGroup>
 
   <ItemGroup>
     <None Include="$(SolutionDir)LICENSE.txt">
