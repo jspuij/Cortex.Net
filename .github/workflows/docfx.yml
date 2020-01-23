@@ -13,12 +13,13 @@ jobs:
     - uses: actions/checkout@v2
       with:
         token: ${{ secrets.BUILD_Token }}
+        path: Cortex.Net
     - uses: actions/checkout@v2
       with:
         repository: jspuij/Cortex.Net.Docs
         ref: master
         token: ${{ secrets.BUILD_Token }}
-        path: ../Cortex.Net.Docs
+        path: Cortex.Net.Docs
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -29,6 +30,7 @@ jobs:
           args: install docfx -y
     - name: Run documentation generation
       run: build/docfx.cmd
+      working-directory: ./Cortex.Net
       env:
         token: ${{ secrets.BUILD_Token }}
         GH_EMAIL: ${{ secrets.GH_EMAIL }}
@@ -37,5 +39,5 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.BUILD_Token }}
-        directory: ../Cortex.Net.Docs
+        directory: Cortex.Net.Docs
         repository: jspuij/Cortex.Net.Docs
