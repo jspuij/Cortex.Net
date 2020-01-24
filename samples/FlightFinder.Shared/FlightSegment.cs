@@ -16,10 +16,12 @@
 namespace FlightFinder.Shared
 {
     using System;
+    using Cortex.Net.Api;
 
     /// <summary>
     /// Defines a Flight Segment Between two Airports.
     /// </summary>
+    [Observable]
     public class FlightSegment
     {
         /// <summary>

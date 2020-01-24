@@ -1,6 +1,6 @@
-﻿<h2>Shortlist (@Itineraries.Count)</h2>
+﻿<h2>Shortlist (@ShortListState.Shortlist.Count)</h2>
 
-@foreach (var item in Itineraries)
+@foreach (var item in ShortListState.Shortlist)
 {
     <ul class="list-group mb-4">
         <li class="list-group-item justify-content-between">
@@ -8,7 +8,7 @@
                 <nobr>@item.Outbound.FromAirportCode</nobr> -
                 <nobr>@item.Outbound.ToAirportCode</nobr>
             </div>
-            <button type="button" class="close" aria-label="Close" @onclick="() => OnRemoveItinerary.InvokeAsync(item)">
+            <button type="button" class="close" aria-label="Close" @onclick="() => ShortListState.RemoveFromShortlist(item)">
                 <span aria-hidden="true">&times;</span>
             </button>
         </li>

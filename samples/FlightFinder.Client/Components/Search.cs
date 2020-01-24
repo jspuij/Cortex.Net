@@ -15,12 +15,15 @@
 
 namespace FlightFinder.Client.Components
 {
+    using Cortex.Net.Blazor;
+    using FlightFinder.Client.Services;
     using FlightFinder.Shared;
     using Microsoft.AspNetCore.Components;
 
     /// <summary>
     /// Search Component.
     /// </summary>
+    [Observer]
     public partial class Search
     {
         /// <summary>
@@ -29,9 +32,9 @@ namespace FlightFinder.Client.Components
         private readonly SearchCriteria criteria = new SearchCriteria("LHR", "SEA");
 
         /// <summary>
-        /// Gets or sets the callback that will provide the search criteria for a search.
+        /// Gets or sets the search state to use.
         /// </summary>
-        [Parameter]
-        public EventCallback<SearchCriteria> OnSearch { get; set; }
+        [Inject]
+        private SearchState SearchState { get; set; }
     }
 }

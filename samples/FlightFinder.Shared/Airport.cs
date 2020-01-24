@@ -15,9 +15,12 @@
 
 namespace FlightFinder.Shared
 {
+    using Cortex.Net.Api;
+
     /// <summary>
     /// Defines an Airport.
     /// </summary>
+    [Observable]
     public class Airport
     {
         /// <summary>

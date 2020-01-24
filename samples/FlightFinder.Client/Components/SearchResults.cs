@@ -17,12 +17,16 @@ namespace FlightFinder.Client.Components
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Cortex.Net.Api;
+    using Cortex.Net.Blazor;
+    using FlightFinder.Client.Services;
     using FlightFinder.Shared;
     using Microsoft.AspNetCore.Components;
 
     /// <summary>
     /// A component that displays a search result.
     /// </summary>
+    [Observer]
     public partial class SearchResults
     {
         /// <summary>
@@ -42,29 +46,30 @@ namespace FlightFinder.Client.Components
         }
 
         /// <summary>
-        /// Gets or sets the Itinerary.
+        /// Gets or sets the shortlist state to use.
         /// </summary>
-        // Parameters
-        [Parameter]
-        public IReadOnlyList<Itinerary> Itineraries { get; set; }
+        [Inject]
+        private SearchState SearchState { get; set; }
 
         /// <summary>
-        /// Gets or sets a callback that is called when the Itinerary is added.
+        /// Gets or sets the shortlist state to use.
         /// </summary>
-        [Parameter]
-        public EventCallback<Itinerary> OnAddItinerary { get; set; }
+        [Inject]
+        private ShortListState ShortListState { get; set; }
 
         /// <summary>
         /// Gets or sets the sport order of the Search Results.
         /// </summary>
+        [Observable]
         private SortOrder ChosenSortOder { get; set; }
 
         /// <summary>
         /// Gets the list of sorted Itineraries.
         /// </summary>
+        [Computed]
         private IEnumerable<Itinerary> SortedItineraries
             => this.ChosenSortOder == SortOrder.Price
-            ? this.Itineraries.OrderBy(x => x.Price)
-            : this.Itineraries.OrderBy(x => x.TotalDurationHours);
+            ? this.SearchState.SearchResults.OrderBy(x => x.Price)
+            : this.SearchState.SearchResults.OrderBy(x => x.TotalDurationHours);
     }
 }

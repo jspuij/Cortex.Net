@@ -15,9 +15,12 @@
 
 namespace FlightFinder.Shared
 {
+    using Cortex.Net.Api;
+
     /// <summary>
     /// Defines an Itinerary with an Outbound and Return Segment.
     /// </summary>
+    [Observable]
     public class Itinerary
     {
         /// <summary>
@@ -38,12 +41,14 @@ namespace FlightFinder.Shared
         /// <summary>
         /// Gets the total duration in hours.
         /// </summary>
+        [Computed]
         public double TotalDurationHours
             => this.Outbound.DurationHours + this.Return.DurationHours;
 
         /// <summary>
         /// Gets the airline name.
         /// </summary>
+        [Computed]
         public string AirlineName
             => (this.Outbound.Airline == this.Return.Airline) ? this.Outbound.Airline : "Multiple airlines";
     }

@@ -16,24 +16,21 @@
 namespace FlightFinder.Client.Components
 {
     using System.Collections.Generic;
+    using Cortex.Net.Blazor;
+    using FlightFinder.Client.Services;
     using FlightFinder.Shared;
     using Microsoft.AspNetCore.Components;
 
     /// <summary>
     /// A Component that manages the Shortlist.
     /// </summary>
+    [Observer]
     public partial class Shortlist
     {
         /// <summary>
-        /// Gets or sets the itineraries.
+        /// Gets or sets the shortlist state to use.
         /// </summary>
-        [Parameter]
-        public IReadOnlyList<Itinerary> Itineraries { get; set; }
-
-        /// <summary>
-        /// Gets or sets a callback when an Itinerary is removed.
-        /// </summary>
-        [Parameter]
-        public EventCallback<Itinerary> OnRemoveItinerary { get; set; }
+        [Inject]
+        private ShortListState ShortListState { get; set; }
     }
 }

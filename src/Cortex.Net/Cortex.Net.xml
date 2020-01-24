@@ -825,6 +825,27 @@
             </summary>
             <returns>A string with line breaks and indentation.</returns>
         </member>
+        <member name="T:Cortex.Net.Ápi.CollectionExtensions">
+            <summary>
+            Extension methods for collection instances.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Ápi.CollectionExtensions.Refill``1(System.Collections.Generic.ICollection{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Refill the collection with new items.
+            </summary>
+            <typeparam name="T">The type of items in the collection.</typeparam>
+            <param name="collection">The observable collection to fill.</param>
+            <param name="items">The items to fill the collection with.</param>
+        </member>
+        <member name="M:Cortex.Net.Ápi.CollectionExtensions.Refill``1(System.Collections.Generic.IReadOnlyCollection{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Refill the collection with new items.
+            </summary>
+            <typeparam name="T">The type of items in the collection.</typeparam>
+            <param name="collection">The observable collection to fill.</param>
+            <param name="items">The items to fill the collection with.</param>
+        </member>
         <member name="T:Cortex.Net.AutorunOptions">
             <summary>
             Specifies the options for an Autorun instance.
@@ -4048,6 +4069,7 @@
             </summary>
             <param name="index">The index to insert at.</param>
             <param name="items">The items to remove.</param>
+            <returns>The index.</returns>
         </member>
         <member name="M:Cortex.Net.Types.ObservableCollection`1.RemoveRange(System.Int32,System.Int32)">
             <summary>

@@ -15,6 +15,8 @@
 
 namespace FlightFinder.Client
 {
+    using System.Threading.Tasks;
+    using Cortex.Net;
     using FlightFinder.Client.Services;
     using Microsoft.AspNetCore.Components.Builder;
     using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +32,19 @@ namespace FlightFinder.Client
         /// <param name="services">The collection of services to add to.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<AppState>();
+            // Blazor is single threaded for now but does not provide a Task Scheduler when FromCurrentSynchronizationContext();
+            // is called. However TaskScheduler.Current is available and at least is able to Schedule tasks.
+            SharedState.GlobalState.Configuration.TaskScheduler = TaskScheduler.Current;
+
+            // Do not enforce actions. This is to allow observable properties to be bound using normal bind directives.
+            SharedState.GlobalState.Configuration.EnforceActions = EnforceAction.Never;
+
+            // Add the Shared state to the DI container.
+            services.AddSingleton(x => SharedState.GlobalState);
+
+            // Add application state to the DI container.
+            services.AddSingleton<ShortListState>();
+            services.AddSingleton<SearchState>();
         }
 
         /// <summary>

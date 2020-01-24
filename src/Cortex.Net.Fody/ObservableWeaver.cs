@@ -125,7 +125,8 @@ namespace Cortex.Net.Fody
                 }
                 else
                 {
-                    if (property.SetMethod != null && property.SetMethod.IsPublic && property.GetMethod.CustomAttributes.Any(x => x.AttributeType.FullName == this.WeavingContext.SystemRuntimeCompilerServicesCompilerGeneratedAttribute.FullName))
+                    if (property.SetMethod != null && property.SetMethod.CustomAttributes.Any(x => x.AttributeType.FullName == this.WeavingContext.SystemRuntimeCompilerServicesCompilerGeneratedAttribute.FullName) &&
+                        !property.SetMethod.Name.Contains("set_SharedState"))
                     {
                         this.WeaveProperty(property, enhancerType);
                     }

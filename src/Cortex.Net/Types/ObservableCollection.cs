@@ -449,7 +449,8 @@ namespace Cortex.Net.Types
         /// </summary>
         /// <param name="index">The index to insert at.</param>
         /// <param name="items">The items to remove.</param>
-        private int InsertRange(int index, IEnumerable<T> items)
+        /// <returns>The index.</returns>
+        internal int InsertRange(int index, IEnumerable<T> items)
         {
             if (index >= 0 && index <= this.innerList.Count && !this.IsReadOnly)
             {

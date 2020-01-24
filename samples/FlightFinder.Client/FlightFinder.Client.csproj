@@ -7,7 +7,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netstandard2.1\FlightFinder.Client.xml</DocumentationFile>
-    <OutputPath>bin\Debug\netstandard2.1</OutputPath>
+    <OutputPath>bin\Debug</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Fody" Version="6.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.1.0-preview4.19579.2" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.1.0-preview4.19579.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.1.0-preview4.19579.2" />
@@ -32,5 +36,11 @@
   <ItemGroup>
     <ProjectReference Include="..\FlightFinder.Shared\FlightFinder.Shared.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Cortex.Net.Blazor\Cortex.Net.Blazor.csproj" />
+    <ProjectReference Include="..\..\src\Cortex.Net\Cortex.Net.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <WeaverFiles Include="$(SolutionDir)src\Cortex.Net.Fody\bin\$(Configuration)\netstandard2.0\Cortex.Net.Fody.dll" WeaverClassNames="ModuleWeaver" />
+  </ItemGroup>
 </Project>

@@ -15,17 +15,17 @@
 
 namespace FlightFinder.Client
 {
+    using Cortex.Net.Blazor;
+    using FlightFinder.Client.Services;
+    using Microsoft.AspNetCore.Components;
+
     /// <summary>
     /// Main component for the application.
     /// </summary>
+    [Observer]
     public partial class Main
     {
-        /// <summary>
-        /// Called when the component initializes.
-        /// </summary>
-        protected override void OnInitialized()
-        {
-            this.state.OnChange += this.StateHasChanged;
-        }
+        [Inject]
+        private SearchState SearchState { get; set; }
     }
 }

@@ -16,10 +16,12 @@
 namespace FlightFinder.Shared
 {
     using System;
+    using Cortex.Net.Api;
 
     /// <summary>
     /// The search criteria that the user put in.
     /// </summary>
+    [Observable]
     public class SearchCriteria
     {
         /// <summary>

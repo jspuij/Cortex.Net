@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -6,7 +6,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netstandard2.1\FlightFinder.Shared.xml</DocumentationFile>
-    <OutputPath>bin\Debug\netstandard2.1</OutputPath>
+    <OutputPath>bin\Debug</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +18,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Cortex.Net\Cortex.Net.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <WeaverFiles Include="$(SolutionDir)src\Cortex.Net.Fody\bin\$(Configuration)\netstandard2.0\Cortex.Net.Fody.dll" WeaverClassNames="ModuleWeaver" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Fody" Version="6.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

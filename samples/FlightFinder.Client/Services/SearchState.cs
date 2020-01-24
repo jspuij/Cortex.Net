@@ -1,4 +1,4 @@
-﻿// <copyright file="AppState.cs" company=".NET Foundation">
+﻿// <copyright file="SearchState.cs" company=".NET Foundation">
 // Copyright (c) .NET Foundation. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License"); you may not use
@@ -15,17 +15,19 @@
 
 namespace FlightFinder.Client.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using Cortex.Net.Api;
+    using Cortex.Net.Ápi;
     using FlightFinder.Shared;
     using Microsoft.AspNetCore.Components;
 
     /// <summary>
-    /// A State bag for the Application.
+    /// State service for searches.
     /// </summary>
-    public class AppState
+    [Observable]
+    public class SearchState
     {
         /// <summary>
         /// The HttpClient to do calls on.
@@ -33,24 +35,13 @@ namespace FlightFinder.Client.Services
         private readonly HttpClient httpClient;
 
         /// <summary>
-        /// The short list with Itineraries.
-        /// </summary>
-        private readonly List<Itinerary> shortlist = new List<Itinerary>();
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AppState"/> class.
+        /// Initializes a new instance of the <see cref="SearchState"/> class.
         /// </summary>
         /// <param name="httpClient">The HttpClient to use to make requests.</param>
-        public AppState(HttpClient httpClient)
+        public SearchState(HttpClient httpClient)
         {
             this.httpClient = httpClient;
         }
-
-        /// <summary>
-        /// Lets components receive change notifications
-        ///  Could have whatever granularity you want (more events, hierarchy...)
-        /// </summary>
-        public event Action OnChange;
 
         /// <summary>
         /// Gets the search results.
@@ -63,48 +54,22 @@ namespace FlightFinder.Client.Services
         public bool SearchInProgress { get; private set; }
 
         /// <summary>
-        ///  Gets the short list with Itineraries.
-        /// </summary>
-        public IReadOnlyList<Itinerary> Shortlist => this.shortlist;
-
-        /// <summary>
         /// Searches on the Web Api controller using the specified search criteria.
         /// </summary>
         /// <param name="criteria">The search criteria to use.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <remarks>
+        /// This method is divided into two actions by the compiler.
+        /// The first runs to the await statement and rerenders then.
+        /// The second part runs after the await statement and rerenders after the method has completed.
+        /// </remarks>
+        [Action]
         public async Task Search(SearchCriteria criteria)
         {
             this.SearchInProgress = true;
-            this.NotifyStateChanged();
-
-            this.SearchResults = await this.httpClient.PostJsonAsync<Itinerary[]>("/api/flightsearch", criteria);
+            var searchResults = await this.httpClient.PostJsonAsync<Itinerary[]>("/api/flightsearch", criteria);
+            this.SearchResults.Refill(searchResults);
             this.SearchInProgress = false;
-            this.NotifyStateChanged();
         }
-
-        /// <summary>
-        /// Add the itinerary to the short list.
-        /// </summary>
-        /// <param name="itinerary">The itinerary to add.</param>
-        public void AddToShortlist(Itinerary itinerary)
-        {
-            this.shortlist.Add(itinerary);
-            this.NotifyStateChanged();
-        }
-
-        /// <summary>
-        /// Removes the itinerary from the short list.
-        /// </summary>
-        /// <param name="itinerary">The itinerary to remove.</param>
-        public void RemoveFromShortlist(Itinerary itinerary)
-        {
-            this.shortlist.Remove(itinerary);
-            this.NotifyStateChanged();
-        }
-
-        /// <summary>
-        /// Notifies the Main Component of a state change.
-        /// </summary>
-        private void NotifyStateChanged() => this.OnChange?.Invoke();
     }
 }
