@@ -1,0 +1,15 @@
+﻿{
+  // ACTION REQUIRED: This file was automatically added to your project, but it
+  // will not take effect until additional steps are taken to enable it. See the
+  // following page for additional information:
+  //
+  // https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/EnableConfiguration.md
+
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": ".NET Foundation",
+      "copyrightText": "Copyright (c) .NET Foundation. All rights reserved.\r\n\r\nLicensed under the Apache License, Version 2.0 (the \"License\"); you may not use\r\nthese files except in compliance with the License. You may obtain a copy of the\r\nLicense at\r\n\r\nhttp://www.apache.org/licenses/LICENSE-2.0\r\n\r\nUnless required by applicable law or agreed to in writing, software distributed\r\nunder the License is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR\r\nCONDITIONS OF ANY KIND, either express or implied. See the License for the\r\nspecific language governing permissions and limitations under the License."
+    }
+  }
+}

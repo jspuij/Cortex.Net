@@ -1,0 +1,6 @@
+﻿<datalist id="airports">
+    @foreach (var airport in airports)
+    {
+        <option value="@airport.Code">@airport.DisplayName (@airport.Code)</option>
+    }
+</datalist>
