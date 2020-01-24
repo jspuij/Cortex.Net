@@ -19,7 +19,6 @@ namespace FlightFinder.Client.Services
     using System.Net.Http;
     using System.Threading.Tasks;
     using Cortex.Net.Api;
-    using Cortex.Net.Ápi;
     using FlightFinder.Shared;
     using Microsoft.AspNetCore.Components;
 
