@@ -82,6 +82,34 @@ namespace Cortex.Net.Fody
         }
 
         /// <summary>
+        /// Gets the best short form opcode for Stloc.
+        /// </summary>
+        /// <param name="processor">The Il Processor to generate the instruction on.</param>
+        /// <param name="index">The index.</param>
+        /// <returns>An instruction.</returns>
+        public static Instruction Stloc(this ILProcessor processor, int index)
+        {
+            if (processor is null)
+            {
+                throw new ArgumentNullException(nameof(processor));
+            }
+
+            if (index < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
+            return processor.GetBestShortForm(
+                OpCodes.Stloc_0,
+                OpCodes.Stloc_1,
+                OpCodes.Stloc_2,
+                OpCodes.Stloc_3,
+                OpCodes.Stloc_S,
+                OpCodes.Stloc,
+                index);
+        }
+
+        /// <summary>
         /// Gets the best short form for an Instruction.
         /// </summary>
         /// <param name="processor">The IL Processor to create the instruction on.</param>

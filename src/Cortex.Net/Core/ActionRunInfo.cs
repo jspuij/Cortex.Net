@@ -21,7 +21,7 @@ namespace Cortex.Net.Core
     /// <summary>
     /// Data class with run info about an action.
     /// </summary>
-    internal class ActionRunInfo
+    public class ActionRunInfo
     {
         /// <summary>
         /// Gets or sets the shared state that this <see cref="ActionRunInfo"/> references.

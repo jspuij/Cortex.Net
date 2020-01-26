@@ -210,6 +210,9 @@ namespace Cortex.Net.Fody
             var compilerGeneratedAttribute = new CustomAttribute(ctorRef, new byte[] { 01, 00, 00, 00 });
             method.CustomAttributes.Add(compilerGeneratedAttribute);
 
+            // add method to class type.
+            classType.Methods.Add(method);
+
             var backingFieldReference = moduleDefinition.ImportReference(backingField);
 
             // generate method body.
@@ -222,9 +225,6 @@ namespace Cortex.Net.Fody
             emitAction?.Invoke(processor);
 
             processor.Emit(OpCodes.Ret);
-
-            // add method to class type.
-            classType.Methods.Add(method);
 
             return method;
         }

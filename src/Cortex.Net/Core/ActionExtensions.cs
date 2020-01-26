@@ -33,8 +33,18 @@ namespace Cortex.Net.Core
         /// <param name="scope">The scope of the action.</param>
         /// <param name="arguments">The arguments to the action.</param>
         /// <returns>An <see cref="ActionRunInfo"/> instance containing the information on the currently running action.</returns>
-        internal static ActionRunInfo StartAction(ISharedState sharedState, string actionName, object scope, object[] arguments)
+        public static ActionRunInfo StartAction(ISharedState sharedState, string actionName, object scope, object[] arguments)
         {
+            if (sharedState is null)
+            {
+                throw new ArgumentNullException(nameof(sharedState));
+            }
+
+            if (arguments is null)
+            {
+                arguments = Array.Empty<object>();
+            }
+
             var notifySpy = !string.IsNullOrEmpty(actionName);
             var previousDerivation = sharedState.StartUntracked();
             sharedState.StartBatch();
@@ -74,8 +84,13 @@ namespace Cortex.Net.Core
         /// Ends an action using the specified <see cref="ActionRunInfo"/> instance.
         /// </summary>
         /// <param name="actionRunInfo">The run info about the action.</param>
-        internal static void EndAction(ActionRunInfo actionRunInfo)
+        public static void EndAction(ActionRunInfo actionRunInfo)
         {
+            if (actionRunInfo is null)
+            {
+                throw new ArgumentNullException(nameof(actionRunInfo));
+            }
+
             if (actionRunInfo.SharedState.CurrentActionId != actionRunInfo.ActionId)
             {
                 throw new InvalidOperationException(Resources.InvalidActionStack);

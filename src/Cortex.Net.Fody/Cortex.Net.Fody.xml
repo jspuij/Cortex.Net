@@ -84,12 +84,26 @@
             </summary>
             <param name="methodDefinition">The asynchronous method to weave.</param>
         </member>
-        <member name="M:Cortex.Net.Fody.ActionWeaver.ExtendAsyncMethodBody(Mono.Cecil.MethodDefinition,Mono.Cecil.FieldReference)">
+        <member name="M:Cortex.Net.Fody.ActionWeaver.ExtendAsyncMethodBody(Mono.Cecil.MethodDefinition,Mono.Cecil.FieldReference,Mono.Cecil.TypeDefinition)">
             <summary>
-            Executes the processoractions agains the processor.
+            Extens the async method body.
             </summary>
             <param name="methodDefinition">The methodDefinition to use.</param>
-            <param name="backingField">The backing field for the ISharedState" instance.</param>
+            <param name="declaringTypeSharedStateBackingField">The backing field for the ISharedState" instance.</param>
+            <param name="stateMachineType">The type of the state machine.</param>
+        </member>
+        <member name="M:Cortex.Net.Fody.ActionWeaver.ExtendMoveNextMethodBody(Mono.Cecil.MethodDefinition,Mono.Cecil.MethodDefinition,Mono.Cecil.FieldReference)">
+            <summary>
+            Extends the method body of the MoveNext method of the state machine.
+            </summary>
+            <remarks>
+            Using a delegate to reenter the method is not going to work with a struct (release mode builds) as the struct needs
+            to be boxed before you can create the delegate. So we have to call StartAction / EndAction directly. Luckily the state
+            machine has a defined structure with a try catch and a single exit point. It's easy to weave it manually.
+            </remarks>
+            <param name="moveNextMethodDefinition">The method definition to extend.</param>
+            <param name="asyncMethodDefinition">The method definition of the original async method.</param>
+            <param name="sharedStateBackingFieldReference">A reference to the shared state backing field.</param>
         </member>
         <member name="T:Cortex.Net.Fody.BlazorObserverWeaver">
             <summary>
@@ -520,6 +534,14 @@
             <param name="index">The index.</param>
             <returns>An instruction.</returns>
         </member>
+        <member name="M:Cortex.Net.Fody.OpcodeSelector.Stloc(Mono.Cecil.Cil.ILProcessor,System.Int32)">
+            <summary>
+            Gets the best short form opcode for Stloc.
+            </summary>
+            <param name="processor">The Il Processor to generate the instruction on.</param>
+            <param name="index">The index.</param>
+            <returns>An instruction.</returns>
+        </member>
         <member name="M:Cortex.Net.Fody.OpcodeSelector.GetBestShortForm(Mono.Cecil.Cil.ILProcessor,Mono.Cecil.Cil.OpCode,Mono.Cecil.Cil.OpCode,Mono.Cecil.Cil.OpCode,Mono.Cecil.Cil.OpCode,Mono.Cecil.Cil.OpCode,Mono.Cecil.Cil.OpCode,System.Int32)">
             <summary>
             Gets the best short form for an Instruction.
@@ -813,6 +835,11 @@
             Gets type reference to Cortex.Net.Core.ActionExtensions.
             </summary>
         </member>
+        <member name="P:Cortex.Net.Fody.WeavingContext.CortexNetCoreActionRunInfo">
+            <summary>
+            Gets type reference to Cortex.Net.Core.ActionRunInfo.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Fody.WeavingContext.SystemRuntimeCompilerServicesCompilerGeneratedAttribute">
             <summary>
             Gets type reference to System.Runtime.CompilerServices.CompilerGeneratedAttribute.
@@ -821,6 +848,11 @@
         <member name="P:Cortex.Net.Fody.WeavingContext.SystemDiagnosticsDebuggerBrowsableAttribute">
             <summary>
             Gets type reference to System.Diagnostics.DebuggerBrowsableAttribute.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.WeavingContext.SystemObject">
+            <summary>
+            Gets type reference to System.Object.
             </summary>
         </member>
         <member name="P:Cortex.Net.Fody.WeavingContext.SystemAction">

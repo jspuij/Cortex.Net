@@ -102,6 +102,16 @@ namespace Cortex.Net.Fody
                     // add property
                     var propertyDefinition = reactiveObjectTypeDefinition.CreateProperty("Cortex.Net.Api.IReactiveObject.SharedState", getter);
 
+                    if (reactiveObjectTypeDefinition.IsValueType)
+                    {
+                        methodAttributes = MethodAttributes.Public
+                                              | MethodAttributes.Final
+                                              | MethodAttributes.HideBySig
+                                              | MethodAttributes.SpecialName
+                                              | MethodAttributes.NewSlot
+                                              | MethodAttributes.Virtual;
+                    }
+
                     // create a private setter.
                     var setter = reactiveObjectTypeDefinition.CreateDefaultSetter(backingField, "Cortex.Net.Api.IReactiveObject.SharedState", this.weavingContext, methodAttributes, p => ExecuteProcessorActions(p, backingField, processorActions));
 
@@ -219,6 +229,11 @@ namespace Cortex.Net.Fody
         /// <param name="processorActions">The processor actions to execute.</param>
         private static void ExecuteProcessorActions(ILProcessor processor, FieldDefinition backingField, IEnumerable<Action<ILProcessor, FieldReference>> processorActions)
         {
+            if (!processorActions.Any())
+            {
+                return;
+            }
+
             // if (value != null)
             processor.Emit(OpCodes.Ldarg_1);
             var nop = processor.Create(OpCodes.Nop);

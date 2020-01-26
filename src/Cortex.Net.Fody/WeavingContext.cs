@@ -46,8 +46,10 @@ namespace Cortex.Net.Fody
             this.CortexNetTypesObservableCollection = TryResolveFromReference(moduleWeaver, "Cortex.Net.Types.ObservableCollection`1", "Cortex.Net");
             this.CortexNetApiObservableAttribute = TryResolveFromReference(moduleWeaver, "Cortex.Net.Api.ObservableAttribute", "Cortex.Net");
             this.CortexNetCoreActionExtensions = TryResolveFromReference(moduleWeaver, "Cortex.Net.Core.ActionExtensions", "Cortex.Net");
+            this.CortexNetCoreActionRunInfo = TryResolveFromReference(moduleWeaver, "Cortex.Net.Core.ActionRunInfo", "Cortex.Net");
             this.SystemRuntimeCompilerServicesCompilerGeneratedAttribute = TryResolveFromScannedAssemblies(moduleWeaver, "System.Runtime.CompilerServices.CompilerGeneratedAttribute");
             this.SystemDiagnosticsDebuggerBrowsableAttribute = TryResolveFromScannedAssemblies(moduleWeaver, "System.Diagnostics.DebuggerBrowsableAttribute");
+            this.SystemObject = TryResolveFromScannedAssemblies(moduleWeaver, "System.Object");
             this.SystemAction = Enumerable.Range(0, 16).Select(x => TryResolveFromScannedAssemblies(moduleWeaver, x == 0 ? "System.Action" : $"System.Action`{x}")).ToList().AsReadOnly();
             this.SystemFunc = Enumerable.Range(0, 16).Select(x => TryResolveFromScannedAssemblies(moduleWeaver, $"System.Func`{x + 1}")).ToList().AsReadOnly();
             this.SystemThreadingTasksTask = TryResolveFromScannedAssemblies(moduleWeaver, "System.Threading.Tasks.Task");
@@ -115,6 +117,11 @@ namespace Cortex.Net.Fody
         public TypeReference CortexNetCoreActionExtensions { get; }
 
         /// <summary>
+        /// Gets type reference to Cortex.Net.Core.ActionRunInfo.
+        /// </summary>
+        public TypeReference CortexNetCoreActionRunInfo { get; }
+
+        /// <summary>
         /// Gets type reference to System.Runtime.CompilerServices.CompilerGeneratedAttribute.
         /// </summary>
         public TypeReference SystemRuntimeCompilerServicesCompilerGeneratedAttribute { get; }
@@ -123,6 +130,11 @@ namespace Cortex.Net.Fody
         /// Gets type reference to System.Diagnostics.DebuggerBrowsableAttribute.
         /// </summary>
         public TypeReference SystemDiagnosticsDebuggerBrowsableAttribute { get; }
+
+        /// <summary>
+        /// Gets type reference to System.Object.
+        /// </summary>
+        public TypeReference SystemObject { get; }
 
         /// <summary>
         /// Gets action type references.

@@ -87,11 +87,18 @@ namespace Cortex.Net.Fody
 
             foreach (var method in decoratedMethods.ToList())
             {
-                if (method.ReturnType.FullName == this.weavingContext.SystemThreadingTasksTask.FullName)
+                var type = method.ReturnType;
+                do
                 {
-                    this.WeaveAsyncMethod(method);
+                    if (type.FullName == this.weavingContext.SystemThreadingTasksTask.FullName)
+                    {
+                        this.WeaveAsyncMethod(method);
+                        break;
+                    }
                 }
-                else
+                while ((type = type.Resolve().BaseType) != null);
+
+                if (type == null)
                 {
                     this.WeaveMethod(method);
                 }
@@ -330,77 +337,221 @@ namespace Cortex.Net.Fody
                 actionName = attributeArgument.Value as string;
             }
 
-            var fieldAttributes = FieldAttributes.Private;
-
-            if (methodDefinition.IsStatic)
-            {
-                fieldAttributes |= FieldAttributes.Static;
-            }
-
             var asyncAttribute = methodDefinition.CustomAttributes.Single(x => x.AttributeType.FullName == this.weavingContext.SystemRuntimeCompilerServicesAsyncStateMachineAttribute.FullName);
             var stateMachineType = asyncAttribute.ConstructorArguments.Single().Value as TypeDefinition;
 
             var moveNextMethod = stateMachineType.Resolve().Methods.Single(x => x.Name == "MoveNext");
 
-            // convert the method definition to a corresponding Action<> delegate.
-            var actionType = moveNextMethod.GetActionType(this.weavingContext);
-
             var innerType = moveNextMethod.DeclaringType;
 
-            // add the delegate as field to the class.
-            var actionFieldDefinition = innerType.CreateField(actionType, $"{InnerActionFieldPrefix}{methodDefinition.Name}_Action", this.weavingContext, fieldAttributes);
-
-            // add entrance counter field.
-            var entranceCounterDefinition = innerType.CreateField(moduleDefinition.TypeSystem.Int32, $"{InnerCounterFieldPrefix}{methodDefinition.Name}_EntranceCount", this.weavingContext, fieldAttributes);
+            FieldReference stateMachineSharedStateBackingField = null;
+            FieldReference declaringTypeSharedStateBackingField = null;
 
             // push IL code for initialization of action members to the queue to emit in the ISharedState setter.
             this.processorQueue.SharedStateAssignmentQueue.Enqueue(
                 (stateMachineType,
                 false,
-                (processor, sharedStateBackingField) => this.EmitSharedStateSetter(
-                    processor,
-                    sharedStateBackingField,
-                    moveNextMethod,
-                    actionName,
-                    actionType,
-                    actionFieldDefinition)));
-
-            // extend the action method body.
-            ExtendActionMethodBody(moveNextMethod, actionType, entranceCounterDefinition, actionFieldDefinition);
+                (processor, sharedStateBackingField) =>
+                {
+                    stateMachineSharedStateBackingField = sharedStateBackingField;
+                    if (declaringTypeSharedStateBackingField != null)
+                    {
+                        this.ExtendMoveNextMethodBody(moveNextMethod, methodDefinition, stateMachineSharedStateBackingField);
+                        this.ExtendAsyncMethodBody(methodDefinition, declaringTypeSharedStateBackingField, innerType);
+                    }
+                }));
 
             // push IL code for initialization of IShared State of inner struct / class for async.
             this.processorQueue.SharedStateAssignmentQueue.Enqueue(
                 (declaringType,
                 false,
-                (processor, sharedStateBackingField) => this.ExtendAsyncMethodBody(
-                    methodDefinition,
-                    sharedStateBackingField)));
+                (processor, sharedStateBackingField) =>
+                {
+                    declaringTypeSharedStateBackingField = sharedStateBackingField;
+                    if (stateMachineSharedStateBackingField != null)
+                    {
+                        this.ExtendMoveNextMethodBody(moveNextMethod, methodDefinition, stateMachineSharedStateBackingField);
+                        this.ExtendAsyncMethodBody(methodDefinition, declaringTypeSharedStateBackingField, innerType);
+                    }
+                }));
         }
 
         /// <summary>
-        /// Executes the processoractions agains the processor.
+        /// Extens the async method body.
         /// </summary>
         /// <param name="methodDefinition">The methodDefinition to use.</param>
-        /// <param name="backingField">The backing field for the ISharedState" instance.</param>
-        private void ExtendAsyncMethodBody(MethodDefinition methodDefinition, FieldReference backingField)
+        /// <param name="declaringTypeSharedStateBackingField">The backing field for the ISharedState" instance.</param>
+        /// <param name="stateMachineType">The type of the state machine.</param>
+        private void ExtendAsyncMethodBody(
+            MethodDefinition methodDefinition,
+            FieldReference declaringTypeSharedStateBackingField,
+            TypeDefinition stateMachineType)
         {
+            if (methodDefinition is null)
+            {
+                throw new ArgumentNullException(nameof(methodDefinition));
+            }
+
+            if (declaringTypeSharedStateBackingField is null)
+            {
+                throw new ArgumentNullException(nameof(declaringTypeSharedStateBackingField));
+            }
+
+            if (stateMachineType is null)
+            {
+                throw new ArgumentNullException(nameof(stateMachineType));
+            }
+
             var processor = methodDefinition.Body.GetILProcessor();
 
-            var module = backingField.DeclaringType.Module;
-            var setLocalStateReference = module.ImportReference(this.weavingContext.CortexNetSharedState.Resolve().Methods.Single(x => x.Name == "SetAsyncLocalState"));
+            var module = declaringTypeSharedStateBackingField.DeclaringType.Module;
 
-            var instructions = new List<Instruction>()
+            IList<Instruction> instructions = null;
+
+            // if the state machine is a struct, we have to set the Shared State directly instead of relying on the constructor
+            // to get it from the Async context.
+            if (stateMachineType.IsValueType)
             {
-                processor.Create(OpCodes.Ldarg_0),
-                processor.Create(OpCodes.Ldfld, backingField),
-                processor.Create(OpCodes.Call, setLocalStateReference),
-            };
+                var setSharedStateReference = module.ImportReference(stateMachineType.Methods.Single(x => x.Name.Contains("set_SharedState")));
+
+                instructions = new List<Instruction>()
+                {
+                    processor.Create(OpCodes.Ldloca_S, (byte)0),
+                    processor.Create(OpCodes.Ldarg_0),
+                    processor.Create(OpCodes.Ldfld, declaringTypeSharedStateBackingField),
+                    processor.Create(OpCodes.Call, setSharedStateReference),
+                };
+            }
+            else
+            {
+                var setLocalStateReference = module.ImportReference(this.weavingContext.CortexNetSharedState.Resolve().Methods.Single(x => x.Name == "SetAsyncLocalState"));
+
+                instructions = new List<Instruction>()
+                {
+                    processor.Create(OpCodes.Ldarg_0),
+                    processor.Create(OpCodes.Ldfld, declaringTypeSharedStateBackingField),
+                    processor.Create(OpCodes.Call, setLocalStateReference),
+                };
+            }
 
             var first = processor.Body.Instructions.First();
 
             foreach (var instruction in instructions)
             {
                 processor.InsertBefore(first, instruction);
+            }
+        }
+
+        /// <summary>
+        /// Extends the method body of the MoveNext method of the state machine.
+        /// </summary>
+        /// <remarks>
+        /// Using a delegate to reenter the method is not going to work with a struct (release mode builds) as the struct needs
+        /// to be boxed before you can create the delegate. So we have to call StartAction / EndAction directly. Luckily the state
+        /// machine has a defined structure with a try catch and a single exit point. It's easy to weave it manually.
+        /// </remarks>
+        /// <param name="moveNextMethodDefinition">The method definition to extend.</param>
+        /// <param name="asyncMethodDefinition">The method definition of the original async method.</param>
+        /// <param name="sharedStateBackingFieldReference">A reference to the shared state backing field.</param>
+        private void ExtendMoveNextMethodBody(MethodDefinition moveNextMethodDefinition, MethodDefinition asyncMethodDefinition, FieldReference sharedStateBackingFieldReference)
+        {
+            var processor = moveNextMethodDefinition.Body.GetILProcessor();
+
+            var originalStart = moveNextMethodDefinition.Body.Instructions.First();
+            var originalEnd = moveNextMethodDefinition.Body.Instructions.Last();
+
+            var module = moveNextMethodDefinition.Module;
+
+            var stateMachineType = moveNextMethodDefinition.DeclaringType;
+            var thisField = stateMachineType.Fields.SingleOrDefault(x => x.Name.Contains("__this"));
+
+            // create a variable to hold the ActionRunInfo instance.
+            int actionRunInfoSlot = moveNextMethodDefinition.Body.Variables.Count;
+            moveNextMethodDefinition.Body.Variables.Add(new VariableDefinition(this.weavingContext.CortexNetCoreActionRunInfo));
+
+            // create a call to StartAction.
+            var instructions = new List<Instruction>()
+            {
+                // shared state and name of action arguments.
+                processor.Create(OpCodes.Ldarg_0),
+                processor.Create(OpCodes.Ldfld, sharedStateBackingFieldReference),
+                processor.Create(OpCodes.Ldstr, asyncMethodDefinition.Name),
+            };
+
+            if (thisField != null)
+            {
+                // There is a reference to the original type that defines the async method.
+                instructions.Add(processor.Create(OpCodes.Ldarg_0));
+                instructions.Add(processor.Create(OpCodes.Ldfld, module.ImportReference(thisField)));
+            }
+            else
+            {
+                // no reference. Pass null as scope.
+                instructions.Add(processor.Create(OpCodes.Ldnull));
+            }
+
+            // Add the parameter count and create an array on the heap.
+            instructions.Add(processor.Create(OpCodes.Ldc_I4_S, (sbyte)asyncMethodDefinition.Parameters.Count));
+            instructions.Add(processor.Create(OpCodes.Newarr, this.weavingContext.SystemObject));
+
+            // loop the parameters of the async method.
+            for (int i = 0; i < asyncMethodDefinition.Parameters.Count; i++)
+            {
+                var parameter = asyncMethodDefinition.Parameters[i];
+
+                var parameterFieldReference = module.ImportReference(stateMachineType.Fields.Single(x => x.Name == parameter.Name));
+
+                // dup the array reference.
+                instructions.Add(processor.Create(OpCodes.Dup));
+
+                // argument count
+                instructions.Add(processor.Create(OpCodes.Ldc_I4_S, (sbyte)i));
+
+                // load the parameter value from a field of the statemachine struct / object.
+                instructions.Add(processor.Create(OpCodes.Ldarg_0));
+                instructions.Add(processor.Create(OpCodes.Ldfld, parameterFieldReference));
+
+                // box if neccessary.
+                if (parameter.ParameterType.IsValueType)
+                {
+                    instructions.Add(processor.Create(OpCodes.Box, parameter.ParameterType));
+                }
+
+                // store the element reference in the array.
+                instructions.Add(processor.Create(OpCodes.Stelem_Ref));
+            }
+
+            var startActionMethodReference = module.ImportReference(this.weavingContext.CortexNetCoreActionExtensions.Resolve().Methods.Single(x => x.Name == "StartAction"));
+
+            // call Start action and store the ActionRunInfo into the local variable.
+            instructions.Add(processor.Create(OpCodes.Call, startActionMethodReference));
+            instructions.Add(OpcodeSelector.Stloc(processor, actionRunInfoSlot));
+
+            foreach (var instruction in instructions)
+            {
+                processor.InsertBefore(originalStart, instruction);
+            }
+
+            var endActionMethodReference = module.ImportReference(this.weavingContext.CortexNetCoreActionExtensions.Resolve().Methods.Single(x => x.Name == "EndAction"));
+
+            // Add end action call to the method.
+            instructions.Clear();
+            var ldLoc = OpcodeSelector.Ldloc(processor, actionRunInfoSlot);
+            instructions.Add(ldLoc);
+            instructions.Add(processor.Create(OpCodes.Call, endActionMethodReference));
+
+            foreach (var instruction in instructions)
+            {
+                processor.InsertBefore(originalEnd, instruction);
+            }
+
+            // fixup references to the original ret instruction to point to the LdLoc instruction that has taken its place.
+            foreach (var instruction in processor.Body.Instructions)
+            {
+                if (instruction.Operand == originalEnd)
+                {
+                    instruction.Operand = ldLoc;
+                }
             }
         }
     }

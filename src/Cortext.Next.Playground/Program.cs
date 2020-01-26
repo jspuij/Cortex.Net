@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.IO;
 using Nito.AsyncEx;
+using System.Collections;
 
 namespace Cortext.Next.Playground
 {
@@ -97,12 +98,12 @@ namespace Cortext.Next.Playground
             group.People.Add(person2);
 
             var program = new Program();
-            var task = program.WriteToFileAsync(group, sharedState);
+            var task = program.WriteToFileAsync(group, sharedState, new Random().Next(0, 200));
 
             personWeave.ChangeBothNames("Jan-Willem", "Spuij2");
             await task;
 
-            Console.WriteLine("Completed");
+            Console.WriteLine($"Completed: {task.Result}");
         }
 
         private static void SharedState_SpyEvent(object sender, Cortex.Net.Spy.SpyEventArgs e)
@@ -112,22 +113,35 @@ namespace Cortext.Next.Playground
             Trace.WriteLine($"[Spy] Event: {type.Name}");
             foreach (var prop in type.GetProperties())
             {
-                Trace.WriteLine($"[Spy] {prop.Name}: {prop.GetValue(e)}");
+                object value = prop.GetValue(e);
+
+                if (value is IEnumerable enumerable && !(value is string))
+                {
+                    int counter = 0;
+                    foreach (var val in enumerable)
+                    {
+                        Trace.WriteLine($"[Spy] {prop.Name}{counter++}: {val}");
+                    }
+                } else
+                {
+                    Trace.WriteLine($"[Spy] {prop.Name}: {value}");
+                }
             }
         }
 
         [Action]
-        public async Task WriteToFileAsync(Group group, ISharedState sharedState)
+        public async Task<int> WriteToFileAsync(Group group, ISharedState sharedState, int count)
         {
             await File.WriteAllTextAsync("output.txt", group.Average.ToString());
             var person3 = new PersonWeave(sharedState);
-            person3.ChangeBothNames("Pipo", "De clown");
+            person3.ChangeBothNames("Pipo", $"De clown{count}");
             person3.Age = 10;
 
             await Task.Delay(3000);
 
             group.People.Add(person3);
 
+            return count + 10;
         }
     }
 }
