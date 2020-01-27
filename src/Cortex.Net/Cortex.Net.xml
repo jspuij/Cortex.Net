@@ -465,6 +465,27 @@
             <param name="scope">The scope of this action.</param>
             <param name="action">The action itself.</param>
         </member>
+        <member name="T:Cortex.Net.Api.CollectionExtensions">
+            <summary>
+            Extension methods for collection instances.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Api.CollectionExtensions.Refill``1(System.Collections.Generic.ICollection{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Refill the collection with new items.
+            </summary>
+            <typeparam name="T">The type of items in the collection.</typeparam>
+            <param name="collection">The observable collection to fill.</param>
+            <param name="items">The items to fill the collection with.</param>
+        </member>
+        <member name="M:Cortex.Net.Api.CollectionExtensions.Refill``1(System.Collections.Generic.IReadOnlyCollection{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Refill the collection with new items.
+            </summary>
+            <typeparam name="T">The type of items in the collection.</typeparam>
+            <param name="collection">The observable collection to fill.</param>
+            <param name="items">The items to fill the collection with.</param>
+        </member>
         <member name="T:Cortex.Net.Api.ComputedAttribute">
             <summary>
             Attribute that signals that the property or method it is applied to, should be interpreted as a computed value.
@@ -824,27 +845,6 @@
             Prints the current tree.
             </summary>
             <returns>A string with line breaks and indentation.</returns>
-        </member>
-        <member name="T:Cortex.Net.Ápi.CollectionExtensions">
-            <summary>
-            Extension methods for collection instances.
-            </summary>
-        </member>
-        <member name="M:Cortex.Net.Ápi.CollectionExtensions.Refill``1(System.Collections.Generic.ICollection{``0},System.Collections.Generic.IEnumerable{``0})">
-            <summary>
-            Refill the collection with new items.
-            </summary>
-            <typeparam name="T">The type of items in the collection.</typeparam>
-            <param name="collection">The observable collection to fill.</param>
-            <param name="items">The items to fill the collection with.</param>
-        </member>
-        <member name="M:Cortex.Net.Ápi.CollectionExtensions.Refill``1(System.Collections.Generic.IReadOnlyCollection{``0},System.Collections.Generic.IEnumerable{``0})">
-            <summary>
-            Refill the collection with new items.
-            </summary>
-            <typeparam name="T">The type of items in the collection.</typeparam>
-            <param name="collection">The observable collection to fill.</param>
-            <param name="items">The items to fill the collection with.</param>
         </member>
         <member name="T:Cortex.Net.AutorunOptions">
             <summary>
