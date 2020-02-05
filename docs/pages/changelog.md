@@ -2,6 +2,10 @@
 
 The changelog is found below:
 
+## 0.2.0-preview1
+
+* Upgrade to Blazor 3.2.0-preview1
+
 ## 0.1.0-preview10
 
 * Fixed a bug where weaving of async actions in Release builds would fail. (#28).

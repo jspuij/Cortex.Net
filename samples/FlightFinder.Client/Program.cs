@@ -15,7 +15,11 @@
 
 namespace FlightFinder.Client
 {
+    using System.Threading.Tasks;
+    using Cortex.Net;
+    using FlightFinder.Client.Services;
     using Microsoft.AspNetCore.Blazor.Hosting;
+    using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
     /// The program class. Bootstraps the WASM application.
@@ -26,18 +30,28 @@ namespace FlightFinder.Client
         /// Main entry point for the WASM application.
         /// </summary>
         /// <param name="args">The arguments for the application.</param>
-        public static void Main(string[] args)
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static async Task Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
-        }
+            var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-        /// <summary>
-        /// Creates a Host builder for the application using the <see cref="Startup" /> class.
-        /// </summary>
-        /// <param name="args">The arguments for the application.</param>
-        /// <returns>A webhost builder.</returns>
-        public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) =>
-            BlazorWebAssemblyHost.CreateDefaultBuilder()
-                .UseBlazorStartup<Startup>();
+            // Blazor is single threaded for now but does not provide a Task Scheduler when FromCurrentSynchronizationContext();
+            // is called. However TaskScheduler.Current is available and at least is able to Schedule tasks.
+            SharedState.GlobalState.Configuration.TaskScheduler = TaskScheduler.Current;
+
+            // Do not enforce actions. This is to allow observable properties to be bound using normal bind directives.
+            SharedState.GlobalState.Configuration.EnforceActions = EnforceAction.Never;
+
+            // Add the Shared state to the DI container.
+            builder.Services.AddSingleton(x => SharedState.GlobalState);
+
+            // Add application state to the DI container.
+            builder.Services.AddSingleton<ShortListState>();
+            builder.Services.AddSingleton<SearchState>();
+
+            builder.RootComponents.Add<Main>("body");
+
+            await builder.Build().RunAsync();
+        }
     }
 }

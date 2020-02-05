@@ -16,7 +16,11 @@
 
 namespace Cortex.Net.BlazorTodo
 {
+    using System.Threading.Tasks;
+    using Blazored.LocalStorage;
+    using Cortex.Net.BlazorTodo.Stores;
     using Microsoft.AspNetCore.Blazor.Hosting;
+    using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
     /// Entry point for the Web Assembly application.
@@ -27,19 +31,32 @@ namespace Cortex.Net.BlazorTodo
         /// Main entry point for the Web assembly application.
         /// </summary>
         /// <param name="args">Command line arguments.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
 #pragma warning disable CA1801 // parameter args never used.
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            CreateHostBuilder().Build().Run();
+            var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+            // Blazor is single threaded for now but does not provide a Task Scheduler when FromCurrentSynchronizationContext();
+            // is called. However TaskScheduler.Current is available and at least is able to Schedule tasks.
+            SharedState.GlobalState.Configuration.TaskScheduler = TaskScheduler.Current;
+
+            // add local storage support.
+            builder.Services.AddBlazoredLocalStorage();
+
+            // Add the Shared state to the DI container.
+            builder.Services.AddSingleton(x => SharedState.GlobalState);
+
+            // Add a singleton ViewStore to the DI container.
+            builder.Services.AddSingleton<ViewStore>();
+
+            // Add a singleton TodoStore to the DI container.
+            builder.Services.AddSingleton<TodoStore>();
+
+            builder.RootComponents.Add<App>("app");
+
+            await builder.Build().RunAsync().ConfigureAwait(true);
         }
 #pragma warning restore CA1801 // parameter args never used.
-
-        /// <summary>
-        /// Creates a Web Assemby host using the specified Startup class.
-        /// </summary>
-        /// <returns>An instance that implements the <see cref="IWebAssemblyHostBuilder"/> interface.</returns>
-        public static IWebAssemblyHostBuilder CreateHostBuilder() =>
-            BlazorWebAssemblyHost.CreateDefaultBuilder()
-                .UseBlazorStartup<Startup>();
     }
 }
