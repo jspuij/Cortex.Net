@@ -14,8 +14,6 @@
       href: observable.md
     - name: Collections
       href: collections.md
-    - name: ObservableObject
-      href: observableobject.md
 - name: Reacting to observables
   items:
     - name: Computed
