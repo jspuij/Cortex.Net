@@ -84,7 +84,7 @@ var person3 = new Person();
 
 Most DI containers provide a way to retrieve scoped instances from the container
 that are tied or can be tied to something like the thread context, async context
-or a webrequest et cetera. For instance the [DI container from microsoft](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-3.0)
+or a webrequest et cetera. For instance the [DI container from microsoft](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection)
 makes it possible to tie a service to a web request like this:
 
 ```csharp
