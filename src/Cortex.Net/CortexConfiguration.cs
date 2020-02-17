@@ -49,6 +49,11 @@ namespace Cortex.Net
         public bool ReactionRequiresObservable { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to automatically schedule actions on a UI thread.
+        /// </summary>
+        public bool AutoscheduleActions { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether a <see cref="ComputedValue{T}"/> instance requires a reactive context.
         /// </summary>
         public bool ComputedRequiresReaction { get; set; }

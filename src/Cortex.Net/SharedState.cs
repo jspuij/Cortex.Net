@@ -43,11 +43,10 @@ namespace Cortex.Net
         /// </summary>
         private static ISharedState globalState;
 
-        private readonly IList<IEnhancer> enhancers = new List<IEnhancer>()
-        {
-            new ReferenceEnhancer(),
-            new DeepEnhancer(),
-        };
+        /// <summary>
+        /// The thread Id where the shared state was started.
+        /// </summary>
+        private readonly int startThreadId;
 
         /// <summary>
         /// Batch counter to support reentrance of Start and EndBatch.
@@ -81,6 +80,7 @@ namespace Cortex.Net
             }
 
             CortexConfiguration.UseGlobalState = false;
+            this.startThreadId = Thread.CurrentThread.ManagedThreadId;
         }
 
         /// <summary>
@@ -194,7 +194,16 @@ namespace Cortex.Net
         /// <summary>
         /// Gets a list of enhancers on this SharedState.
         /// </summary>
-        public IList<IEnhancer> Enhancers => this.enhancers;
+        public IList<IEnhancer> Enhancers { get; } = new List<IEnhancer>()
+        {
+            new ReferenceEnhancer(),
+            new DeepEnhancer(),
+        };
+
+        /// <summary>
+        /// Gets a value indicating whether the action should be invoked on the original thread that created the context.
+        /// </summary>
+        public bool ShouldInvoke => this.Configuration.AutoscheduleActions && this.startThreadId != Thread.CurrentThread.ManagedThreadId;
 
         /// <summary>
         /// Set the AsyncLocalSharedState.

@@ -119,6 +119,6 @@ namespace Cortex.Net.Core
             }
 
             actionRunInfo.SharedState.SuppressReactionErrors = false;
-}
+        }
     }
 }

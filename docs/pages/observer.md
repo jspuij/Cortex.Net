@@ -40,7 +40,7 @@ Using `Observer` is pretty straight forward:
                 // tick every second.
                 await Task.Delay(1000);
                 // Invoke to make sure we are running on the UI thread.
-                Invoke(Tick);
+                await InvokeAsync(Tick);
             }
         } );
     }

@@ -23,6 +23,9 @@
 namespace Cortex.Net.Core
 {
     using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Cortex.Net.Api;
 
     /// <summary>
     /// Extension methods for <see cref="Action"/> delegates.
@@ -59,7 +62,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(<#=invokeArgs#>);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(<#=invokeArgs#>);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(<#=invokeArgs#>);
+                }
             }
             catch (Exception exception)
             {

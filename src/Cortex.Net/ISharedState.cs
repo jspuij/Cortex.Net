@@ -104,6 +104,11 @@ namespace Cortex.Net
         IList<IEnhancer> Enhancers { get; }
 
         /// <summary>
+        /// Gets a value indicating whether the action should be invoked on the original thread that created the context.
+        /// </summary>
+        bool ShouldInvoke { get; }
+
+        /// <summary>
         /// Gets a unique Id that is incremented every time.
         /// </summary>
         /// <returns>The new unique Id.</returns>

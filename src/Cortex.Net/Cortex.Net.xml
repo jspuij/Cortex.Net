@@ -2059,6 +2059,11 @@
             Gets or sets a value indicating whether to warn if reactions are required to visit at least one observable.
             </summary>
         </member>
+        <member name="P:Cortex.Net.CortexConfiguration.AutoscheduleActions">
+            <summary>
+            Gets or sets a value indicating whether to automatically schedule actions on a UI thread.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.CortexConfiguration.ComputedRequiresReaction">
             <summary>
             Gets or sets a value indicating whether a <see cref="T:Cortex.Net.Core.ComputedValue`1"/> instance requires a reactive context.
@@ -2428,6 +2433,11 @@
         <member name="P:Cortex.Net.ISharedState.Enhancers">
             <summary>
             Gets a list of enhancers.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.ISharedState.ShouldInvoke">
+            <summary>
+            Gets a value indicating whether the action should be invoked on the original thread that created the context.
             </summary>
         </member>
         <member name="M:Cortex.Net.ISharedState.GetUniqueId">
@@ -2879,6 +2889,11 @@
             A reference to the Global state (if used).
             </summary>
         </member>
+        <member name="F:Cortex.Net.SharedState.startThreadId">
+            <summary>
+            The thread Id where the shared state was started.
+            </summary>
+        </member>
         <member name="F:Cortex.Net.SharedState.batchCount">
             <summary>
             Batch counter to support reentrance of Start and EndBatch.
@@ -2993,6 +3008,11 @@
         <member name="P:Cortex.Net.SharedState.Enhancers">
             <summary>
             Gets a list of enhancers on this SharedState.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.SharedState.ShouldInvoke">
+            <summary>
+            Gets a value indicating whether the action should be invoked on the original thread that created the context.
             </summary>
         </member>
         <member name="M:Cortex.Net.SharedState.SetAsyncLocalState(Cortex.Net.ISharedState)">

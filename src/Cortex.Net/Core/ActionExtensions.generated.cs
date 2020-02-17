@@ -17,6 +17,9 @@
 namespace Cortex.Net.Core
 {
     using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Cortex.Net.Api;
 
     /// <summary>
     /// Extension methods for <see cref="Action"/> delegates.
@@ -37,7 +40,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke();
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke();
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke();
+                }
             }
             catch (Exception exception)
             {
@@ -64,7 +89,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1);
+                }
             }
             catch (Exception exception)
             {
@@ -92,7 +139,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1, arg2);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1, arg2);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1, arg2);
+                }
             }
             catch (Exception exception)
             {
@@ -121,7 +190,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1, arg2, arg3);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1, arg2, arg3);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1, arg2, arg3);
+                }
             }
             catch (Exception exception)
             {
@@ -151,7 +242,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1, arg2, arg3, arg4);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1, arg2, arg3, arg4);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1, arg2, arg3, arg4);
+                }
             }
             catch (Exception exception)
             {
@@ -182,7 +295,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1, arg2, arg3, arg4, arg5);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1, arg2, arg3, arg4, arg5);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1, arg2, arg3, arg4, arg5);
+                }
             }
             catch (Exception exception)
             {
@@ -214,7 +349,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6);
+                }
             }
             catch (Exception exception)
             {
@@ -247,7 +404,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+                }
             }
             catch (Exception exception)
             {
@@ -281,7 +460,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+                }
             }
             catch (Exception exception)
             {
@@ -316,7 +517,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+                }
             }
             catch (Exception exception)
             {
@@ -352,7 +575,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+                }
             }
             catch (Exception exception)
             {
@@ -389,7 +634,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
+                }
             }
             catch (Exception exception)
             {
@@ -427,7 +694,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
+                }
             }
             catch (Exception exception)
             {
@@ -466,7 +755,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13);
+                }
             }
             catch (Exception exception)
             {
@@ -506,7 +817,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14);
+                }
             }
             catch (Exception exception)
             {
@@ -547,7 +880,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15);
+                }
             }
             catch (Exception exception)
             {
@@ -589,7 +944,29 @@ namespace Cortex.Net.Core
 
             try
             {
-                action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16);
+                if (sharedState.ShouldInvoke)
+                {
+                    var taskScheduler = sharedState.GetTaskScheduler();
+                    Task.Factory.StartNew(
+                        () =>
+                        {
+                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16);
+                        },
+                        CancellationToken.None,
+                        TaskCreationOptions.DenyChildAttach,
+                        taskScheduler).ContinueWith(
+                            t =>
+                            {
+                                if (t.Exception != null)
+                                {
+                                    throw t.Exception;
+                                }
+                            }, taskScheduler);
+                }
+                else
+                {
+                    action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16);
+                }
             }
             catch (Exception exception)
             {
