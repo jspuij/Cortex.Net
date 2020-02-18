@@ -44,9 +44,12 @@ namespace Cortex.Net.Fody
             this.CortexNetTypesObservableObject = TryResolveFromReference(moduleWeaver, "Cortex.Net.Types.ObservableObject", "Cortex.Net");
             this.CortexNetComputedValueOptions = TryResolveFromReference(moduleWeaver, "Cortex.Net.ComputedValueOptions`1", "Cortex.Net");
             this.CortexNetTypesObservableCollection = TryResolveFromReference(moduleWeaver, "Cortex.Net.Types.ObservableCollection`1", "Cortex.Net");
+            this.CortexNetTypesObservableSet = TryResolveFromReference(moduleWeaver, "Cortex.Net.Types.ObservableSet`1", "Cortex.Net");
+            this.CortexNetTypesObservableDictionary = TryResolveFromReference(moduleWeaver, "Cortex.Net.Types.ObservableDictionary`2", "Cortex.Net");
             this.CortexNetApiObservableAttribute = TryResolveFromReference(moduleWeaver, "Cortex.Net.Api.ObservableAttribute", "Cortex.Net");
             this.CortexNetCoreActionExtensions = TryResolveFromReference(moduleWeaver, "Cortex.Net.Core.ActionExtensions", "Cortex.Net");
             this.CortexNetCoreActionRunInfo = TryResolveFromReference(moduleWeaver, "Cortex.Net.Core.ActionRunInfo", "Cortex.Net");
+            this.MicrosoftAspNetCoreComponentsInjectAttribute = TryResolveFromReference(moduleWeaver, "Microsoft.AspNetCore.Components.InjectAttribute", "Microsoft.AspNetCore.Components", false);
             this.SystemRuntimeCompilerServicesCompilerGeneratedAttribute = TryResolveFromScannedAssemblies(moduleWeaver, "System.Runtime.CompilerServices.CompilerGeneratedAttribute");
             this.SystemDiagnosticsDebuggerBrowsableAttribute = TryResolveFromScannedAssemblies(moduleWeaver, "System.Diagnostics.DebuggerBrowsableAttribute");
             this.SystemObject = TryResolveFromScannedAssemblies(moduleWeaver, "System.Object");
@@ -107,6 +110,16 @@ namespace Cortex.Net.Fody
         public TypeReference CortexNetTypesObservableCollection { get; }
 
         /// <summary>
+        /// Gets type reference to Cortex.Net.Types.ObservableSet`1.
+        /// </summary>
+        public TypeReference CortexNetTypesObservableSet { get; }
+
+        /// <summary>
+        /// Gets type reference to Cortex.Net.Types.ObservableDictionary`2.
+        /// </summary>
+        public TypeReference CortexNetTypesObservableDictionary { get; }
+
+        /// <summary>
         /// Gets type reference to Cortex.Net.Api.ObservableAttribute.
         /// </summary>
         public TypeReference CortexNetApiObservableAttribute { get; }
@@ -120,6 +133,11 @@ namespace Cortex.Net.Fody
         /// Gets type reference to Cortex.Net.Core.ActionRunInfo.
         /// </summary>
         public TypeReference CortexNetCoreActionRunInfo { get; }
+
+        /// <summary>
+        /// Gets type reference to Microsoft.AspNetCore.Components.InjectAttribute.
+        /// </summary>
+        public TypeReference MicrosoftAspNetCoreComponentsInjectAttribute { get; }
 
         /// <summary>
         /// Gets type reference to System.Runtime.CompilerServices.CompilerGeneratedAttribute.
@@ -162,8 +180,9 @@ namespace Cortex.Net.Fody
         /// <param name="moduleWeaver">The module weaver to use.</param>
         /// <param name="fullName">The fullname of the type.</param>
         /// <param name="assemblyName">The assembly name.</param>
+        /// <param name="throwOnFailure">Throw an exception on failure.</param>
         /// <returns>A type reference.</returns>
-        protected static TypeReference TryResolveFromReference(ModuleWeaver moduleWeaver, string fullName, string assemblyName)
+        protected static TypeReference TryResolveFromReference(ModuleWeaver moduleWeaver, string fullName, string assemblyName, bool throwOnFailure = true)
         {
             if (moduleWeaver is null)
             {
@@ -177,8 +196,13 @@ namespace Cortex.Net.Fody
             }
             catch
             {
-                moduleWeaver.LogWarning(string.Format(CultureInfo.CurrentCulture, Resources.AssemblyOrTypeNotFoundReferences, fullName, assemblyName));
-                throw;
+                if (throwOnFailure)
+                {
+                    moduleWeaver.LogWarning(string.Format(CultureInfo.CurrentCulture, Resources.AssemblyOrTypeNotFoundReferences, fullName, assemblyName));
+                    throw;
+                }
+
+                return null;
             }
         }
 

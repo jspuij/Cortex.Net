@@ -639,6 +639,11 @@
             Weaves the implementation for IReactiveObject on an object.
             </summary>
         </member>
+        <member name="F:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.ComponentBaseTypeName">
+            <summary>
+            The full name of the ComponentBasetype.
+            </summary>
+        </member>
         <member name="F:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.parentWeaver">
             <summary>
             A reference to the parent Cortex.Net weaver.
@@ -665,6 +670,13 @@
             <summary>
             Executes this weaver.
             </summary>
+        </member>
+        <member name="M:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.IsBlazorComponent(Mono.Cecil.TypeDefinition)">
+            <summary>
+            Detects whether this class is a blazor component.
+            </summary>
+            <param name="reactiveObjectTypeDefinition">The type definition to check.</param>
+            <returns>True if the class is a blazor component, false otherwise.</returns>
         </member>
         <member name="M:Cortex.Net.Fody.ReactiveObjectInterfaceWeaver.CallsOtherConstructor(Mono.Cecil.MethodDefinition)">
             <summary>
@@ -756,12 +768,12 @@
             <param name="setter">The setter for the property. Can be null.</param>
             <returns>The created property definitition.</returns>
         </member>
-        <member name="M:Cortex.Net.Fody.TypeDefinitionExtenions.IsReplaceableCollection(Mono.Cecil.TypeReference,Mono.Cecil.TypeReference)">
+        <member name="M:Cortex.Net.Fody.TypeDefinitionExtenions.IsReplaceableCollection(Mono.Cecil.TypeReference,Cortex.Net.Fody.WeavingContext)">
             <summary>
             Returns whether the type reference is of a type that can be replaced by ObservableCollection{T}.
             </summary>
             <param name="typeReference">The typeReference to check.</param>
-            <param name="observableCollectionTypeReference">The type reference to ObservableCollection{T}.</param>
+            <param name="weavingContext">The weavingContext to use..</param>
             <returns>True when the type is a type that can be replaced by one of the interfaces of ObservableCollection{T}", false otherwise.</returns>
         </member>
         <member name="T:Cortex.Net.Fody.WeavingContext">
@@ -825,6 +837,16 @@
             Gets type reference to Cortex.Net.Types.ObservableCollection`1.
             </summary>
         </member>
+        <member name="P:Cortex.Net.Fody.WeavingContext.CortexNetTypesObservableSet">
+            <summary>
+            Gets type reference to Cortex.Net.Types.ObservableSet`1.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.WeavingContext.CortexNetTypesObservableDictionary">
+            <summary>
+            Gets type reference to Cortex.Net.Types.ObservableDictionary`2.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Fody.WeavingContext.CortexNetApiObservableAttribute">
             <summary>
             Gets type reference to Cortex.Net.Api.ObservableAttribute.
@@ -838,6 +860,11 @@
         <member name="P:Cortex.Net.Fody.WeavingContext.CortexNetCoreActionRunInfo">
             <summary>
             Gets type reference to Cortex.Net.Core.ActionRunInfo.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.WeavingContext.MicrosoftAspNetCoreComponentsInjectAttribute">
+            <summary>
+            Gets type reference to Microsoft.AspNetCore.Components.InjectAttribute.
             </summary>
         </member>
         <member name="P:Cortex.Net.Fody.WeavingContext.SystemRuntimeCompilerServicesCompilerGeneratedAttribute">
@@ -875,13 +902,14 @@
             Gets a reference to System.Runtime.CompilerServices.AsyncStateMachineAttribute.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Fody.WeavingContext.TryResolveFromReference(Cortex.Net.Fody.ModuleWeaver,System.String,System.String)">
+        <member name="M:Cortex.Net.Fody.WeavingContext.TryResolveFromReference(Cortex.Net.Fody.ModuleWeaver,System.String,System.String,System.Boolean)">
             <summary>
             Tries to resolve a type from a preference.
             </summary>
             <param name="moduleWeaver">The module weaver to use.</param>
             <param name="fullName">The fullname of the type.</param>
             <param name="assemblyName">The assembly name.</param>
+            <param name="throwOnFailure">Throw an exception on failure.</param>
             <returns>A type reference.</returns>
         </member>
         <member name="M:Cortex.Net.Fody.WeavingContext.TryResolveFromScannedAssemblies(Cortex.Net.Fody.ModuleWeaver,System.String)">

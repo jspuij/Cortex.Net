@@ -31,6 +31,11 @@ namespace Cortex.Net.Fody
     public class ReactiveObjectInterfaceWeaver : ISharedStateAssignmentILProcessorQueue
     {
         /// <summary>
+        /// The full name of the ComponentBasetype.
+        /// </summary>
+        private const string ComponentBaseTypeName = "Microsoft.AspNetCore.Components.ComponentBase";
+
+        /// <summary>
         /// A reference to the parent Cortex.Net weaver.
         /// </summary>
         private readonly ModuleWeaver parentWeaver;
@@ -72,6 +77,8 @@ namespace Cortex.Net.Fody
 
             foreach ((TypeDefinition reactiveObjectTypeDefinition, bool addInjectAttribute, IEnumerable<Action<ILProcessor, FieldReference>> processorActions) in queueContent)
             {
+                var isBlazorComponent = IsBlazorComponent(reactiveObjectTypeDefinition);
+
                 FieldDefinition backingField = null;
 
                 var iReactiveObjectInterfaceType = this.weavingContext.CortexNetIReactiveObject;
@@ -99,9 +106,6 @@ namespace Cortex.Net.Fody
                     var getter = reactiveObjectTypeDefinition.CreateDefaultGetter(backingField, "Cortex.Net.Api.IReactiveObject.SharedState", this.weavingContext, methodAttributes);
                     getter.Overrides.Add(moduleDefinition.ImportReference(getOverride));
 
-                    // add property
-                    var propertyDefinition = reactiveObjectTypeDefinition.CreateProperty("Cortex.Net.Api.IReactiveObject.SharedState", getter);
-
                     if (reactiveObjectTypeDefinition.IsValueType)
                     {
                         methodAttributes = MethodAttributes.Public
@@ -115,12 +119,24 @@ namespace Cortex.Net.Fody
                     // create a private setter.
                     var setter = reactiveObjectTypeDefinition.CreateDefaultSetter(backingField, "Cortex.Net.Api.IReactiveObject.SharedState", this.weavingContext, methodAttributes, p => ExecuteProcessorActions(p, backingField, processorActions));
 
-                    foreach (var constructor in reactiveObjectTypeDefinition.Methods.Where(x => x.IsConstructor && !x.IsStatic))
+                    // add property
+                    var propertyDefinition = reactiveObjectTypeDefinition.CreateProperty("Cortex.Net.Api.IReactiveObject.SharedState", getter, isBlazorComponent ? setter : null);
+
+                    if (isBlazorComponent)
                     {
-                        if (!CallsOtherConstructor(constructor))
+                        var constructorDefinition = this.weavingContext.MicrosoftAspNetCoreComponentsInjectAttribute.Resolve().Methods.Single(x => x.IsConstructor);
+                        var constructorReference = moduleDefinition.ImportReference(constructorDefinition);
+                        propertyDefinition.CustomAttributes.Add(new CustomAttribute(constructorReference));
+                    }
+                    else
+                    {
+                        foreach (var constructor in reactiveObjectTypeDefinition.Methods.Where(x => x.IsConstructor && !x.IsStatic))
                         {
-                            // call the setter from each constructor.
-                            this.EmitConstructorCall(constructor.Body.GetILProcessor(), backingField, setter);
+                            if (!CallsOtherConstructor(constructor))
+                            {
+                                // call the setter from each constructor.
+                                this.EmitConstructorCall(constructor.Body.GetILProcessor(), backingField, setter);
+                            }
                         }
                     }
                 }
@@ -155,6 +171,28 @@ namespace Cortex.Net.Fody
                     throw new WeavingException(string.Format(CultureInfo.CurrentCulture, Resources.DoNotMixAttributesAndIReactiveObject, reactiveObjectTypeDefinition.FullName));
                 }
             }
+        }
+
+        /// <summary>
+        /// Detects whether this class is a blazor component.
+        /// </summary>
+        /// <param name="reactiveObjectTypeDefinition">The type definition to check.</param>
+        /// <returns>True if the class is a blazor component, false otherwise.</returns>
+        private static bool IsBlazorComponent(TypeDefinition reactiveObjectTypeDefinition)
+        {
+            var baseType = reactiveObjectTypeDefinition.BaseType.Resolve();
+
+            while (baseType != null)
+            {
+                if (baseType.FullName == ComponentBaseTypeName)
+                {
+                    return true;
+                }
+
+                baseType = baseType.BaseType?.Resolve();
+            }
+
+            return false;
         }
 
         /// <summary>

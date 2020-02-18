@@ -36,42 +36,40 @@ namespace Cortex.Net.Core
 
         internal static void ExecuteAction(ISharedState sharedState, string actionName, object scope, Action action)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, Array.Empty<object>());
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke();
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, Array.Empty<object>());
+
+                try
                 {
                     action.Invoke();
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -85,42 +83,40 @@ namespace Cortex.Net.Core
         /// <param name="arg1">Argument nr. 1.</param>
         internal static void ExecuteAction<T1>(ISharedState sharedState, string actionName, object scope, Action<T1> action, T1 arg1)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1});
+
+                try
                 {
                     action.Invoke(arg1);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -135,42 +131,40 @@ namespace Cortex.Net.Core
         /// <param name="arg2">Argument nr. 2.</param>
         internal static void ExecuteAction<T1,T2>(ISharedState sharedState, string actionName, object scope, Action<T1,T2> action, T1 arg1, T2 arg2)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1, arg2);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2});
+
+                try
                 {
                     action.Invoke(arg1, arg2);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -186,42 +180,40 @@ namespace Cortex.Net.Core
         /// <param name="arg3">Argument nr. 3.</param>
         internal static void ExecuteAction<T1,T2,T3>(ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3> action, T1 arg1, T2 arg2, T3 arg3)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1, arg2, arg3);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3});
+
+                try
                 {
                     action.Invoke(arg1, arg2, arg3);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -238,42 +230,40 @@ namespace Cortex.Net.Core
         /// <param name="arg4">Argument nr. 4.</param>
         internal static void ExecuteAction<T1,T2,T3,T4>(ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1, arg2, arg3, arg4);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4});
+
+                try
                 {
                     action.Invoke(arg1, arg2, arg3, arg4);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -291,42 +281,40 @@ namespace Cortex.Net.Core
         /// <param name="arg5">Argument nr. 5.</param>
         internal static void ExecuteAction<T1,T2,T3,T4,T5>(ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1, arg2, arg3, arg4, arg5);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5});
+
+                try
                 {
                     action.Invoke(arg1, arg2, arg3, arg4, arg5);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -345,42 +333,40 @@ namespace Cortex.Net.Core
         /// <param name="arg6">Argument nr. 6.</param>
         internal static void ExecuteAction<T1,T2,T3,T4,T5,T6>(ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6});
+
+                try
                 {
                     action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -400,42 +386,40 @@ namespace Cortex.Net.Core
         /// <param name="arg7">Argument nr. 7.</param>
         internal static void ExecuteAction<T1,T2,T3,T4,T5,T6,T7>(ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7});
+
+                try
                 {
                     action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -456,42 +440,40 @@ namespace Cortex.Net.Core
         /// <param name="arg8">Argument nr. 8.</param>
         internal static void ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8>(ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8});
+
+                try
                 {
                     action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -513,42 +495,40 @@ namespace Cortex.Net.Core
         /// <param name="arg9">Argument nr. 9.</param>
         internal static void ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9>(ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9});
+
+                try
                 {
                     action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -571,42 +551,40 @@ namespace Cortex.Net.Core
         /// <param name="arg10">Argument nr. 10.</param>
         internal static void ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10>(ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10});
+
+                try
                 {
                     action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -630,42 +608,40 @@ namespace Cortex.Net.Core
         /// <param name="arg11">Argument nr. 11.</param>
         internal static void ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11>(ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11});
+
+                try
                 {
                     action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -690,42 +666,40 @@ namespace Cortex.Net.Core
         /// <param name="arg12">Argument nr. 12.</param>
         internal static void ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12>(ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12});
+
+                try
                 {
                     action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -751,42 +725,40 @@ namespace Cortex.Net.Core
         /// <param name="arg13">Argument nr. 13.</param>
         internal static void ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13>(ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13});
+
+                try
                 {
                     action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -813,42 +785,40 @@ namespace Cortex.Net.Core
         /// <param name="arg14">Argument nr. 14.</param>
         internal static void ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14>(ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14});
+
+                try
                 {
                     action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -876,42 +846,40 @@ namespace Cortex.Net.Core
         /// <param name="arg15">Argument nr. 15.</param>
         internal static void ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15>(ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15});
+
+                try
                 {
                     action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 
@@ -940,42 +908,40 @@ namespace Cortex.Net.Core
         /// <param name="arg16">Argument nr. 16.</param>
         internal static void ExecuteAction<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>(ISharedState sharedState, string actionName, object scope, Action<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15, T16 arg16)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16});
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, new object[] {arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16});
+
+                try
                 {
                     action.Invoke(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 

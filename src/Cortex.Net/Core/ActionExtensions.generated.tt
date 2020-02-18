@@ -58,42 +58,40 @@ namespace Cortex.Net.Core
 <#=paramHeaders#>
         internal static void ExecuteAction<#=typeArgs#>(ISharedState sharedState, string actionName, object scope, Action<#=typeArgs#> action<#=paramArgs#>)
         {
-            ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, <#=startActionArgs#>);
-
-            try
+            void innerAction()
             {
-                if (sharedState.ShouldInvoke)
-                {
-                    var taskScheduler = sharedState.GetTaskScheduler();
-                    Task.Factory.StartNew(
-                        () =>
-                        {
-                            action.Invoke(<#=invokeArgs#>);
-                        },
-                        CancellationToken.None,
-                        TaskCreationOptions.DenyChildAttach,
-                        taskScheduler).ContinueWith(
-                            t =>
-                            {
-                                if (t.Exception != null)
-                                {
-                                    throw t.Exception;
-                                }
-                            }, taskScheduler);
-                }
-                else
+                ActionRunInfo actionRunInfo = StartAction(sharedState, actionName, scope, <#=startActionArgs#>);
+
+                try
                 {
                     action.Invoke(<#=invokeArgs#>);
                 }
+                catch (Exception exception)
+                {
+                    actionRunInfo.Exception = exception;
+                    throw;
+                }
+                finally
+                {
+                    EndAction(actionRunInfo);
+                }
             }
-            catch (Exception exception)
+
+            if (sharedState.ShouldInvoke)
             {
-                actionRunInfo.Exception = exception;
-                throw;
+                var taskScheduler = sharedState.GetTaskScheduler();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        innerAction();
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.DenyChildAttach,
+                    taskScheduler);
             }
-            finally
+            else
             {
-                EndAction(actionRunInfo);
+                innerAction();
             }
         }
 

@@ -274,27 +274,33 @@ namespace Cortex.Net.Fody
         /// Returns whether the type reference is of a type that can be replaced by ObservableCollection{T}.
         /// </summary>
         /// <param name="typeReference">The typeReference to check.</param>
-        /// <param name="observableCollectionTypeReference">The type reference to ObservableCollection{T}.</param>
+        /// <param name="weavingContext">The weavingContext to use..</param>
         /// <returns>True when the type is a type that can be replaced by one of the interfaces of ObservableCollection{T}", false otherwise.</returns>
-        public static bool IsReplaceableCollection(this TypeReference typeReference, TypeReference observableCollectionTypeReference)
+        public static bool IsReplaceableCollection(this TypeReference typeReference, WeavingContext weavingContext)
         {
             if (typeReference is null)
             {
                 throw new ArgumentNullException(nameof(typeReference));
             }
 
-            if (observableCollectionTypeReference is null)
+            if (weavingContext is null)
             {
-                throw new ArgumentNullException(nameof(observableCollectionTypeReference));
+                throw new ArgumentNullException(nameof(weavingContext));
             }
 
             var module = typeReference.Module;
 
-            var observableCollectionType = observableCollectionTypeReference.Resolve();
+            var observableCollectionTypes = new TypeDefinition[]
+            {
+                weavingContext.CortexNetTypesObservableDictionary.Resolve(),
+                weavingContext.CortexNetTypesObservableSet.Resolve(),
+                weavingContext.CortexNetTypesObservableCollection.Resolve(),
+            };
+
             var typeToCheck = typeReference.Resolve();
             var interfacesToCheck = typeToCheck.Interfaces.OrderBy(x => x.InterfaceType.FullName).ToList();
 
-            foreach (var interfaceImplementation in observableCollectionType.Interfaces.OrderBy(x => x.InterfaceType.FullName))
+            foreach (var interfaceImplementation in observableCollectionTypes.SelectMany(x => x.Interfaces).OrderBy(x => x.InterfaceType.FullName))
             {
                 foreach (var interfaceImplementationToCheck in interfacesToCheck)
                 {

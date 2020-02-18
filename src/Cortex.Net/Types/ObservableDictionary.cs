@@ -33,14 +33,14 @@ namespace Cortex.Net.Types
     /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
     /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
     public class ObservableDictionary<TKey, TValue> :
-        ICollection<KeyValuePair<TKey, TValue>>,
-        IEnumerable<KeyValuePair<TKey, TValue>>,
-        IEnumerable,
         IDictionary<TKey, TValue>,
-        IReadOnlyCollection<KeyValuePair<TKey, TValue>>,
         IReadOnlyDictionary<TKey, TValue>,
+        ICollection<KeyValuePair<TKey, TValue>>,
+        IReadOnlyCollection<KeyValuePair<TKey, TValue>>,
+        IDictionary,
+        IEnumerable<KeyValuePair<TKey, TValue>>,
         ICollection,
-        IDictionary
+        IEnumerable
     {
         /// <summary>
         /// The inner dictionary to store the keys and values.
@@ -681,7 +681,7 @@ namespace Cortex.Net.Types
                 }
             }
 
-            this.innerDictionary.Add(key, newValue);
+            this.innerDictionary[key] = newValue;
             this.NotifyDictionaryChildUpdate(key, newValue, oldValue);
         }
 

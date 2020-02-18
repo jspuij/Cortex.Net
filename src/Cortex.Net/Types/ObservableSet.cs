@@ -32,7 +32,7 @@ namespace Cortex.Net.Types
     /// </summary>
     /// <typeparam name="T">The type parameter to work on.</typeparam>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "A Set is a collection.")]
-    public class ObservableSet<T> : ICollection<T>, IEnumerable<T>, IEnumerable, IReadOnlyCollection<T>, ISet<T>
+    public class ObservableSet<T> : ISet<T>, ICollection<T>, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
     {
         private readonly HashSet<T> innerSet;
         private readonly IAtom atom;

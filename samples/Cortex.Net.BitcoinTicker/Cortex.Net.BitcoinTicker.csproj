@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug</OutputPath>
+    <DocumentationFile>bin\Debug\netcoreapp3.1\BitcoinTicker.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.2.0-preview1.20073.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Reactive" Version="4.3.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Cortex.Net.Blazor\Cortex.Net.Blazor.csproj" />
+    <ProjectReference Include="..\..\src\Cortex.Net.DynamicData\Cortex.Net.DynamicData.csproj" />
+    <ProjectReference Include="..\..\src\Cortex.Net\Cortex.Net.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <WeaverFiles Include="$(SolutionDir)src\Cortex.Net.Fody\bin\$(Configuration)\netstandard2.0\Cortex.Net.Fody.dll" WeaverClassNames="ModuleWeaver" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,57 @@
+﻿@page "/"
+@using BitcoinTicker.Store
+@using Cortex.Net.Api
+@using Cortex.Net.Blazor
+
+@attribute [Observer]
+@inject TickerStore TickerStore
+
+<h1>Bitcoin.info exchange rates.</h1>
+
+@if (this.FilteredRates.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Currency</td>
+                <td>Last</td>
+                <td>Min</td>
+                <td>Max</td>
+            </tr>
+            <tr>
+                <td><input @bind-value="FilterText" @bind-value:event="oninput" /></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var keyValuePair in this.FilteredRates)
+            {
+               <ExchangeRateRow @key="keyValuePair.Key" ExchangeRate="keyValuePair.Value" />
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">Number of exchange rates: @this.FilteredRates.Count()</td>
+            </tr>
+        </tfoot>
+    </table>
+}
+else
+{
+    <p>There are no exchange rates.</p>
+    <p>@TickerStore.ErrorMessage</p>
+}
+
+
+@code
+{
+    [Computed]
+    public IEnumerable<KeyValuePair<string, Models.ExchangeRate>> FilteredRates => this.TickerStore.ExchangeRates.Where(x => FilterText == null || x.Key.StartsWith(FilterText));
+
+    [Observable]
+    public string FilterText { get; set; }
+}
+
+

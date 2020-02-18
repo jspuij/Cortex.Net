@@ -1,0 +1,75 @@
+﻿@page "/transactions"
+@page "/transactions/{PageIndex:int}"
+@using BitcoinTicker.Store
+@using BitcoinTicker.Models
+@using Cortex.Net.Api
+@using Cortex.Net.Blazor
+
+@attribute [Observer]
+@inject TransactionStore TransactionStore
+
+<h1>Bitcoin.info unconfirmed transactions.</h1>
+
+
+@if (this.TransactionStore.Transactions.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Hash</td>
+                <td>Time</td>
+                <td>Amount (BTC)</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transaction in this.PagedTransactions)
+            {
+                <tr>
+                    <td @key="transaction.Hash">@transaction.Hash</td>
+                    <td>@($"{transaction.Time:t}")</td>
+                    <td>@($"{transaction.Amount:N8}")</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    @foreach (int pagenr in Pages)
+                    {
+                        <NavLink href="@($"/transactions/{pagenr}")">@pagenr</NavLink>
+                    }
+                </td>
+                <td>Number of transactions: @this.TransactionStore.Transactions.Count()</td>
+                <td>PageSize: <input type="number" @bind-value="PageSize" /></td>
+            </tr>
+        </tfoot>
+    </table>
+}
+else
+{
+    <p>There are no transactions.</p>
+    <p>@TransactionStore.ErrorMessage</p>
+}
+
+@code
+{
+    [Computed]
+    public IEnumerable<Transaction> PagedTransactions => this.TransactionStore.Transactions.Skip((PageIndex - 1) * PageSize).Take(PageSize);
+
+    [Observable]
+    [Parameter]
+    public int PageIndex { get; set; }
+
+    [Observable]
+    public int PageSize { get; set; }
+
+    [Computed]
+    public IEnumerable<int> Pages => Enumerable.Range(1, this.TransactionStore.Transactions.Count > 0 ? this.TransactionStore.Transactions.Count / PageSize : 1);
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        PageSize = 20;
+        PageIndex = 1;
+    }
+}

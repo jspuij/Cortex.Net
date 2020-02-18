@@ -98,11 +98,11 @@ namespace Cortex.Net.Fody
                 propertyTypeName == IGenericReadonlyDictionaryName ||
                 propertyTypeName == IDictionaryName)
             {
-                throw new NotImplementedException();
+                this.ReassignEnumerable(propertyDefinition, this.weavingContext.CortexNetTypesObservableDictionary, defaultEnhancer);
             }
             else if (propertyTypeName == IGenericSetName)
             {
-                throw new NotImplementedException();
+                this.ReassignEnumerable(propertyDefinition, this.weavingContext.CortexNetTypesObservableSet, defaultEnhancer);
             }
             else if (propertyTypeName == IGenericListName ||
                      propertyTypeName == IGenericReadonlyListName ||

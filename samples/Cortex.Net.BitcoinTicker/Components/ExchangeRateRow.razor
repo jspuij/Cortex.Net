@@ -1,0 +1,13 @@
+﻿@using Cortex.Net.BitcoinTicker.Models
+
+<tr>
+    <td>@ExchangeRate.Name (@ExchangeRate.Symbol)</td>
+    <td>@($"{ExchangeRate.Value:N}")</td>
+    <td>@($"{ExchangeRate.Min:N}")</td>
+    <td>@($"{ExchangeRate.Max:N}")</td>
+</tr>
+
+@code {
+    [Parameter]
+    public ExchangeRate ExchangeRate { get; set; }
+}

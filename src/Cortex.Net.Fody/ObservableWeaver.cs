@@ -67,7 +67,7 @@ namespace Cortex.Net.Fody
 
             foreach (var decoratedProperty in decoratedProperties.ToList())
             {
-                if (decoratedProperty.PropertyType.IsReplaceableCollection(this.WeavingContext.CortexNetTypesObservableCollection))
+                if (decoratedProperty.PropertyType.IsReplaceableCollection(this.WeavingContext))
                 {
                     this.enumerableInterfaceWeaver.WeaveEnumerableProperty(decoratedProperty, this.WeavingContext.CortexNetTypesDeepEnhancer);
                 }
@@ -119,7 +119,7 @@ namespace Cortex.Net.Fody
 
             foreach (var property in decoratedClass.Properties.Where(x => x.GetMethod != null && x.GetMethod.IsPublic))
             {
-                if (property.PropertyType.IsReplaceableCollection(this.WeavingContext.CortexNetTypesObservableCollection))
+                if (property.PropertyType.IsReplaceableCollection(this.WeavingContext))
                 {
                     this.enumerableInterfaceWeaver.WeaveEnumerableProperty(property, enhancerType);
                 }
