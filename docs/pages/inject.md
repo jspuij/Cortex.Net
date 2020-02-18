@@ -1,7 +1,8 @@
 # Blazor Components / inject
 
-Cortex.Net observable models / stores can be easily shared by multiple UI Components by injecting a store into the component using the
-[DI container](https://docs.microsoft.com/en-us/aspnet/core/blazor/dependency-injection) provided by Blazor and the Inject attribute.
+Cortex.Net observable models / stores can be easily shared by multiple UI Components by injecting a store into the
+component using the [DI container](https://docs.microsoft.com/en-us/aspnet/core/blazor/dependency-injection) provided
+by Blazor and the Inject attribute.
 
 ## Example:
 

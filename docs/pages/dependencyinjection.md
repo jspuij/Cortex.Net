@@ -1,16 +1,18 @@
 # Dependency Injection.
 
-Cortex.Net is a [DI friendly library](https://blog.ploeh.dk/2014/05/19/di-friendly-library/). This means that a lot of code is written to
-interfaces, not implementations of those interfaces. It works with any DI Container. There are some tips and tricks to get the most out
-of your DI container.
+Cortex.Net is a [DI friendly library](https://blog.ploeh.dk/2014/05/19/di-friendly-library/). This means that a lot of
+code is written to interfaces, not implementations of those interfaces. It works with any DI Container. There are some
+tips and tricks to get the most out of your DI container.
 
 ## Register ISharedState in the container.
 
-To be able to access [ISharedState](xref:Cortex.Net.ISharedState), and to be able to pass it as an argument to other objects that take it
-on as a dependency, it is customary to register an implementation of [ISharedState](xref:Cortex.Net.ISharedState) inside the container.
+To be able to access [ISharedState](xref:Cortex.Net.ISharedState), and to be able to pass it as an argument to other
+objects that take it on as a dependency, it is customary to register an implementation of
+[ISharedState](xref:Cortex.Net.ISharedState) inside the container.
 
-This can either be a single container registered as singleton, or multiple containers with the appropriate scope, as [described here](sharedstate.md).
-An example of a registration of ISharedState in the [DI container from microsoft](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection) is below:
+This can either be a single container registered as singleton, or multiple containers with the appropriate scope, as
+[described here](sharedstate.md). An example of a registration of ISharedState in the
+[DI container from microsoft](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection) is below:
 
 ```csharp
 using Cortex.Net.Api;

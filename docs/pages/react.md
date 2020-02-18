@@ -8,8 +8,11 @@ At that point it is invaluable to understand how Cortex.Net determines what to r
 > Cortex.Net reacts to any _existing_ **observable** _property_ that is read during the execution of a tracked function.
 
 -   _"reading"_ is dereferencing an object's property, which can be done through "dotting into" it (eg. `User.Name`).
--   _"tracked functions"_ are the expression of `Computed`, the `BuildRenderTree` method of an Observer component, and the functions that are passed as the first param to [`When`](when.md), [`Reaction`](reaction.md) and [`Autorun`](autorun.md).
--   _"during"_ means that only those observables that are being read while the function is executing are tracked. It doesn't matter whether these values are used directly or indirectly by the tracked function.
+-   _"tracked functions"_ are the expression of `Computed`, the `BuildRenderTree` method of an Observer component, and
+    the functions that are passed as the first param to [`When`](when.md), [`Reaction`](reaction.md) and
+    [`Autorun`](autorun.md).
+-   _"during"_ means that only those observables that are being read while the function is executing are tracked.
+    It doesn't matter whether these values are used directly or indirectly by the tracked function.
 
 In other words, Cortex.Net will not react to:
 
@@ -18,7 +21,8 @@ In other words, Cortex.Net will not react to:
 
 ## Cortex.Net tracks property access, not values
 
-To elaborate on the above rules with an example, suppose that you have the following observable data structure (`Observable` applies to all properties when applied on the class, so all properties in this example are observable):
+To elaborate on the above rules with an example, suppose that you have the following observable data structure
+(`Observable` applies to all properties when applied on the class, so all properties in this example are observable):
 
 ```csharp
 using Cortex.Net;
@@ -50,11 +54,13 @@ var message = new Message() {
 
 ```
 
-In memory that looks as follows. The green boxes indicate _observable_ properties. Note that the _values_ themselves are not observable!
+In memory that looks as follows. The green boxes indicate _observable_ properties. Note that the _values_ themselves
+are not observable!
 
 ![Cortex.Net reacts to changing references](../images/observed-refs.png)
 
-Now what Cortex.Net basically does is recording which _arrows_ you use in your function. After that, it will re-run whenever one of these _arrows_ changes; when they start to refer to something else.
+Now what Cortex.Net basically does is recording which _arrows_ you use in your function. After that, it will re-run
+whenever one of these _arrows_ changes; when they start to refer to something else.
 
 ## Examples
 
@@ -69,9 +75,11 @@ sharedState.Autorun(r => {
 message.Title = "Bar";
 ```
 
-This will react as expected, the `.Title` property was dereferenced by the `Autorun`, and changed afterwards, so this change is detected.
+This will react as expected, the `.Title` property was dereferenced by the `Autorun`, and changed afterwards, so this
+change is detected.
 
-You can verify what Cortex.Net will track by calling [`Trace()`](xref:Cortex.Net.Api.TraceExtensions) inside the tracked function. In the case of the above function it will output the following:
+You can verify what Cortex.Net will track by calling [`Trace()`](xref:Cortex.Net.Api.TraceExtensions) inside the tracked
+function. In the case of the above function it will output the following:
 
 ```csharp
 var disposable = sharedState.Autorun(r => {
@@ -99,8 +107,8 @@ message = new Message()
 };
 ```
 
-This will **not** react. `message` was changed, but `message` is not an observable, just a variable which _refers to_ an observable,
-but the variable (reference) itself is not observable.
+This will **not** react. `message` was changed, but `message` is not an observable, just a variable which _refers to_
+an observable, but the variable (reference) itself is not observable.
 
 #### Incorrect: dereference outside a tracked function
 
@@ -113,7 +121,8 @@ sharedState.Autorun(r => {
 message.Title = "Bar";
 ```
 
-This will **not** react. `message.Title` was dereferenced outside the `Autorun`, and just contains the value of `message.Title` at the moment of dereferencing (the string `"Foo"`).
+This will **not** react. `message.Title` was dereferenced outside the `Autorun`, and just contains the value of
+`message.Title` at the moment of dereferencing (the string `"Foo"`).
 `Title` is not an observable so `Autorun` will never react.
 
 #### Correct: dereference inside the tracked function
@@ -126,7 +135,8 @@ Message.Author.Name = "Sara";
 Message.Author = new Author() { Name: "John" };
 ```
 
-This will react to both changes. Both `Author` and `Author.Name` are dotted into, allowing Cortex.Net to track these references.
+This will react to both changes. Both `Author` and `Author.Name` are dotted into, allowing Cortex.Net to track
+these references.
 
 #### Incorrect: store a local reference to an observable object without tracking
 
@@ -140,8 +150,9 @@ Message.Author.Name = "Sara";
 Message.Author = new Author() { Name: "John" };
 ```
 
-The first change will be picked up, `message.Author` and `author` are the same object, and the `.Name` property is dereferenced in the autorun.
-However the second change will **not** be picked up, the `message.Author` relation is not tracked by the `Autorun`. Autorun is still using the "old" `author`.
+The first change will be picked up, `message.Author` and `author` are the same object, and the `.Name` property is
+dereferenced in the autorun. However the second change will **not** be picked up, the `message.Author` relation is not
+tracked by the `Autorun`. Autorun is still using the "old" `author`.
 
 #### Correct: access observable collection properties in tracked function
 
@@ -165,9 +176,9 @@ sharedState.Autorun(r => {
 message.Likes.Add("Jennifer");
 ```
 
-This will react with the above sample data, array indexers count as property access. But **only** if the provided `index < Count`.
-Cortex.Net will not track not-yet-existing indices or object properties (except when using Dictionaries).
-So always guard your array index based access with a `.Count` check.
+This will react with the above sample data, array indexers count as property access. But **only** if the provided
+`index < Count`. Cortex.Net will not track not-yet-existing indices or object properties
+(except when using Dictionaries). So always guard your array index based access with a `.Count` check.
 
 #### Correct: access Collection enumerator in tracked function
 
@@ -244,8 +255,9 @@ In general this is quite obvious and rarely causes issues.
 
 ## Cortex.Net only tracks data accessed for `observer` components if they are directly accessed by `render`
 
-A common mistake made with `observer` is that it doesn't track data that syntactically seems parent of the `observer` component,
-but in practice is actually rendered out by a different component. This often happens when render callbacks of components are passed in first class to another component.
+A common mistake made with `observer` is that it doesn't track data that syntactically seems parent of the `observer`
+component, but in practice is actually rendered out by a different component. This often happens when render callbacks
+of components are passed in first class to another component.
 
 Take for example the following contrived example:
 
@@ -257,10 +269,14 @@ const MyComponent = observer(({ message }) => (
 message.title = "Bar"
 ```
 
-At first glance everything might seem ok here, except that the `<div>` is actually not rendered by `MyComponent` (which has a tracked rendering), but by `SomeContainer`.
-So to make sure that the title of `SomeContainer` correctly reacts to a new `message.title`, `SomeContainer` should be an `observer` as well.
+At first glance everything might seem ok here, except that the `<div>` is actually not rendered by `MyComponent`
+(which has a tracked rendering), but by `SomeContainer`.
+So to make sure that the title of `SomeContainer` correctly reacts to a new `message.title`, `SomeContainer`
+should be an `observer` as well.
 
-If `SomeContainer` comes from an external lib, this is often not under your own control. In that case you can address this by either wrapping the `div` in its own stateless `observer` based component, or by leveraging the `<Observer>` component:
+If `SomeContainer` comes from an external lib, this is often not under your own control. In that case you can address
+this by either wrapping the `div` in its own stateless `observer` based component, or by leveraging the `<Observer>`
+component:
 
 ```javascript
 const MyComponent = observer(({ message }) =>
@@ -276,7 +292,8 @@ const TitleRenderer = observer(({ message }) =>
 message.title = "Bar"
 ```
 
-Alternatively, to avoid creating additional components, it is also possible to use the Cortex.Net-react built-in `Observer` component, which takes no arguments, and a single render function as children:
+Alternatively, to avoid creating additional components, it is also possible to use the Cortex.Net-react built-in
+`Observer` component, which takes no arguments, and a single render function as children:
 
 ```javascript
 const MyComponent = ({ message }) => (
@@ -288,7 +305,8 @@ message.title = "Bar"
 
 ## Avoid caching observables in local fields
 
-A common mistake is to store local variables that dereference observables, and then expect components to react. For example:
+A common mistake is to store local variables that dereference observables, and then expect components to react. For
+example:
 
 ```javascript
 @observer
@@ -351,8 +369,11 @@ const Likes = observer(({ likes }) => (
 
 Notes:
 
-1. \* If the `Author` component was invoked like: `<Author author={ message.author.name} />`. Then `Message` would be the dereferencing component and react to changes to `message.author.name`. Nonetheless `<Author>` would rerender as well, because it receives a new value. So performance wise it is best to dereference as late as possible.
-2. \*\* If likes were objects instead of strings, and if they were rendered by their own `Like` component, the `Likes` component would not rerender for changes happening inside a specific like.
+1. \* If the `Author` component was invoked like: `<Author author={ message.author.name} />`. Then `Message` would be
+the dereferencing component and react to changes to `message.author.name`. Nonetheless `<Author>` would rerender as well,
+because it receives a new value. So performance wise it is best to dereference as late as possible.
+2. \*\* If likes were objects instead of strings, and if they were rendered by their own `Like` component, the `Likes`
+component would not rerender for changes happening inside a specific like.
 
 ## TL;DR
 

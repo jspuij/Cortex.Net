@@ -57,10 +57,10 @@ public class Person
 }
 ```
 
-The [[Observable]](xref:Cortex.Net.Api.ObservableAttribute) attribute is applied to an auto-implemented property to signal
-Cortex.Net that it should be converted to an observable value. If you want all your auto-implemented properties to be converted
-to observable values, you can apply the [[Observable]](xref:Cortex.Net.Api.ObservableAttribute) attribute to a class as well.
-The final code thus will be:
+The [[Observable]](xref:Cortex.Net.Api.ObservableAttribute) attribute is applied to an auto-implemented property to
+signal Cortex.Net that it should be converted to an observable value. If you want all your auto-implemented properties
+to be converted to observable values, you can apply the [[Observable]](xref:Cortex.Net.Api.ObservableAttribute)
+attribute to a class as well. The final code thus will be:
 
 ```csharp
 using Cortex.Net.Api;
@@ -78,14 +78,19 @@ Not bad for all that functionality right?
 
 ## Conventions
 
-There are a few simple rules to remember while working with the [[Observable]](xref:Cortex.Net.Api.ObservableAttribute) attribute:
+There are a few simple rules to remember while working with the [[Observable]](xref:Cortex.Net.Api.ObservableAttribute)
+attribute:
 
-- It either applies to an [auto-implemented property](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/auto-implemented-properties)
+- It either applies to an 
+  [auto-implemented property](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/auto-implemented-properties)
   or a class. In the latter case all auto-implemented properties will be converted to observables.
-- It will convert IList&lt;T&gt;, ICollection&lt;T&gt;, IReadonlyCollection&lt;T&gt; interface properties to [ObservableCollection&lt;T&gt;](xref:Cortex.Net.Types.ObservableCollection`1).
+- It will convert IList&lt;T&gt;, ICollection&lt;T&gt;, IReadonlyCollection&lt;T&gt; interface properties to
+  [ObservableCollection&lt;T&gt;](xref:Cortex.Net.Types.ObservableCollection`1).
 - It will convert ISet&lt;T&gt; interface properties to [ObservableSet](xref:Cortex.Net.Types.ObservableSet).
-- It will convert IDictionary&lt;TKey,TValue&gt; interface properties to [ObservableDictionary](xref:Cortex.Net.Types.ObservableDictionary).
-- It cannot convert arrays and it will not convert collection properties that are declared as a concrete type instead of an instance.
+- It will convert IDictionary&lt;TKey,TValue&gt; interface properties to
+  [ObservableDictionary](xref:Cortex.Net.Types.ObservableDictionary).
+- It cannot convert arrays and it will not convert collection properties that are declared as a concrete type instead
+  of an instance.
 
 These rules might seem complicated at first sight, but you will notice that in practice they are very intuitive to work with.
 Some notes:

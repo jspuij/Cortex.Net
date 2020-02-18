@@ -3,8 +3,8 @@
 A common myth, like for any event system is that Cortex.Net is multithreaded. It is not, computed values are
 updated on access, or at the end of an action, after which reactions are executed. This all happens synchronously.
 
-To maintain integrity of the shared state, reads and updates of observable values should happen sequentially, which means
-either on the same thread or with a proper locking mechanism to guard against simultaneous access.
+To maintain integrity of the shared state, reads and updates of observable values should happen sequentially, which
+means either on the same thread or with a proper locking mechanism to guard against simultaneous access.
 In most applications that have a UI it makes sense to do this on the UI thread.
 
 # Scheduling actions on the UI thread.

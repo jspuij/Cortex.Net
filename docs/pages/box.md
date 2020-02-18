@@ -10,11 +10,13 @@ For these cases it is possible to create an observable box that manages such a v
 
 ### ISharedState.Box(value)
 
-So [ISharedState.Box(value)](xref:Cortex.Net.Api.SharedStateObservableExtensions.Box``1(Cortex.Net.ISharedState,``0,System.String,Cortex.Net.IEnhancer)) accepts any value and stores it inside a box.
-The current value can be accessed through `.Value` property and updated using `.Value =`.
+So [ISharedState.Box(value)](xref:Cortex.Net.Api.SharedStateObservableExtensions.Box``1(Cortex.Net.ISharedState,``0,System.String,Cortex.Net.IEnhancer))
+accepts any value and stores it inside a box. The current value can be accessed through `.Value` property and updated
+using `.Value =`.
 
 Furthermore you can register a callback using its `.Observe` method to listen to changes on the stored value.
-But since Cortex.Net tracks changes to boxes automatically, in most cases it is better to use a reaction like [autorun](autorun.md) instead.
+But since Cortex.Net tracks changes to boxes automatically, in most cases it is better to use a reaction like
+[autorun](autorun.md) instead.
 
 So the signature of object returned by `observable.box(scalar)` is:
 
@@ -48,4 +50,5 @@ cityName.Value = Amsterdam;
 
 ## ISharedState.Box(value, name)
 
-The `name` parameter can be used to give the box a friendly debug name, to be used in for example `spy` or the React dev tools.
+The `name` parameter can be used to give the box a friendly debug name, to be used in for example `spy` or the React
+dev tools.

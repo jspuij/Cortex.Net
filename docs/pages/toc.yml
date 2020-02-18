@@ -44,7 +44,7 @@
   items:
     - name: Weaving with fody.
       href: weaving.md
-    - name: "Threading and async/await"
+    - name: "Threading"
       href: threading.md
     - name: Dependency Injection
       href: dependencyinjection.md

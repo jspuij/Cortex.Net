@@ -19,16 +19,18 @@ In such cases it will be suspended.
 This automatic suspension is very convenient. If a computed value is no longer observed, for example the UI
 in which it was used no longer exists, Cortex.Net can automatically garbage collect it. 
 This differs from `autorun`'s values where you must dispose of them yourself.
-It sometimes confuses people new to Cortex.Net, that if you create a computed property but don't use it anywhere in a reaction,
-it will not cache its value and recompute more often than seems necessary.
+It sometimes confuses people new to Cortex.Net, that if you create a computed property but don't use it anywhere in a 
+eaction, it will not cache its value and recompute more often than seems necessary.
 However, in real life situations this is by far the best default, and you can always forcefully keep a
-computed value awake if you need to, by using either [`observe`](observer.md) or the [`keepAlive`](xref:Cortex.Net.ComputedValueOptions`1.KeepAlive) option.
+computed value awake if you need to, by using either [`observe`](observer.md) or the
+[`keepAlive`](xref:Cortex.Net.ComputedValueOptions`1.KeepAlive) option.
 
 Note that `computed` properties are not enumerable. Nor can they be overwritten in an inheritance chain.
 
 ## `ComputedAttribute`
 
-You can use the [ComputedAttribute](xref:Cortex.Net.Api.ComputedAttribute) on any getter of a class property to declaratively create computed properties.
+You can use the [ComputedAttribute](xref:Cortex.Net.Api.ComputedAttribute) on any getter of a class property to
+declaratively create computed properties.
 
 ```csharp
 using Cortex.Net.Api;
@@ -49,8 +51,8 @@ public class OrderLine
 
 ## Setters for computed values
 
-It is possible to define a setter for computed values as well. Note that these setters cannot be used to alter the value of the computed property directly,
-but they can be used as 'inverse' of the derivation. For example:
+It is possible to define a setter for computed values as well. Note that these setters cannot be used to alter the value
+of the computed property directly, but they can be used as 'inverse' of the derivation. For example:
 
 ```csharp
 using Cortex.Net.Api;
@@ -98,9 +100,12 @@ public class Foo {
 
 ## `Computed(expression)` as method.
 
-[Computed](xref:Cortex.Net.Api.SharedStateObservableExtensions.Computed``1(Cortex.Net.ISharedState,Func{``0},System.String)) can also be invoked directly as an extension method to ISharedState.
-Use [`.Value`](xref:Cortex.Net.IValue`1.Value) on the returned object to get the current value of the computation, or [`.Observe()`](xref:Cortex.Net.IComputedValue`1.Observe(EventHandler{Cortex.Net.Types.ValueChangedEventArgs{`0}},System.Boolean)) to observe its changes.
-This form of `computed` is not used very often, but in some cases where you need to pass a computed value around it might prove useful.
+[Computed](xref:Cortex.Net.Api.SharedStateObservableExtensions.Computed``1(Cortex.Net.ISharedState,Func{``0},System.String))
+can also be invoked directly as an extension method to ISharedState. Use [`.Value`](xref:Cortex.Net.IValue`1.Value) on
+the returned object to get the current value of the computation, or
+[`.Observe()`](xref:Cortex.Net.IComputedValue`1.Observe(EventHandler{Cortex.Net.Types.ValueChangedEventArgs{`0}},System.Boolean))
+to observe its changes. This form of `computed` is not used very often, but in some cases where you need to pass a
+computed value around it might prove useful.
 
 Example:
 

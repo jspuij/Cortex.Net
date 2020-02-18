@@ -11,10 +11,15 @@ Actions help you to structure your code better. Actions in Cortex.Net achieve th
 
 ## action as a delegate
 
-It takes a delegate and returns a delegate with the same signature, but wrapped with [`Transaction`](xref:Cortex.Net.Api.SharedStateTransactionExtensions.Transaction(Cortex.Net.ISharedState,Action)), [`Untracked`](xref:Cortex.Net.Core.ActionExtensions.Untracked``1(Cortex.Net.ISharedState,Func{``0})), and [`AllowStateChanges`](xref:Cortex.Net.Core.ActionExtensions.Untracked(Cortex.Net.ISharedState,Action)).
+It takes a delegate and returns a delegate with the same signature, but wrapped with
+[`Transaction`](xref:Cortex.Net.Api.SharedStateTransactionExtensions.Transaction(Cortex.Net.ISharedState,Action)),
+[`Untracked`](xref:Cortex.Net.Core.ActionExtensions.Untracked``1(Cortex.Net.ISharedState,Func{``0})), and
+[`AllowStateChanges`](xref:Cortex.Net.Core.ActionExtensions.Untracked(Cortex.Net.ISharedState,Action)).
+
 Especially the fact that `Transaction` is applied automatically yields great performance benefits;
 actions will batch mutations and only notify computed values and reactions after the (outer most) action has finished.
-This makes sure intermediate or incomplete values produced during an action are not visible to the rest of the application until the action has finished.
+This makes sure intermediate or incomplete values produced during an action are not visible to the rest of the
+application until the action has finished.
 
 Example:
 
@@ -32,7 +37,8 @@ myAction();
 
 ## action as an atrribute
 
-It is advised to use an [[Action]](xref:Cortex.Net.Api.ActionAttribute) attribute on any method that modifies observables or has side effects.
+It is advised to use an [[Action]](xref:Cortex.Net.Api.ActionAttribute) attribute on any method that modifies
+observables or has side effects.
 
 ```csharp
 
@@ -47,17 +53,23 @@ public void MyAction()
 MyAction();
 ```
 
-Using the `Action` attributes with property setters is not supported; however, setters of [computed properties are automatically actions](computed.md).
+Using the `Action` attributes with property setters is not supported; however, setters of
+[computed properties are automatically actions](computed.md).
 
-Note: using `Action` is mandatory when Cortex.Net is configured to require actions to make state changes, see [EnforceActions](xref:Cortex.Net.CortexConfiguration.EnforceActions).
+Note: using `Action` is mandatory when Cortex.Net is configured to require actions to make state changes, see
+[EnforceActions](xref:Cortex.Net.CortexConfiguration.EnforceActions).
 
 ## When to use actions?
 
 Actions should only, and always, be used on methods that _modify_ state.
-Methods that just perform look-ups, filters etc should _not_ be marked as actions; to allow Cortex.Net to track their invocations.
+Methods that just perform look-ups, filters etc should _not_ be marked as actions; to allow Cortex.Net to track their
+invocations.
 
-[EnforceActions](xref:Cortex.Net.CortexConfiguration.EnforceActions) enforces that all state modifications are done by an action. This is a useful best practice in larger, long term code bases.
+[EnforceActions](xref:Cortex.Net.CortexConfiguration.EnforceActions) enforces that all state modifications are done by
+an action. This is a useful best practice in larger, long term code bases.
 
 ## RunInAction
 
-[RunInAction](xref:Cortex.Net.Api.ActionExtensions.RunInAction(Cortex.Net.ISharedState,System.String,System.Object,Action))is a simple utility that takes an code block and executes in an (anonymous) action. This is useful to create and execute actions on the fly, for example inside an asynchronous process. `RunInAction(f)` is sugar for `Action(f)()`
+[RunInAction](xref:Cortex.Net.Api.ActionExtensions.RunInAction(Cortex.Net.ISharedState,System.String,System.Object,Action))
+is a simple utility that takes an code block and executes in an (anonymous) action. This is useful to create and execute
+actions on the fly, for example inside an asynchronous process. `RunInAction(f)` is sugar for `Action(f)()`

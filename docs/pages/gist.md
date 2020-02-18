@@ -6,7 +6,8 @@ So far it all might sound a bit fancy, but making an app reactive using Cortex.N
 
 Store state in any data structure you like; objects, collections, classes.
 Cyclic data structures, references, it doesn't matter.
-Just make sure that all properties that you want to change over time are marked by the [[Observable]](xref:Cortex.Net.Api.ObservableAttribute) attribute to make them observable.
+Just make sure that all properties that you want to change over time are marked by the
+[[Observable]](xref:Cortex.Net.Api.ObservableAttribute) attribute to make them observable.
 
 ```csharp
 using Cortex.Net.Api;
@@ -26,8 +27,8 @@ you can now create views that automatically update whenever relevant data in the
 Cortex.Net will find the minimal way to update your views.
 This single fact saves you tons of boilerplate and is wickedly efficient.
 
-Generally speaking any Action/Func/Method can become a reactive view that observes its data, and Cortex.Net can be applied in any .NET netstandard environment.
-But here is an example of a view in the form of a Blazor component.
+Generally speaking any Action/Func/Method can become a reactive view that observes its data, and Cortex.Net can be
+applied in any .NET netstandard environment. But here is an example of a view in the form of a Blazor component.
 
 ```cshtml-razor
 @using Cortex.Net.Blazor
@@ -60,9 +61,9 @@ There are best practices, but the key thing to remember is:
 **_Cortex.Net helps you do things in a simple straightforward way_**.
 
 The following code will alter your data every second, and the UI will update automatically when needed.
-No explicit relations are defined in either the controller functions that _change_ the state or in the views that should _update_.
-Decorating your _state_ and _views_ with [[Observable]](xref:Cortex.Net.Api.ObservableAttribute) is enough for Cortex.Net to detect all relationships.
-Here are two examples of changing the state:
+No explicit relations are defined in either the controller functions that _change_ the state or in the views that
+should _update_. Decorating your _state_ and _views_ with [[Observable]](xref:Cortex.Net.Api.ObservableAttribute) is
+enough for Cortex.Net to detect all relationships. Here are two examples of changing the state:
 
 ```csharp
 
@@ -93,5 +94,5 @@ public class AppState
 ```
 
 The `Action` attribute is only neccessary when using Cortex.Net enforces modification through reactions.
-It is recommended to use action though as it will help you to better structure applications and expresses the intention of a function to modify state.
-It automatically applies transactions for optimal performance as well.
+It is recommended to use action though as it will help you to better structure applications and expresses the intention
+of a function to modify state. It automatically applies transactions for optimal performance as well.
