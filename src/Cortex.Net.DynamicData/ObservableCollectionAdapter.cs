@@ -40,26 +40,14 @@ namespace Cortex.Net.DynamicData
         private readonly IEqualityComparer<T> equalityComparer;
 
         /// <summary>
-        /// The threshold to use to refresh the entire list.
-        /// </summary>
-        private readonly int resetThreshold;
-
-        /// <summary>
-        /// Collection loaded.
-        /// </summary>
-        private bool loaded;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ObservableCollectionAdapter{T}"/> class.
         /// </summary>
         /// <param name="observableCollection">The Cortex.Net observable Collection to bind to.</param>
         /// <param name="equalityComparer">The equality comparer to use to compare items.</param>
-        /// <param name="resetThreshold">The reset threshold to just reset the entire collection.</param>
-        internal ObservableCollectionAdapter(ObservableCollection<T> observableCollection, IEqualityComparer<T> equalityComparer, int resetThreshold)
+        internal ObservableCollectionAdapter(ObservableCollection<T> observableCollection, IEqualityComparer<T> equalityComparer)
         {
             this.observableCollection = observableCollection ?? throw new ArgumentNullException(nameof(observableCollection));
             this.equalityComparer = equalityComparer;
-            this.resetThreshold = resetThreshold;
         }
 
         /// <summary>
@@ -75,12 +63,6 @@ namespace Cortex.Net.DynamicData
 
             this.observableCollection.SharedState.RunInAction(() =>
             {
-                /*if (change.TotalChanges - change.Refreshes > this.resetThreshold || !this.loaded)
-                {
-                    this.observableCollection.Clear();
-                    this.loaded = true;
-                }*/
-
                 this.observableCollection.Clone(change, this.equalityComparer);
             });
         }

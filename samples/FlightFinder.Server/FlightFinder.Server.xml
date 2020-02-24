@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FlightFinder.Server</name>
+    </assembly>
+    <members>
+        <member name="T:FlightFinder.Server.Controllers.AirportsController">
+            <summary>
+            Web api controller for airports. Returns a sample set of Airports.
+            </summary>
+        </member>
+        <member name="M:FlightFinder.Server.Controllers.AirportsController.Airports">
+            <summary>
+            Gets a list of airports from the Controller.
+            </summary>
+            <returns>A list of airports.</returns>
+        </member>
+        <member name="T:FlightFinder.Server.Controllers.FlightSearchController">
+            <summary>
+            Web api controller for flights.
+            </summary>
+        </member>
+        <member name="M:FlightFinder.Server.Controllers.FlightSearchController.Search(FlightFinder.Shared.SearchCriteria)">
+            <summary>
+            Emulates a search for a set of flights using the specified Search criteria.
+            </summary>
+            <param name="criteria">The search criteria.</param>
+            <returns>An Itinerary with a random set of flights.</returns>
+        </member>
+        <member name="M:FlightFinder.Server.Controllers.FlightSearchController.RandomAirline">
+            <summary>
+            Gets a random airline from the set of sample data.
+            </summary>
+            <returns>The name of a random Airline.</returns>
+        </member>
+        <member name="T:FlightFinder.Server.Program">
+            <summary>
+            Main class of the web server application.
+            </summary>
+        </member>
+        <member name="M:FlightFinder.Server.Program.Main(System.String[])">
+            <summary>
+            Main entrance point of the Web server application.
+            </summary>
+            <param name="args">The command line arguments.</param>
+        </member>
+        <member name="M:FlightFinder.Server.Program.BuildWebHost(System.String[])">
+            <summary>
+            Builds the web host for the ASP.NET core web application.
+            </summary>
+            <param name="args">The command line arguments.</param>
+            <returns>A new web host.</returns>
+        </member>
+        <member name="T:FlightFinder.Server.SampleData">
+            <summary>
+            Sample data class for Airports and Airlines.
+            </summary>
+        </member>
+        <member name="F:FlightFinder.Server.SampleData.Airports">
+            <summary>
+            A static Array of all airports that are used.
+            </summary>
+        </member>
+        <member name="F:FlightFinder.Server.SampleData.Airlines">
+            <summary>
+            A static array of all Airlines that are used.
+            </summary>
+        </member>
+        <member name="T:FlightFinder.Server.Startup">
+            <summary>
+            Startup class. Configures Services and the application itself.
+            </summary>
+        </member>
+        <member name="M:FlightFinder.Server.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configures the services by adding them to the container.
+            </summary>
+            <param name="services">The collection of services to add to.</param>
+        </member>
+        <member name="M:FlightFinder.Server.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Configures the application and the Http Request Pipeline.
+            </summary>
+            <param name="app">The applicationbuilder instance.</param>
+            <param name="env">The webhost environment.</param>
+        </member>
+    </members>
+</doc>

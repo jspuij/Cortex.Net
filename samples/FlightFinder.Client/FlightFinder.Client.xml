@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FlightFinder.Client</name>
+    </assembly>
+    <members>
+        <member name="T:FlightFinder.Client.Components.AirportsList">
+            <summary>
+            A component that displays a list of airpoirts.
+            </summary>
+        </member>
+        <member name="F:FlightFinder.Client.Components.AirportsList.airports">
+            <summary>
+            An array of airports.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Client.Components.AirportsList.Http">
+            <summary>
+            Gets or Sets The Http Client to use.
+            </summary>
+        </member>
+        <member name="M:FlightFinder.Client.Components.AirportsList.OnInitializedAsync">
+            <summary>
+            Initializes this component. Gets the list of airports from the api.
+            </summary>
+            <returns>The list of airports.</returns>
+        </member>
+        <member name="T:FlightFinder.Client.Components.GreyOutZone">
+            <summary>
+            A component that places its child content in a Greyed Out zone.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Client.Components.GreyOutZone.ChildContent">
+            <summary>
+            Gets or sets the Child content for a GreyOutZone.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Client.Components.GreyOutZone.IsGreyedOut">
+            <summary>
+            Gets or sets a value indicating whether the Child content is Greyed Out.
+            </summary>
+        </member>
+        <member name="T:FlightFinder.Client.Components.Search">
+            <summary>
+            Search Component.
+            </summary>
+        </member>
+        <member name="F:FlightFinder.Client.Components.Search.criteria">
+            <summary>
+            The search criteria that will be returned.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Client.Components.Search.SearchState">
+            <summary>
+            Gets or sets the search state to use.
+            </summary>
+        </member>
+        <member name="T:FlightFinder.Client.Components.SearchResultFlightSegment">
+            <summary>
+            Displays a flight segment of a search result.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Client.Components.SearchResultFlightSegment.Symbol">
+            <summary>
+            Gets or sets the Symbol.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Client.Components.SearchResultFlightSegment.Flight">
+            <summary>
+            Gets or sets the flight information.
+            </summary>
+        </member>
+        <member name="T:FlightFinder.Client.Components.SearchResults">
+            <summary>
+            A component that displays a search result.
+            </summary>
+        </member>
+        <member name="T:FlightFinder.Client.Components.SearchResults.SortOrder">
+            <summary>
+            The sort order enumeration.
+            </summary>
+        </member>
+        <member name="F:FlightFinder.Client.Components.SearchResults.SortOrder.Price">
+            <summary>
+            Sort the Itineraries on price.
+            </summary>
+        </member>
+        <member name="F:FlightFinder.Client.Components.SearchResults.SortOrder.Duration">
+            <summary>
+            Sort the Itineraries on duration.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Client.Components.SearchResults.SearchState">
+            <summary>
+            Gets or sets the shortlist state to use.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Client.Components.SearchResults.ShortListState">
+            <summary>
+            Gets or sets the shortlist state to use.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Client.Components.SearchResults.ChosenSortOder">
+            <summary>
+            Gets or sets the sport order of the Search Results.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Client.Components.SearchResults.SortedItineraries">
+            <summary>
+            Gets the list of sorted Itineraries.
+            </summary>
+        </member>
+        <member name="T:FlightFinder.Client.Components.Shortlist">
+            <summary>
+            A Component that manages the Shortlist.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Client.Components.Shortlist.ShortListState">
+            <summary>
+            Gets or sets the shortlist state to use.
+            </summary>
+        </member>
+        <member name="T:FlightFinder.Client.Components.ShortlistFlightSegment">
+            <summary>
+            A component for a Flight Segment displayed on the shortlist.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Client.Components.ShortlistFlightSegment.Flight">
+            <summary>
+            Gets or sets the flight segment to display.
+            </summary>
+        </member>
+        <member name="T:FlightFinder.Client.Main">
+            <summary>
+            Main component for the application.
+            </summary>
+        </member>
+        <member name="T:FlightFinder.Client.Program">
+            <summary>
+            The program class. Bootstraps the WASM application.
+            </summary>
+        </member>
+        <member name="M:FlightFinder.Client.Program.Main(System.String[])">
+            <summary>
+            Main entry point for the WASM application.
+            </summary>
+            <param name="args">The arguments for the application.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:FlightFinder.Client.Services.SearchState">
+            <summary>
+            State service for searches.
+            </summary>
+        </member>
+        <member name="F:FlightFinder.Client.Services.SearchState.httpClient">
+            <summary>
+            The HttpClient to do calls on.
+            </summary>
+        </member>
+        <member name="M:FlightFinder.Client.Services.SearchState.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FlightFinder.Client.Services.SearchState"/> class.
+            </summary>
+            <param name="httpClient">The HttpClient to use to make requests.</param>
+        </member>
+        <member name="P:FlightFinder.Client.Services.SearchState.SearchResults">
+            <summary>
+            Gets the search results.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Client.Services.SearchState.SearchInProgress">
+            <summary>
+            Gets a value indicating whether search is in progress.
+            </summary>
+        </member>
+        <member name="M:FlightFinder.Client.Services.SearchState.Search(FlightFinder.Shared.SearchCriteria)">
+            <summary>
+            Searches on the Web Api controller using the specified search criteria.
+            </summary>
+            <param name="criteria">The search criteria to use.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+            <remarks>
+            This method is divided into two actions by the compiler.
+            The first runs to the await statement and rerenders then.
+            The second part runs after the await statement and rerenders after the method has completed.
+            </remarks>
+        </member>
+        <member name="T:FlightFinder.Client.Services.ShortListState">
+            <summary>
+            A State bag for the Short list..
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Client.Services.ShortListState.Shortlist">
+            <summary>
+             Gets the short list with Itineraries.
+            </summary>
+        </member>
+        <member name="M:FlightFinder.Client.Services.ShortListState.AddToShortlist(FlightFinder.Shared.Itinerary)">
+            <summary>
+            Add the itinerary to the short list.
+            </summary>
+            <param name="itinerary">The itinerary to add.</param>
+        </member>
+        <member name="M:FlightFinder.Client.Services.ShortListState.RemoveFromShortlist(FlightFinder.Shared.Itinerary)">
+            <summary>
+            Removes the itinerary from the short list.
+            </summary>
+            <param name="itinerary">The itinerary to remove.</param>
+        </member>
+    </members>
+</doc>

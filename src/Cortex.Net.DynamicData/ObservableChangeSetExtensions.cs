@@ -33,11 +33,10 @@ namespace Cortex.Net.DynamicData
         /// <param name="source">The source observable changeset.</param>
         /// <param name="observableCollection">The observable collection.</param>
         /// <param name="equalityComparer">The equality comparer.</param>
-        /// <param name="resetThreshold">The threshold to use to just refresh the entire collection.</param>
         /// <returns>The observable changeset.</returns>
-        public static IObservable<IChangeSet<T>> CortexBind<T>(this IObservable<IChangeSet<T>> source, ObservableCollection<T> observableCollection, IEqualityComparer<T> equalityComparer = null, int resetThreshold = 25)
+        public static IObservable<IChangeSet<T>> CortexBind<T>(this IObservable<IChangeSet<T>> source, ObservableCollection<T> observableCollection, IEqualityComparer<T> equalityComparer = null)
         {
-            var adapter = new ObservableCollectionAdapter<T>(observableCollection, equalityComparer, resetThreshold);
+            var adapter = new ObservableCollectionAdapter<T>(observableCollection, equalityComparer);
             return source.Adapt(adapter);
         }
 

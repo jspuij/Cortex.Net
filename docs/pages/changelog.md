@@ -4,6 +4,11 @@ The changelog is found below:
 
 ## 0.2.0-preview1
 
+* Added Server Side Blazor Sample
+* Added DynamicData support for collections
+
+## 0.2.0-preview1
+
 * Upgrade to Blazor 3.2.0-preview1
 
 ## 0.1.0-preview10

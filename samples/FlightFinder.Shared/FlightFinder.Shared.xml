@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FlightFinder.Shared</name>
+    </assembly>
+    <members>
+        <member name="T:FlightFinder.Shared.Airport">
+            <summary>
+            Defines an Airport.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.Airport.Code">
+            <summary>
+            Gets or sets the IATA Code for the Airport.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.Airport.DisplayName">
+            <summary>
+            Gets or sets the display name for the Airport.
+            </summary>
+        </member>
+        <member name="T:FlightFinder.Shared.FlightSegment">
+            <summary>
+            Defines a Flight Segment Between two Airports.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.FlightSegment.Airline">
+            <summary>
+            Gets or sets the Airline.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.FlightSegment.FromAirportCode">
+            <summary>
+            Gets or sets the IATA code for the departure Airport.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.FlightSegment.ToAirportCode">
+            <summary>
+            Gets or sets the IATA code for the arrival Airport.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.FlightSegment.DepartureTime">
+            <summary>
+            Gets or sets the departure time.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.FlightSegment.ReturnTime">
+            <summary>
+            Gets or sets the return time.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.FlightSegment.DurationHours">
+            <summary>
+            Gets or sets the duration in hours.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.FlightSegment.TicketClass">
+            <summary>
+            Gets or sets the ticket class.
+            </summary>
+        </member>
+        <member name="T:FlightFinder.Shared.Itinerary">
+            <summary>
+            Defines an Itinerary with an Outbound and Return Segment.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.Itinerary.Outbound">
+            <summary>
+            Gets or sets the outbound Flight.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.Itinerary.Return">
+            <summary>
+            Gets or sets the return Flight.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.Itinerary.Price">
+            <summary>
+            Gets or sets the price of the Flight.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.Itinerary.TotalDurationHours">
+            <summary>
+            Gets the total duration in hours.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.Itinerary.AirlineName">
+            <summary>
+            Gets the airline name.
+            </summary>
+        </member>
+        <member name="T:FlightFinder.Shared.SearchCriteria">
+            <summary>
+            The search criteria that the user put in.
+            </summary>
+        </member>
+        <member name="M:FlightFinder.Shared.SearchCriteria.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FlightFinder.Shared.SearchCriteria"/> class.
+            </summary>
+        </member>
+        <member name="M:FlightFinder.Shared.SearchCriteria.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FlightFinder.Shared.SearchCriteria"/> class.
+            </summary>
+            <param name="fromAirport">The airport to depart from.</param>
+            <param name="toAirport">The airport to go to.</param>
+        </member>
+        <member name="P:FlightFinder.Shared.SearchCriteria.FromAirport">
+            <summary>
+            Gets or sets the airport to depart from.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.SearchCriteria.ToAirport">
+            <summary>
+            Gets or sets the airport to go to.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.SearchCriteria.OutboundDate">
+            <summary>
+            Gets or sets the outbound travel date.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.SearchCriteria.ReturnDate">
+            <summary>
+            Gets or sets the return travel date.
+            </summary>
+        </member>
+        <member name="P:FlightFinder.Shared.SearchCriteria.TicketClass">
+            <summary>
+            Gets or sets the ticket class.
+            </summary>
+        </member>
+        <member name="T:FlightFinder.Shared.TicketClass">
+            <summary>
+            The ticket class enumeration.
+            </summary>
+        </member>
+        <member name="F:FlightFinder.Shared.TicketClass.Economy">
+            <summary>
+            Economy class.
+            </summary>
+        </member>
+        <member name="F:FlightFinder.Shared.TicketClass.PremiumEconomy">
+            <summary>
+            Premium economy
+            </summary>
+        </member>
+        <member name="F:FlightFinder.Shared.TicketClass.Business">
+            <summary>
+            Business class.
+            </summary>
+        </member>
+        <member name="F:FlightFinder.Shared.TicketClass.First">
+            <summary>
+            First class.
+            </summary>
+        </member>
+        <member name="T:FlightFinder.Shared.TicketClassExtensions">
+            <summary>
+            Extension methods for the <see cref="T:FlightFinder.Shared.TicketClass" /> enumeration.
+            </summary>
+        </member>
+        <member name="M:FlightFinder.Shared.TicketClassExtensions.ToDisplayString(FlightFinder.Shared.TicketClass)">
+            <summary>
+            Displays the Ticket class enumeration.
+            </summary>
+            <param name="ticketClass">The ticket class.</param>
+            <returns>A string with the textual representation of the ticket class.</returns>
+            <exception cref="T:System.ArgumentException">Thrown when an unknown ticketclass is encountered.</exception>
+        </member>
+    </members>
+</doc>

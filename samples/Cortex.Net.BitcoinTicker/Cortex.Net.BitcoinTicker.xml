@@ -1,0 +1,263 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cortex.Net.BitcoinTicker</name>
+    </assembly>
+    <members>
+        <member name="T:Cortex.Net.BitcoinTicker.Models.ExchangeRate">
+            <summary>
+            Observable Ticker item.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Models.ExchangeRate.Name">
+            <summary>
+            Gets or sets the name of the exchange rate.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Models.ExchangeRate.Symbol">
+            <summary>
+            Gets or sets the symbol of the exchange rate.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Models.ExchangeRate.Value">
+            <summary>
+            Gets or sets the value of the echange rate.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Models.ExchangeRate.Min">
+            <summary>
+            Gets or sets the min value of the exchange rate.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Models.ExchangeRate.Max">
+            <summary>
+            Gets or sets the max value of the exchange rate.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.BitcoinTicker.Models.Transaction">
+            <summary>
+            A bitcoin transaction.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Models.Transaction.Hash">
+            <summary>
+            Gets or sets the Hash.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Models.Transaction.Time">
+            <summary>
+            Gets or sets the time of the transaction.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Models.Transaction.Amount">
+            <summary>
+            Gets or sets the amount in BTC.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.BitcoinTicker.Program">
+            <summary>
+            Main class of the web server application.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BitcoinTicker.Program.Main(System.String[])">
+            <summary>
+            Main entrance point of the Web server application.
+            </summary>
+            <param name="args">The command line arguments.</param>
+        </member>
+        <member name="M:Cortex.Net.BitcoinTicker.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            Builds the web host for the ASP.NET core web application.
+            </summary>
+            <param name="args">The command line arguments.</param>
+            <returns>A new web host.</returns>
+        </member>
+        <member name="T:Cortex.Net.BitcoinTicker.Services.TickerService">
+            <summary>
+            An observable service that provides access to a Bitcoin ticker.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BitcoinTicker.Services.TickerService.#ctor(System.Net.Http.IHttpClientFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.BitcoinTicker.Services.TickerService"/> class.
+            </summary>
+            <param name="httpClientFactory">The Http Client factory to use.</param>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Services.TickerService.Ticker">
+            <summary>
+            Gets the ticker observable.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.BitcoinTicker.Services.TickerService.ExchangeRate">
+            <summary>
+            A model for exchange rates.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Services.TickerService.ExchangeRate.FifteenMinutes">
+            <summary>
+            Gets or sets fifteen minute delayed value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Services.TickerService.ExchangeRate.Last">
+            <summary>
+            Gets or sets last value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Services.TickerService.ExchangeRate.Buy">
+            <summary>
+            Gets or sets buy value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Services.TickerService.ExchangeRate.Sell">
+            <summary>
+            Gets or sets sell value.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Services.TickerService.ExchangeRate.Symbol">
+            <summary>
+            Gets or sets symbol value.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.BitcoinTicker.Services.TransactionService">
+            <summary>
+            An observable service that provides access to Bitcoin transactions.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BitcoinTicker.Services.TransactionService.#ctor(System.Net.Http.IHttpClientFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.BitcoinTicker.Services.TransactionService"/> class.
+            </summary>
+            <param name="httpClientFactory">The Http Client factory to use.</param>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Services.TransactionService.Transactions">
+            <summary>
+            Gets the transactions observable.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.BitcoinTicker.Services.TransactionService.TransactionSet">
+            <summary>
+            A transaction set.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Services.TransactionService.TransactionSet.Txs">
+            <summary>
+            Gets or sets an array of transactions.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.BitcoinTicker.Services.TransactionService.Transaction">
+            <summary>
+            A transaction.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Services.TransactionService.Transaction.Hash">
+            <summary>
+            Gets or sets the Hash.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Services.TransactionService.Transaction.Out">
+            <summary>
+            Gets or sets an array of outputs.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.BitcoinTicker.Services.TransactionService.Output">
+            <summary>
+            Represents a transaction output.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Services.TransactionService.Output.Value">
+            <summary>
+            Gets or sets the value of the transaction.
+            </summary>
+        </member>
+        <member name="T:Cortex.Net.BitcoinTicker.Startup">
+            <summary>
+            Startup class. Configures Services and the application itself.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BitcoinTicker.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.BitcoinTicker.Startup"/> class.
+            </summary>
+            <param name="configuration">The configuration that is passed to the startup class.</param>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Startup.Configuration">
+            <summary>
+            Gets the configuration for the web application.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BitcoinTicker.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configures the services by adding them to the container.
+            </summary>
+            <param name="services">The collection of services to add to.</param>
+        </member>
+        <member name="M:Cortex.Net.BitcoinTicker.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Configures the application and the Http Request Pipeline.
+            </summary>
+            <param name="app">The applicationbuilder instance.</param>
+            <param name="env">The webhost environment.</param>
+        </member>
+        <member name="T:Cortex.Net.BitcoinTicker.Store.TickerStore">
+            <summary>
+            An observable store of ticker items.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BitcoinTicker.Store.TickerStore.#ctor(Cortex.Net.BitcoinTicker.Services.TickerService,Cortex.Net.ISharedState)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.BitcoinTicker.Store.TickerStore"/> class.
+            </summary>
+            <param name="tickerService">The ticker service to use.</param>
+            <param name="sharedState">The shared state.</param>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Store.TickerStore.ExchangeRates">
+            <summary>
+            Gets the exchange rates from the store.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Store.TickerStore.ErrorMessage">
+            <summary>
+            Gets an error message indicating why the exchange rate could not be fetched.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BitcoinTicker.Store.TickerStore.Dispose">
+            <summary>
+            Disposes of managed and unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BitcoinTicker.Store.TickerStore.CalculateMinMax(DynamicData.IChangeSet{Cortex.Net.BitcoinTicker.Models.ExchangeRate,System.String})">
+            <summary>
+            Calculates the min and max based on the changeset.
+            </summary>
+            <param name="changeSet">The changeset to process.</param>
+            <returns>The changeset.</returns>
+        </member>
+        <member name="T:Cortex.Net.BitcoinTicker.Store.TransactionStore">
+            <summary>
+            An observable store for unconfirmed bitcoin.info transactions.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BitcoinTicker.Store.TransactionStore.#ctor(Cortex.Net.BitcoinTicker.Services.TransactionService,Cortex.Net.ISharedState)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.BitcoinTicker.Store.TransactionStore"/> class.
+            </summary>
+            <param name="transactionService">The transaction service to use.</param>
+            <param name="sharedState">The shared state to use.</param>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Store.TransactionStore.Transactions">
+            <summary>
+            Gets the exchange rates from the store.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.BitcoinTicker.Store.TransactionStore.ErrorMessage">
+            <summary>
+            Gets an error message indicating why the transactions could not be fetched.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.BitcoinTicker.Store.TransactionStore.Dispose">
+            <summary>
+            Disposes of managed and unmanaged resources.
+            </summary>
+        </member>
+    </members>
+</doc>

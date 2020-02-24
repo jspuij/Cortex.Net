@@ -9,7 +9,7 @@
             Extension methods for binding to observable changeset instances.
             </summary>
         </member>
-        <member name="M:Cortex.Net.DynamicData.ObservableChangeSetExtensions.CortexBind``1(System.IObservable{DynamicData.IChangeSet{``0}},Cortex.Net.Types.ObservableCollection{``0},System.Collections.Generic.IEqualityComparer{``0},System.Int32)">
+        <member name="M:Cortex.Net.DynamicData.ObservableChangeSetExtensions.CortexBind``1(System.IObservable{DynamicData.IChangeSet{``0}},Cortex.Net.Types.ObservableCollection{``0},System.Collections.Generic.IEqualityComparer{``0})">
             <summary>
             Binds the observable changeset to a Cortex.Net observable collection.
             </summary>
@@ -17,7 +17,6 @@
             <param name="source">The source observable changeset.</param>
             <param name="observableCollection">The observable collection.</param>
             <param name="equalityComparer">The equality comparer.</param>
-            <param name="resetThreshold">The threshold to use to just refresh the entire collection.</param>
             <returns>The observable changeset.</returns>
         </member>
         <member name="M:Cortex.Net.DynamicData.ObservableChangeSetExtensions.CortexBind``2(System.IObservable{DynamicData.IChangeSet{``0,``1}},Cortex.Net.Types.ObservableDictionary{``1,``0},System.Int32)">
@@ -48,23 +47,12 @@
             The equality comparer to use to compare instances of T.
             </summary>
         </member>
-        <member name="F:Cortex.Net.DynamicData.ObservableCollectionAdapter`1.resetThreshold">
-            <summary>
-            The threshold to use to refresh the entire list.
-            </summary>
-        </member>
-        <member name="F:Cortex.Net.DynamicData.ObservableCollectionAdapter`1.loaded">
-            <summary>
-            Collection loaded.
-            </summary>
-        </member>
-        <member name="M:Cortex.Net.DynamicData.ObservableCollectionAdapter`1.#ctor(Cortex.Net.Types.ObservableCollection{`0},System.Collections.Generic.IEqualityComparer{`0},System.Int32)">
+        <member name="M:Cortex.Net.DynamicData.ObservableCollectionAdapter`1.#ctor(Cortex.Net.Types.ObservableCollection{`0},System.Collections.Generic.IEqualityComparer{`0})">
             <summary>
             Initializes a new instance of the <see cref="T:Cortex.Net.DynamicData.ObservableCollectionAdapter`1"/> class.
             </summary>
             <param name="observableCollection">The Cortex.Net observable Collection to bind to.</param>
             <param name="equalityComparer">The equality comparer to use to compare items.</param>
-            <param name="resetThreshold">The reset threshold to just reset the entire collection.</param>
         </member>
         <member name="M:Cortex.Net.DynamicData.ObservableCollectionAdapter`1.Adapt(DynamicData.IChangeSet{`0})">
             <summary>

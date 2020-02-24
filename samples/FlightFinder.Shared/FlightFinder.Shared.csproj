@@ -5,10 +5,10 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.1\FlightFinder.Shared.xml</DocumentationFile>
-    <OutputPath>bin\Debug</OutputPath>
+  <PropertyGroup>
+    <DocumentationFile>$(ProjectDir)$(OutDir)$(MSBuildProjectName).xml</DocumentationFile>
   </PropertyGroup>
+
 
   <ItemGroup>
     <None Remove="stylecop.json" />
