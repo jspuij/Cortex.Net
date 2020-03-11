@@ -32,7 +32,7 @@ namespace Cortex.Net.Types
     /// </summary>
     /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
     /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
-    public class ObservableDictionary<TKey, TValue> :
+    public sealed class ObservableDictionary<TKey, TValue> :
         IDictionary<TKey, TValue>,
         IReadOnlyDictionary<TKey, TValue>,
         ICollection<KeyValuePair<TKey, TValue>>,
@@ -40,7 +40,8 @@ namespace Cortex.Net.Types
         IDictionary,
         IEnumerable<KeyValuePair<TKey, TValue>>,
         ICollection,
-        IEnumerable
+        IEnumerable,
+        IAtomProvider
     {
         /// <summary>
         /// The inner dictionary to store the keys and values.
@@ -249,6 +250,11 @@ namespace Cortex.Net.Types
         /// Gets a collection containing the values in the <see cref="ObservableDictionary{TKey, TValue}"/>.
         /// </summary>
         ICollection IDictionary.Values => (ICollection)this.Values;
+
+        /// <summary>
+        /// Gets the atom.
+        /// </summary>
+        IAtom IAtomProvider.Atom => this.atom;
 
         /// <summary>
         /// Gets or sets the value associated with the specified key.

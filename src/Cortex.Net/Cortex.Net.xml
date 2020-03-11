@@ -2163,6 +2163,16 @@
             Invoke this method after this atom has changed to signal Cortex.Net that all its observers should invalidate.
             </summary>
         </member>
+        <member name="T:Cortex.Net.IAtomProvider">
+            <summary>
+            Interface that types implement that give access to the inner Atom.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.IAtomProvider.Atom">
+            <summary>
+            Gets the atom.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.IComputedValue`1">
             <summary>
             Interface for Computed values.
@@ -3916,6 +3926,11 @@
             Gets the name of the <see cref="T:Cortex.Net.Types.ObservableCollection`1"/>.
             </summary>
         </member>
+        <member name="P:Cortex.Net.Types.ObservableCollection`1.Cortex#Net#IAtomProvider#Atom">
+            <summary>
+            Gets the atom.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Types.ObservableCollection`1.Item(System.Int32)">
             <summary>
             Gets or sets the element at the specified index.
@@ -4416,6 +4431,11 @@
             Gets a collection containing the values in the <see cref="T:Cortex.Net.Types.ObservableDictionary`2"/>.
             </summary>
         </member>
+        <member name="P:Cortex.Net.Types.ObservableDictionary`2.Cortex#Net#IAtomProvider#Atom">
+            <summary>
+            Gets the atom.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Types.ObservableDictionary`2.System#Collections#IDictionary#Item(System.Object)">
             <summary>
             Gets or sets the value associated with the specified key.
@@ -4858,6 +4878,11 @@
             Gets the Shared State on this object.
             </summary>
         </member>
+        <member name="P:Cortex.Net.Types.ObservableObject.Cortex#Net#IAtomProvider#Atom">
+            <summary>
+            Gets the atom.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.Types.ObservableObject.Item(System.String)">
             <summary>
             Gets the IValue item at the specified key.
@@ -5016,6 +5041,11 @@
         <member name="P:Cortex.Net.Types.ObservableSet`1.Name">
             <summary>
             Gets the name of the <see cref="T:Cortex.Net.Types.ObservableSet`1"/>.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Types.ObservableSet`1.Cortex#Net#IAtomProvider#Atom">
+            <summary>
+            Gets the atom.
             </summary>
         </member>
         <member name="M:Cortex.Net.Types.ObservableSet`1.Add(`0)">
@@ -5466,6 +5496,37 @@
             </summary>
             <param name="obj">The System..Object for which a hash code is to be returned.</param>
             <returns>A hash code for the specified object.</returns>
+        </member>
+        <member name="T:Cortex.Net.Utils.ReactiveObjectTypeUtilExtensions">
+            <summary>
+            Type utility extensions on the IReactiveObject interface.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Utils.ReactiveObjectTypeUtilExtensions.GetObservable(Cortex.Net.IReactiveObject)">
+            <summary>
+            Gets the underlying observable from the IReactiveObject instance.
+            </summary>
+            <param name="reactiveObject">The reactive object to get the atom for.</param>
+            <returns>The IAtom instance to get.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when there is no observable object internally.</exception>
+        </member>
+        <member name="M:Cortex.Net.Utils.ReactiveObjectTypeUtilExtensions.GetObservable(System.Object)">
+            <summary>
+            Gets the underlying atom from the IReactiveObject instance.
+            </summary>
+            <param name="reactiveObject">The reactive object to get the atom for.</param>
+            <returns>The IAtom instance to get.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when there is no atom provider internally.</exception>
+        </member>
+        <member name="M:Cortex.Net.Utils.ReactiveObjectTypeUtilExtensions.GetObservable``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            Gets the observable for a member of an object.
+            </summary>
+            <typeparam name="TObject">The type of the object.</typeparam>
+            <typeparam name="TMember">The type of the member.</typeparam>
+            <param name="target">The target object to get a property from.</param>
+            <param name="expression">The member expression.</param>
+            <returns>An atom for the member of an object.</returns>
         </member>
         <member name="T:Cortex.Net.Utils.ReferenceEqualityComparer`1">
             <summary>

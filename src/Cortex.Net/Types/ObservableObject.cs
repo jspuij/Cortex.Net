@@ -27,7 +27,7 @@ namespace Cortex.Net.Types
     /// <summary>
     /// Base or inner class for observable objects.
     /// </summary>
-    public class ObservableObject : IReactiveObject
+    public sealed class ObservableObject : IReactiveObject, IAtomProvider
     {
         /// <summary>
         /// A set of event handlers for the change event.
@@ -137,6 +137,11 @@ namespace Cortex.Net.Types
         {
             get => this.sharedState;
         }
+
+        /// <summary>
+        /// Gets the atom.
+        /// </summary>
+        IAtom IAtomProvider.Atom => this.keys;
 
         /// <summary>
         /// Gets the IValue item at the specified key.

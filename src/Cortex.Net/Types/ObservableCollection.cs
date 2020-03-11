@@ -29,7 +29,7 @@ namespace Cortex.Net.Types
     /// Implements an Observable collection of Items.
     /// </summary>
     /// <typeparam name="T">The type parameter to work on.</typeparam>
-    public class ObservableCollection<T> : IList<T>, IReadOnlyList<T>, ICollection<T>, IReadOnlyCollection<T>, IList, ICollection, IEnumerable<T>, IEnumerable
+    public sealed class ObservableCollection<T> : IList<T>, IReadOnlyList<T>, ICollection<T>, IReadOnlyCollection<T>, IList, ICollection, IEnumerable<T>, IEnumerable, IAtomProvider
     {
         private readonly List<T> innerList;
         private readonly IAtom atom;
@@ -151,6 +151,11 @@ namespace Cortex.Net.Types
         /// Gets the name of the <see cref="ObservableCollection{T}"/>.
         /// </summary>
         public string Name { get; private set; }
+
+        /// <summary>
+        /// Gets the atom.
+        /// </summary>
+        IAtom IAtomProvider.Atom => this.atom;
 
         /// <summary>
         /// Gets or sets the element at the specified index.

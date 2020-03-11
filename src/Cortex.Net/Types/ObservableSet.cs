@@ -32,7 +32,7 @@ namespace Cortex.Net.Types
     /// </summary>
     /// <typeparam name="T">The type parameter to work on.</typeparam>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "A Set is a collection.")]
-    public class ObservableSet<T> : ISet<T>, ICollection<T>, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
+    public sealed class ObservableSet<T> : ISet<T>, ICollection<T>, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable, IAtomProvider
     {
         private readonly HashSet<T> innerSet;
         private readonly IAtom atom;
@@ -154,6 +154,11 @@ namespace Cortex.Net.Types
         /// Gets the name of the <see cref="ObservableSet{T}"/>.
         /// </summary>
         public string Name { get; private set; }
+
+        /// <summary>
+        /// Gets the atom.
+        /// </summary>
+        IAtom IAtomProvider.Atom => this.atom;
 
         /// <summary>
         /// Adds an item to the <see cref="ObservableSet{T}"/>.
