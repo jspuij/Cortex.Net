@@ -2,6 +2,11 @@
 
 The changelog is found below:
 
+## 0.2.0-preview2
+
+* Added the ability to get the underlying Observable from a property or collection of a weaved object.
+* Upgraded to .NET core 3.1.2 and Blazor 3.2.0-preview2
+
 ## 0.2.0-preview1
 
 * Added Server Side Blazor Sample

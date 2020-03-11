@@ -325,14 +325,6 @@
             <param name="observableEnumerableType">The observable enumerable type.</param>
             <param name="defaultEnhancer">The default enhancer to use.</param>
         </member>
-        <member name="M:Cortex.Net.Fody.EnumerableInterfaceWeaver.AddReportChangedToGetter(Mono.Cecil.PropertyDefinition,Mono.Cecil.ModuleDefinition,Mono.Cecil.FieldDefinition)">
-            <summary>
-            Adds a report changed call for the collection to the getter of the observable object.
-            </summary>
-            <param name="propertyDefinition">The property definition.</param>
-            <param name="module">The module.</param>
-            <param name="propertyBackingField">The property backing field.</param>
-        </member>
         <member name="M:Cortex.Net.Fody.EnumerableInterfaceWeaver.EmitObservableEnumerableCreation(Mono.Cecil.Cil.ILProcessor,System.String,Mono.Cecil.MethodReference,Mono.Cecil.TypeReference,Mono.Cecil.FieldReference,Mono.Cecil.FieldDefinition)">
             <summary>
             Emits IL-Code for calling the constructor of an Observable Enumerable type.
@@ -808,16 +800,6 @@
         <member name="P:Cortex.Net.Fody.WeavingContext.CortexNetApiActionAttribute">
             <summary>
             Gets type reference to Cortex.Net.Api.ActionAttribute.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Fody.WeavingContext.CortexNetIAtom">
-            <summary>
-            Gets type reference to Cortex.Net.IAtom.
-            </summary>
-        </member>
-        <member name="P:Cortex.Net.Fody.WeavingContext.CortexNetIAtomProvider">
-            <summary>
-            Gets type reference to Cortex.Net.IAtomProvider.
             </summary>
         </member>
         <member name="P:Cortex.Net.Fody.WeavingContext.CortexNetIReactiveObject">

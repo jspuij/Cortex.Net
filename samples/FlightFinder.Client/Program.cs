@@ -18,7 +18,7 @@ namespace FlightFinder.Client
     using System.Threading.Tasks;
     using Cortex.Net;
     using FlightFinder.Client.Services;
-    using Microsoft.AspNetCore.Blazor.Hosting;
+    using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
     using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
@@ -34,6 +34,7 @@ namespace FlightFinder.Client
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
+            builder.Services.AddBaseAddressHttpClient();
 
             // Blazor is single threaded for now but does not provide a Task Scheduler when FromCurrentSynchronizationContext();
             // is called. However TaskScheduler.Current is available and at least is able to Schedule tasks.

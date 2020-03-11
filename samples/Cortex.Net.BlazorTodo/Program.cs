@@ -19,7 +19,7 @@ namespace Cortex.Net.BlazorTodo
     using System.Threading.Tasks;
     using Blazored.LocalStorage;
     using Cortex.Net.BlazorTodo.Stores;
-    using Microsoft.AspNetCore.Blazor.Hosting;
+    using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
     using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
@@ -36,6 +36,7 @@ namespace Cortex.Net.BlazorTodo
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
+            builder.Services.AddBaseAddressHttpClient();
 
             // Blazor is single threaded for now but does not provide a Task Scheduler when FromCurrentSynchronizationContext();
             // is called. However TaskScheduler.Current is available and at least is able to Schedule tasks.
