@@ -198,7 +198,7 @@ namespace Cortex.Net.Fody
             {
                 if (throwOnFailure)
                 {
-                    moduleWeaver.LogWarning(string.Format(CultureInfo.CurrentCulture, Resources.AssemblyOrTypeNotFoundReferences, fullName, assemblyName));
+                    moduleWeaver.WriteWarning(string.Format(CultureInfo.CurrentCulture, Resources.AssemblyOrTypeNotFoundReferences, fullName, assemblyName));
                     throw;
                 }
 
@@ -221,13 +221,13 @@ namespace Cortex.Net.Fody
 
             try
             {
-                var type = moduleWeaver.FindType(fullName);
+                var type = moduleWeaver.FindTypeDefinition(fullName);
                 var result = moduleWeaver.ModuleDefinition.ImportReference(type);
                 return result;
             }
             catch
             {
-                moduleWeaver.LogWarning(string.Format(CultureInfo.CurrentCulture, Resources.AssemblyOrTypeNotFoundScan, fullName));
+                moduleWeaver.WriteWarning(string.Format(CultureInfo.CurrentCulture, Resources.AssemblyOrTypeNotFoundScan, fullName));
                 throw;
             }
         }

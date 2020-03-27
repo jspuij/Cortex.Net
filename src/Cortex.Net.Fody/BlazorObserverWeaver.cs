@@ -125,7 +125,7 @@ namespace Cortex.Net.Fody
                 }
                 else
                 {
-                    this.parentWeaver.LogWarning("StateHasChanged not found");
+                    this.parentWeaver.WriteWarning(Properties.Resources.StateHasChangedNotFound);
                     return;
                 }
             }

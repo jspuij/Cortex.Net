@@ -527,7 +527,7 @@ namespace Cortex.Net.Fody
                 // The equalitycomparer needs to have a parameterless constructor.
                 if (equalityComparerConstructorReference == null)
                 {
-                    this.ParentWeaver.LogWarning(string.Format(
+                    this.ParentWeaver.WriteWarning(string.Format(
                         CultureInfo.CurrentCulture,
                         Resources.NoParameterLessConstructorForEqualityComparer,
                         equalityComparerType.Name,

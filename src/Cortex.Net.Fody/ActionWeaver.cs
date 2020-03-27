@@ -284,7 +284,7 @@ namespace Cortex.Net.Fody
 
             if (methodDefinition.ReturnType != moduleDefinition.TypeSystem.Void)
             {
-                this.parentWeaver.LogWarning(string.Format(CultureInfo.CurrentCulture, Resources.NonVoidReturnTypeForAction, methodDefinition.Name, declaringType.FullName, methodDefinition.ReturnType.Name));
+                this.parentWeaver.WriteWarning(string.Format(CultureInfo.CurrentCulture, Resources.NonVoidReturnTypeForAction, methodDefinition.Name, declaringType.FullName, methodDefinition.ReturnType.Name));
                 return;
             }
 

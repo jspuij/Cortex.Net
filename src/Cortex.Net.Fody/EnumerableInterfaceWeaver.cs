@@ -117,7 +117,7 @@ namespace Cortex.Net.Fody
             }
             else
             {
-                this.parentWeaver.LogWarning(string.Format(CultureInfo.CurrentCulture, Resources.NonReplaceableCollection, propertyDefinition.Name, propertyTypeName));
+                this.parentWeaver.WriteWarning(string.Format(CultureInfo.CurrentCulture, Resources.NonReplaceableCollection, propertyDefinition.Name, propertyTypeName));
             }
         }
 
@@ -208,7 +208,7 @@ namespace Cortex.Net.Fody
             FieldReference sharedStateBackingField,
             FieldDefinition propertyBackingField)
         {
-            var getTypeFromHandlerMethod = this.parentWeaver.ModuleDefinition.ImportReference(this.parentWeaver.FindType("System.Type").Methods.Single(x => x.Name == "GetTypeFromHandle"));
+            var getTypeFromHandlerMethod = this.parentWeaver.ModuleDefinition.ImportReference(this.parentWeaver.FindTypeDefinition("System.Type").Methods.Single(x => x.Name == "GetTypeFromHandle"));
             var getEnhancerMethod = this.parentWeaver.ModuleDefinition.ImportReference(this.weavingContext.CortexNetCoreActionExtensions.Resolve().Methods.Single(x => x.Name == "GetEnhancer"));
 
             var sharedStateInterfaceImport = this.weavingContext.CortexNetISharedState;

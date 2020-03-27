@@ -47,7 +47,7 @@ namespace Cortex.Net.Fody
             catch
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                this.LogWarning(Resources.CannotLoadTypes);
+                this.WriteWarning(Resources.CannotLoadTypes);
                 return;
             }
 
