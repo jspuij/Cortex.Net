@@ -50,12 +50,12 @@ namespace Cortex.Net.Rx
             }
 
             this.sharedState = sharedState ?? throw new ArgumentNullException(nameof(sharedState));
-            this.exceptionHandler = exceptionHandler ?? throw new ArgumentNullException(nameof(exceptionHandler));
+            this.exceptionHandler = exceptionHandler;
             this.sharedState.RunInAction(() =>
             {
                 this.observableValue = new ObservableValue<T>(this.sharedState, $"RxObserver<{typeof(T)}>", this.sharedState.ReferenceEnhancer());
                 this.observableValue.Value = initialValue;
-                observable.Subscribe(this);
+                this.subscription = observable.Subscribe(this);
             });
         }
 

@@ -2,6 +2,10 @@
 
 The changelog is found below:
 
+## 0.2.0-preview5
+
+* Bugfix for RxObserver where exception handler was mandatory and a subscription was not disposed.
+
 ## 0.2.0-preview4
 
 * Upgraded to .NET core 3.1.3 and Blazor 3.2.0-preview3

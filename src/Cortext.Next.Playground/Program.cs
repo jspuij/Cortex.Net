@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.IO;
 using Nito.AsyncEx;
 using System.Collections;
+using System.Reactive.Linq;
+using Cortex.Net.Rx;
 
 namespace Cortext.Next.Playground
 {
@@ -25,6 +27,14 @@ namespace Cortext.Next.Playground
             sharedState.Configuration.EnforceActions = EnforceAction.Never;
 
             sharedState.SpyEvent += SharedState_SpyEvent;
+
+
+            var timer = Observable.Interval(TimeSpan.FromSeconds(1));
+
+            var rx = sharedState.FromObservable(timer, 0);
+
+            var d100 = sharedState.Autorun(r => Console.WriteLine($"Counter: {rx.Value}"));
+
 
             var person = new Person(sharedState);
 
