@@ -661,14 +661,6 @@
             Extension methods that deal with Reactions on an ISharedState instance.
             </summary>
         </member>
-        <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.GetTaskScheduler(Cortex.Net.ISharedState)">
-            <summary>
-            Tries to get a Task scheduler or throws an exception.
-            </summary>
-            <param name="sharedState">The shared state to use.</param>
-            <returns>The task scheduler.</returns>
-            <exception cref="T:System.InvalidOperationException">When a task scheduler was not specified or could not be inferred from a SynchronizationContext.</exception>
-        </member>
         <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.Autorun(Cortex.Net.ISharedState,System.Action{Cortex.Net.Core.Reaction},Cortex.Net.AutorunOptions)">
             <summary>
             Creates a new Autorun reaction.
@@ -700,6 +692,14 @@
             <param name="reactionOptions">The options to use for the reaction.</param>
             <returns>An <see cref="T:System.IDisposable"/> instance that can be used to stop the reaction.</returns>
             <remarks>Only pass asynchronous effect functions that wrap state modifications in actions.</remarks>
+        </member>
+        <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.GetTaskScheduler(Cortex.Net.ISharedState)">
+            <summary>
+            Tries to get a Task scheduler or throws an exception.
+            </summary>
+            <param name="sharedState">The shared state to use.</param>
+            <returns>The task scheduler.</returns>
+            <exception cref="T:System.InvalidOperationException">When a task scheduler was not specified or could not be inferred from a SynchronizationContext.</exception>
         </member>
         <member name="M:Cortex.Net.Api.SharedStateReactionExtensions.WrapErrorHandler``1(System.Action{Cortex.Net.Core.Reaction,System.Exception},System.Action{``0,Cortex.Net.Core.Reaction})">
             <summary>
@@ -2039,6 +2039,16 @@
             Configuration parameters for an <see cref="T:Cortex.Net.ISharedState"/> instance.
             </summary>
         </member>
+        <member name="F:Cortex.Net.CortexConfiguration.synchronizationContext">
+            <summary>
+            The synchronization context to use.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.CortexConfiguration.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Net.CortexConfiguration"/> class.
+            </summary>
+        </member>
         <member name="P:Cortex.Net.CortexConfiguration.DisableErrorBoundaries">
             <summary>
             Gets or sets a value indicating whether to catch and rethrow exceptions.
@@ -2079,9 +2089,9 @@
             Gets or sets a value that defines how strict modification of state should be enforced.
             </summary>
         </member>
-        <member name="P:Cortex.Net.CortexConfiguration.TaskScheduler">
+        <member name="P:Cortex.Net.CortexConfiguration.SynchronizationContext">
             <summary>
-            Gets or sets the default Task scheduler that will be used for Reactions.
+            Gets or sets the SynchronizationContext that will be used for Reactions.
             </summary>
         </member>
         <member name="P:Cortex.Net.CortexConfiguration.UseGlobalState">
@@ -2089,6 +2099,11 @@
             Gets or sets a value indicating whether to use a Global Shared State.
             </summary>
             <remarks>When set to false, code that not explicitly sets Shared State will throw exceptions.</remarks>
+        </member>
+        <member name="P:Cortex.Net.CortexConfiguration.TaskScheduler">
+            <summary>
+            Gets the TaskScheduler.
+            </summary>
         </member>
         <member name="T:Cortex.Net.DerivationState">
             <summary>

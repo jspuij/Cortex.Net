@@ -11,7 +11,7 @@ In most applications that have a UI it makes sense to do this on the UI thread.
 
 Scheduling actions on the UI thread can be done automatically by Cortex.Net or manually. Automatic scheduling
 can be achieved by setting the [AutoscheduleActions property](xref:Cortex.Net.CortexConfiguration.AutoscheduleActions)
-and a valid [TaskScheduler](xref:Cortex.Net.CortexConfiguration.TaskScheduler) on the 
+and a valid [SynchronizationContext](xref:Cortex.Net.CortexConfiguration.SynchronizationContext) on the 
 [CortexConfiguration](xref:Cortex.Net.CortexConfiguration) instance.
 
 An example:
@@ -24,7 +24,7 @@ var sharedState = SharedState.GlobalState;
 
 // Auto schedule actions, run on the UI TaskScheduler for the platform.
 sharedState.Configuration.AutoscheduleActions = true;
-sharedState.Configuration.TaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+sharedState.Configuration.SynchronizationContext = SynchronizationContext.Current;
 
 
 var buttonName = sharedState.Box("A threaded test");
@@ -41,10 +41,6 @@ Task.Run(() => sharedState.RunInAction(() =>
 	buttonName = "Updated";
 }));
 ```
-
-Note that the platform needs to be able to provide a Task Scheduler from the current Synchronization Context.
-Not all platforms support this. In case the platform does not support it, you need to assign an
-instance of a TaskScheduler to the [TaskScheduler property](xref:Cortex.Net.CortexConfiguration.TaskScheduler).
 
 ## Scheduling in a free threading environment.
 

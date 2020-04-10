@@ -203,7 +203,7 @@ namespace Cortex.Net
         /// <summary>
         /// Gets a value indicating whether the action should be invoked on the original thread that created the context.
         /// </summary>
-        public bool ShouldInvoke => this.Configuration.AutoscheduleActions;
+        public bool ShouldInvoke => this.Configuration.AutoscheduleActions && this.Configuration.SynchronizationContext != null && this.Configuration.SynchronizationContext != SynchronizationContext.Current;
 
         /// <summary>
         /// Set the AsyncLocalSharedState.

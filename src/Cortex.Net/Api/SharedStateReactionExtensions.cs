@@ -30,31 +30,6 @@ namespace Cortex.Net.Api
     public static class SharedStateReactionExtensions
     {
         /// <summary>
-        /// Tries to get a Task scheduler or throws an exception.
-        /// </summary>
-        /// <param name="sharedState">The shared state to use.</param>
-        /// <returns>The task scheduler.</returns>
-        /// <exception cref="InvalidOperationException">When a task scheduler was not specified or could not be inferred from a SynchronizationContext.</exception>
-        public static TaskScheduler GetTaskScheduler(this ISharedState sharedState)
-        {
-            if (sharedState is null)
-            {
-                throw new ArgumentNullException(nameof(sharedState));
-            }
-
-            if (sharedState.Configuration.TaskScheduler != null)
-            {
-                return sharedState.Configuration.TaskScheduler;
-            }
-            else if (SynchronizationContext.Current != null)
-            {
-                return TaskScheduler.FromCurrentSynchronizationContext();
-            }
-
-            throw new InvalidOperationException(Resources.TaskSchedulerNull);
-        }
-
-        /// <summary>
         /// Creates a new Autorun reaction.
         /// </summary>
         /// <param name="sharedState">The shared state to operate on.</param>
@@ -402,6 +377,27 @@ namespace Cortex.Net.Api
 
             reaction.Schedule();
             return new DisposableDelegate(() => reaction.Dispose());
+        }
+
+        /// <summary>
+        /// Tries to get a Task scheduler or throws an exception.
+        /// </summary>
+        /// <param name="sharedState">The shared state to use.</param>
+        /// <returns>The task scheduler.</returns>
+        /// <exception cref="InvalidOperationException">When a task scheduler was not specified or could not be inferred from a SynchronizationContext.</exception>
+        internal static TaskScheduler GetTaskScheduler(this ISharedState sharedState)
+        {
+            if (sharedState is null)
+            {
+                throw new ArgumentNullException(nameof(sharedState));
+            }
+
+            if (sharedState.Configuration.SynchronizationContext != null)
+            {
+                return sharedState.Configuration.TaskScheduler;
+            }
+
+            throw new InvalidOperationException(Resources.TaskSchedulerNull);
         }
 
         /// <summary>

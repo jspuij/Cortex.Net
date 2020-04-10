@@ -29,6 +29,19 @@ namespace Cortex.Net
     public class CortexConfiguration
     {
         /// <summary>
+        /// The synchronization context to use.
+        /// </summary>
+        private SynchronizationContext synchronizationContext;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CortexConfiguration"/> class.
+        /// </summary>
+        public CortexConfiguration()
+        {
+            this.SynchronizationContext = SynchronizationContext.Current;
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether to catch and rethrow exceptions.
         /// This is useful for inspecting the state of the stack when an exception occurs while debugging.
         /// </summary>
@@ -69,14 +82,37 @@ namespace Cortex.Net
         public EnforceAction EnforceActions { get; set; }
 
         /// <summary>
-        /// Gets or sets the default Task scheduler that will be used for Reactions.
+        /// Gets or sets the SynchronizationContext that will be used for Reactions.
         /// </summary>
-        public TaskScheduler TaskScheduler { get; set; }
+        public SynchronizationContext SynchronizationContext
+        {
+            get => this.synchronizationContext;
+            set
+            {
+                if (value != this.synchronizationContext)
+                {
+                    this.TaskScheduler = null;
+                    this.synchronizationContext = value;
+                    if (this.synchronizationContext != null)
+                    {
+                        var previousContext = SynchronizationContext.Current;
+                        SynchronizationContext.SetSynchronizationContext(this.synchronizationContext);
+                        this.TaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+                        SynchronizationContext.SetSynchronizationContext(previousContext);
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether to use a Global Shared State.
         /// </summary>
         /// <remarks>When set to false, code that not explicitly sets Shared State will throw exceptions.</remarks>
         internal static bool UseGlobalState { get; set; } = true;
+
+        /// <summary>
+        /// Gets the TaskScheduler.
+        /// </summary>
+        internal TaskScheduler TaskScheduler { get; private set; }
     }
 }

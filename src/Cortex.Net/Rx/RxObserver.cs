@@ -35,6 +35,8 @@ namespace Cortex.Net.Rx
         private IObservableValue<T> observableValue;
         private IDisposable subscription;
 
+        private T initialValue;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RxObserver{T}"/> class.
         /// </summary>
@@ -51,6 +53,7 @@ namespace Cortex.Net.Rx
 
             this.sharedState = sharedState ?? throw new ArgumentNullException(nameof(sharedState));
             this.exceptionHandler = exceptionHandler;
+            this.initialValue = initialValue;
             this.sharedState.RunInAction(() =>
             {
                 this.observableValue = new ObservableValue<T>(this.sharedState, $"RxObserver<{typeof(T)}>", this.sharedState.ReferenceEnhancer());
@@ -94,12 +97,22 @@ namespace Cortex.Net.Rx
         /// <summary>
         /// Gets or sets the underlying value.
         /// </summary>
-        public T Value { get => this.observableValue.Value; set => this.observableValue.Value = value; }
+        public T Value
+        {
+            get => this.observableValue != null ? this.observableValue.Value : this.initialValue;
+            set
+            {
+                if (this.observableValue != null)
+                {
+                    this.observableValue.Value = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the underlying value.
         /// </summary>
-        object IValue.Value { get => this.observableValue.Value; set => this.observableValue.Value = (T)value; }
+        object IValue.Value { get => this.Value; set => this.Value = (T)value; }
 
         /// <summary>
         /// Cleans up the subscription when the observer is disposed.

@@ -2,6 +2,10 @@
 
 The changelog is found below:
 
+## 0.2.0-preview6
+
+* Changed threading API to make it possible to skip scheduling of actions if already on the right SynchronizationContext.
+
 ## 0.2.0-preview5
 
 * Bugfix for RxObserver where exception handler was mandatory and a subscription was not disposed.

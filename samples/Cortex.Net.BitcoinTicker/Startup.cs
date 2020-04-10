@@ -19,6 +19,7 @@ namespace Cortex.Net.BitcoinTicker
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using Cortex.Net.Api;
 
@@ -76,7 +77,7 @@ namespace Cortex.Net.BitcoinTicker
                     // autoschedule actions on the render thread.
                     AutoscheduleActions = true,
                     EnforceActions = EnforceAction.Never,
-                    TaskScheduler = TaskScheduler.FromCurrentSynchronizationContext(),
+                    SynchronizationContext = SynchronizationContext.Current,
                 };
 
                 return new SharedState(configuration);

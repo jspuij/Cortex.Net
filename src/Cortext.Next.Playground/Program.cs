@@ -10,6 +10,7 @@ using Nito.AsyncEx;
 using System.Collections;
 using System.Reactive.Linq;
 using Cortex.Net.Rx;
+using System.Threading;
 
 namespace Cortext.Next.Playground
 {
@@ -25,13 +26,14 @@ namespace Cortext.Next.Playground
         { 
             var sharedState = SharedState.GlobalState;
             sharedState.Configuration.EnforceActions = EnforceAction.Never;
+            sharedState.Configuration.SynchronizationContext = SynchronizationContext.Current;
 
             sharedState.SpyEvent += SharedState_SpyEvent;
 
 
             var timer = Observable.Interval(TimeSpan.FromSeconds(1));
 
-            var rx = sharedState.FromObservable(timer, 0);
+            var rx = sharedState.FromObservable(timer.ObserveOn(sharedState.Configuration.SynchronizationContext), 0);
 
             var d100 = sharedState.Autorun(r => Console.WriteLine($"Counter: {rx.Value}"));
 
@@ -112,6 +114,9 @@ namespace Cortext.Next.Playground
 
             personWeave.ChangeBothNames("Jan-Willem", "Spuij2");
             await task;
+
+            d100.Dispose();
+            rx.Dispose();
 
             Console.WriteLine($"Completed: {task.Result}");
         }
