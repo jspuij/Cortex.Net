@@ -207,6 +207,16 @@
             Gets type reference to Cortex.Net.Blazor.ObserverObject.
             </summary>
         </member>
+        <member name="P:Cortex.Net.Fody.BlazorWeavingContext.MicrosoftAspNetCoreComponentsGenericRenderFragment">
+            <summary>
+            Gets type reference to Microsoft.AspNetCore.Components.RenderFragment`1.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.BlazorWeavingContext.MicrosoftAspNetCoreComponentsRenderFragment">
+            <summary>
+            Gets type reference to Microsoft.AspNetCore.Components.RenderFragment.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Fody.ComputedWeaver">
             <summary>
             Weaves properties and methods decorated with an ComputedAttribute.

@@ -17,8 +17,10 @@
 namespace Cortex.Net.Blazor
 {
     using System;
+    using System.Collections.Generic;
     using Cortex.Net;
     using Cortex.Net.Core;
+    using Microsoft.AspNetCore.Components;
     using Microsoft.AspNetCore.Components.Rendering;
 
     /// <summary>
@@ -48,9 +50,19 @@ namespace Cortex.Net.Blazor
         private readonly Action stateChangedAction;
 
         /// <summary>
-        /// The current reaction. The reaction is automatically disposed when an exception occurs and recreated on the next rendering.
+        /// Gets the dictionary of created reactions.
         /// </summary>
-        private Reaction current;
+        private readonly Dictionary<Delegate, Reaction> reactions = new Dictionary<Delegate, Reaction>();
+
+        /// <summary>
+        /// The next fragment Id.
+        /// </summary>
+        private int nextFragmentId = 0;
+
+        /// <summary>
+        /// Gets the current RenderFragment.
+        /// </summary>
+        private RenderFragment current = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObserverObject"/> class.
@@ -73,44 +85,16 @@ namespace Cortex.Net.Blazor
         }
 
         /// <summary>
-        /// Gets or sets a property that automatically manages the current reaction.
-        /// </summary>
-        private Reaction Current
-        {
-            get
-            {
-                // auto create the current reaction if it does not exist.
-                if (this.current == null)
-                {
-                    this.current = new Reaction(this.sharedState, $"Observer({this.name})", this.stateChangedAction, null);
-                }
-
-                return this.current;
-            }
-
-            set
-            {
-                // dispose any previous reaction automatically.
-                if (this.current != null && !this.current.IsDisposed && this.current != value)
-                {
-                    this.current.Dispose();
-                }
-
-                this.current = value;
-            }
-        }
-
-        /// <summary>
         /// Disposes the internal reaction that is used to track dependenies.
         /// </summary>
         public void Dispose()
         {
-            // dispose any previous reaction automatically.
-            if (this.current != null && !this.current.IsDisposed)
+            foreach (var disposable in this.reactions.Values)
             {
-                this.current.Dispose();
+                disposable.Dispose();
             }
 
+            this.reactions.Clear();
             this.current = null;
         }
 
@@ -120,27 +104,76 @@ namespace Cortex.Net.Blazor
         /// <param name="renderTreeBuilder">The render tree builder to use.</param>
         public void BuildRenderTree(RenderTreeBuilder renderTreeBuilder)
         {
-            Exception exception = null;
-
-            this.Current.Track(() =>
+            if (this.current == null)
             {
-                try
-                {
-                    this.buildRenderTreeAction(renderTreeBuilder);
-                }
-#pragma warning disable CA1031 // Do not catch general exception types
-                catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
-                {
-                    exception = ex;
-                }
-            });
-
-            if (exception != null)
-            {
-                this.Current = null;
-                throw exception;
+                // create a reactive render fragment from the original BuildRenderTree action.
+                this.current = this.ReactiveRenderFragment(r => this.buildRenderTreeAction(r));
             }
+
+            this.current(renderTreeBuilder);
         }
+
+        /// <summary>
+        /// Creates a reactive RenderFragment that tracks a RenderFragment.
+        /// and Invokes the StateHasChanged action passed
+        /// in the constructor when any of the fragments have changed.
+        /// </summary>
+        /// <param name="renderFragment">The render fragment to track.</param>
+        /// <returns>A new Renderfragment that wraps the old one.</returns>
+        public RenderFragment ReactiveRenderFragment(RenderFragment renderFragment)
+        {
+            Reaction ManageReaction()
+            {
+                if (this.reactions.TryGetValue(renderFragment, out Reaction result))
+                {
+                    // The original reaction might be in an inconsistent state. We dispose and recreate it.
+                    result.Dispose();
+                }
+
+                result = new Reaction(this.sharedState, $"Observer({this.name}-{++this.nextFragmentId})", this.stateChangedAction, null);
+                this.reactions[renderFragment] = result;
+                return result;
+            }
+
+            var reaction = ManageReaction();
+            Exception exception;
+
+            return (renderTreeBuilder) =>
+            {
+                exception = null;
+
+                // execute the render fragment inside the tracking function.
+                reaction.Track(() =>
+                {
+                    try
+                    {
+                        renderFragment(renderTreeBuilder);
+                    }
+#pragma warning disable CA1031 // Do not catch general exception types
+                    catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+                    {
+                        exception = ex;
+                    }
+                });
+
+                if (exception != null)
+                {
+                    reaction = ManageReaction();
+                    throw exception;
+                }
+            };
+        }
+
+        /// <summary>
+        /// Creates a reactive RenderFragment that tracks a RenderFragment.
+        /// and Invokes the StateHasChanged action passed
+        /// in the constructor when any of the fragments have changed.
+        /// </summary>
+        /// <typeparam name="T">The type of the argument.</typeparam>
+        /// <param name="renderFragment">The render fragment to encapsulate.</param>
+        /// <returns>The encapsulated render framgent.</returns>
+        public RenderFragment<T> ReactiveRenderFragment<T>(RenderFragment<T> renderFragment) =>
+            (value) => this.ReactiveRenderFragment(renderFragment(value));
     }
 }

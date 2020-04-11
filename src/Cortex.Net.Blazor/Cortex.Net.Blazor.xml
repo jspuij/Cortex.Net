@@ -51,9 +51,19 @@
             The action that is used to force StateHasChanged for this Component.
             </summary>
         </member>
+        <member name="F:Cortex.Net.Blazor.ObserverObject.reactions">
+            <summary>
+            Gets the dictionary of created reactions.
+            </summary>
+        </member>
+        <member name="F:Cortex.Net.Blazor.ObserverObject.nextFragmentId">
+            <summary>
+            The next fragment Id.
+            </summary>
+        </member>
         <member name="F:Cortex.Net.Blazor.ObserverObject.current">
             <summary>
-            The current reaction. The reaction is automatically disposed when an exception occurs and recreated on the next rendering.
+            Gets the current RenderFragment.
             </summary>
         </member>
         <member name="M:Cortex.Net.Blazor.ObserverObject.#ctor(Cortex.Net.ISharedState,System.String,System.Action{Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder},System.Action)">
@@ -65,11 +75,6 @@
             <param name="buildRenderTreeAction">The action that should be executed to build the render tree.</param>
             <param name="stateChangedAction">The action that is used to force StateHasChanged for this Component.</param>
         </member>
-        <member name="P:Cortex.Net.Blazor.ObserverObject.Current">
-            <summary>
-            Gets or sets a property that automatically manages the current reaction.
-            </summary>
-        </member>
         <member name="M:Cortex.Net.Blazor.ObserverObject.Dispose">
             <summary>
             Disposes the internal reaction that is used to track dependenies.
@@ -80,6 +85,25 @@
             Builds the render tree for the Component and automatically tracks dependencies.
             </summary>
             <param name="renderTreeBuilder">The render tree builder to use.</param>
+        </member>
+        <member name="M:Cortex.Net.Blazor.ObserverObject.ReactiveRenderFragment(Microsoft.AspNetCore.Components.RenderFragment)">
+            <summary>
+            Creates a reactive RenderFragment that tracks a RenderFragment.
+            and Invokes the StateHasChanged action passed
+            in the constructor when any of the fragments have changed.
+            </summary>
+            <param name="renderFragment">The render fragment to track.</param>
+            <returns>A new Renderfragment that wraps the old one.</returns>
+        </member>
+        <member name="M:Cortex.Net.Blazor.ObserverObject.ReactiveRenderFragment``1(Microsoft.AspNetCore.Components.RenderFragment{``0})">
+            <summary>
+            Creates a reactive RenderFragment that tracks a RenderFragment.
+            and Invokes the StateHasChanged action passed
+            in the constructor when any of the fragments have changed.
+            </summary>
+            <typeparam name="T">The type of the argument.</typeparam>
+            <param name="renderFragment">The render fragment to encapsulate.</param>
+            <returns>The encapsulated render framgent.</returns>
         </member>
     </members>
 </doc>

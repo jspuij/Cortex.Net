@@ -274,7 +274,68 @@ namespace Cortex.Net.Fody
         {
             var module = this.parentWeaver.ModuleDefinition;
 
+            var renderFragmentReference = this.weavingContext.MicrosoftAspNetCoreComponentsRenderFragment;
+            var renderFragmentConstructor = module.ImportReference(renderFragmentReference.Resolve().Methods.Single(x => x.IsConstructor));
+            var reactiveRenderFragmentRefrence = module.ImportReference(observerObjectType.Resolve().Methods.Single(x => x.Name == "ReactiveRenderFragment" && !x.HasGenericParameters));
+
             var processor = buildRenderTreeMethod.Body.GetILProcessor();
+
+            var targets = new List<Instruction>();
+
+            foreach (var instruction in buildRenderTreeMethod.Body.Instructions)
+            {
+                // not a suitable render fragment.
+                if (instruction.OpCode != OpCodes.Newobj ||
+                    !(instruction.Operand is MethodReference mr) ||
+                    mr.DeclaringType.FullName != renderFragmentConstructor.DeclaringType.FullName)
+                {
+                    continue;
+                }
+
+                targets.Add(instruction);
+            }
+
+            foreach (var target in targets)
+            {
+                processor.InsertBefore(target.Previous.Previous, processor.Create(OpCodes.Ldarg_0));
+                processor.InsertBefore(target.Previous.Previous, processor.Create(OpCodes.Ldfld, module.ImportReference(observerObjectDefinition)));
+                processor.InsertAfter(target, processor.Create(OpCodes.Call, reactiveRenderFragmentRefrence));
+            }
+
+            var genericTargets = new Dictionary<Instruction, GenericInstanceType>();
+            var renderFragmentType = this.weavingContext.MicrosoftAspNetCoreComponentsGenericRenderFragment;
+            var genericReactiveRenderFragmentMethodType = observerObjectType.Resolve().Methods.Single(x => x.Name == "ReactiveRenderFragment" && x.HasGenericParameters);
+
+            foreach (var instruction in buildRenderTreeMethod.Body.Instructions)
+            {
+                // not a suitable render fragment.
+                if (instruction.OpCode != OpCodes.Newobj ||
+                    !(instruction.Operand is MethodReference mr) ||
+                    !mr.DeclaringType.IsGenericInstance ||
+                    mr.DeclaringType.Resolve().FullName != renderFragmentType.FullName)
+                {
+                    continue;
+                }
+
+                var genericInstance = mr.DeclaringType as GenericInstanceType;
+                genericTargets.Add(instruction, genericInstance);
+            }
+
+            foreach (var target in genericTargets)
+            {
+                var instruction = target.Key;
+                var genericInstance = target.Value;
+
+                var reactiveRenderFragmentInstanceMethod = new GenericInstanceMethod(genericReactiveRenderFragmentMethodType);
+                foreach (var parameter in genericInstance.GenericArguments)
+                {
+                    reactiveRenderFragmentInstanceMethod.GenericArguments.Add(parameter.Resolve());
+                }
+
+                processor.InsertBefore(instruction.Previous.Previous, processor.Create(OpCodes.Ldarg_0));
+                processor.InsertBefore(instruction.Previous.Previous, processor.Create(OpCodes.Ldfld, module.ImportReference(observerObjectDefinition)));
+                processor.InsertAfter(instruction, processor.Create(OpCodes.Call, module.ImportReference(reactiveRenderFragmentInstanceMethod)));
+            }
 
             var originalStart = buildRenderTreeMethod.Body.Instructions.First();
             var originalEnd = buildRenderTreeMethod.Body.Instructions.Last();

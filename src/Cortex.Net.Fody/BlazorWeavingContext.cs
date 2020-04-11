@@ -33,16 +33,28 @@ namespace Cortex.Net.Fody
         {
             this.CortexNetBlazorObserverAttribute = TryResolveFromReference(moduleWeaver, "Cortex.Net.Blazor.ObserverAttribute", "Cortex.Net.Blazor");
             this.CortexNetBlazorObserverObject = TryResolveFromReference(moduleWeaver, "Cortex.Net.Blazor.ObserverObject", "Cortex.Net.Blazor");
+            this.MicrosoftAspNetCoreComponentsRenderFragment = TryResolveFromReference(moduleWeaver, "Microsoft.AspNetCore.Components.RenderFragment", "Microsoft.AspNetCore.Components");
+            this.MicrosoftAspNetCoreComponentsGenericRenderFragment = TryResolveFromReference(moduleWeaver, "Microsoft.AspNetCore.Components.RenderFragment`1", "Microsoft.AspNetCore.Components");
         }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Blazor.ObserverAttribute.
         /// </summary>
-        internal TypeReference CortexNetBlazorObserverAttribute { get; private set; }
+        public TypeReference CortexNetBlazorObserverAttribute { get; private set; }
 
         /// <summary>
         /// Gets type reference to Cortex.Net.Blazor.ObserverObject.
         /// </summary>
-        internal TypeReference CortexNetBlazorObserverObject { get; private set; }
+        public TypeReference CortexNetBlazorObserverObject { get; private set; }
+
+        /// <summary>
+        /// Gets type reference to Microsoft.AspNetCore.Components.RenderFragment`1.
+        /// </summary>
+        public TypeReference MicrosoftAspNetCoreComponentsGenericRenderFragment { get; }
+
+        /// <summary>
+        /// Gets type reference to Microsoft.AspNetCore.Components.RenderFragment.
+        /// </summary>
+        public TypeReference MicrosoftAspNetCoreComponentsRenderFragment { get; }
     }
 }

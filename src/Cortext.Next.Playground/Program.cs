@@ -37,7 +37,6 @@ namespace Cortext.Next.Playground
 
             var d100 = sharedState.Autorun(r => Console.WriteLine($"Counter: {rx.Value}"));
 
-
             var person = new Person(sharedState);
 
             var d = sharedState.Reaction<string>(r => person.FullName3, (s, r) =>
