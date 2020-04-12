@@ -2,6 +2,11 @@
 
 The changelog is found below:
 
+## 0.3.0
+
+* Added tracking and reactivity to RenderFragments.
+* Removed preview designation.
+
 ## 0.2.0-preview6
 
 * Changed threading API to make it possible to skip scheduling of actions if already on the right SynchronizationContext.
