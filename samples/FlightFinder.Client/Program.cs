@@ -15,6 +15,8 @@
 
 namespace FlightFinder.Client
 {
+    using System;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using Cortex.Net;
     using FlightFinder.Client.Services;
@@ -34,7 +36,7 @@ namespace FlightFinder.Client
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.Services.AddBaseAddressHttpClient();
+            builder.Services.AddSingleton(new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             // Blazor is single threaded for now but does not provide a Synchronization Context;
             SharedState.GlobalState.Configuration.SynchronizationContext = new System.Threading.SynchronizationContext();
