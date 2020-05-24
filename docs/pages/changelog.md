@@ -2,6 +2,10 @@
 
 The changelog is found below:
 
+## 0.3.1
+
+* Upgrade to Blazor final 3.2.0
+
 ## 0.3.0
 
 * Added tracking and reactivity to RenderFragments.
