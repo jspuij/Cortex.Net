@@ -93,6 +93,6 @@ public class AppState
 
 ```
 
-The `Action` attribute is only neccessary when using Cortex.Net it enforces modification through reactions.
+The `Action` attribute is only neccessary when using Cortex.Net is configured to enforce modification through reactions.
 It is recommended to use action though as it will help you to better structure applications and expresses the intention
 of a function to modify state. It automatically applies transactions for optimal performance as well.
