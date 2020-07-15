@@ -20,7 +20,7 @@ This automatic suspension is very convenient. If a computed value is no longer o
 in which it was used no longer exists, Cortex.Net can automatically garbage collect it. 
 This differs from `autorun`'s values where you must dispose of them yourself.
 It sometimes confuses people new to Cortex.Net, that if you create a computed property but don't use it anywhere in a 
-eaction, it will not cache its value and recompute more often than seems necessary.
+section, it will not cache its value or recompute unnecessarily.
 However, in real life situations this is by far the best default, and you can always forcefully keep a
 computed value awake if you need to, by using either [`observe`](observer.md) or the
 [`keepAlive`](xref:Cortex.Net.ComputedValueOptions`1.KeepAlive) option.
