@@ -4,7 +4,7 @@ Declaration
 public static IDisposable When(this ISharedState sharedState, Func<bool> predicate, Action effect, WhenOptions whenOptions = null)
 ```
 
-[When](xref:Cortex.Net.Api.SharedStateWhenExtensions.When(Cortex.Net.ISharedState,Func{System.Boolean},Action,Cortex.Net.WhenOptions))] 
+[When](xref:Cortex.Net.Api.SharedStateWhenExtensions.When(Cortex.Net.ISharedState,Func{System.Boolean},Action,Cortex.Net.WhenOptions)) 
 observes & runs the given `predicate` until it returns true. Once that happens, the given `effect` is executed and the
 autorunner is disposed. The function returns a disposer to cancel the autorunner prematurely.
 
