@@ -13,7 +13,7 @@ For example imperative side effects like logging, making network requests etc.
 Computed values are automatically derived from your state if any value that affects them changes.
 Computed values can be optimized away in many cases by Cortex.Net as they are assumed to be pure.
 For example, a computed property won't re-run if none of the data used in the previous computation changed.
-Nor will a computed property re-run if is not in use by some other computed property or reaction.
+Nor will a computed property re-run if it is not in use by some other computed property or reaction.
 In such cases it will be suspended.
 
 This automatic suspension is very convenient. If a computed value is no longer observed, for example the UI
