@@ -146,7 +146,7 @@ create your observables with [Observable&lt;T&gt;](xref:Cortex.Net.Api.SharedSta
 To use constructor arguments in your models to pass around [ISharedState](xref:Cortex.Net.ISharedState) instances,
 you can implement [IReactiveObject](xref:Cortex.Net.IReactiveObject) yourself. Do it exactly like this with an
 auto-generated public getter and private setter. The weaver will then append the setter with the correct code to
-handle Shared State assignment. You must must assign `this.SharedState` in the constructor or you will get 
+handle Shared State assignment. You must assign `this.SharedState` in the constructor or you will get 
 NullReferenceExceptions.
 
 ```csharp
