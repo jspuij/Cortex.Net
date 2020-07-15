@@ -1,7 +1,7 @@
 # Observable
 
 Observability in Cortex.Net means that some value can report that it has changed to an observer. 
-It can also report that it became observed, or that it lost al observers.
+It can also report that it became observed, or that it lost all observers.
 Observables can be properties, objects, and collections like lists, dictionaries, sets.
 To fully understand how Cortex.Net will achieve observability, we will first create an observable object by hand:
 
