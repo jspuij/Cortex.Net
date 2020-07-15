@@ -101,7 +101,7 @@ todos[0].Title = "Make tea";
 ```
 
 In the following example `reaction3`, will react to the change in the `counter` count.
-When invoked `Reaction`, second argument can use as disposer.
+When invoked `Reaction`, second argument can be used as a disposer.
 The following example shows a `Reaction` that is invoked only once.
 
 ```csharp
