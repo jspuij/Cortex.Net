@@ -53,15 +53,15 @@ namespace Cortex.Net.Fody
         internal void Execute()
         {
             var decoratedProperties = from t in this.ParentWeaver.ModuleDefinition.GetTypes()
-                                   from m in t.Properties
-                                   where
-                                      t != null &&
-                                      t.IsClass &&
-                                      t.BaseType != null &&
-                                      m != null &&
-                                      m.CustomAttributes != null &&
-                                      m.CustomAttributes.Any(x => x.AttributeType.FullName == this.WeavingContext.CortexNetApiComputedAttribute.FullName)
-                                   select m;
+                                      from m in t.Properties
+                                      where
+                                         t != null &&
+                                         t.IsClass &&
+                                         t.BaseType != null &&
+                                         m != null &&
+                                         m.CustomAttributes != null &&
+                                         m.CustomAttributes.Any(x => x.AttributeType.FullName == this.WeavingContext.CortexNetApiComputedAttribute.FullName)
+                                      select m;
 
             foreach (var decoratedProperty in decoratedProperties.ToList())
             {
@@ -144,17 +144,20 @@ namespace Cortex.Net.Fody
 
                 // push IL code for initialization of a computed member to the queue to emit in the ISharedState setter.
                 this.ProcessorQueue.SharedStateAssignmentQueue.Enqueue(
-                    (declaringType,
-                    false,
-                    (processor, sharedStateBackingField) => this.EmitComputedMemberAdd(
-                        processor,
-                        computedName,
-                        methodDefinition,
-                        propertyDefinition.SetMethod,
-                        equalityComparerType,
-                        requiresReaction,
-                        keepAlive,
-                        observableObjectField)));
+                    new SharedAssignmentQueueEntry
+                    {
+                        ReactiveObjectTypeDefinition = declaringType,
+                        AddInjectAttribute = false,
+                        ProcessorAction = (processor, sharedStateBackingField) => this.EmitComputedMemberAdd(
+                           processor,
+                           computedName,
+                           methodDefinition,
+                           propertyDefinition.SetMethod,
+                           equalityComparerType,
+                           requiresReaction,
+                           keepAlive,
+                           observableObjectField),
+                    });
 
                 var fieldAttributes = FieldAttributes.Private;
                 if (methodDefinition.IsStatic)
@@ -312,17 +315,20 @@ namespace Cortex.Net.Fody
 
             // push IL code for initialization of a computed member to the queue to emit in the ISharedState setter.
             this.ProcessorQueue.SharedStateAssignmentQueue.Enqueue(
-                (declaringType,
-                false,
-                (processor, sharedStateBackingField) => this.EmitComputedMemberAdd(
-                    processor,
-                    computedName,
-                    methodDefinition,
-                    null,
-                    equalityComparerType,
-                    requiresReaction,
-                    keepAlive,
-                    observableObjectField)));
+                 new SharedAssignmentQueueEntry
+                 {
+                     ReactiveObjectTypeDefinition = declaringType,
+                     AddInjectAttribute = false,
+                     ProcessorAction = (processor, sharedStateBackingField) => this.EmitComputedMemberAdd(
+                     processor,
+                     computedName,
+                     methodDefinition,
+                     null,
+                     equalityComparerType,
+                     requiresReaction,
+                     keepAlive,
+                     observableObjectField),
+                 });
 
             var fieldAttributes = FieldAttributes.Private;
             if (methodDefinition.IsStatic)
@@ -354,14 +360,17 @@ namespace Cortex.Net.Fody
 
                 // push IL code for initialization of observableObject to the queue to emit in the ISharedState setter.
                 this.ProcessorQueue.SharedStateAssignmentQueue.Enqueue(
-                    (declaringType,
-                    false,
-                    (processor, sharedStateBackingField) => this.EmitObservableObjectInit(
+                    new SharedAssignmentQueueEntry
+                    {
+                        ReactiveObjectTypeDefinition = declaringType,
+                        AddInjectAttribute = false,
+                        ProcessorAction = (processor, sharedStateBackingField) => this.EmitObservableObjectInit(
                         processor,
                         declaringType.Name,
                         defaultEhancerType,
                         sharedStateBackingField,
-                        observableObjectField)));
+                        observableObjectField),
+                    });
             }
 
             return observableObjectField;

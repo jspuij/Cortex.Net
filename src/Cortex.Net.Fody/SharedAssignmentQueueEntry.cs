@@ -1,4 +1,4 @@
-﻿// <copyright file="ISharedStateAssignmentILProcessorQueue.cs" company="Jan-Willem Spuij">
+﻿// <copyright file="SharedAssignmentQueueEntry.cs" company="Jan-Willem Spuij">
 // Copyright 2019 Jan-Willem Spuij
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -23,13 +23,23 @@ namespace Cortex.Net.Fody
     using Mono.Cecil.Cil;
 
     /// <summary>
-    /// Interface that holds a Queue with <see cref="ILProcessor"/> actions to be executed when ISharedState is assigned on an observable oject.
+    /// An entry in the Shared Assignment Queue.
     /// </summary>
-    public interface ISharedStateAssignmentILProcessorQueue
+    public class SharedAssignmentQueueEntry
     {
         /// <summary>
-        /// Gets a <see cref="Queue{T}"/> with actions to be executed to emit the IL code on ISharedState Assignment.
+        /// Gets or sets type Definition of the Reactive Object.
         /// </summary>
-        Queue<SharedAssignmentQueueEntry> SharedStateAssignmentQueue { get; }
+        public TypeDefinition ReactiveObjectTypeDefinition { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to add InjectAttribute.
+        /// </summary>
+        public bool AddInjectAttribute { get; set; }
+
+        /// <summary>
+        /// Gets or sets the processor action.
+        /// </summary>
+        public Action<ILProcessor, FieldReference> ProcessorAction { get; set; }
     }
 }

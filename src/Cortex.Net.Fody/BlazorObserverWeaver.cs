@@ -148,12 +148,18 @@ namespace Cortex.Net.Fody
                 }
             }
 
-            this.processorQueue.SharedStateAssignmentQueue.Enqueue((decoratedClass, true, (processor, sharedStateBackingField) => this.EmitObserverObjectInit(
-                processor,
-                observerName,
-                innerObserverObjectField,
-                buildRenderTreeMethod,
-                stateHasChangedMethod)));
+            this.processorQueue.SharedStateAssignmentQueue.Enqueue(
+                new SharedAssignmentQueueEntry
+                {
+                    ReactiveObjectTypeDefinition = decoratedClass,
+                    AddInjectAttribute = true,
+                    ProcessorAction = (processor, sharedStateBackingField) => this.EmitObserverObjectInit(
+                        processor,
+                        observerName,
+                        innerObserverObjectField,
+                        buildRenderTreeMethod,
+                        stateHasChangedMethod),
+                });
 
             // add entrance counter field.
             var entranceCounterDefinition = decoratedType.CreateField(module.TypeSystem.Int32, $"{InnerCounterFieldPrefix}BuildRenderTree_EntranceCount", this.weavingContext, FieldAttributes.Private);

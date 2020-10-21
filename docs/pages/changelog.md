@@ -2,6 +2,11 @@
 
 The changelog is found below:
 
+## 0.4.0
+
+* Upgrade some dependencies.
+* Fix for https://github.com/jspuij/Cortex.Net/issues/42.
+
 ## 0.3.1
 
 * Upgrade to Blazor final 3.2.0

@@ -26,7 +26,9 @@ namespace FlightFinder.Client
     /// <summary>
     /// The program class. Bootstraps the WASM application.
     /// </summary>
+#pragma warning disable RCS1102 // Make class static.
     public class Program
+#pragma warning restore RCS1102 // Make class static.
     {
         /// <summary>
         /// Main entry point for the WASM application.

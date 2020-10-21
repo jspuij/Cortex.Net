@@ -57,12 +57,12 @@ namespace Cortex.Net.Blazor
         /// <summary>
         /// The next fragment Id.
         /// </summary>
-        private int nextFragmentId = 0;
+        private int nextFragmentId;
 
         /// <summary>
         /// Gets the current RenderFragment.
         /// </summary>
-        private RenderFragment current = null;
+        private RenderFragment current;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObserverObject"/> class.

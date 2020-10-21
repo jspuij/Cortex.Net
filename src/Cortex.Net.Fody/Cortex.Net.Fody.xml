@@ -724,6 +724,26 @@
             <param name="backingField">The backing field for the ISharedState" instance.</param>
             <param name="setterReference">A reference to the new private setter.</param>
         </member>
+        <member name="T:Cortex.Net.Fody.SharedAssignmentQueueEntry">
+            <summary>
+            An entry in the Shared Assignment Queue.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.SharedAssignmentQueueEntry.ReactiveObjectTypeDefinition">
+            <summary>
+            Gets or sets type Definition of the Reactive Object.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.SharedAssignmentQueueEntry.AddInjectAttribute">
+            <summary>
+            Gets or sets a value indicating whether to add InjectAttribute.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Fody.SharedAssignmentQueueEntry.ProcessorAction">
+            <summary>
+            Gets or sets the processor action.
+            </summary>
+        </member>
         <member name="T:Cortex.Net.Fody.TypeDefinitionExtenions">
             <summary>
             Extension methods for <see cref="T:Mono.Cecil.TypeDefinition"/> instances.

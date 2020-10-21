@@ -59,7 +59,7 @@ namespace Cortex.Net.Fody
         /// <summary>
         /// Gets a Queue with delegates to be executed to emit the IL code on sharedStateAssignment.
         /// </summary>
-        public Queue<(TypeDefinition, bool, Action<ILProcessor, FieldReference>)> SharedStateAssignmentQueue { get; } = new Queue<(TypeDefinition, bool, Action<ILProcessor, FieldReference>)>();
+        public Queue<SharedAssignmentQueueEntry> SharedStateAssignmentQueue { get; } = new Queue<SharedAssignmentQueueEntry>();
 
         /// <summary>
         /// Executes this weaver.
@@ -70,13 +70,22 @@ namespace Cortex.Net.Fody
 
             // sort queue contents by object, and group by type.
             var queueContent = from q in this.SharedStateAssignmentQueue.ToList()
-                               group q by q.Item1 into g
-                               select (g.Key, g.Any(x => x.Item2), g.Select(x => x.Item3));
+                               group q by q.ReactiveObjectTypeDefinition into g
+                               select new
+                               {
+                                   ReactiveObjectTypeDefinition = g.Key,
+                                   AddInjectAttribute = g.Any(x => x.AddInjectAttribute),
+                                   ProcessorActions = g.Select(x => x.ProcessorAction).ToList(),
+                               };
 
             this.SharedStateAssignmentQueue.Clear();
 
-            foreach ((TypeDefinition reactiveObjectTypeDefinition, bool addInjectAttribute, IEnumerable<Action<ILProcessor, FieldReference>> processorActions) in queueContent)
+            foreach (var item in queueContent)
             {
+                var reactiveObjectTypeDefinition = item.ReactiveObjectTypeDefinition;
+                var processorActions = item.ProcessorActions;
+                var addInjectAttribute = item.AddInjectAttribute;
+
                 var isBlazorComponent = IsBlazorComponent(reactiveObjectTypeDefinition);
 
                 FieldDefinition backingField = null;
@@ -148,7 +157,7 @@ namespace Cortex.Net.Fody
 
                         if (setOverride != null)
                         {
-                            backingField = reactiveObjectTypeDefinition.Fields.Single(x => x.Name.ToUpperInvariant().Contains("SHAREDSTATE") && x.FieldType.FullName == fieldTypeReference.FullName);
+                            backingField = reactiveObjectTypeDefinition.Fields.Single(x => x.Name.IndexOf("SHAREDSTATE", StringComparison.InvariantCultureIgnoreCase) >= 0 && x.FieldType.FullName == fieldTypeReference.FullName);
 
                             if (backingField != null)
                             {

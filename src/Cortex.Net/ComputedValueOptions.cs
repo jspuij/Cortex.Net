@@ -51,7 +51,7 @@ namespace Cortex.Net
         /// <summary>
         /// Gets or sets setter function.
         /// </summary>
-        public Action<T> Setter { get; set; } = null;
+        public Action<T> Setter { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the computed value.
@@ -71,11 +71,11 @@ namespace Cortex.Net
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="ComputedValue{T}"/> requires a reactive context.
         /// </summary>
-        public bool RequiresReaction { get; set; } = false;
+        public bool RequiresReaction { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the computed value keeps calculating, even when it is not observed.
         /// </summary>
-        public bool KeepAlive { get; set; } = false;
+        public bool KeepAlive { get; set; }
     }
 }

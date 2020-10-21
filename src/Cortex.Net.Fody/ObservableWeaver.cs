@@ -43,7 +43,7 @@ namespace Cortex.Net.Fody
         /// <param name="processorQueue">The queue to add ILProcessor actions to.</param>
         /// <param name="weavingContext">The resolved types necessary by this weaver.</param>
         /// <exception cref="ArgumentNullException">When any of the arguments is null.</exception>
-        public ObservableWeaver(ModuleWeaver parentWeaver, IEnumerableInterfaceWeaver enumerableInterfaceWeaver,  ISharedStateAssignmentILProcessorQueue processorQueue, WeavingContext weavingContext)
+        public ObservableWeaver(ModuleWeaver parentWeaver, IEnumerableInterfaceWeaver enumerableInterfaceWeaver, ISharedStateAssignmentILProcessorQueue processorQueue, WeavingContext weavingContext)
             : base(parentWeaver, processorQueue, weavingContext)
         {
             this.enumerableInterfaceWeaver = enumerableInterfaceWeaver ?? throw new ArgumentNullException(nameof(enumerableInterfaceWeaver));
@@ -55,15 +55,15 @@ namespace Cortex.Net.Fody
         internal void Execute()
         {
             var decoratedProperties = from t in this.ParentWeaver.ModuleDefinition.GetTypes()
-                                   from p in t.Properties
-                                   where
-                                      t != null &&
-                                      t.IsClass &&
-                                      t.BaseType != null &&
-                                      p != null &&
-                                      p.CustomAttributes != null &&
-                                      p.CustomAttributes.Any(x => x.AttributeType.FullName == this.WeavingContext.CortexNetApiObservableAttribute.FullName)
-                                   select p;
+                                      from p in t.Properties
+                                      where
+                                         t != null &&
+                                         t.IsClass &&
+                                         t.BaseType != null &&
+                                         p != null &&
+                                         p.CustomAttributes != null &&
+                                         p.CustomAttributes.Any(x => x.AttributeType.FullName == this.WeavingContext.CortexNetApiObservableAttribute.FullName)
+                                      select p;
 
             foreach (var decoratedProperty in decoratedProperties.ToList())
             {
@@ -78,13 +78,13 @@ namespace Cortex.Net.Fody
             }
 
             var decoratedClasses = from t in this.ParentWeaver.ModuleDefinition.GetTypes()
-                                      where
-                                         t != null &&
-                                         t.IsClass &&
-                                         t.BaseType != null &&
-                                         t.CustomAttributes != null &&
-                                         t.CustomAttributes.Any(x => x.AttributeType.FullName == this.WeavingContext.CortexNetApiObservableAttribute.FullName)
-                                      select t;
+                                   where
+                                      t != null &&
+                                      t.IsClass &&
+                                      t.BaseType != null &&
+                                      t.CustomAttributes != null &&
+                                      t.CustomAttributes.Any(x => x.AttributeType.FullName == this.WeavingContext.CortexNetApiObservableAttribute.FullName)
+                                   select t;
 
             foreach (var decoratedClass in decoratedClasses.ToList())
             {
@@ -196,27 +196,33 @@ namespace Cortex.Net.Fody
 
                 // push IL code for initialization of observableObject to the queue to emit in the ISharedState setter.
                 this.ProcessorQueue.SharedStateAssignmentQueue.Enqueue(
-                    (declaringType,
-                    false,
-                    (processor, sharedStateBackingField) => this.EmitObservableObjectInit(
+                     new SharedAssignmentQueueEntry
+                     {
+                         ReactiveObjectTypeDefinition = declaringType,
+                         AddInjectAttribute = false,
+                         ProcessorAction = (processor, sharedStateBackingField) => this.EmitObservableObjectInit(
                         processor,
                         declaringType.Name,
                         defaultEhancerType,
                         sharedStateBackingField,
-                        observableObjectField)));
+                        observableObjectField),
+                     });
             }
 
             // push IL code for initialization of a property to the queue to emit in the ISharedState setter.
             this.ProcessorQueue.SharedStateAssignmentQueue.Enqueue(
-                (declaringType,
-                false,
-                (processor, sharedStateBackingField) => this.EmitObservablePropertyAdd(
+                 new SharedAssignmentQueueEntry
+                 {
+                     ReactiveObjectTypeDefinition = declaringType,
+                     AddInjectAttribute = false,
+                     ProcessorAction = (processor, sharedStateBackingField) => this.EmitObservablePropertyAdd(
                     processor,
                     propertyName,
                     property.PropertyType,
                     enhancerType,
                     sharedStateBackingField,
-                    observableObjectField)));
+                    observableObjectField),
+                 });
 
             this.RewriteGetMethod(getMethod, observableObjectField, propertyName, property.PropertyType);
             this.RewriteSetMethod(setMethod, observableObjectField, propertyName, property.PropertyType);

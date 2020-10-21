@@ -305,15 +305,18 @@ namespace Cortex.Net.Fody
 
             // push IL code for initialization of action members to the queue to emit in the ISharedState setter.
             this.processorQueue.SharedStateAssignmentQueue.Enqueue(
-                (declaringType,
-                false,
-                (processor, sharedStateBackingField) => this.EmitSharedStateSetter(
+                new SharedAssignmentQueueEntry
+                {
+                    ReactiveObjectTypeDefinition = declaringType,
+                    AddInjectAttribute = false,
+                    ProcessorAction = (processor, sharedStateBackingField) => this.EmitSharedStateSetter(
                     processor,
                     sharedStateBackingField,
                     methodDefinition,
                     actionName,
                     actionType,
-                    actionFieldDefinition)));
+                    actionFieldDefinition),
+                });
 
             // extend the action method body.
             ExtendActionMethodBody(methodDefinition, actionType, entranceCounterDefinition, actionFieldDefinition);
@@ -349,31 +352,37 @@ namespace Cortex.Net.Fody
 
             // push IL code for initialization of action members to the queue to emit in the ISharedState setter.
             this.processorQueue.SharedStateAssignmentQueue.Enqueue(
-                (stateMachineType,
-                false,
-                (processor, sharedStateBackingField) =>
-                {
-                    stateMachineSharedStateBackingField = sharedStateBackingField;
-                    if (declaringTypeSharedStateBackingField != null)
+                 new SharedAssignmentQueueEntry
+                 {
+                    ReactiveObjectTypeDefinition = stateMachineType,
+                    AddInjectAttribute = false,
+                    ProcessorAction = (processor, sharedStateBackingField) =>
                     {
-                        this.ExtendMoveNextMethodBody(moveNextMethod, methodDefinition, stateMachineSharedStateBackingField);
-                        this.ExtendAsyncMethodBody(methodDefinition, declaringTypeSharedStateBackingField, innerType);
-                    }
-                }));
+                        stateMachineSharedStateBackingField = sharedStateBackingField;
+                        if (declaringTypeSharedStateBackingField != null)
+                        {
+                            this.ExtendMoveNextMethodBody(moveNextMethod, methodDefinition, stateMachineSharedStateBackingField);
+                            this.ExtendAsyncMethodBody(methodDefinition, declaringTypeSharedStateBackingField, innerType);
+                        }
+                    },
+                 });
 
             // push IL code for initialization of IShared State of inner struct / class for async.
             this.processorQueue.SharedStateAssignmentQueue.Enqueue(
-                (declaringType,
-                false,
-                (processor, sharedStateBackingField) =>
-                {
-                    declaringTypeSharedStateBackingField = sharedStateBackingField;
-                    if (stateMachineSharedStateBackingField != null)
+                 new SharedAssignmentQueueEntry
+                 {
+                    ReactiveObjectTypeDefinition = declaringType,
+                    AddInjectAttribute = false,
+                    ProcessorAction = (processor, sharedStateBackingField) =>
                     {
-                        this.ExtendMoveNextMethodBody(moveNextMethod, methodDefinition, stateMachineSharedStateBackingField);
-                        this.ExtendAsyncMethodBody(methodDefinition, declaringTypeSharedStateBackingField, innerType);
-                    }
-                }));
+                        declaringTypeSharedStateBackingField = sharedStateBackingField;
+                        if (stateMachineSharedStateBackingField != null)
+                        {
+                            this.ExtendMoveNextMethodBody(moveNextMethod, methodDefinition, stateMachineSharedStateBackingField);
+                            this.ExtendAsyncMethodBody(methodDefinition, declaringTypeSharedStateBackingField, innerType);
+                        }
+                    },
+                 });
         }
 
         /// <summary>

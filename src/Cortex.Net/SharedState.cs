@@ -51,12 +51,12 @@ namespace Cortex.Net
         /// <summary>
         /// Batch counter to support reentrance of Start and EndBatch.
         /// </summary>
-        private int batchCount = 0;
+        private int batchCount;
 
         /// <summary>
         /// A unique Id that is incremented and used to identify instances.
         /// </summary>
-        private int uniqueId = 0;
+        private int uniqueId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SharedState"/> class.
@@ -152,23 +152,23 @@ namespace Cortex.Net
         /// <summary>
         /// Gets the shared derivation RunId counter.
         /// </summary>
-        public int RunId { get; private set; } = 0;
+        public int RunId { get; private set; }
 
         /// <summary>
         /// Gets or sets the computation depth.
         /// </summary>
-        public int ComputationDepth { get; set; } = 0;
+        public int ComputationDepth { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to suppress reaction errors.
         /// Suppressing happens when an action is the root cause of reactions to fail further because of the incorrect state.
         /// </summary>
-        public bool SuppressReactionErrors { get; set; } = false;
+        public bool SuppressReactionErrors { get; set; }
 
         /// <summary>
         /// Gets or sets the Id of the Current Action.
         /// </summary>
-        public int CurrentActionId { get; set; } = 0;
+        public int CurrentActionId { get; set; }
 
         /// <summary>
         /// Gets or sets the Id of the Next Action.

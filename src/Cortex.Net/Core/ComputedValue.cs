@@ -70,17 +70,17 @@ namespace Cortex.Net.Core
         /// <summary>
         /// To check for evaluation cycles.
         /// </summary>
-        private bool isComputing = false;
+        private bool isComputing;
 
         /// <summary>
         /// To check for setter cycles.
         /// </summary>
-        private bool isRunningSetter = false;
+        private bool isRunningSetter;
 
         /// <summary>
         /// To support computed weaving with reentrancy we allow 1 cycle of reentrance immediately after derivation call.
         /// </summary>
-        private bool immediateDerivationCall = false;
+        private bool immediateDerivationCall;
 
         /// <summary>
         /// The computed value.
@@ -184,21 +184,21 @@ namespace Cortex.Net.Core
         /// <summary>
         /// Gets or sets a value indicating whether this atom is pending Unobservation.
         /// </summary>
-        public bool IsPendingUnobservation { get; set; } = false;
+        public bool IsPendingUnobservation { get; set; }
 
         /// <summary>
         /// Gets or sets the Id of the derivation run that last accessed this observable.
         /// If this Id equals the <see cref="IDerivation.RunId"/> of the current derivation
         /// the dependency is already established.
         /// </summary>
-        public int LastAccessedBy { get; set; } = 0;
+        public int LastAccessedBy { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the observable is being observed.
         /// An observable is being observed when at least one derivation actually accesses its
         /// value.
         /// </summary>
-        public bool IsBeingObserved { get; set; } = false;
+        public bool IsBeingObserved { get; set; }
 
         /// <summary>
         /// Gets or sets the lowest <see cref="DerivationState"/> on any of it's observers.
