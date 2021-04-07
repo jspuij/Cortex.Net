@@ -4,6 +4,23 @@
         <name>Cortex.Net.Blazor</name>
     </assembly>
     <members>
+        <member name="T:Cortex.Net.Blazor.Observer">
+            <summary>
+            Sometimes it is hard to apply Observer to a part of the rendering,
+            for example because you are rendering inside a RenderFragment,
+            and you don't want to extract a new component to be able to mark it as observer.
+            In those cases <Observer /> comes in handy. It takes a child content that
+            is automatically re-rendered if any referenced observables change.
+            </summary>
+        </member>
+        <member name="P:Cortex.Net.Blazor.Observer.ChildContent">
+            <summary>
+            Gets or sets the wrapped child content of the component.
+            </summary>
+        </member>
+        <member name="M:Cortex.Net.Blazor.Observer.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cortex.Net.Blazor.ObserverAttribute">
             <summary>
             Attribute that indicates that the Blazor component should react on observable state in this component.
