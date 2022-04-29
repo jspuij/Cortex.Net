@@ -54,6 +54,7 @@ public class Store {
             {
                 this.State = "error";
             });
+            return;
         }   
 
         // another action.
